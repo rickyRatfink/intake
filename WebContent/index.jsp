@@ -1,1 +1,1 @@
-<% response.sendRedirect("/intake_2_1/Login.do"); %>
+<% response.sendRedirect("/intake/Login.do"); %>
