@@ -7,7 +7,7 @@
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="com.yada180.sms.domain.SystemUser" %>
 <jsp:useBean id="loginForm" class="com.yada180.sms.struts.form.LoginForm" scope="session" /> 
-<% 
+<%  
     SystemUser user = null;
 	
 	try {
