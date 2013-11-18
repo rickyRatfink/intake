@@ -1,7 +1,11 @@
 package com.yada180.sms.struts.action;
 
+import java.beans.BeanInfo;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -18,6 +22,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 import com.yada180.sms.application.Constants;
+import com.yada180.sms.domain.Intake;
 import com.yada180.sms.domain.IntakeJobSkill;
 import com.yada180.sms.domain.IntakeMedicalCondition;
 import com.yada180.sms.domain.IntakeQuestionAnswer;
@@ -42,7 +47,7 @@ public class OnlineAppAction extends Action {
 
 	public ActionForward execute(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
-		LOGGER.setLevel(Level.INFO);
+		LOGGER.setLevel(Level.SEVERE);
 
 		HttpSession session = request.getSession(true);
 		
@@ -125,6 +130,18 @@ public class OnlineAppAction extends Action {
 		return mapping.findForward(Constants.PERSONAL);
 		}
 			catch (Exception e) {
+				LOGGER.log(Level.INFO,"Error occurred in online application:  Data displayed below");
+				OnlineAppForm onlineAppForm = (OnlineAppForm) form;
+				Intake intake =  onlineAppForm.getIntake();
+				try {
+				BeanInfo info = Introspector.getBeanInfo(intake.getClass());
+				PropertyDescriptor[] props = info.getPropertyDescriptors();  
+				for (int i=0;i<props.length;i++) {  
+					PropertyDescriptor descriptor = props [i];
+					LOGGER.log(Level.SEVERE,props[i].getDisplayName()+"="+descriptor.getReadMethod().invoke(intake, null));
+					}			    
+				}
+				catch (Exception ex) { System.out.println(""); }
 				StringWriter sw = new StringWriter();
 				PrintWriter pw = new PrintWriter(sw);
 				e.printStackTrace(pw);			
