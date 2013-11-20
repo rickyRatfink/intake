@@ -30,16 +30,28 @@
 	
 	<table width="100%" border="0">
 	<tr>
+		<td colspan="8">Spiritual Experience</td>
+	</tr>
+	<tr>
+		<td colspan="8">
+        		<html:select property="intake.spiritualExperience" styleClass="select" >
+					<html:option value="">Select</html:option>
+					<html:optionsCollection name="ddl_spiritual" value="value" label="label" />
+				</html:select> </br>
+        </td>
+	</tr>
+	<tr>
 		<td >Describe your religious/spiritual experiences:</td>
 	</tr>
     <tr>
 		<td>
 			<html:textarea property="intake.religiousExperience" cols="93" rows="15" styleClass="textarea" />
+			</br>
 		</td>
 	</tr>
     
     <tr>
-		<t>Religious Background
+		<td>Religious Background
         		<html:select property="intake.religion" styleClass="select" >
 					<html:option value="">Select</html:option>
 					<html:optionsCollection name="ddl_religion" value="value" label="label" />
