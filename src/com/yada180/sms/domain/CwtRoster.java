@@ -8,9 +8,9 @@ package com.yada180.sms.domain;
 public class CwtRoster implements java.io.Serializable {
 
 	private Long rosterId;
-	private long moduleId;
-	private long sectionId;
-	private long intakeId;
+	private Long moduleId;
+	private Long sectionId;
+	private Long intakeId;
 	private String attendFlag;
 	private String examScore;
 	private String lastUpdatedBy;
@@ -25,13 +25,13 @@ public class CwtRoster implements java.io.Serializable {
 	public CwtRoster() {
 	}
 
-	public CwtRoster(long moduleId, long sectionId, long intakeId) {
+	public CwtRoster(Long moduleId, Long sectionId, Long intakeId) {
 		this.moduleId = moduleId;
 		this.sectionId = sectionId;
 		this.intakeId = intakeId;
 	}
 
-	public CwtRoster(long moduleId, long sectionId, long intakeId,
+	public CwtRoster(Long moduleId, Long sectionId, Long intakeId,
 			String attendFlag, String examScore, String lastUpdatedBy,
 			String lastUpdatedDate, String attendDate, String examDate,
 			String status, Long jobId, Long departmentId, Long supervisorId) {
@@ -58,27 +58,27 @@ public class CwtRoster implements java.io.Serializable {
 		this.rosterId = rosterId;
 	}
 
-	public long getModuleId() {
+	public Long getModuleId() {
 		return this.moduleId;
 	}
 
-	public void setModuleId(long moduleId) {
+	public void setModuleId(Long moduleId) {
 		this.moduleId = moduleId;
 	}
 
-	public long getSectionId() {
+	public Long getSectionId() {
 		return this.sectionId;
 	}
 
-	public void setSectionId(long sectionId) {
+	public void setSectionId(Long sectionId) {
 		this.sectionId = sectionId;
 	}
 
-	public long getIntakeId() {
+	public Long getIntakeId() {
 		return this.intakeId;
 	}
 
-	public void setIntakeId(long intakeId) {
+	public void setIntakeId(Long intakeId) {
 		this.intakeId = intakeId;
 	}
 
