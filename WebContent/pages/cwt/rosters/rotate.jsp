@@ -36,21 +36,19 @@
 	    </tr>
 	</logic:empty>
 	
-	<% int count=1; %>
+	<% int count=0; %>
 	<logic:iterate id="loop0" name="reportForm" property="class0List" indexId="i">
-	<% if (count%5==0) {  %>
+	<% if (count==0) {  %>
 	<tr>
-	<% } %>
-		<td class="reportStudentNameRow" >
-			<html:checkbox name="reportForm" property="class0flag[${i}]" value="Yes" />
-			<bean:write name="loop0" property="firstname"/>&nbsp;<bean:write name="loop0" property="lastname"/>
-			&nbsp;&nbsp;<bean:write name="loop0" property="entryDate"/>
-		</td>
+	<% } count++; %>
+		<td class="reportStudentNameRow">
+		<html:checkbox name="reportForm" property="class0flag[${i}]" value="Yes" />
+		<bean:write name="loop0" property="firstname"/>&nbsp;<bean:write name="loop0" property="lastname"/></td>
+    	<td class="reportRow"><bean:write name="loop0" property="entryDate"/></td>
     	<td width="30" class="reportRow"></td>
-	<% if (count%4==0) { %>
+	<% if (count==4) { count=0; %>
 	</tr>
 	<% } %>
-    <% count++; %>
     </logic:iterate>
  
 </table>
@@ -67,20 +65,19 @@
 	    </tr>
 	</logic:empty>
 	
-	<% count=1; %>
+	<% count=0; %>
 	<logic:iterate id="loop1" name="reportForm" property="class1List" indexId="i">
-	<% if (count%5==0) { %>
+	<% if (count==0) { %>
 	<tr>
-	<% } %>
+	<% } count++; %>
 		<td class="reportStudentNameRow">
 			<html:checkbox name="reportForm" property="class1flag[${i}]" value="Yes" />
 			<bean:write name="loop1" property="firstname"/>&nbsp;<bean:write name="loop1" property="lastname"/>
 			&nbsp;&nbsp;<bean:write name="loop0" property="entryDate"/>
     	<td width="30" class="reportRow"></td>
-	<% if (count%5==0) { %>
+	<% if (count==4) { count=0; %>
 	</tr>
 	<% } %>
-    <% count++; %>
     </logic:iterate>
 </table>
 
@@ -98,20 +95,19 @@
 	    </tr>
 	</logic:empty>
 	
-	<% count=1; %>
+	<% count=0; %>
 	<logic:iterate id="loop2" name="reportForm" property="class2List" indexId="i">
-	<% if (count%5==0) { %>
+	<% if (count==0) { %>
 	<tr>
-	<% } %>
+	<% } count++; %>
 		<td class="reportStudentNameRow">
 			<html:checkbox name="reportForm" property="class2flag[${i}]" value="Yes" />
 			<bean:write name="loop2" property="firstname"/>&nbsp;<bean:write name="loop2" property="lastname"/>
 			&nbsp;&nbsp;<bean:write name="loop0" property="entryDate"/>
     	<td width="30" class="reportRow"></td>
-	<% if (count%5==0) { %>
+	<% if (count==4) { count=0; %>
 	</tr>
 	<% } %>
-    <% count++; %>
     </logic:iterate>
  
 </table>
@@ -130,20 +126,19 @@
 	    </tr>
 	</logic:empty>
 	
-	<% count=1; %>
+	<% count=0; %>
 	<logic:iterate id="loop3" name="reportForm" property="class3List" indexId="i">
-	<% if (count%5==0) { %>
+	<% if (count==0) { %>
 	<tr>
-	<% } %>
+	<% } count++; %>
 		<td class="reportStudentNameRow">
 			<html:checkbox name="reportForm" property="class3flag[${i}]" value="Yes" />
 			<bean:write name="loop3" property="firstname"/>&nbsp;<bean:write name="loop3" property="lastname"/>
 			&nbsp;&nbsp;<bean:write name="loop0" property="entryDate"/>
     	<td width="30" class="reportRow"></td>
-	<% if (count%5==0) { %>
+	<% if (count==4) { count=0; %>
 	</tr>
 	<% } %>
-    <% count++; %>
     </logic:iterate>
  
  
@@ -159,20 +154,19 @@
 	    </tr>
 	</logic:empty>
 	
-	<% count=1; %>
+	<% count=0; %>
 	<logic:iterate id="loop4" name="reportForm" property="class4List" indexId="i">
-	<% if (count%5==0) { %>
+	<% if (count==0) { %>
 	<tr>
-	<% } %>
+	<% } count++; %>
 		<td class="reportStudentNameRow">
 		<html:checkbox name="reportForm" property="class4flag[${i}]" value="Yes" />
 		<bean:write name="loop4" property="firstname"/>&nbsp;<bean:write name="loop4" property="lastname"/>
 		&nbsp;&nbsp;<bean:write name="loop0" property="entryDate"/>
     	<td width="30" class="reportRow"></td>
-	<% if (count%5==0) { %>
+	<% if (count==4) { count=0; %>
 	</tr>
 	<% } %>
-    <% count++; %>
     </logic:iterate>
  
  
@@ -188,20 +182,19 @@
 	    </tr>
 	</logic:empty>
 	
-	<% count=1; %>
+	<% count=0; %>
 	<logic:iterate id="loop5" name="reportForm" property="class5List" indexId="i">
-	<% if (count%5==0) { %>
+	<% if (count==0) { %>
 	<tr>
-	<% } %>
+	<% } count++; %>
 		<td class="reportStudentNameRow">
 			<html:checkbox name="reportForm" property="class5flag[${i}]" value="Yes" />
 			<bean:write name="loop5" property="firstname"/>&nbsp;<bean:write name="loop5" property="lastname"/>
 			&nbsp;&nbsp;<bean:write name="loop0" property="entryDate"/>
     	<td width="30" class="reportRow"></td>
-	<% if (count%5==0) { %>
+	<% if (count==4) { count=0; %>
 	</tr>
 	<% } %>
-    <% count++; %>
     </logic:iterate>
  
  
@@ -217,20 +210,19 @@
 	    </tr>
 	</logic:empty>
 	
-	<% count=1; %>
+	<% count=0; %>
 	<logic:iterate id="loop6" name="reportForm" property="class6List" indexId="i">
 	<% if (count%5==0) { %>
 	<tr>
-	<% } %>
+	<% } count++; %>
 		<td class="reportStudentNameRow">
 			<html:checkbox name="reportForm" property="class6flag[${i}]" value="Yes" />
 			<bean:write name="loop6" property="firstname"/>&nbsp;<bean:write name="loop6" property="lastname"/>
 			&nbsp;&nbsp;<bean:write name="loop0" property="entryDate"/>
     	<td width="30" class="reportRow"></td>
-	<% if (count%5==0) { %>
+	<% if (count==4) { count=0; %>
 	</tr>
 	<% } %>
-    <% count++; %>
     </logic:iterate>
     
     
