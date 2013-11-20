@@ -85,9 +85,23 @@ public class CwtRosterAction extends Action {
 			 cwtRosterForm.setCwtModule(new CwtModules());
 			 cwtRosterForm.setCwtModuleSection(new CwtModuleSection());
 			 cwtRosterForm.setCwtProgram(new CwtProgram());
-			 cwtRosterForm.setEnrollFlag(new String[200]);
+			 
 			 cwtRosterForm.setExamScore(new String[200]);
 			 cwtRosterForm.setAttendFlag(new String[200]);
+			 
+			 String[] flags = new String[] { 
+					 "Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes",
+					 "Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes",
+					 "Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes",
+					 "Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes",
+					 "Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes",
+					 "Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes",
+					 "Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes",
+					 "Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes",
+					 "Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes",
+					 "Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes"
+					};
+			 cwtRosterForm.setEnrollFlag(flags);
 			 
 			 String id=request.getParameter("id");
 			 cwtRosterForm.setCwtModuleSection(cwtModuleSectionDao.findById(new Long(id)));
@@ -107,10 +121,22 @@ public class CwtRosterAction extends Action {
 				 List<CwtMaster> masters = new ArrayList<CwtMaster>();
 				 for (Iterator iterator = rosterList.iterator(); iterator.hasNext();) {
 					 CwtRoster roster = (CwtRoster)iterator.next();
-					 CwtDepartment department = departmentDao.findById(roster.getDepartmentId()); 
-					 CwtSupervisor supervisor = supervisorDao.findById(roster.getSupervisorId());
-					 CwtJob job = jobDao.findById(roster.getJobId());
-					 Intake intake = intakeDao.findById(roster.getIntakeId());	
+					 
+					 CwtDepartment department=new CwtDepartment();
+					 if (roster.getDepartmentId()!=null)
+						 department = departmentDao.findById(roster.getDepartmentId()); 
+					 
+					 CwtSupervisor supervisor = new CwtSupervisor();
+					 if (roster.getSupervisorId()!=null)
+						supervisor=supervisorDao.findById(roster.getSupervisorId());
+					 
+					 CwtJob job = new CwtJob();
+					 if (roster.getJobId()!=null)
+						 job=jobDao.findById(roster.getJobId());
+					 
+					 Intake intake = new Intake();
+					 if (roster.getIntakeId()!=null)
+						 intake=intakeDao.findById(roster.getIntakeId());	
 					 
 					 attend[index]=roster.getAttendFlag();
 					 score[index]=roster.getExamScore();
@@ -144,9 +170,19 @@ public class CwtRosterAction extends Action {
 						 }
 						 
 						 if ("In Program".equals(status)) {
-							 CwtDepartment department = departmentDao.findById(intake.getDepartmentId()); 
-							 CwtSupervisor supervisor = supervisorDao.findById(intake.getSupervisorId());
-							 CwtJob job = jobDao.findById(intake.getJobId());
+							 CwtDepartment department = new CwtDepartment();
+							 if (intake.getDepartmentId()!=null)
+								 department=departmentDao.findById(intake.getDepartmentId());
+							 
+							 CwtSupervisor supervisor = new CwtSupervisor();
+							 if (intake.getSupervisorId()!=null)
+								 supervisor=supervisorDao.findById(intake.getSupervisorId());
+							 
+							 CwtJob job = new CwtJob();
+							 if (intake.getJobId()!=null)
+								 job=jobDao.findById(intake.getJobId());
+							 if (job==null)
+								 job = new CwtJob();
 							 
 							 CwtMaster master = new CwtMaster();
 							 master.setCwtSupervisor(supervisor);
@@ -154,6 +190,7 @@ public class CwtRosterAction extends Action {
 							 master.setCwtJob(job);
 							 master.setIntake(intake);
 							 masters.add(master);
+							 
 						 }
 					 }
 					 cwtRosterForm.setMasterList(masters);
