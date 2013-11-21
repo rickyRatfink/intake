@@ -73,7 +73,7 @@
 		<td class="reportStudentNameRow">
 			<html:checkbox name="reportForm" property="class1flag[${i}]" value="Yes" />
 			<bean:write name="loop1" property="firstname"/>&nbsp;<bean:write name="loop1" property="lastname"/>
-			&nbsp;&nbsp;<bean:write name="loop0" property="entryDate"/>
+			&nbsp;&nbsp;<bean:write name="loop1" property="entryDate"/>
     	<td width="30" class="reportRow"></td>
 	<% if (count==4) { count=0; %>
 	</tr>
@@ -103,7 +103,7 @@
 		<td class="reportStudentNameRow">
 			<html:checkbox name="reportForm" property="class2flag[${i}]" value="Yes" />
 			<bean:write name="loop2" property="firstname"/>&nbsp;<bean:write name="loop2" property="lastname"/>
-			&nbsp;&nbsp;<bean:write name="loop0" property="entryDate"/>
+			&nbsp;&nbsp;<bean:write name="loop2" property="entryDate"/>
     	<td width="30" class="reportRow"></td>
 	<% if (count==4) { count=0; %>
 	</tr>
@@ -134,7 +134,7 @@
 		<td class="reportStudentNameRow">
 			<html:checkbox name="reportForm" property="class3flag[${i}]" value="Yes" />
 			<bean:write name="loop3" property="firstname"/>&nbsp;<bean:write name="loop3" property="lastname"/>
-			&nbsp;&nbsp;<bean:write name="loop0" property="entryDate"/>
+			&nbsp;&nbsp;<bean:write name="loop3" property="entryDate"/>
     	<td width="30" class="reportRow"></td>
 	<% if (count==4) { count=0; %>
 	</tr>
@@ -162,7 +162,7 @@
 		<td class="reportStudentNameRow">
 		<html:checkbox name="reportForm" property="class4flag[${i}]" value="Yes" />
 		<bean:write name="loop4" property="firstname"/>&nbsp;<bean:write name="loop4" property="lastname"/>
-		&nbsp;&nbsp;<bean:write name="loop0" property="entryDate"/>
+		&nbsp;&nbsp;<bean:write name="loop4" property="entryDate"/>
     	<td width="30" class="reportRow"></td>
 	<% if (count==4) { count=0; %>
 	</tr>
@@ -190,7 +190,7 @@
 		<td class="reportStudentNameRow">
 			<html:checkbox name="reportForm" property="class5flag[${i}]" value="Yes" />
 			<bean:write name="loop5" property="firstname"/>&nbsp;<bean:write name="loop5" property="lastname"/>
-			&nbsp;&nbsp;<bean:write name="loop0" property="entryDate"/>
+			&nbsp;&nbsp;<bean:write name="loop5" property="entryDate"/>
     	<td width="30" class="reportRow"></td>
 	<% if (count==4) { count=0; %>
 	</tr>
@@ -218,7 +218,7 @@
 		<td class="reportStudentNameRow">
 			<html:checkbox name="reportForm" property="class6flag[${i}]" value="Yes" />
 			<bean:write name="loop6" property="firstname"/>&nbsp;<bean:write name="loop6" property="lastname"/>
-			&nbsp;&nbsp;<bean:write name="loop0" property="entryDate"/>
+			&nbsp;&nbsp;<bean:write name="loop6" property="entryDate"/>
     	<td width="30" class="reportRow"></td>
 	<% if (count==4) { count=0; %>
 	</tr>
