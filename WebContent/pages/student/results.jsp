@@ -45,8 +45,8 @@
 	    <% count++; %>
 	    <tr>
 	       <td class="searchRowOdd2" >
-	                    	 <a href="<%=request.getContextPath()%>/Intake.do?action=Edit&key=<bean:write name="loop" property="intakeId"/>" style="text-decoration:none">
-	                    	 <img src="<%=request.getContextPath()%>/images/local/Edit.gif" width="16" height="14"/>&nbsp;</a>
+	                    	 <a href="<%=request.getContextPath()%>/Intake.do?action=Edit&key=<bean:write name="loop" property="intakeId"/>" style="text-decoration:none" >
+	                    	 <img src="<%=request.getContextPath()%>/images/local/Edit.gif" width="16" height="14" border="0"/>&nbsp;</a>
 	                   		 
                  <logic:equal name="intakeForm" property="pictureFlag" value="Yes">
 	                   <logic:notEmpty name="intakeForm" property="intake.imageHeadshot">

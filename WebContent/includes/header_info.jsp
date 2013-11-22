@@ -89,7 +89,14 @@ function whichKey(e) {
 	return code
 //	return String.fromCharCode(code);
 }
- 
+
+function checkSubmit(e)
+{
+   if(e && e.keyCode == 13)
+   {
+      document.forms[0].submit();
+   }
+}
 </script>
 
 

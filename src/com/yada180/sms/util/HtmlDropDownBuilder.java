@@ -226,7 +226,7 @@ public class HtmlDropDownBuilder {
 	        List<DropDownItem> passType = new ArrayList<DropDownItem>();
 	        passType.add(new DropDownItem("Medical","Medical"));
 	        passType.add(new DropDownItem("Probation/Court","Probation/Court"));
-	        passType.add(new DropDownItem("8 Hours","8 Hours"));
+	        passType.add(new DropDownItem("7.5 Hours","7.5 Hours"));
 	        passType.add(new DropDownItem("3 Days","3 Days"));
 	        passType.add(new DropDownItem("Special","Special"));
 	        passType.add(new DropDownItem("Sick/Lay-down","Sick/Lay-down"));
@@ -281,6 +281,7 @@ public class HtmlDropDownBuilder {
 	        
 	        List<DropDownItem> religion = new ArrayList<DropDownItem>();
 	        religion.add(new DropDownItem("Christian","Christian"));
+	        religion.add(new DropDownItem("Baptist","Baptist"));
 	        religion.add(new DropDownItem("Buddhist","Buddhist"));
 	        religion.add(new DropDownItem("Catholic","Catholic"));
 	        religion.add(new DropDownItem("Hindu","Hindu"));
@@ -325,14 +326,24 @@ public class HtmlDropDownBuilder {
 	        session.setAttribute("ddl_living", living);
 	        
 	        List<DropDownItem> education = new ArrayList<DropDownItem>();
-	        education.add(new DropDownItem("Elementary","Elementary"));
-	        education.add(new DropDownItem("High School","High School"));
+	        education.add(new DropDownItem("1st Grade","1st Grade"));
+	        education.add(new DropDownItem("2nd Grade","2nd Grade"));
+	        education.add(new DropDownItem("3rd Grade","3rd Grade"));
+	        education.add(new DropDownItem("4th Grade","4th Grade"));
+	        education.add(new DropDownItem("5th Grade","5th Grade"));
+	        education.add(new DropDownItem("6th Grade","6th Grade"));
+	        education.add(new DropDownItem("7th Grade","7th Grade"));
+	        education.add(new DropDownItem("8th Grade","8th Grade"));
+	        education.add(new DropDownItem("9th Grade","9th Grade"));
+	        education.add(new DropDownItem("10th Grade","10th Grade"));
+	        education.add(new DropDownItem("11th Grade","11th Grade"));
+	        education.add(new DropDownItem("12th Grade","12th Grade"));
 	        education.add(new DropDownItem("GED","GED"));
+	        education.add(new DropDownItem("Vocational School","Vocational School"));
+	        education.add(new DropDownItem("Associates Degree","Associates Degree"));
 	        education.add(new DropDownItem("Bachelor's Degree","Bachelor's Degree"));
 	        education.add(new DropDownItem("Master's Degree","Master's Degree"));
 	        education.add(new DropDownItem("Doctorate Degree","Doctorate Degree"));
-	        education.add(new DropDownItem("Associates Degree","Associates Degree"));
-	        education.add(new DropDownItem("Vocational School","Vocational School"));
 	        session.setAttribute("ddl_education", education);
 	        
 	        List<DropDownItem> hairColor = new ArrayList<DropDownItem>();

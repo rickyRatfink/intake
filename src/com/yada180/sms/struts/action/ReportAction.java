@@ -64,12 +64,18 @@ public class ReportAction extends Action {
 		 String farm=request.getParameter("farm");
 		 
 		 
-		 
-		 if ("FastFind".equals(action)) {
+		 if ("FastFind".equals(action)||"FastFind".equals(reportForm.getAction())) {
 			 reportForm.setReportTitle("Class List");
-			 farm=user.getFarmBase();
-			 reportForm.setFarmBase(farm);
+			 if (reportForm.getFarmBase()==null||reportForm.getFarmBase().length()==0) {
+				 farm=user.getFarmBase();
+				 reportForm.setFarmBase(farm);
+			 }
+			 else
+				 farm = reportForm.getFarmBase();
+			 
 			 this.buildFastFindList(reportForm, farm);
+			 reportForm.setAction("");
+			 reportForm.setFarmBase(user.getFarmBase());
 			 return mapping.findForward(Constants.FAST_FIND); 
 		 }
 		 if ("Rotate".equals(action)) {

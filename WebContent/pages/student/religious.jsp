@@ -7,7 +7,7 @@
  
 
 <html:form  action="/Intake">
-
+<div onKeyPress="return checkSubmit(event)">
     <table width="750">
 	<tr>
 		<td colspan="8"><b>Spiritual/Religious Information: </b><br /><br /></td>
@@ -58,7 +58,8 @@
   		</td>
 	</tr>
     </table>
- <html:hidden property="pageSource" value="religious"/>  
+ <html:hidden property="pageSource" value="religious"/> 
+ </div> 
 </html:form>
 
     <div class="footer">

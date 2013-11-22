@@ -32,6 +32,7 @@ import com.yada180.sms.hibernate.dao.IntakeDao;
 import com.yada180.sms.hibernate.dao.IntakeJobSkillDao;
 import com.yada180.sms.hibernate.dao.IntakeMedicalConditionDao;
 import com.yada180.sms.hibernate.dao.IntakeQuestionAnswerDao;
+import com.yada180.sms.struts.form.IntakeForm;
 import com.yada180.sms.struts.form.OnlineAppForm;
 import com.yada180.sms.util.HtmlDropDownBuilder;
 import com.yada180.sms.util.Validator;
@@ -119,17 +120,26 @@ public class OnlineAppAction extends Action {
 				Long id = intakeDao.addIntake(onlineAppForm.getIntake());
 				onlineAppForm.getIntake().setIntakeId(id);
 				
-				saveMedicalConditions(onlineAppForm);
-				saveUsagePatternAndLosses(onlineAppForm);
-				saveJobSkills(onlineAppForm);
-				session.invalidate(); 
-				return mapping.findForward(Constants.SUCCESS);
+				if (id!=null) {
+					saveMedicalConditions(onlineAppForm);
+					saveUsagePatternAndLosses(onlineAppForm);
+					
+					saveJobSkills(onlineAppForm);
+					session.invalidate(); 
+					return mapping.findForward(Constants.SUCCESS);
+				}
+				else {
+					LOGGER.log(Level.INFO,"Error occurred saving online application:  Data displayed below");
+					this.logApplicationDataOnException(onlineAppForm);
+					session.setAttribute("SYSTEM_ERROR", "A database error occurred saving the application!");
+					return mapping.findForward(Constants.ERROR);
+				}
 			}
 
 		}
 		return mapping.findForward(Constants.PERSONAL);
 		}
-			catch (Exception e) {
+		catch (Exception e) {
 				LOGGER.log(Level.INFO,"Error occurred in online application:  Data displayed below");
 				OnlineAppForm onlineAppForm = (OnlineAppForm) form;
 				Intake intake =  onlineAppForm.getIntake();
@@ -314,7 +324,41 @@ public class OnlineAppAction extends Action {
 				intakeForm.getUsagePattern6() 
 				);
 		
+		this.convertPhysicalEffects(intakeForm);
+		
 	}
 	
+	private void logApplicationDataOnException (ActionForm form) {
+			LOGGER.log(Level.INFO,"Error occurred in online application:  Data displayed below");
+			OnlineAppForm onlineAppForm = (OnlineAppForm) form;
+			Intake intake =  onlineAppForm.getIntake();
+			try {
+			BeanInfo info = Introspector.getBeanInfo(intake.getClass());
+			PropertyDescriptor[] props = info.getPropertyDescriptors();  
+			for (int i=0;i<props.length;i++) {  
+				PropertyDescriptor descriptor = props [i];
+				LOGGER.log(Level.SEVERE,props[i].getDisplayName()+"="+descriptor.getReadMethod().invoke(intake, null));
+				}			    
+			}
+			catch (Exception ex) { LOGGER.log(Level.INFO,"Error in logApplicationDataOnException:"+ex.getMessage()); }
+			StringWriter sw = new StringWriter();
+			PrintWriter pw = new PrintWriter(sw);
+	}
+	
+	private void convertPhysicalEffects(OnlineAppForm intakeForm) {
+		String physicalEffects="";
+		if ("YES".equals(intakeForm.getMotivationalLossFlag()))
+				physicalEffects+="motivational loss,";
+		if ("YES".equals(intakeForm.getShakesConvulsionsFlag()))
+			physicalEffects+="shakes-convulsions,";
+		if ("YES".equals(intakeForm.getMemoryLossFlag()))
+			physicalEffects+="memory loss,";
+		if ("YES".equals(intakeForm.getIncoherentThinkingFlag()))
+			physicalEffects+="incoherent thinking,";
+		if ("YES".equals(intakeForm.getOrganProblemsFlag()))
+			physicalEffects+="organ problems,";
+		
+		intakeForm.getIntake().setPhysicalEffects(physicalEffects);		
+	}
 
 }

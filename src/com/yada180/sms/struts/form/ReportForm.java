@@ -38,7 +38,8 @@ public class ReportForm extends ActionForm {
 	private String farmBase = "";
 	private String reportTitle = "";
 	private String runDate = "";
-
+	private String action = "";
+	
 	private List<Intake> computerList = new ArrayList<Intake>();
 	private List<Intake> truckDriverList = new ArrayList<Intake>();
 	private List<Intake> fixItList = new ArrayList<Intake>();
@@ -1243,6 +1244,14 @@ public class ReportForm extends ActionForm {
 
 	public void setDairyListSize(int dairyListSize) {
 		this.dairyListSize = dairyListSize;
+	}
+
+	public String getAction() {
+		return action;
+	}
+
+	public void setAction(String action) {
+		this.action = action;
 	}
 
 	

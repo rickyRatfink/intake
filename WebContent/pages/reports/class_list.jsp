@@ -24,7 +24,7 @@
 
 
 <div align="center">
-<table width="900">
+<table width="1000">
 	<tr>
 		<td><h1><bean:write name="reportForm" property="reportTitle"/></h1></td>
 	</tr>
@@ -32,7 +32,7 @@
 		<td><b>for <bean:write name="reportForm" property="farmBase"/> on <bean:write name="reportForm" property="runDate"/></b></td>
 	</tr>
 </table>
-<table width="900" class="report">
+<table width="1000" class="report">
 
 	<tr>
 		<td colspan="12" class="reportHeader"><b>Class:&nbsp;<bean:write name="reportForm" property="classTitle0"/></b></td>
@@ -61,7 +61,7 @@
 
 
 <!-- Class 1 -->
-<table width="900" class="report">
+<table width="1000" class="report">
 
 	<tr>
 		<td colspan="12" class="reportHeader"><b>Class:&nbsp;<bean:write name="reportForm" property="classTitle1"/></b></td>
@@ -89,7 +89,7 @@
 
 
 <!-- Class 2 -->
-<table width="900" class="report">
+<table width="1000" class="report">
 
 	<tr>
 		<td colspan="12" class="reportHeader"><b>Class:&nbsp;<bean:write name="reportForm" property="classTitle2"/></b></td>
@@ -118,7 +118,7 @@
 
 
 <!-- Class 3 -->
-<table width="900" class="report">
+<table width="1000" class="report">
 
 	<tr>
 		<td colspan="12" class="reportHeader"><b>Class:&nbsp;<bean:write name="reportForm" property="classTitle3"/></b></td>
@@ -144,7 +144,7 @@
  
  
  <!-- Class 4 -->
-<table width="900" class="report">
+<table width="1000" class="report">
 
 	<tr>
 		<td colspan="12" class="reportHeader"><b>Class:&nbsp;<bean:write name="reportForm" property="classTitle4"/></b></td>
@@ -170,7 +170,7 @@
  
  
   <!-- Class 5 -->
-<table width="900" class="report">
+<table width="1000" class="report">
 
 	<tr>
 		<td colspan="12" class="reportHeader"><b>Class:&nbsp;<bean:write name="reportForm" property="classTitle5"/></b></td>
@@ -196,7 +196,7 @@
  
  
   <!-- Class 6 -->
-<table width="900" class="report">
+<table width="1000" class="report">
 
 	<tr>
 		<td colspan="12" class="reportHeader"><b>Class:&nbsp;<bean:write name="reportForm" property="classTitle6"/></b></td>
@@ -222,7 +222,7 @@
     
     
      <!-- Fresh Start -->
-<table width="900" class="report">
+<table width="1000" class="report">
 
 	<tr>
 		<td colspan="12" class="reportHeader"><b>Class:&nbsp;<bean:write name="reportForm" property="classTitle7"/></b></td>
@@ -249,7 +249,7 @@
  
  
   <!-- SLS -->
-<table width="900" class="report">
+<table width="1000" class="report">
 
 	<tr>
 		<td colspan="12" class="reportHeader"><b>Class:&nbsp;<bean:write name="reportForm" property="classTitle8"/></b></td>
@@ -275,7 +275,7 @@
     
     
      <!-- Intern -->
-<table width="900" class="report">
+<table width="1000" class="report">
 
 	<tr>
 		<td colspan="12" class="reportHeader"><b>Class:&nbsp;<bean:write name="reportForm" property="classTitle9"/></b></td>
@@ -301,7 +301,7 @@
  
  
  <!-- Student Teacher -->
-<table width="900" class="report">
+<table width="1000" class="report">
 
 	<tr>
 		<td colspan="12" class="reportHeader"><b>Class:&nbsp;<bean:write name="reportForm" property="classTitle10"/></b></td>

@@ -21,7 +21,7 @@
             </span>
            
 	<html:form action="/Login" focus="username">
-	
+	<div onKeyPress="return checkSubmit(event)">
             <div class="accountInfo">
                 <fieldset class="login">
                     <legend>Account Information</legend>
@@ -39,6 +39,7 @@
                     <input type="submit" name="action" value="Login" class="submitButton" />
                 </p>
             </div>
+         </div>
         </html:form>
 
         </div>
@@ -48,8 +49,6 @@
     <div class="footer">
         
     </div>
-    
-
-</form>
+  
 </body>
 </html>

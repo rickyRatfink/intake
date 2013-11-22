@@ -29,8 +29,8 @@ public class Intake implements java.io.Serializable {
 	private String educationLevel;
 	private String graduateFlag;
 	private String transcriptsFlag;
-	private String englishSpeakingFlag;
-	private String englishReadingFlag;
+	private String englishSpeakingFlag="Yes";
+	private String englishReadingFlag="Yes";
 	private String homeLocation;
 	private String referredBy;
 	private String referredByPhone;
@@ -81,9 +81,9 @@ public class Intake implements java.io.Serializable {
 	private String physicalEffects;
 	private String aaFlag;
 	private String naFlag;
-	private String prevFfFlag;
+	private String prevFfFlag="No";
 	private String prevFfYear;
-	private String prevFfOther;
+	private String prevFfOther="";
 	private String currentHealth;
 	private String medicationFlag;
 	private String medicationSupplyFlag;
@@ -111,20 +111,20 @@ public class Intake implements java.io.Serializable {
 	private String herniaSide;
 	private String herniaOperationFlag;
 	private String herniaDetails;
-	private String lawsuitFlag;
-	private String currentLawsuitFlag;
+	private String lawsuitFlag="No";
+	private String currentLawsuitFlag="No";
 	private String lawsuitDetails;
 	private String currentLawsuitDetails;
-	private String felonyFlag;
-	private String sexualOffenseFlag;
+	private String felonyFlag="No";
+	private String sexualOffenseFlag="No";
 	private String felonyDetails;
 	private String sexualOffenseQty;
 	private String sexualOffenseDetails;
-	private String probationFlag;
+	private String probationFlag="No";
 	private String probationCounty;
 	private String probationOfficer;
 	private String probationOfficerPhone;
-	private String probationApptFlag;
+	private String probationApptFlag="No";
 	private String probationApptDetails;
 	private String incomeAmount;
 	private String incomeSource;
@@ -176,7 +176,7 @@ public class Intake implements java.io.Serializable {
 	private String lawsuitDate;
 	private String currentLawsuitDate;
 	private Integer felonyQty;
-	private String needMedicationFlag;
+	private String needMedicationFlag="No";
 	private String employer1Name;
 	private String employer2Name;
 	private String employer3Name;
@@ -200,7 +200,8 @@ public class Intake implements java.io.Serializable {
 	private String ssFlag;
 	private String vaFlag;
 	private String wcFlag;
-	private String needGed;
+	private String foodStampFlag;
+	private String needGed="No";
 	private String spiritualExperience;
 	
 	
@@ -2039,6 +2040,14 @@ public class Intake implements java.io.Serializable {
 
 	public void setSpiritualExperience(String spiritualExperience) {
 		this.spiritualExperience = spiritualExperience;
+	}
+
+	public String getFoodStampFlag() {
+		return foodStampFlag;
+	}
+
+	public void setFoodStampFlag(String foodStampFlag) {
+		this.foodStampFlag = foodStampFlag;
 	}
 	
 

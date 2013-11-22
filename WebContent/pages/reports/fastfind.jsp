@@ -6,12 +6,26 @@
 
 <html:form  action="/Report">
 
+<script language="javascript">
+
+function changeFarm(e)
+{
+	document.getElementById('action').value='FastFind';
+	document.forms[0].submit();
+}
+
+</script>
 
 <div align="center">
-<table width="900">
+<table width="900" cellpadding="0" cellspacing="0" border="0">
 	<tr>
-		<td><h1><bean:write name="reportForm" property="reportTitle"/>
+		<td align="left"><h1><bean:write name="reportForm" property="reportTitle"/>
 		for <bean:write name="reportForm" property="farmBase"/></td>
+		<td valign="bottom" align="right">
+			<html:select property="farmBase" styleClass="select" onchange="javascript:changeFarm(this);" >
+				<html:optionsCollection name="ddl_farm" value="name" label="name" />
+			</html:select>
+		</td>
 	</tr>
 </table>
 
@@ -382,6 +396,7 @@ CLASS 6
 
 <br/><br/><br/>
 
+<html:hidden property="action" styleId="action"/>
 
  </html:form>
  

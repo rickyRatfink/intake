@@ -291,13 +291,12 @@ public class IntakeDao {
 			query.append(" and class_ = :class_ ");
 			query.append(" and farmBase = :farmBase ");
 			query.append(" and archivedFlag = :archivedFlag ");
-			query.append(" and intakeStatus = :intakeStatus ");
+			query.append(" and intakeStatus = :intakeStatus order by entryDate asc ");
 			Query q = session.createQuery(query.toString());
 			q.setString("class_", classNumber);
 			q.setString("farmBase", farm);
 			q.setString("archivedFlag", "No");
 			q.setString("intakeStatus", "In Program");
-			System.out.println (q);
 			list = q.list();
 			tx.commit();
 		} catch (HibernateException e) {

@@ -145,7 +145,13 @@
 		</tr>
         <tr>
     	<td>
-        Physical effects of abuse<br><html:text property="intake.physicalEffects" size="45" maxlength="45" /><br><br>
+        Physical effects of abuse<br>       
+        	<html:checkbox property="motivationalLossFlag" value="YES" />Motivational Loss&nbsp;&nbsp;
+        	<html:checkbox property="shakesConvulsionsFlag" value="YES" />Shakes-Convulsions&nbsp;&nbsp;
+        	<html:checkbox property="memoryLossFlag" value="YES" />Memory Loss&nbsp;&nbsp;
+        	<html:checkbox property="incoherentThinkingFlag" value="YES" />Incoherent Thinking&nbsp;&nbsp;
+        	<html:checkbox property="organProblemsFlag" value="YES" />Organ Problems&nbsp;&nbsp;
+  		<br><br>
 		<b>Any Previous Rehabs?</b>&nbsp;
 			<logic:equal name="onlineAppForm" property="intake.aaFlag" value="YES">
 				<html:checkbox property="intake.aaFlag" value="YES" />AA or NA&nbsp;&nbsp;
@@ -175,7 +181,7 @@
                 <td>
 					Where:&nbsp;
                      <html:select property="intake.prevFfOther" > 
-                        <html:option value="">Select</html:option>
+                        <html:option value=""></html:option>
 						<html:optionsCollection name="ddl_farm" value="name" label="name" />
 					 </html:select>
 

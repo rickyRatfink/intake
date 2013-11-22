@@ -13,6 +13,7 @@
         <div class="studentSearch">
         
         <html:form action="/Intake">
+        <div onKeyPress="return checkSubmit(event)">
           	<table width="380" cellpadding="0" cellspacing="0" border="0">
             <tr>
             	<td></td>
@@ -111,7 +112,7 @@
     <div class="footer">
         
     </div>
-   
+  </div>
 </form>
 </body>
 </html>

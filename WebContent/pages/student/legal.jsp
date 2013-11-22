@@ -6,7 +6,7 @@
  
 
 <html:form action="/Intake">
-
+<div onKeyPress="return checkSubmit(event)">
    <table width="750">
 	
 	<tr>
@@ -162,7 +162,8 @@
     <div class="footer">
         
     </div>
-  <html:hidden property="pageSource" value="legal"/>  
+  <html:hidden property="pageSource" value="legal"/> 
+ </div> 
 </html:form>
 </body>
 </html>

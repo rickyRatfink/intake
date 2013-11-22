@@ -144,7 +144,7 @@ function whichKey(e) {
    
    <table width="100%" border="0">
                 <tr>
-                <td>Address of Contact</td>
+                <td>Current Address</td>
                 <td>City</td>
                 <td>State</td>
                 <td>Zipcode</td>
@@ -173,7 +173,6 @@ function whichKey(e) {
                 <td width="200">Date of Birth&nbsp;<i>(mm/dd/yyyy)</i>&nbsp;
                 	<html:text property="intake.dob" size="10" maxlength="10"  />
                 </td>
-                <td>Age&nbsp;<html:text property="intake.age" size="2"  maxlength="2" onkeypress="return isNumberKey(event)"/></td>
                 </tr>                
     </table>
      
@@ -207,8 +206,8 @@ function whichKey(e) {
  
 	<table width="100%">
         <tr>
-        <td>Height&nbsp;<html:text property="intake.height" size="5" /></td>
-		<td>Weight&nbsp;<html:text property="intake.weight" size="6" /></td>
+        <td>Height&nbsp;<html:text property="intake.height" size="5" maxlength="10" /></td>
+		<td>Weight&nbsp;<html:text property="intake.weight" size="6" maxlength="10" /></td>
 		<td>Eyes Color&nbsp;
         		        <html:select property="intake.eyeColor" styleClass="select" >
 							<html:option value="">Select</html:option>
@@ -301,6 +300,7 @@ function whichKey(e) {
 			<html:checkbox property="intake.ssFlag" value="YES"   />Social Security&nbsp;&nbsp;
             <html:checkbox property="intake.vaFlag" value="YES"  />VA&nbsp;&nbsp;
             <html:checkbox property="intake.wcFlag" value="YES" />Workman's Comp
+            <html:checkbox property="intake.foodStampFlag" value="YES" />SNAP Nutrition Assistance (food Stamps)
          </td>
      </tr>
     
@@ -428,6 +428,7 @@ function whichKey(e) {
       </tr>
       <tr>
       	<td>
+      		<html:radio property="intake.homelessTime" value="Never" />&nbsp;Never&nbsp;&nbsp;
 			<html:radio property="intake.homelessTime" value="Less than 2 weeks"  />&nbsp;Less than 2 weeks&nbsp;&nbsp;
             <html:radio property="intake.homelessTime" value="2 weeks to 1 month" />&nbsp;2 weeks to 1 month&nbsp;&nbsp;
             <html:radio property="intake.homelessTime" value="1 to 3 months" />&nbsp;1 to 3 months&nbsp;&nbsp;

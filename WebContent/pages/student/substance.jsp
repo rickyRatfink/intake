@@ -172,6 +172,7 @@
                 <td>
 					Where:&nbsp;
                      <html:select property="intake.prevFfOther" > 
+                     	<html:option value=""></html:option>
 						<html:optionsCollection name="ddl_farm" value="name" label="name" />
 					 </html:select>
 

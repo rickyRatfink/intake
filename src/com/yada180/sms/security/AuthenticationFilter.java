@@ -30,8 +30,7 @@ public class AuthenticationFilter implements Filter {
 		String url = request.getServletPath();
 		String contextPath = request.getContextPath();
 
-		LOGGER.log(Level.INFO,"CHECKING IF USER IS AUTHENTICATED");
-
+		
 		HttpSession session = request.getSession(false);
 		if (null == session) {
 			response.sendRedirect(contextPath + "/pages/security/index.jsp");

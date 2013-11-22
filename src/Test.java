@@ -1,13 +1,21 @@
-import java.util.Calendar;
-import java.util.Date;
+import java.beans.BeanInfo;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.Method;
+
+import com.yada180.sms.domain.Intake;
+
+
 
 
 public class Test {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		String dateOfBirth="06/12/1970";
-			
+		
+		/*
+		 * String dateOfBirth="06/12/1970";
+		 	
 		Calendar dob = Calendar.getInstance();  
 		dob.setTime(new Date(dateOfBirth));
 		Calendar today = Calendar.getInstance();  
@@ -19,6 +27,25 @@ public class Test {
 		  age--;  
 		}
 		System.out.println("age="+age);
+		*/
+		Intake intake = new Intake();
+		try {
+		BeanInfo info = Introspector.getBeanInfo(intake.getClass());
+		PropertyDescriptor[] props = info.getPropertyDescriptors();  
+	    for (int i=0;i<props.length;i++) {  
+	        /*String name = pd.getName();  
+	        Method getter = pd.getReadMethod();  
+	        Class<?> type = pd.getPropertyType();  
+	        Object value = getter.invoke(info);  
+	        System.out.println(name + " = " + value + "; type = " + type);  
+	        */
+	        System.out.println (">"+props[i].getDisplayName()+"="+props[i].getValue(props[i].getDisplayName()));
+			}
+	    
+		}
+		catch (Exception e) {
+			
+		}
 	}
 
 }

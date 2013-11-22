@@ -26,6 +26,12 @@ public class OnlineAppForm extends ActionForm {
     private List<Question> mentalQuestions = new ArrayList<Question>();
     private List<MedicalCondition> medicalConditions = new ArrayList<MedicalCondition>();
     private List<JobSkill> jobSkills = new ArrayList<JobSkill>();
+	private String motivationalLossFlag;
+	private String shakesConvulsionsFlag;
+	private String memoryLossFlag;
+	private String incoherentThinkingFlag;
+	private String organProblemsFlag;	
+
  	private String usagePattern1 = "";
 	private String usagePattern2 = "";
 	private String usagePattern3 = "";
@@ -42,8 +48,8 @@ public class OnlineAppForm extends ActionForm {
 	private String usageLosses8 = "";
 	private String usageLosses9 = "";
 	private String healthAnswer[] = new String[] { "No","No","No","No","No","No","No","No","No","No","No","No","No","No","No" };
-	private String emotionalAnswer[] = new String[16];
-	private String physicalAnswer[] = new String[16];
+	private String emotionalAnswer[] = new String[] { "No","No","No","No","No","No","No","No","No","No","No","No","No","No","No" };
+	private String physicalAnswer[] = new String[] { "No","No","No","No","No","No","No","No","No","No","No","No","No","No","No" };
 	private String mentalAnswer[] = new String[16];
 	private String emotionalAnswerDate[] = new String[16];
 	private String emotionalAnswerDetails[] = new String[16];
@@ -51,7 +57,10 @@ public class OnlineAppForm extends ActionForm {
 	private String mentalAnswerDetails[] = new String[16];
 	private String physicalAnswerDetails[] = new String[16];
 	private String questionAnswerDates[] = new String[16];
-	private String medicalCondition[] = new String[45];
+	private String medicalCondition[] = { "No", "No", "No", "No",
+			"No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No",
+			"No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No",
+			"No", "No", "No", "No", "No", "No", "No", "No" };
 	private String workExperience[] = new String[45];
 	
 	
@@ -288,6 +297,36 @@ public class OnlineAppForm extends ActionForm {
 	}
 	public void setPrevStep(String prevStep) {
 		this.prevStep = prevStep;
+	}
+	public String getMotivationalLossFlag() {
+		return motivationalLossFlag;
+	}
+	public void setMotivationalLossFlag(String motivationalLossFlag) {
+		this.motivationalLossFlag = motivationalLossFlag;
+	}
+	public String getShakesConvulsionsFlag() {
+		return shakesConvulsionsFlag;
+	}
+	public void setShakesConvulsionsFlag(String shakesConvulsionsFlag) {
+		this.shakesConvulsionsFlag = shakesConvulsionsFlag;
+	}
+	public String getMemoryLossFlag() {
+		return memoryLossFlag;
+	}
+	public void setMemoryLossFlag(String memoryLossFlag) {
+		this.memoryLossFlag = memoryLossFlag;
+	}
+	public String getIncoherentThinkingFlag() {
+		return incoherentThinkingFlag;
+	}
+	public void setIncoherentThinkingFlag(String incoherentThinkingFlag) {
+		this.incoherentThinkingFlag = incoherentThinkingFlag;
+	}
+	public String getOrganProblemsFlag() {
+		return organProblemsFlag;
+	}
+	public void setOrganProblemsFlag(String organProblemsFlag) {
+		this.organProblemsFlag = organProblemsFlag;
 	}
 	
 	

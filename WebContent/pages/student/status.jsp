@@ -5,7 +5,7 @@
 <jsp:include page="../../includes/header_info.jsp" flush="true"/>
  
 <html:form method="POST" action="Intake">
-
+<div onKeyPress="return checkSubmit(event)">
     <table width="950" border="0" >
 	<tr>
 		<td width="100%" colspan="2"><b>Student Status: </b><br /><br /></td>
@@ -312,6 +312,7 @@
      <html:hidden property="deleteId" styleId="deleteId" />
      <html:hidden property="editId" styleId="editId" />
      <html:hidden property="editIndex" styleId="editIndex" />
+    </div>
 </html:form>
 </body>
 </html>

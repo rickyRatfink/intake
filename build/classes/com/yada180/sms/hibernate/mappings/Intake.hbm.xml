@@ -584,6 +584,9 @@
         <property name="wcFlag" type="string">
             <column name="WC_FLAG" length="20" />
         </property>
+        <property name="foodStampFlag" type="string">
+            <column name="FOOD_STAMP_FLAG" length="20" />
+        </property>
         <property name="needGed" type="string">
             <column name="NEED_GED" length="20" />
         </property>

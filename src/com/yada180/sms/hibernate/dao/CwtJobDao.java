@@ -5,14 +5,14 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
 
 import com.yada180.sms.domain.CwtJob;
-import com.yada180.sms.domain.SystemUser;
 import com.yada180.sms.hibernate.HibernateUtil;
 
 public class CwtJobDao {
@@ -49,7 +49,7 @@ public class CwtJobDao {
 			session = HibernateUtil.currentSession();
 			tx = session.beginTransaction();
 			tx.begin();
-			list = session.createQuery("FROM CwtJob").list();
+			list = session.createQuery("FROM CwtJob order by title").list();
 			tx.commit();
 		} catch (Exception e) {
 			if (tx != null) {

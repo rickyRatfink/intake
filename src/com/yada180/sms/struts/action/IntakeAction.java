@@ -65,6 +65,7 @@ public class IntakeAction extends Action {
 		try {
 		 
 		 String action=request.getParameter("action");
+		 LOGGER.log(Level.INFO,"!!!Action="+action);
 		 IntakeForm intakeForm = (IntakeForm)form;
 		 IntakeDao intakeDao = new IntakeDao();
 		 StudentHistoryDao studentHistoryDao = new StudentHistoryDao();
@@ -412,10 +413,10 @@ public class IntakeAction extends Action {
 	}
 	private void setIntakeMedicalConditions(List<IntakeMedicalCondition> intakeMedicalCondition, IntakeForm intakeForm) {
 		 
-		String medicalCondition[] = new String[] { "NO", "NO", "NO", "NO",
-					"NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO",
-					"NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO",
-					"NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO" };
+		String medicalCondition[] = new String[] { "No", "No", "No", "No",
+					"No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No",
+					"No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No",
+					"No", "No", "No", "No", "No", "No", "No", "No" };
 		  
 		for (java.util.Iterator<IntakeMedicalCondition> iterator =
 				  intakeMedicalCondition.iterator(); iterator.hasNext();) {
@@ -429,25 +430,25 @@ public class IntakeAction extends Action {
 	
 	private void setIntakeQuestionAnswer(List<IntakeQuestionAnswer> intakeQuestionAnswer, IntakeForm intakeForm) {
 		 
-		 String healthAnswer[] = new String[] { "NO", "NO", "NO", "NO", "NO",
-				"NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO",
-				"NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO",
-				"NO", "NO", "NO", "NO", "NO", "NO", "NO" };
+		 String healthAnswer[] = new String[] { "No", "No", "No", "No", "No",
+				"No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No",
+				"No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No",
+				"No", "No", "No", "No", "No", "No", "No" };
 		
-		 String emotionalAnswer[] = new String[] { "NO", "NO", "NO", "NO", "NO",
-				"NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO",
-				"NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO",
-				"NO", "NO", "NO", "NO", "NO", "NO", "NO" };
+		 String emotionalAnswer[] = new String[] { "No", "No", "No", "No", "No",
+				"No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No",
+				"No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No",
+				"No", "No", "No", "No", "No", "No", "No" };
 
-		 String physicalAnswer[] = new String[] { "NO", "NO", "NO", "NO", "NO",
-				"NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO",
-				"NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO",
-				"NO", "NO", "NO", "NO", "NO", "NO", "NO" };
+		 String physicalAnswer[] = new String[] { "No", "No", "No", "No", "No",
+				"No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No",
+				"No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No",
+				"No", "No", "No", "No", "No", "No", "No" };
 		
-		 String mentalAnswer[] = new String[] { "NO", "NO", "NO", "NO", "NO",
-				"NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO",
-				"NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO", "NO",
-				"NO", "NO", "NO", "NO", "NO", "NO", "NO" };
+		 String mentalAnswer[] = new String[] { "No", "No", "No", "No", "No",
+				"No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No",
+				"No", "No", "No", "No", "No", "No", "No", "No", "No", "No", "No",
+				"No", "No", "No", "No", "No", "No", "No" };
 		
 		 String emotionalAnswerDate[] = new String[] { "", "", "", "", "",
 				"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",

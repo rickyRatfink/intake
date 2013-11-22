@@ -40,7 +40,16 @@
         @import "/Styles/jquery.datepick.css";
     </style>
     <script type="text/javascript" src="<%=request.getContextPath()%>/scripts/jquery.datepick.min.js"></script>    
-   
+  
+  <script language="javascript" type="text/javascript"> 
+	function checkSubmit(e)
+		{
+		   if(e && e.keyCode == 13)
+		   {
+		      document.forms[0].submit();
+		   }
+		}
+   </script>
  <div class="page">
         <div class="header">
             <div class="title">

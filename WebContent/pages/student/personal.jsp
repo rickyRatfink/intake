@@ -26,12 +26,10 @@ function isNumberKey(evt)
 
          return true;
       }
-	  
-
 </script>
 
 <html:form action="/Intake">
-
+<div onKeyPress="return checkSubmit(event)">
     <table width="750">
 	<tr>
 		<td colspan="8"><b>Personal Information: </b></td>
@@ -96,7 +94,7 @@ function isNumberKey(evt)
     	<td colspan="8">
                 <table width="100%" border="0">
                 <tr>
-                <td>Address of Contact&nbsp;<html:text property="intake.address" size="30" maxlength="45"  /></td>
+                <td>Current Address&nbsp;<html:text property="intake.address" size="30" maxlength="45"  /></td>
                 <td>City&nbsp;<html:text property="intake.city" size="20" maxlength="25"  />
                <td>State
                 <html:select property="intake.state" styleClass="select" >
@@ -263,6 +261,7 @@ function isNumberKey(evt)
 			<html:checkbox property="intake.ssFlag" value="YES"   />Social Security&nbsp;&nbsp;
             <html:checkbox property="intake.vaFlag" value="YES"  />VA&nbsp;&nbsp;
             <html:checkbox property="intake.wcFlag" value="YES" />Workman's Comp
+            <html:checkbox property="intake.foodStampFlag" value="YES" />SNAP Nutrition Assistance (food Stamps)
          </td>
      </tr>
     
@@ -405,6 +404,7 @@ function isNumberKey(evt)
       </tr>
       <tr>
       	<td colspan="8">
+      		<html:radio property="intake.homelessTime" value="Never" />&nbsp;Never&nbsp;&nbsp;
 			<html:radio property="intake.homelessTime" value="Less than 2 weeks"  />&nbsp;Less than 2 weeks&nbsp;&nbsp;
             <html:radio property="intake.homelessTime" value="2 weeks to 1 month" />&nbsp;2 weeks to 1 month&nbsp;&nbsp;
             <html:radio property="intake.homelessTime" value="1 to 3 months" />&nbsp;1 to 3 months&nbsp;&nbsp;
@@ -447,7 +447,7 @@ function isNumberKey(evt)
 	</div>   			
        
     <html:hidden property="pageSource" value="personal"/>  
-      
+    </div>  
 </html:form>
   </div>
 

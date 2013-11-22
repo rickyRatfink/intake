@@ -18,6 +18,7 @@
 			<tr>
             	<td  width="485" align="center" valign="center" background="images/logout.png" >
                 <form method="POST" action="<%=request.getContextPath()%>/login">
+                <div onKeyPress="return checkSubmit(event)">
                     <table align="center" border="0" >
                         <tr><td height="90" colspan="2"></td></tr>
                         <tr>
@@ -46,6 +47,7 @@
                             
                         </tr>
                     </table>
+                    </div>
                   </form>
                 </td>
            </tr>

@@ -11,7 +11,7 @@
 <jsp:include page="../../includes/header_info.jsp" flush="true"/>
  
 <html:form  action="/Intake">
-
+<div onKeyPress="return checkSubmit(event)">
     <table width="750" cellpadding="0" cellspacing="0" border="0">
 	<tr>
 		<td colspan="8"><b>Health Information: </b></td>
@@ -361,7 +361,7 @@
     </table>
     
     <html:hidden property="pageSource" value="health"/> 
-    
+</div>
 </html:form>
     <div class="footer">
         

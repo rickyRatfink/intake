@@ -5,7 +5,7 @@
 <jsp:include page="../../includes/header_info.jsp" flush="true"/>
  
 <html:form method="POST" action="Intake">
-
+<div onKeyPress="return checkSubmit(event)">
 
             <br /><br />
             <table width="700" cellpadding="0" cellspacing="0" border="0">
@@ -71,7 +71,7 @@
     </div>
      <html:hidden property="pageSource" value="pass"/>  
      <html:hidden property="deleteId" styleId="deleteId" />
-
+</div>
 </html:form>
 
 </body>

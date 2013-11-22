@@ -6,7 +6,7 @@
  
 
 <html:form action="/Intake">
-
+<div onKeyPress="return checkSubmit(event)">
   <table width="750">
 	<tr>
 		<td colspan="8"><b>Work Experience (Check all that apply):</b><br /></td>
@@ -96,6 +96,8 @@
     </table>
 
  <html:hidden property="pageSource" value="employment"/>  
+ 
+</div>
 </html:form>
     <div class="footer">
         

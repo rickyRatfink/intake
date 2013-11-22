@@ -49,8 +49,8 @@ public class IntakeValidator {
 		 
 		if ("personal".equals(form.getPageSource())) 
 			messages = this.validatePersonal(intake, messages);
-		if ("religious".equals(form.getPageSource())) 
-			messages = this.validateSpiritual(intake, messages);		
+		//if ("religious".equals(form.getPageSource())) 
+		//	messages = this.validateSpiritual(intake, messages);		
 		
 		if (messages.size()>0) {
 			form.setMessageType("error");
