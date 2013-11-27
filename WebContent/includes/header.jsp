@@ -41,15 +41,109 @@
     </style>
     <script type="text/javascript" src="<%=request.getContextPath()%>/scripts/jquery.datepick.min.js"></script>    
   
-  <script language="javascript" type="text/javascript"> 
-	function checkSubmit(e)
-		{
-		   if(e && e.keyCode == 13)
-		   {
-		      document.forms[0].submit();
-		   }
-		}
-   </script>
+  
+  <logic:notEmpty name="intakeForm">
+  		<logic:equal name="loginForm" property="systemUser.farmBase" value="Boynton Beach" >
+			<logic:equal name="intakeForm" property="intake.farmBase" value="Boynton Beach">
+				 <script language="javascript" type="text/javascript"> 
+					function checkSubmit(e)
+						{
+						   if(e && e.keyCode == 13)
+						   {
+						      document.forms[0].submit();
+						   }
+						}
+				   </script>
+			</logic:equal>
+			<logic:notEqual name="intakeForm" property="intake.farmBase" value="Boynton Beach">
+				 <script language="javascript" type="text/javascript"> 
+					function checkSubmit(e)
+						{
+						   if(e && e.keyCode == 13)
+						   {
+						      //document.forms[0].submit();
+						   }
+						}
+				   </script>
+			</logic:notEqual>
+		</logic:equal>
+		
+		<logic:equal name="loginForm" property="systemUser.farmBase" value="Okeechobee" >
+			<logic:equal name="intakeForm" property="intake.farmBase" value="Okeechobee">
+				 <script language="javascript" type="text/javascript"> 
+					function checkSubmit(e)
+						{
+						   if(e && e.keyCode == 13)
+						   {
+						      document.forms[0].submit();
+						   }
+						}
+				   </script>
+			</logic:equal>
+			<logic:notEqual name="intakeForm" property="intake.farmBase" value="Okeechobee">
+				 <script language="javascript" type="text/javascript"> 
+					function checkSubmit(e)
+						{
+						   if(e && e.keyCode == 13)
+						   {
+						      //document.forms[0].submit();
+						   }
+						}
+				   </script>
+			</logic:notEqual>
+		</logic:equal>
+		
+		<logic:equal name="loginForm" property="systemUser.farmBase" value="Fort Lauderdale" >
+			<logic:equal name="intakeForm" property="intake.farmBase" value="Fort Lauderdale">
+				 <script language="javascript" type="text/javascript"> 
+					function checkSubmit(e)
+						{
+						   if(e && e.keyCode == 13)
+						   {
+						      document.forms[0].submit();
+						   }
+						}
+				   </script>
+			</logic:equal>
+			<logic:notEqual name="intakeForm" property="intake.farmBase" value="Fort Lauderdale">
+				 <script language="javascript" type="text/javascript"> 
+					function checkSubmit(e)
+						{
+						   if(e && e.keyCode == 13)
+						   {
+						      //document.forms[0].submit();
+						   }
+						}
+				   </script>
+			</logic:notEqual>
+		</logic:equal>
+		
+		<logic:equal name="loginForm" property="systemUser.farmBase" value="Women's Home" >
+			<logic:equal name="intakeForm" property="intake.farmBase" value="Women's Home">
+				 <script language="javascript" type="text/javascript"> 
+					function checkSubmit(e)
+						{
+						   if(e && e.keyCode == 13)
+						   {
+						      document.forms[0].submit();
+						   }
+						}
+				   </script>
+			</logic:equal>
+			<logic:notEqual name="intakeForm" property="intake.farmBase" value="Women's Home">
+					 <script language="javascript" type="text/javascript"> 
+					function checkSubmit(e)
+						{
+						   if(e && e.keyCode == 13)
+						   {
+						      //document.forms[0].submit();
+						   }
+						}
+			   </script>
+			</logic:notEqual>
+		</logic:equal>
+ </logic:notEmpty>
+ 
  <div class="page">
         <div class="header">
             <div class="title">
