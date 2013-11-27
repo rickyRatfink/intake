@@ -149,8 +149,8 @@ public class IntakeAction extends Action {
 					 intakeForm.getSearchParameter().getApplicationStatus(),
 					 intakeForm.getSearchParameter().getFarmBase());
 			 intakeForm.setApplicantList(intakeList);
-
-			 if (intakeList.size()>199) 
+			 
+			 if (intakeList!=null&&intakeList.size()>199) 
 					intakeForm.setMessage("More than 200 results were returned. Please narrow your search.");
 
 			 return mapping.findForward(Constants.APPLICATIONS);
@@ -179,6 +179,31 @@ public class IntakeAction extends Action {
 			 
 			 studentHistoryDao.addStudentHistory(history);
 			 return mapping.findForward(Constants.PERSONAL);
+		 }
+		 else if ("Transfer".equals(action)) {
+			 String tfarm=request.getParameter("tfarm");
+			 if ("OKE".equals(tfarm))
+				 intakeForm.getIntake().setFarmBase("Okechobee");
+			 if ("BYN".equals(tfarm))
+				 intakeForm.getIntake().setFarmBase("Boynton Beach");
+			 if ("FTL".equals(tfarm))
+				 intakeForm.getIntake().setFarmBase("Fort Lauderdale");
+			 intakeDao.updateIntake(intakeForm.getIntake());
+			 
+			 List intakeList = intakeDao.searchApplications(intakeForm.getSearchParameter().getBeginDate(), 
+					 intakeForm.getSearchParameter().getEndDate(), 
+					 intakeForm.getSearchParameter().getLastname(),
+					 intakeForm.getSearchParameter().getFirstname(),
+					 intakeForm.getSearchParameter().getSsn(),
+					 intakeForm.getSearchParameter().getDob(),
+					 intakeForm.getSearchParameter().getApplicationStatus(),
+					 intakeForm.getSearchParameter().getFarmBase());
+			 intakeForm.setApplicantList(intakeList);
+
+			 if (intakeList.size()>199) 
+					intakeForm.setMessage("More than 200 results were returned. Please narrow your search.");
+			 
+			 return mapping.findForward(Constants.APPLICATIONS);
 		 }
 		 else if ("Accept".equals(action)) {
 			 intakeForm.getIntake().setApplicationStatus("Accepted");
