@@ -5,13 +5,20 @@ import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -32,7 +39,6 @@ import com.yada180.sms.hibernate.dao.IntakeDao;
 import com.yada180.sms.hibernate.dao.IntakeJobSkillDao;
 import com.yada180.sms.hibernate.dao.IntakeMedicalConditionDao;
 import com.yada180.sms.hibernate.dao.IntakeQuestionAnswerDao;
-import com.yada180.sms.struts.form.IntakeForm;
 import com.yada180.sms.struts.form.OnlineAppForm;
 import com.yada180.sms.util.HtmlDropDownBuilder;
 import com.yada180.sms.util.Validator;
@@ -125,6 +131,71 @@ public class OnlineAppAction extends Action {
 					saveUsagePatternAndLosses(onlineAppForm);
 					
 					saveJobSkills(onlineAppForm);
+					
+					Properties properties = new Properties();
+					properties.put("mail.smtp.auth", "true");
+					properties.put("mail.smtp.starttls.enable", "true");
+					properties.put("mail.smtp.host", "smtp.gmail.com");
+					properties.put("mail.smtp.port", "587");
+					
+					Session mailSession = Session.getDefaultInstance(properties,
+							new javax.mail.Authenticator() {
+								protected PasswordAuthentication getPasswordAuthentication() {
+									return new PasswordAuthentication("faithfarm.intake@gmail.com","It0525Ff");
+								}
+							});
+					try{
+				         // Create a default MimeMessage object.
+				         MimeMessage message = new MimeMessage(mailSession);
+
+				         // Set From: header field of the header.
+				         //message.setFrom(new InternetAddress("donnotreply@faithfarm.org"));
+
+				         // Set To: header field of the header.
+				         if ("Boynton Beach".equals(onlineAppForm.getIntake().getFarmBase())) {
+				        	 message.addRecipient(Message.RecipientType.TO,
+				                     new InternetAddress("intake.boyntonbeach@faithfarm.org"));
+				        	 message.addRecipient(Message.RecipientType.TO,
+				                     new InternetAddress("PZielinski@faithfarm.org"));
+					         message.addRecipient(Message.RecipientType.TO,
+				                     new InternetAddress("RJurisDick@faithfarm.org"));
+					     }
+				         if ("Fort Lauderdale".equals(onlineAppForm.getIntake().getFarmBase())) {
+				        	 message.addRecipient(Message.RecipientType.TO,
+				                     new InternetAddress("intake.fortlauderdale@faithfarm.org"));
+				        	 message.addRecipient(Message.RecipientType.TO,
+				                     new InternetAddress("sjohnson@faithfarm.org"));
+					         message.addRecipient(Message.RecipientType.TO,
+				                     new InternetAddress("iftl@faithfarm.org"));
+					     }
+				         if ("Okeechobee".equals(onlineAppForm.getIntake().getFarmBase())) {
+				        	 message.addRecipient(Message.RecipientType.TO,
+				                     new InternetAddress("intake.okeechobee@faithfarm.org"));
+				        	 message.addRecipient(Message.RecipientType.TO,
+				                     new InternetAddress("MMurphy@faithfarm.org"));
+				         }
+				         if ("Women's Home".equals(onlineAppForm.getIntake().getFarmBase())) {
+				        	message.addRecipient(Message.RecipientType.TO,
+				                     new InternetAddress("intake.womensministry@faithfarm.org"));
+					        message.addRecipient(Message.RecipientType.TO,
+				                     new InternetAddress("AGorrin@faithfarm.org"));
+					        message.addRecipient(Message.RecipientType.TO,
+				                     new InternetAddress("VAndres@faithfarm.org"));
+				         }
+				        				        
+				         // Set Subject: header field
+				         message.setSubject("Intake Application Received for "+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" at "+onlineAppForm.getIntake().getFarmBase());
+
+				         // Now set the actual message
+				         message.setText("This is an automated response sent to notify you of an application submitted online. Please log into http://apps.faithfarm.org/intake to view the application.  Do not reply to this message.");
+
+				         // Send message
+				         Transport.send(message);
+				       }catch (MessagingException mex) {
+				         mex.printStackTrace();
+				         LOGGER.log(Level.SEVERE,"Error occurred sending email for application: "+mex.getMessage());
+				      }
+
 					session.invalidate(); 
 					return mapping.findForward(Constants.SUCCESS);
 				}
