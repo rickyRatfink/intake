@@ -443,7 +443,41 @@ function isNumberKey(evt)
     </table>
     <br/><br/>
 	<div align="center">
-		<input type="submit" name="action" value="Save" class="imageButtonSave" title="Save" />
+		<logic:equal name="loginForm" property="systemUser.farmBase" value="Boynton Beach" >
+			<logic:equal name="intakeForm" property="intake.farmBase" value="Boynton Beach">
+				<input type="submit" name="action" value="Save" class="imageButtonSave" title="Save" />
+			</logic:equal>
+			<logic:notEqual name="intakeForm" property="intake.farmBase" value="Boynton Beach">
+				<input type="submit" name="action" value="Save" class="imageButtonSave" title="Save" disabled/>
+			</logic:notEqual>
+		</logic:equal>
+		
+		<logic:equal name="loginForm" property="systemUser.farmBase" value="Okeechobee" >
+			<logic:equal name="intakeForm" property="intake.farmBase" value="Okeechobee">
+				<input type="submit" name="action" value="Save" class="imageButtonSave" title="Save" />
+			</logic:equal>
+			<logic:notEqual name="intakeForm" property="intake.farmBase" value="Okeechobee">
+				<input type="submit" name="action" value="Save" class="imageButtonSave" title="Save" disabled/>
+			</logic:notEqual>
+		</logic:equal>
+		
+		<logic:equal name="loginForm" property="systemUser.farmBase" value="Fort Lauderdale" >
+			<logic:equal name="intakeForm" property="intake.farmBase" value="Fort Lauderdale">
+				<input type="submit" name="action" value="Save" class="imageButtonSave" title="Save" />
+			</logic:equal>
+			<logic:notEqual name="intakeForm" property="intake.farmBase" value="Fort Lauderdale">
+				<input type="submit" name="action" value="Save" class="imageButtonSave" title="Save" disabled/>
+			</logic:notEqual>
+		</logic:equal>
+		
+		<logic:equal name="loginForm" property="systemUser.farmBase" value="Women's Home" >
+			<logic:equal name="intakeForm" property="intake.farmBase" value="Women's Home">
+				<input type="submit" name="action" value="Save" class="imageButtonSave" title="Save" />
+			</logic:equal>
+			<logic:notEqual name="intakeForm" property="intake.farmBase" value="Women's Home">
+				<input type="submit" name="action" value="Save" class="imageButtonSave" title="Save" disabled/>
+			</logic:notEqual>
+		</logic:equal>
 	</div>   			
        
     <html:hidden property="pageSource" value="personal"/>  
