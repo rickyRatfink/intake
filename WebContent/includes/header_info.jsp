@@ -2,7 +2,7 @@
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
 <%@ page import="com.yada180.sms.domain.SystemUser" %>
-
+<jsp:useBean id="loginForm" class="com.yada180.sms.struts.form.LoginForm" scope="session" />
 <%  
     SystemUser user = null;
 	try {
@@ -90,17 +90,109 @@ function whichKey(e) {
 //	return String.fromCharCode(code);
 }
 
-function checkSubmit(e)
-{
-   if(e && e.keyCode == 13)
-   {
-      document.forms[0].submit();
-   }
-}
+
 </script>
 
 
-
+  		<logic:equal name="loginForm" property="systemUser.farmBase" value="Boynton Beach" >
+			<logic:equal name="intakeForm" property="intake.farmBase" value="Boynton Beach">
+				 <script language="javascript" type="text/javascript"> 
+					function checkSubmit(e)
+						{
+						   if(e && e.keyCode == 13)
+						   {
+						      document.forms[0].submit();
+						   }
+						}
+				   </script>
+			</logic:equal>
+			<logic:notEqual name="intakeForm" property="intake.farmBase" value="Boynton Beach">
+				 <script language="javascript" type="text/javascript"> 
+					function checkSubmit(e)
+						{
+						   if(e && e.keyCode == 13)
+						   {
+						      //document.forms[0].submit();
+						   }
+						}
+				   </script>
+			</logic:notEqual>
+		</logic:equal>
+		
+		<logic:equal name="loginForm" property="systemUser.farmBase" value="Okeechobee" >
+			<logic:equal name="intakeForm" property="intake.farmBase" value="Okeechobee">
+				 <script language="javascript" type="text/javascript"> 
+					function checkSubmit(e)
+						{
+						   if(e && e.keyCode == 13)
+						   {
+						      document.forms[0].submit();
+						   }
+						}
+				   </script>
+			</logic:equal>
+			<logic:notEqual name="intakeForm" property="intake.farmBase" value="Okeechobee">
+				 <script language="javascript" type="text/javascript"> 
+					function checkSubmit(e)
+						{
+						   if(e && e.keyCode == 13)
+						   {
+						      //document.forms[0].submit();
+						   }
+						}
+				   </script>
+			</logic:notEqual>
+		</logic:equal>
+		
+		<logic:equal name="loginForm" property="systemUser.farmBase" value="Fort Lauderdale" >
+			<logic:equal name="intakeForm" property="intake.farmBase" value="Fort Lauderdale">
+				 <script language="javascript" type="text/javascript"> 
+					function checkSubmit(e)
+						{
+						   if(e && e.keyCode == 13)
+						   {
+						      document.forms[0].submit();
+						   }
+						}
+				   </script>
+			</logic:equal>
+			<logic:notEqual name="intakeForm" property="intake.farmBase" value="Fort Lauderdale">
+				 <script language="javascript" type="text/javascript"> 
+					function checkSubmit(e)
+						{
+						   if(e && e.keyCode == 13)
+						   {
+						      //document.forms[0].submit();
+						   }
+						}
+				   </script>
+			</logic:notEqual>
+		</logic:equal>
+		
+		<logic:equal name="loginForm" property="systemUser.farmBase" value="Women's Home" >
+			<logic:equal name="intakeForm" property="intake.farmBase" value="Women's Home">
+				 <script language="javascript" type="text/javascript"> 
+					function checkSubmit(e)
+						{
+						   if(e && e.keyCode == 13)
+						   {
+						      document.forms[0].submit();
+						   }
+						}
+				   </script>
+			</logic:equal>
+			<logic:notEqual name="intakeForm" property="intake.farmBase" value="Women's Home">
+					 <script language="javascript" type="text/javascript"> 
+					function checkSubmit(e)
+						{
+						   if(e && e.keyCode == 13)
+						   {
+						      //document.forms[0].submit();
+						   }
+						}
+			   </script>
+			</logic:notEqual>
+		</logic:equal>
 
  <div class="page">
         <div class="header">
@@ -166,17 +258,120 @@ function checkSubmit(e)
 		     &nbsp;&nbsp;&nbsp;
 		     <a href="<%=request.getContextPath()%>/pages/student/info.jsp" style="color:#19fd01""><b>Print Student Information</b></a>
 		     
+		     <!-- Permission for Boynton Beach -->
 		     <logic:equal name="intakeForm" property="intake.applicationStatus" value="Accepted">
-		     	&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Admit" style="color:#19fd01"><b>Admit To Program</b></a>
+		     	<logic:equal name="intakeForm" property="intake.farmBase" value="Boynton Beach">
+		     			<% if ("Boynton Beach".equals(user.getFarmBase())) { %>
+		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Admit" style="color:#19fd01"><b>Admit To Program</b></a>
+		     			<% } %>
+		     	</logic:equal>
 		     </logic:equal>
+		     
 		     <logic:equal name="intakeForm" property="intake.applicationStatus" value="Pending">
-		        &nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Accept" style="color:#19fd01"><b>Accept Application</b></a>
+		     	<logic:equal name="intakeForm" property="intake.farmBase" value="Boynton Beach">
+		     			<% if ("Boynton Beach".equals(user.getFarmBase())) { %>
+		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Accept" style="color:#19fd01"><b>Accept Application</b></a>
+		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Deny" style="color:#19fd01"><b>Deny Application</b></a>
+		        			&nbsp;&nbsp;&nbsp;<font style="color:#FFFFFF">Transfer&nbsp;[&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Transfer&tfarm=OKE" style="color:#19fd01"><b>OKE</b></a>
+		        									<a href="<%=request.getContextPath()%>/Intake.do?action=Transfer&tfarm=FTL" style="color:#19fd01"><b>FTL</b></a>
+		        									]</font>
+		        		<% } %>
+		     	</logic:equal>
 		     </logic:equal>
-		     <logic:equal name="intakeForm" property="intake.applicationStatus" value="Pending">
-		    	&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Deny" style="color:#19fd01"><b>Deny Application</b></a>
-		     </logic:equal>
+		     
 		     <logic:equal name="intakeForm" property="intake.applicationStatus" value="Denied">
-		    	&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Reinstate" style="color:#19fd01"><b>Reinstate Application</b></a>
+		     	<logic:equal name="intakeForm" property="intake.farmBase" value="Boynton Beach">
+		     			<% if ("Boynton Beach".equals(user.getFarmBase())) { %>
+		    				&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Reinstate" style="color:#19fd01"><b>Reinstate Application</b></a>
+		     			<% } %>
+		     	</logic:equal>
+		     </logic:equal>
+		     
+		     
+		      <!-- Permission for Fort Lauderdale -->
+		     <logic:equal name="intakeForm" property="intake.applicationStatus" value="Accepted">
+		     	<logic:equal name="intakeForm" property="intake.farmBase" value="Fort Lauderdale">
+		     			<% if ("Fort Lauderdale".equals(user.getFarmBase())) { %>
+		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Admit" style="color:#19fd01"><b>Admit To Program</b></a>
+		     			<% } %>
+		     	</logic:equal>
+		     </logic:equal>
+		     
+		     <logic:equal name="intakeForm" property="intake.applicationStatus" value="Pending">
+		     	<logic:equal name="intakeForm" property="intake.farmBase" value="Fort Lauderdale">
+		     			<% if ("Fort Lauderdale".equals(user.getFarmBase())) { %>
+		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Accept" style="color:#19fd01"><b>Accept Application</b></a>
+		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Deny" style="color:#19fd01"><b>Deny Application</b></a>
+		        			&nbsp;&nbsp;&nbsp;<font style="color:#FFFFFF">Transfer&nbsp;[&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Transfer&tfarm=OKE" style="color:#19fd01"><b>OKE</b></a>
+		        									<a href="<%=request.getContextPath()%>/Intake.do?action=Transfer&tfarm=BYN" style="color:#19fd01"><b>BYN</b></a>
+		        									]</font>
+		        		<% } %>
+		     	</logic:equal>
+		     </logic:equal>
+		     
+		     <logic:equal name="intakeForm" property="intake.applicationStatus" value="Denied">
+		     	<logic:equal name="intakeForm" property="intake.farmBase" value="Fort Lauderdale">
+		     			<% if ("Fort Lauderdale".equals(user.getFarmBase())) { %>
+		    				&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Reinstate" style="color:#19fd01"><b>Reinstate Application</b></a>
+		     			<% } %>
+		     	</logic:equal>
+		     </logic:equal>
+		     
+		     
+		     <!-- Permission for Okeechobee -->
+		     <logic:equal name="intakeForm" property="intake.applicationStatus" value="Accepted">
+		     	<logic:equal name="intakeForm" property="intake.farmBase" value="Okeechobee">
+		     			<% if ("Okeechobee".equals(user.getFarmBase())) { %>
+		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Admit" style="color:#19fd01"><b>Admit To Program</b></a>
+		     			<% } %>
+		     	</logic:equal>
+		     </logic:equal>
+		     
+		     <logic:equal name="intakeForm" property="intake.applicationStatus" value="Pending">
+		     	<logic:equal name="intakeForm" property="intake.farmBase" value="Okeechobee">
+		     			<% if ("Okeechobee".equals(user.getFarmBase())) { %>
+		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Accept" style="color:#19fd01"><b>Accept Application</b></a>
+		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Deny" style="color:#19fd01"><b>Deny Application</b></a>
+		        			&nbsp;&nbsp;&nbsp;<font style="color:#FFFFFF">Transfer&nbsp;[&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Transfer&tfarm=FTL" style="color:#19fd01"><b>FTL</b></a>
+		        									<a href="<%=request.getContextPath()%>/Intake.do?action=Transfer&tfarm=BYN" style="color:#19fd01"><b>BYN</b></a>
+		        									]</font>
+		        		<% } %>
+		     	</logic:equal>
+		     </logic:equal>
+		     
+		     <logic:equal name="intakeForm" property="intake.applicationStatus" value="Denied">
+		     	<logic:equal name="intakeForm" property="intake.farmBase" value="Okeechobee">
+		     			<% if ("Okeechobee".equals(user.getFarmBase())) { %>
+		    				&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Reinstate" style="color:#19fd01"><b>Reinstate Application</b></a>
+		     			<% } %>
+		     	</logic:equal>
+		     </logic:equal>
+		     
+		     <!-- Permission for Women's Home -->
+		     <logic:equal name="intakeForm" property="intake.applicationStatus" value="Accepted">
+		     	<logic:equal name="intakeForm" property="intake.farmBase" value="Women's Home">
+		     			<% if ("Women's Home".equals(user.getFarmBase())) { %>
+		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Admit" style="color:#19fd01"><b>Admit To Program</b></a>
+		     			<% } %>
+		     	</logic:equal>
+		     </logic:equal>
+		     
+		     <logic:equal name="intakeForm" property="intake.applicationStatus" value="Pending">
+		     	<logic:equal name="intakeForm" property="intake.farmBase" value="Women's Home">
+		     			<% if ("Women's Home".equals(user.getFarmBase())) { %>
+		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Accept" style="color:#19fd01"><b>Accept Application</b></a>
+		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Deny" style="color:#19fd01"><b>Deny Application</b></a>
+		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Transfer" style="color:#19fd01"><b>Transfer Application</b></a>
+		        		<% } %>
+		     	</logic:equal>
+		     </logic:equal>
+		     
+		     <logic:equal name="intakeForm" property="intake.applicationStatus" value="Denied">
+		     	<logic:equal name="intakeForm" property="intake.farmBase" value="Women's Home">
+		     			<% if ("Women's Home".equals(user.getFarmBase())) { %>
+		    				&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Reinstate" style="color:#19fd01"><b>Reinstate Application</b></a>
+		     			<% } %>
+		     	</logic:equal>
 		     </logic:equal>
 		     </td>
 		     
