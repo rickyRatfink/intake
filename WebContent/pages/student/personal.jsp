@@ -133,8 +133,8 @@ function isNumberKey(evt)
                 <tr>
                 <td>Emergency Contact&nbsp;<html:text property="intake.emergencyContact"   /> </td>
                 <td>Relationship&nbsp;<html:text property="intake.emergencryRelationship"  /></td>
-                <td>Phone&nbsp;<i>(xxx)xxx-xxxx</i>&nbsp;<html:text property="intake.emergencyPhone" size="20" onkeypress="return maskPhone(event,this)" /></td>
-                </tr>               
+                 <td>Emergency Phone&nbsp;<i>(xxx)xxx-xxxx</i>&nbsp;<html:text property="intake.emergencyPhone" size="20" maxlength="12" onkeypress="return maskPhone(event,this)" /></td>
+               </tr>               
                 </table>
           </td>
 	</tr>
