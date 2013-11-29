@@ -115,7 +115,6 @@ public class OnlineAppAction extends Action {
 				return mapping.findForward(Constants.EMPLOYMENT);
 
 		} else if ("Submit".equals(action)) {
-
 			onlineAppForm.setMessageType("");
 			// boolean valid = inakeValidator.validate(intakeForm);
 			if (true) {
@@ -190,7 +189,7 @@ public class OnlineAppAction extends Action {
 				         message.setText("This is an automated response sent to notify you of an application submitted online. Please log into http://apps.faithfarm.org/intake to view the application.  Do not reply to this message.");
 
 				         // Send message
-				         Transport.send(message);
+				         //Transport.send(message);
 				       }catch (MessagingException mex) {
 				         mex.printStackTrace();
 				         LOGGER.log(Level.SEVERE,"Error occurred sending email for application: "+mex.getMessage());
