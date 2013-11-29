@@ -167,7 +167,7 @@ function whichKey(e) {
 
   <table width="100%">
 	            <tr>
-                <td width="200">Phone Number&nbsp;<i>(xxx)xxx-xxxx</i>&nbsp;
+                <td width="200">Phone Number&nbsp;&nbsp;
                 	<html:text property="intake.referredByPhone" size="20" maxlength="12" onkeypress="return maskPhone(event,this)"  />
                 </td>
                 <td width="200">Date of Birth&nbsp;<i>(mm/dd/yyyy)</i>&nbsp;
@@ -182,7 +182,7 @@ function whichKey(e) {
                 <tr>
                 <td>Emergency Contact&nbsp;<html:text property="intake.emergencyContact"   /> </td>
                 <td>Relationship&nbsp;<html:text property="intake.emergencryRelationship"  /></td>
-                <td>Emergency Phone&nbsp;<i>(xxx)xxx-xxxx</i>&nbsp;<html:text property="intake.emergencyPhone" size="20" maxlength="12" onkeypress="return maskPhone(event,this)" /></td>
+                <td>Emergency Phone&nbsp;&nbsp;<html:text property="intake.emergencyPhone" size="20" maxlength="12" onkeypress="return maskPhone(event,this)" /></td>
                 </tr>               
                 </table>
      
