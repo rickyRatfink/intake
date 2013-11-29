@@ -148,7 +148,21 @@ public class IntakeAction extends Action {
 					 intakeForm.getSearchParameter().getDob(),
 					 intakeForm.getSearchParameter().getApplicationStatus(),
 					 intakeForm.getSearchParameter().getFarmBase());
-			 intakeForm.setApplicantList(intakeList);
+			 
+			 //convert creationDate to display formatted Submitted Date
+			 List intakeList2 = new ArrayList<Intake>();
+			 for (java.util.Iterator<Intake> iterator =
+					 intakeList.iterator(); iterator.hasNext();) {
+					 Intake applicant = (Intake) iterator.next();
+					 try {   
+						 String submitDate = Validator.convertEpoch(new Long(applicant.getCreationDate()));
+						 applicant.setCreationDate(submitDate);
+					 }
+					 catch (Exception e) {}
+					 intakeList2.add(applicant);
+				}
+			 
+			 intakeForm.setApplicantList(intakeList2);
 			 
 			 if (intakeList!=null&&intakeList.size()>199) 
 					intakeForm.setMessage("More than 200 results were returned. Please narrow your search.");
@@ -188,6 +202,8 @@ public class IntakeAction extends Action {
 				 intakeForm.getIntake().setFarmBase("Boynton Beach");
 			 if ("FTL".equals(tfarm))
 				 intakeForm.getIntake().setFarmBase("Fort Lauderdale");
+			 if ("EHW".equals(tfarm))
+				 intakeForm.getIntake().setFarmBase("Women's Home");
 			 intakeDao.updateIntake(intakeForm.getIntake());
 			 
 			 List intakeList = intakeDao.searchApplications(intakeForm.getSearchParameter().getBeginDate(), 
@@ -268,6 +284,7 @@ public class IntakeAction extends Action {
 			 
 			 //convert phsycial effects to Flags
 			 this.setPhysicalEffects(intakeForm);			 
+			 this.setUsagePatterns(intakeForm);			 
 			 
 			 /*
 			  * Find the most recent status and set it for the current
@@ -749,6 +766,26 @@ public class IntakeAction extends Action {
 				intakeForm.setOrganProblemsFlag("YES");
 		}
 	}
+	
+	private void setUsagePatterns(IntakeForm intakeForm) {
+		String usagePattern=intakeForm.getIntake().getUsagePattern();
+		
+		if (usagePattern!=null) {			
+			if (usagePattern.contains("Constantly"))
+				intakeForm.setUsagePattern1("YES");
+			if (usagePattern.contains("Weekends"))
+				intakeForm.setUsagePattern2("YES");
+			if (usagePattern.contains("Special Occasions"))
+				intakeForm.setUsagePattern3("YES");
+			if (usagePattern.contains("Whenever available"))
+				intakeForm.setUsagePattern4("YES");
+			if (usagePattern.contains("When Things Get Tough"))
+				intakeForm.setUsagePattern5("YES");
+			if (usagePattern.contains("A Week/Off A Week"))
+				intakeForm.setUsagePattern6("YES");
+		}
+	}
+	
 	
 	private void saveStatus(IntakeForm intakeForm, SystemUser user) {
 		
