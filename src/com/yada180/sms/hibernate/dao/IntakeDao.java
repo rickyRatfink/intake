@@ -99,6 +99,7 @@ public class IntakeDao {
 				tx.rollback();
 			e.printStackTrace();
 			session.close();
+			throw new HibernateException(e);
 		} finally {
 
 			
@@ -124,6 +125,7 @@ public class IntakeDao {
 				tx.rollback();
 			e.printStackTrace();
 			session.close();
+			throw new HibernateException(e);
 		} finally {
 
 			

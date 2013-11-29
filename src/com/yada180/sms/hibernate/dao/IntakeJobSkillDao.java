@@ -54,6 +54,7 @@ public class IntakeJobSkillDao {
 				tx.rollback();
 			}
 			e.printStackTrace();
+			throw new HibernateException (e);
 		} finally {
 			
 		}
