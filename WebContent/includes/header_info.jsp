@@ -224,6 +224,7 @@ function whichKey(e) {
             <li><a href="<%=request.getContextPath()%>/Intake.do?action=pass" >Pass</a></li>
             <li><a href="<%=request.getContextPath()%>/Intake.do?action=discipline" >Discipline</a></li>
             <li><a href="<%=request.getContextPath()%>/Intake.do?action=Search" >Search</a></li>
+            <li><a href="<%=request.getContextPath()%>/Intake.do?action=SearchApps">Applications</a></li>
             <li><a href="<%=request.getContextPath()%>/Intake.do?action=Home" >Home</a></li>
         </ul>
 		<table>
@@ -263,6 +264,7 @@ function whichKey(e) {
 		     	<logic:equal name="intakeForm" property="intake.farmBase" value="Boynton Beach">
 		     			<% if ("Boynton Beach".equals(user.getFarmBase())) { %>
 		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Admit" style="color:#19fd01"><b>Admit To Program</b></a>
+		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Unaccept" style="color:#19fd01"><b>Unaccept</b></a>
 		     			<% } %>
 		     	</logic:equal>
 		     </logic:equal>
@@ -294,6 +296,7 @@ function whichKey(e) {
 		     	<logic:equal name="intakeForm" property="intake.farmBase" value="Fort Lauderdale">
 		     			<% if ("Fort Lauderdale".equals(user.getFarmBase())) { %>
 		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Admit" style="color:#19fd01"><b>Admit To Program</b></a>
+		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Unaccept" style="color:#19fd01"><b>Unaccept</b></a>
 		     			<% } %>
 		     	</logic:equal>
 		     </logic:equal>
@@ -325,6 +328,7 @@ function whichKey(e) {
 		     	<logic:equal name="intakeForm" property="intake.farmBase" value="Okeechobee">
 		     			<% if ("Okeechobee".equals(user.getFarmBase())) { %>
 		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Admit" style="color:#19fd01"><b>Admit To Program</b></a>
+		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Unaccept" style="color:#19fd01"><b>Unaccept</b></a>
 		     			<% } %>
 		     	</logic:equal>
 		     </logic:equal>
@@ -355,6 +359,7 @@ function whichKey(e) {
 		     	<logic:equal name="intakeForm" property="intake.farmBase" value="Women's Home">
 		     			<% if ("Women's Home".equals(user.getFarmBase())) { %>
 		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Admit" style="color:#19fd01"><b>Admit To Program</b></a>
+		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Unaccept" style="color:#19fd01"><b>Unaccept</b></a>
 		     			<% } %>
 		     	</logic:equal>
 		     </logic:equal>
@@ -388,4 +393,7 @@ function whichKey(e) {
             </div>
         </div>
         <div class="main">
+        	<div align="right">
+        		<a href="<%=request.getContextPath()%>/Intake.do?action=PrintFull" style="text-decoration:none;"><img src="<%=request.getContextPath()%>/images/local/print.jpg"/></a>
+        	</div>
        
