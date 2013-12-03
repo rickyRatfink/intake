@@ -28,9 +28,9 @@
     <% int row=0; String rowClass="Odd"; %>
      <table width="100%" cellpadding="0" cellspacing="0" border="0">
      <tr>
-         <td class="colHeading2" width="100">Actions</td>
-         <td class="colHeading2" width="100">Date</td>
+         <td class="colHeading2" width="30"></td>
          <td class="colHeading2" width="100">Applicant Id</td>
+         <td class="colHeading2" width="150">Submission Date</td>
          <td class="colHeading2" width="270">Name</td>
          <td class="colHeading2" width="100">SSN</td>
          <td class="colHeading2" width="100">DOB</td>
@@ -46,8 +46,8 @@
 	                    	 <a href="<%=request.getContextPath()%>/Intake.do?action=Edit&key=<bean:write name="loop" property="intakeId"/>" style="text-decoration:none">
 	                    	 <img src="<%=request.getContextPath()%>/images/local/Edit.gif" width="16" height="14" border="0"/>&nbsp;</a>	                   		 
 	      </td>
-	       <td class="searchRow<%=rowClass%>2"><bean:write name="loop" property="creationDate"/></td>
 	       <td class="searchRow<%=rowClass%>2"><bean:write name="loop" property="intakeId"/></td>
+	       <td class="searchRow<%=rowClass%>2"><bean:write name="loop" property="creationDate"/></td>
 	       <td class="searchRow<%=rowClass%>2"><bean:write name="loop" property="firstname"/>&nbsp;<bean:write name="loop" property="mi"/>&nbsp;<bean:write name="loop" property="lastname"/></td>
 	       <td class="searchRow<%=rowClass%>2"><bean:write name="loop" property="ssn"/></td>
 	       <td class="searchRow<%=rowClass%>2"><bean:write name="loop" property="dob"/></td>
