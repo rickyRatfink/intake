@@ -147,11 +147,10 @@
  <div class="page">
         <div class="header">
             <div class="title">
-                <a href="/Default.aspx"> 
                 <h1>
                    Faith Farm Student Management 2.0
                 </h1>
-                </a>
+                
             </div>
             <div class="loginDisplay">
                     
