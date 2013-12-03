@@ -5,13 +5,32 @@
 <%@ page import="java.beans.PropertyDescriptor" %>
 <%@ page import="java.io.PrintWriter" %>
 <%@ page import="java.io.StringWriter" %>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Faith Farm Ministrie</title>
+  <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/styles/dispatch.css"  />
+</head>
 
+<script language="javascript">
+
+	
+	
+	function printPage()
+	{
+	window.print();
+	}
+</script>
 <%
 			Intake intake =  (Intake)session.getAttribute("PRINT_INTAKE");
 			String name = (String)session.getAttribute("PRINT_INTAKE_NAME");
 			String farm =  (String)session.getAttribute("PRINT_INTAKE_FARM");
 			String phone =  (String)session.getAttribute("PRINT_INTAKE_PHONE");
 %>
+
+<body onLoad="javascript:printPage();" topmargin="0" >
+
+
 <font size="6"><%=farm %> Online Intake Application</font></br></br>
 <font size="5"><b>Name:</b><i><%=name %>&nbsp;&nbsp;(<%=phone %>)</i></font></br>
 
@@ -32,5 +51,6 @@
 			PrintWriter pw = new PrintWriter(sw);
 %>
 </font>
+</body>
 
    	       
