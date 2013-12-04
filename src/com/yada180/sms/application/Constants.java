@@ -35,7 +35,7 @@ public final class Constants {
 	public static final String SUPERVISORS="supervisors";
 	public static final String DEPARTMENTS="departments";
 	public static final String ROTATE="rotate";
-	
+	public static final String PRINT="print";
 	public static final String CLASS_REPORT="class_report";
 	public static final String BED_REPORT="bed_report";
 	public static final String JOB_REPORT="job_report";
