@@ -203,7 +203,8 @@ public class Intake implements java.io.Serializable {
 	private String foodStampFlag;
 	private String needGed="No";
 	private String spiritualExperience;
-	
+	private String caseNotes;
+	private String responseStatus;
 	
 	public Intake() {
 	}
@@ -284,7 +285,7 @@ public class Intake implements java.io.Serializable {
 			String employer2Phone, String employer3Phone,
 			String employer4Phone, String employer1Job, String employer2Job,
 			String employer3Job, String employer4Job, String employer4Name,
-			String ssFlag, String vaFlag, String wcFlag, String needGed, String spiritualExperience) {
+			String ssFlag, String vaFlag, String wcFlag, String needGed, String spiritualExperience, String caseNotes, String responseStatus) {
 		this.lastname = lastname;
 		this.firstname = firstname;
 		this.mi = mi;
@@ -479,6 +480,8 @@ public class Intake implements java.io.Serializable {
 		this.wcFlag = wcFlag;
 		this.needGed = needGed;
 		this.spiritualExperience = spiritualExperience;
+		this.caseNotes = caseNotes;
+		this.responseStatus = responseStatus;
 	}
 
 	public Long getIntakeId() {
@@ -2048,6 +2051,22 @@ public class Intake implements java.io.Serializable {
 
 	public void setFoodStampFlag(String foodStampFlag) {
 		this.foodStampFlag = foodStampFlag;
+	}
+
+	public String getCaseNotes() {
+		return caseNotes;
+	}
+
+	public void setCaseNotes(String caseNotes) {
+		this.caseNotes = caseNotes;
+	}
+
+	public String getResponseStatus() {
+		return responseStatus;
+	}
+
+	public void setResponseStatus(String responseStatus) {
+		this.responseStatus = responseStatus;
 	}
 	
 
