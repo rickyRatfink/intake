@@ -10,7 +10,9 @@
     <h2>
         Application Search Results
     </h2>
-    
+    <%
+    int byn=0, ftl=0, oke=0, ewh=0;
+    %>
      <logic:notEmpty name="intakeForm" property="message">
   		    <table width="800" cellpadding="0" cellspacing="0" border="0">
                   <tr>
@@ -29,7 +31,6 @@
      <table width="100%" cellpadding="0" cellspacing="0" border="0">
      <tr>
          <td class="colHeading2" width="30"></td>
-         <td class="colHeading2" width="100">Applicant Id</td>
          <td class="colHeading2" width="150">Submission Date</td>
          <td class="colHeading2" width="270">Name</td>
          <td class="colHeading2" width="100">SSN</td>
@@ -37,6 +38,7 @@
          <td class="colHeading2" width="100">Valid DL</td>
          <td class="colHeading2" width="200">Farm</td>
          <td class="colHeading2" width="200">Status</td>
+         <td class="colHeading2" width="200">Response</td>
     </tr>
      <logic:notEmpty name="intakeForm" property="applicantList" >
 	
@@ -46,7 +48,6 @@
 	                    	 <a href="<%=request.getContextPath()%>/Intake.do?action=Edit&key=<bean:write name="loop" property="intakeId"/>" style="text-decoration:none">
 	                    	 <img src="<%=request.getContextPath()%>/images/local/Edit.gif" width="16" height="14" border="0"/>&nbsp;</a>	                   		 
 	      </td>
-	       <td class="searchRow<%=rowClass%>2"><bean:write name="loop" property="intakeId"/></td>
 	       <td class="searchRow<%=rowClass%>2"><bean:write name="loop" property="creationDate"/></td>
 	       <td class="searchRow<%=rowClass%>2"><bean:write name="loop" property="firstname"/>&nbsp;<bean:write name="loop" property="mi"/>&nbsp;<bean:write name="loop" property="lastname"/></td>
 	       <td class="searchRow<%=rowClass%>2"><bean:write name="loop" property="ssn"/></td>
@@ -54,6 +55,7 @@
 	       <td class="searchRow<%=rowClass%>2"><bean:write name="loop" property="dlFlag"/></td>
 	       <td class="searchRow<%=rowClass%>2"><bean:write name="loop" property="farmBase"/></td>
 	       <td class="searchRow<%=rowClass%>2"><bean:write name="loop" property="applicationStatus"/></td>
+	       <td class="searchRow<%=rowClass%>2"><bean:write name="loop" property="responseStatus"/></td>
 	   </tr>
 	
    <%
@@ -65,7 +67,23 @@
 		rowClass="Odd";
 	  }
    %>
+   
+   		<logic:equal name="loop" property="farmBase" value="Boynton Beach">
+   			<% byn++;  %>
+   		</logic:equal>
+   		<logic:equal name="loop" property="farmBase" value="Fort Lauderdale">
+   			<% ftl++;  %>
+   		</logic:equal>
+   		<logic:equal name="loop" property="farmBase" value="Okeechobee">
+   			<% oke++;  %>
+   		</logic:equal>
+   		<logic:equal name="loop" property="farmBase" value="Women's Home">
+   			<% ewh++;  %>
+   		</logic:equal>
    </logic:iterate>
+   <tr>
+   		<td colspan="9"></br><i>Pending Applications:</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Boynton Beach=<b><%=byn %></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fort Lauderdale=<b><%=ftl %></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Okeechobee=<b><%=oke %></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Women's Home=<b><%=ewh %></b></td>
+   </tr>
    </logic:notEmpty>
    <logic:empty name="intakeForm" property="applicantList">
        <tr>
