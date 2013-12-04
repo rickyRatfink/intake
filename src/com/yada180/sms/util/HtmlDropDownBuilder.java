@@ -214,6 +214,13 @@ public class HtmlDropDownBuilder {
 	        applicationStatus.add(new DropDownItem("Accepted","Accepted"));
 	        session.setAttribute("ddl_applicationStatus", applicationStatus);
 
+	        List<DropDownItem> reponseStatus = new ArrayList<DropDownItem>();
+	        reponseStatus.add(new DropDownItem("Phone interview scheduled","Phone interview scheduled"));
+	        reponseStatus.add(new DropDownItem("Called, Awaiting Response","Called, Awaiting Response"));
+	        reponseStatus.add(new DropDownItem("Left Message","Left Message"));
+	        reponseStatus.add(new DropDownItem("No Answer","No Answer"));
+	        session.setAttribute("ddl_responseStatus", reponseStatus);
+
 	        List<DropDownItem> phase = new ArrayList<DropDownItem>();
 	        phase.add(new DropDownItem("Phase One","Phase One"));
 	        phase.add(new DropDownItem("Intern","Intern"));
