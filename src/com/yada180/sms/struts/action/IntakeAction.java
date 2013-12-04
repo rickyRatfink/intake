@@ -65,7 +65,6 @@ public class IntakeAction extends Action {
 		try {
 		 
 		 String action=request.getParameter("action");
-		 LOGGER.log(Level.INFO,"!!!Action="+action);
 		 IntakeForm intakeForm = (IntakeForm)form;
 		 IntakeDao intakeDao = new IntakeDao();
 		 StudentHistoryDao studentHistoryDao = new StudentHistoryDao();
@@ -79,7 +78,11 @@ public class IntakeAction extends Action {
 		 intakeForm.setMessages(new ArrayList());
 		 intakeForm.setMessageType("");
 		 intakeForm.setMessage(null);
-		 
+		 session.setAttribute("PRINT_INTAKE", null);
+		 session.setAttribute("PRINT_INTAKE_NAME", null);
+		 session.setAttribute("PRINT_INTAKE_FARM", null);
+		 session.setAttribute("PRINT_INTAKE_PHONE", null);
+		  
 		 if (intakeForm.getEditIndex()==null)
 			 intakeForm.setEditIndex(new Integer(-1));
 		 
@@ -98,6 +101,13 @@ public class IntakeAction extends Action {
 		 else if ("status".equals(action)) {
 			 intakeForm.setEditIndex(new Integer(-1));
 			 return mapping.findForward(Constants.STATUS);
+		 }
+		 else if ("PrintFull".equals(action)) {
+			 session.setAttribute("PRINT_INTAKE", intakeForm.getIntake());
+			 session.setAttribute("PRINT_INTAKE_NAME", intakeForm.getIntake().getFirstname()+" "+intakeForm.getIntake().getMi()+" "+intakeForm.getIntake().getLastname());
+			 session.setAttribute("PRINT_INTAKE_FARM", intakeForm.getIntake().getFarmBase());
+			 session.setAttribute("PRINT_INTAKE_PHONE", intakeForm.getIntake().getReferredByPhone());
+			 return mapping.findForward(Constants.PRINT);
 		 }
 		 else if ("pass".equals(action))
 			 return mapping.findForward(Constants.PASS);
@@ -223,6 +233,15 @@ public class IntakeAction extends Action {
 		 }
 		 else if ("Accept".equals(action)) {
 			 intakeForm.getIntake().setApplicationStatus("Accepted");
+			 intakeForm.getIntake().setIntakeStatus("Accepted");
+			 intakeForm.getIntake().setLastUpdatedDate(validator.getEpoch()+"");
+			 intakeForm.getIntake().setLastUpdatedBy(user.getUsername());
+			 intakeDao.updateIntake(intakeForm.getIntake());
+			 return mapping.findForward(Constants.PERSONAL);
+		 }
+		 else if ("Unaccept".equals(action)) {
+			 intakeForm.getIntake().setApplicationStatus("Pending");
+			 intakeForm.getIntake().setIntakeStatus("");
 			 intakeForm.getIntake().setLastUpdatedDate(validator.getEpoch()+"");
 			 intakeForm.getIntake().setLastUpdatedBy(user.getUsername());
 			 intakeDao.updateIntake(intakeForm.getIntake());
@@ -244,7 +263,7 @@ public class IntakeAction extends Action {
 		 }
  		 else if ("Create".equals(action)) {
 			 this.clearForm(intakeForm);
-			 
+			 intakeForm.getIntake().setFarmBase(user.getFarmBase());
 			 return mapping.findForward(Constants.PERSONAL);
 		 }
 		 else if ("Home".equals(action))
