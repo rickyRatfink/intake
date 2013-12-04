@@ -122,6 +122,10 @@ public class OnlineAppAction extends Action {
 						validator.getEpoch() + "");
 				onlineAppForm.getIntake().setCreatedBy("online application");
 				onlineAppForm.getIntake().setApplicationStatus("Pending");
+				
+				//temp log all data before attempted save
+				this.logApplicationDataOnException(onlineAppForm);
+				
 				Long id = intakeDao.addIntake(onlineAppForm.getIntake());
 				onlineAppForm.getIntake().setIntakeId(id);
 				
@@ -151,6 +155,17 @@ public class OnlineAppAction extends Action {
 				         //message.setFrom(new InternetAddress("donnotreply@faithfarm.org"));
 
 				         // Set To: header field of the header.
+				         
+				         //temp for testing purposes
+				         message.addRecipient(Message.RecipientType.TO,
+			                     new InternetAddress("itdepartment@faithfarm.org"));
+				         /*
+				         message.addRecipient(Message.RecipientType.TO,
+			                     new InternetAddress("ricky.raymond.ratliff@gmail.com"));
+				         
+				         message.addRecipient(Message.RecipientType.TO,
+			                     new InternetAddress("rrratliff@yahoo.com"));
+				        */
 				         if ("Boynton Beach".equals(onlineAppForm.getIntake().getFarmBase())) {
 				        	 message.addRecipient(Message.RecipientType.TO,
 				                     new InternetAddress("intake.boyntonbeach@faithfarm.org"));
@@ -170,8 +185,8 @@ public class OnlineAppAction extends Action {
 				         if ("Okeechobee".equals(onlineAppForm.getIntake().getFarmBase())) {
 				        	 message.addRecipient(Message.RecipientType.TO,
 				                     new InternetAddress("intake.okeechobee@faithfarm.org"));
-				        	 message.addRecipient(Message.RecipientType.TO,
-				                     new InternetAddress("MMurphy@faithfarm.org"));
+				        	 //message.addRecipient(Message.RecipientType.TO,
+				             //        new InternetAddress("MMurphy@faithfarm.org"));
 				         }
 				         if ("Women's Home".equals(onlineAppForm.getIntake().getFarmBase())) {
 				        	message.addRecipient(Message.RecipientType.TO,
@@ -181,7 +196,7 @@ public class OnlineAppAction extends Action {
 					        message.addRecipient(Message.RecipientType.TO,
 				                     new InternetAddress("VAndres@faithfarm.org"));
 				         }
-				        				        
+				         	        
 				         // Set Subject: header field
 				         message.setSubject("Intake Application Received for "+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" at "+onlineAppForm.getIntake().getFarmBase());
 
@@ -189,7 +204,7 @@ public class OnlineAppAction extends Action {
 				         message.setText("This is an automated response sent to notify you of an application submitted online. Please log into http://apps.faithfarm.org/intake to view the application.  Do not reply to this message.");
 
 				         // Send message
-				         //Transport.send(message);
+				         Transport.send(message);
 				       }catch (MessagingException mex) {
 				         mex.printStackTrace();
 				         LOGGER.log(Level.SEVERE,"Error occurred sending email for application: "+mex.getMessage());
@@ -211,6 +226,7 @@ public class OnlineAppAction extends Action {
 		}
 		catch (Exception e) {
 				LOGGER.log(Level.INFO,"Error occurred in online application:  Data displayed below");
+				/*
 				OnlineAppForm onlineAppForm = (OnlineAppForm) form;
 				Intake intake =  onlineAppForm.getIntake();
 				try {
@@ -222,6 +238,7 @@ public class OnlineAppAction extends Action {
 					}			    
 				}
 				catch (Exception ex) { System.out.println(""); }
+				*/
 				StringWriter sw = new StringWriter();
 				PrintWriter pw = new PrintWriter(sw);
 				e.printStackTrace(pw);			
@@ -399,7 +416,7 @@ public class OnlineAppAction extends Action {
 	}
 	
 	private void logApplicationDataOnException (ActionForm form) {
-			LOGGER.log(Level.INFO,"Error occurred in online application:  Data displayed below");
+			LOGGER.log(Level.SEVERE,"Online application submitted:  Data displayed below");
 			OnlineAppForm onlineAppForm = (OnlineAppForm) form;
 			Intake intake =  onlineAppForm.getIntake();
 			try {
@@ -407,7 +424,7 @@ public class OnlineAppAction extends Action {
 			PropertyDescriptor[] props = info.getPropertyDescriptors();  
 			for (int i=0;i<props.length;i++) {  
 				PropertyDescriptor descriptor = props [i];
-				LOGGER.log(Level.SEVERE,props[i].getDisplayName()+"="+descriptor.getReadMethod().invoke(intake, null));
+				System.out.println(props[i].getDisplayName()+"="+descriptor.getReadMethod().invoke(intake, null));
 				}			    
 			}
 			catch (Exception ex) { LOGGER.log(Level.INFO,"Error in logApplicationDataOnException:"+ex.getMessage()); }
