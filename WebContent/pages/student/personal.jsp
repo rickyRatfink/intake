@@ -30,6 +30,31 @@ function isNumberKey(evt)
 
 <html:form action="/Intake">
 <div onKeyPress="return checkSubmit(event)">
+
+	<table width="100%">
+	<tr>
+		<logic:equal name="intakeForm" property="intake.applicationStatus" value="Pending">
+			<td>
+				<font size="5"><b><bean:write name="intakeForm" property="intake.farmBase" /> Online Student Application</b></font>
+				</br>
+				 <table width="100%" border="0">
+	             <tr>
+	                 <td width="250">Application Response Status&nbsp;
+	                 	<html:select property="intake.responseStatus" styleClass="select" >
+					<html:option value="">Select</html:option>
+					<html:optionsCollection name="ddl_responseStatus" value="value" label="label" />
+				</html:select>
+	                 </td>
+	               </tr>
+	             </table>
+			</td>
+		</logic:equal>
+			<td align="right">
+	        		<a href="<%=request.getContextPath()%>/Intake.do?action=PrintFull" style="text-decoration:none;"><img src="<%=request.getContextPath()%>/images/local/print.jpg"/></a>
+	        </td>       
+	</tr>
+	</table>
+	
     <table width="750">
 	<tr>
 		<td colspan="8"><b>Personal Information: </b></td>
@@ -441,14 +466,26 @@ function isNumberKey(evt)
      </td>
      </tr>
     </table>
-    <br/><br/>
+    </br>
+    <table width="600">
+    <tr>
+    	<td><b>Case Notes:</b></td>
+	</tr>
+	<tr>
+		<td>
+			<html:textarea property="intake.caseNotes" cols="120" rows="10" styleClass="textarea" />
+		</td>
+	</tr>
+	</table>
+	
+	<br/><br/>
 	<div align="center">
 		<logic:equal name="loginForm" property="systemUser.farmBase" value="Boynton Beach" >
 			<logic:equal name="intakeForm" property="intake.farmBase" value="Boynton Beach">
 				<input type="submit" name="action" value="Save" class="imageButtonSave" title="Save" />
 			</logic:equal>
 			<logic:notEqual name="intakeForm" property="intake.farmBase" value="Boynton Beach">
-				<input type="submit" name="action" value="Save" class="imageButtonSave" title="Save" disabled/>
+				<input type="submit" name="action" value="Save1" class="imageButtonSave" title="Save" disabled/>
 			</logic:notEqual>
 		</logic:equal>
 		
