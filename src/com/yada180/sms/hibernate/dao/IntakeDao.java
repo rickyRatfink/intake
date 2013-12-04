@@ -43,6 +43,7 @@ public class IntakeDao {
 
 			tx = session.beginTransaction();
 			intake = (Intake) session.get(Intake.class, id);
+			
 			tx.commit();
 		} catch (Exception e) {
 			
@@ -50,7 +51,6 @@ public class IntakeDao {
 					tx.rollback();
 				}
 			e.printStackTrace();
-			session.close();
 		} finally {
 			
 				
@@ -65,9 +65,9 @@ public class IntakeDao {
 		try {
 
 			session = HibernateUtil.currentSession();
-
 			tx = session.beginTransaction();
 			list = session.createQuery("FROM Intake").list();
+			session.flush();
 			tx.commit();
 		} catch (Exception e) {
 			
@@ -75,7 +75,6 @@ public class IntakeDao {
 					tx.rollback();
 				}
 			e.printStackTrace();
-			session.close();
 		} finally {
 			
 				
@@ -92,13 +91,13 @@ public class IntakeDao {
 			session = HibernateUtil.currentSession();
 			tx = session.beginTransaction();
 			key = (Long) session.save(obj);
+			session.flush();
 			tx.commit();
 		} catch (HibernateException e) {
 
 			if (tx != null)
 				tx.rollback();
 			e.printStackTrace();
-			session.close();
 			throw new HibernateException(e);
 		} finally {
 
@@ -114,17 +113,19 @@ public class IntakeDao {
 
 			session = HibernateUtil.currentSession();
 			tx = session.beginTransaction();
-			// Intake Intake =
-			// (Intake)session.get(Intake.class, IntakeID);
-			// Intake.setSalary( salary );
+			Intake t = (Intake) session.get(Intake.class, obj.getIntakeId());
+				if (t != null) { 
+				session.evict(t); 
+				} 
 			session.update(obj);
+			session.flush();
+			session.evict(obj);
 			tx.commit();
 		} catch (HibernateException e) {
 
 			if (tx != null)
 				tx.rollback();
 			e.printStackTrace();
-			session.close();
 			throw new HibernateException(e);
 		} finally {
 
@@ -143,6 +144,8 @@ public class IntakeDao {
 
 			Intake obj = (Intake) session.get(Intake.class, key);
 			session.delete(obj);
+			session.flush();
+			session.evict(obj);
 			tx.commit();
 		} catch (HibernateException e) {
 
@@ -239,7 +242,7 @@ public class IntakeDao {
 		if (farm != null && farm.length() > 0 && !farm.equals("ALL"))
 			query.append(" and farmBase = :farmBase ");
 
-		query.append(" and applicationStatus = :applicationStatus ");
+		query.append(" and applicationStatus = :applicationStatus order by creation_date desc ");
 
 		Transaction tx = null;
 		List list = null;
@@ -267,6 +270,7 @@ public class IntakeDao {
 				q.setString("farmBase", farm);
 
 			list = q.list();
+			
 			tx.commit();
 		} catch (HibernateException e) {
 
@@ -300,6 +304,7 @@ public class IntakeDao {
 			q.setString("archivedFlag", "No");
 			q.setString("intakeStatus", "In Program");
 			list = q.list();
+			
 			tx.commit();
 		} catch (HibernateException e) {
 
