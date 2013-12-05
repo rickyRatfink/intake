@@ -393,7 +393,4 @@ function whichKey(e) {
             </div>
         </div>
         <div class="main">
-        	<div align="right">
-        		<a href="<%=request.getContextPath()%>/Intake.do?action=PrintFull" style="text-decoration:none;"><img src="<%=request.getContextPath()%>/images/local/print.jpg"/></a>
-        	</div>
-       
+        
