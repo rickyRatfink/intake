@@ -205,6 +205,7 @@ public class Intake implements java.io.Serializable {
 	private String spiritualExperience;
 	private String caseNotes;
 	private String responseStatus;
+	private String emailAddress;
 	
 	public Intake() {
 	}
@@ -285,7 +286,9 @@ public class Intake implements java.io.Serializable {
 			String employer2Phone, String employer3Phone,
 			String employer4Phone, String employer1Job, String employer2Job,
 			String employer3Job, String employer4Job, String employer4Name,
-			String ssFlag, String vaFlag, String wcFlag, String needGed, String spiritualExperience, String caseNotes, String responseStatus) {
+			String ssFlag, String vaFlag, String wcFlag, String needGed, 
+			String spiritualExperience, String caseNotes, String responseStatus,
+			String emailAddress ) {
 		this.lastname = lastname;
 		this.firstname = firstname;
 		this.mi = mi;
@@ -482,6 +485,7 @@ public class Intake implements java.io.Serializable {
 		this.spiritualExperience = spiritualExperience;
 		this.caseNotes = caseNotes;
 		this.responseStatus = responseStatus;
+		this.emailAddress = emailAddress;
 	}
 
 	public Long getIntakeId() {
@@ -2067,6 +2071,14 @@ public class Intake implements java.io.Serializable {
 
 	public void setResponseStatus(String responseStatus) {
 		this.responseStatus = responseStatus;
+	}
+
+	public String getEmailAddress() {
+		return emailAddress;
+	}
+
+	public void setEmailAddress(String emailAddress) {
+		this.emailAddress = emailAddress;
 	}
 	
 
