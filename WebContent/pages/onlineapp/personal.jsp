@@ -164,12 +164,19 @@ function whichKey(e) {
                 </tr>
     </table>
        
-
-  <table width="100%">
-	            <tr>
-                <td width="200">Phone Number&nbsp;&nbsp;
+    <table width="100%" border="0">
+                <tr>
+                <td width="150">Phone Number&nbsp;&nbsp;
                 	<html:text property="intake.referredByPhone" size="20" maxlength="12" onkeypress="return maskPhone(event,this)"  />
                 </td>
+                <td width="200">Email Address&nbsp;&nbsp;
+                	<html:text property="intake.emailAddress" size="40" maxlength="80"  />
+                </td>
+                </tr>
+   </table>                
+    
+  <table width="100%">
+	            <tr>
                 <td width="200">Date of Birth&nbsp;<i>(mm/dd/yyyy)</i>&nbsp;
                 	<html:text property="intake.dob" size="10" maxlength="10"  />
                 </td>
