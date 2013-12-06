@@ -10,7 +10,7 @@
     </h2>
     <br/><br/>  
             <div align="left">
-            <b>Class List</b>
+            	<b>Class List</b>
             	<ul>
             		<li><a href="<%=request.getContextPath()%>/Report.do?rpt=ClassList&farm=Boynton Beach">Boynton Beach</a></li>
             		<li><a href="<%=request.getContextPath()%>/Report.do?rpt=ClassList&farm=Fort Lauderdale">Fort Lauderdale</a></li>
@@ -31,6 +31,15 @@
             		<li><a href="<%=request.getContextPath()%>/Report.do?rpt=JobList&farm=Fort Lauderdale">Fort Lauderdale</a></li>
             		<li><a href="<%=request.getContextPath()%>/Report.do?rpt=JobList&farm=Okeechobee">Okeechobee</a></li>
             	</ul>
+            	</br></br>
+            	<b>Pass List</b>
+            	<ul>
+            		<li><a href="<%=request.getContextPath()%>/Report.do?rpt=PassList&farm=Boynton Beach">Boynton Beach</a></li>
+            		<li><a href="<%=request.getContextPath()%>/Report.do?rpt=PassList&farm=Fort Lauderdale">Fort Lauderdale</a></li>
+            		<li><a href="<%=request.getContextPath()%>/Report.do?rpt=PassList&farm=Okeechobee">Okeechobee</a></li>
+            		<li><a href="<%=request.getContextPath()%>/Report.do?rpt=PassList&farm=Women's Home">Women's Home</a></li>
+            	</ul>
+            	<br/><br/>
             </div>
             
             

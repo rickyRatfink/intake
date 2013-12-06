@@ -599,5 +599,8 @@
         <property name="spiritualExperience" type="string">
             <column name="SPIRITUAL_EXPERIENCE" length="80" />
         </property>
+        <property name="emailAddress" type="string">
+            <column name="EMAIL_ADDRESS" length="80" />
+        </property>
     </class>
 </hibernate-mapping>

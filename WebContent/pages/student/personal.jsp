@@ -276,10 +276,10 @@ function isNumberKey(evt)
    
      <tr>
 		<td colspan="8"><b>Current Income?</b><html:text property="intake.incomeAmount" size="10" maxlength="10"/>&nbsp;&nbsp;<b>Check One:</b>&nbsp;
-			<input type="checkbox" property="intake.incomeWeeklyFlag" value="YES" />Weekly&nbsp;&nbsp;
-            <input type="checkbox" property="intake.incomeBiWeeklyFlag" value="YES"  />Bi-Weekly&nbsp;&nbsp;
-            <input type="checkbox" property="intake.incomeMonthlyFlag" value="YES" />Monthly&nbsp;&nbsp;
-            <input type="checkbox" property="intake.incomeYearlyFlag" value="YES"  />Yearly
+			<input type="checkbox" property="intake.incomeWeeklyFlag" value="Yes" />Weekly&nbsp;&nbsp;
+            <input type="checkbox" property="intake.incomeBiWeeklyFlag" value="Yes"  />Bi-Weekly&nbsp;&nbsp;
+            <input type="checkbox" property="intake.incomeMonthlyFlag" value="Yes" />Monthly&nbsp;&nbsp;
+            <input type="checkbox" property="intake.incomeYearlyFlag" value="Yes"  />Yearly
          </td>
      </tr>
     
@@ -291,10 +291,10 @@ function isNumberKey(evt)
 
     <tr>
 		<td colspan="8"><b>Do you receive government benefits?</b>&nbsp;&nbsp;
-			<html:checkbox property="intake.ssFlag" value="YES"   />Social Security&nbsp;&nbsp;
-            <html:checkbox property="intake.vaFlag" value="YES"  />VA&nbsp;&nbsp;
-            <html:checkbox property="intake.wcFlag" value="YES" />Workman's Comp
-            <html:checkbox property="intake.foodStampFlag" value="YES" />SNAP Nutrition Assistance (food Stamps)
+			<html:checkbox property="intake.ssFlag" value="Yes"   />Social Security&nbsp;&nbsp;
+            <html:checkbox property="intake.vaFlag" value="Yes"  />VA&nbsp;&nbsp;
+            <html:checkbox property="intake.wcFlag" value="Yes" />Workman's Comp
+            <html:checkbox property="intake.foodStampFlag" value="Yes" />SNAP Nutrition Assistance (food Stamps)
          </td>
      </tr>
     
@@ -493,7 +493,7 @@ function isNumberKey(evt)
 				<input type="submit" name="action" value="Save" class="imageButtonSave" title="Save" />
 			</logic:equal>
 			<logic:notEqual name="intakeForm" property="intake.farmBase" value="Boynton Beach">
-				<input type="submit" name="action" value="Save1" class="imageButtonSave" title="Save" disabled/>
+				<input type="submit" name="action" value="Save" class="imageButtonSave" title="Save" disabled/>
 			</logic:notEqual>
 		</logic:equal>
 		

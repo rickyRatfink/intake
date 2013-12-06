@@ -255,6 +255,7 @@ function whichKey(e) {
 		     <tr>
 		      <td width="33"></td>
 		     <td>
+		     <a href="javascript:window.open('<%=request.getContextPath()%>/Intake.do?action=PDF');" style="color:#19fd01"><b>Print Application</b></a>&nbsp;&nbsp;&nbsp;
 		     <a href="<%=request.getContextPath()%>/pages/student/card.jsp" style="color:#19fd01"><b>Print Card</b></a>
 		     &nbsp;&nbsp;&nbsp;
 		     <a href="<%=request.getContextPath()%>/pages/student/info.jsp" style="color:#19fd01""><b>Print Student Information</b></a>

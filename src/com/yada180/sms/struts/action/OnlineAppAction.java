@@ -132,7 +132,7 @@ public class OnlineAppAction extends Action {
 				if (id!=null) {
 					saveMedicalConditions(onlineAppForm);
 					saveUsagePatternAndLosses(onlineAppForm);
-					
+					saveIntakeQuestionAnswer(onlineAppForm);
 					saveJobSkills(onlineAppForm);
 					
 					Properties properties = new Properties();
@@ -273,41 +273,40 @@ public class OnlineAppAction extends Action {
 		 String mentalAnswerDetails[] = intakeForm.getMentalAnswerDetails();
 		 
 		for (int index=0;index<15;index++) {
-	    	   
-	    	   if ("YES".equals(healthAnswer[index])) {
+			   if ("Yes".equals(healthAnswer[index])) {
 	    		   IntakeQuestionAnswer iqa = new IntakeQuestionAnswer();
 	    		   iqa.setIntakeId(intakeForm.getIntake().getIntakeId());
-	    		   iqa.setAnswer("YES");	 
+	    		   iqa.setAnswer("Yes");	 
 	    		   iqa.setQuestionId(new Long(index+1));
 	    		   dao.addIntakeQuestionAnswer(iqa);
 	    		 }
 	    	   
-	    	   if ("YES".equals(emotionalAnswer[index])) {
+	    	   if ("Yes".equals(emotionalAnswer[index])) {
 	    		   IntakeQuestionAnswer iqa = new IntakeQuestionAnswer();
 	    		   iqa.setIntakeId(intakeForm.getIntake().getIntakeId());
-	    		   iqa.setAnswer("YES");	
+	    		   iqa.setAnswer("Yes");	
 	    		   iqa.setDates(emotionalAnswerDate[index]);
 	    		   iqa.setDetail(emotionalAnswerDetails[index]);
-	    		   iqa.setQuestionId(new Long(index+1));
+	    		   iqa.setQuestionId(new Long(index+16));
 	    		   dao.addIntakeQuestionAnswer(iqa);
 	    		 }
 	    	   
-	    	   if ("YES".equals(physicalAnswer[index])) {
+	    	   if ("Yes".equals(physicalAnswer[index])) {
 	    		   IntakeQuestionAnswer iqa = new IntakeQuestionAnswer();
 	    		   iqa.setIntakeId(intakeForm.getIntake().getIntakeId());
-	    		   iqa.setAnswer("YES");	
+	    		   iqa.setAnswer("Yes");	
 	    		   iqa.setDetail(physicalAnswerDetails[index]);
-	    		   iqa.setQuestionId(new Long(index+1));
+	    		   iqa.setQuestionId(new Long(index+22));
 	    		   dao.addIntakeQuestionAnswer(iqa);
 	    		 }
 	    	   
-	    	   if ("YES".equals(mentalAnswer[index])) {
+	    	   if ("Yes".equals(mentalAnswer[index])) {
 	    		   IntakeQuestionAnswer iqa = new IntakeQuestionAnswer();
 	    		   iqa.setIntakeId(intakeForm.getIntake().getIntakeId());
-	    		   iqa.setAnswer("YES");	
+	    		   iqa.setAnswer("Yes");	
 	    		   iqa.setDates(mentalAnswerDate[index]);
 	    		   iqa.setDetail(mentalAnswerDetails[index]);
-	    		   iqa.setQuestionId(new Long(index+1));
+	    		   iqa.setQuestionId(new Long(index+27));
 	    		   dao.addIntakeQuestionAnswer(iqa);
 	    		 }
 	    }
@@ -339,11 +338,11 @@ public class OnlineAppAction extends Action {
 	    		   medicalConditions.iterator(); iterator.hasNext();){
 	    	   MedicalCondition obj = (MedicalCondition) iterator.next();	    			
 	    	   
-	    	   if ("YES".equals(medicalCondition[index])) {
+	    	   if ("Yes".equals(medicalCondition[index])) {
 	    		   IntakeMedicalCondition imc = new IntakeMedicalCondition();
 	    		   imc.setIntakeId(intakeForm.getIntake().getIntakeId());
 	    		   imc.setMedicalConditionId(obj.getMedicalConditionId());
-	    		   imc.setAnswer("YES");
+	    		   imc.setAnswer("Yes");
 	    		   dao.addIntakeMedicalCondition(imc);
 	    		 }
 	    	   
@@ -378,7 +377,7 @@ public class OnlineAppAction extends Action {
 	    		   medicalConditions.iterator(); iterator.hasNext();){
 	    	   JobSkill obj = (JobSkill) iterator.next();	    			
 	    	   
-	    	   if ("YES".equals(workExperience[index])) {
+	    	   if ("Yes".equals(workExperience[index])) {
 	    		   IntakeJobSkill ijs = new IntakeJobSkill();
 	    		   ijs.setIntakeId(intakeForm.getIntake().getIntakeId());	    		   
 	    		   ijs.setJobSkillId(obj.getJobSkillId());
@@ -434,15 +433,15 @@ public class OnlineAppAction extends Action {
 	
 	private void convertPhysicalEffects(OnlineAppForm intakeForm) {
 		String physicalEffects="";
-		if ("YES".equals(intakeForm.getMotivationalLossFlag()))
+		if ("Yes".equals(intakeForm.getMotivationalLossFlag()))
 				physicalEffects+="motivational loss,";
-		if ("YES".equals(intakeForm.getShakesConvulsionsFlag()))
+		if ("Yes".equals(intakeForm.getShakesConvulsionsFlag()))
 			physicalEffects+="shakes-convulsions,";
-		if ("YES".equals(intakeForm.getMemoryLossFlag()))
+		if ("Yes".equals(intakeForm.getMemoryLossFlag()))
 			physicalEffects+="memory loss,";
-		if ("YES".equals(intakeForm.getIncoherentThinkingFlag()))
+		if ("Yes".equals(intakeForm.getIncoherentThinkingFlag()))
 			physicalEffects+="incoherent thinking,";
-		if ("YES".equals(intakeForm.getOrganProblemsFlag()))
+		if ("Yes".equals(intakeForm.getOrganProblemsFlag()))
 			physicalEffects+="organ problems,";
 		
 		intakeForm.getIntake().setPhysicalEffects(physicalEffects);		

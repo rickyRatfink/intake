@@ -33,7 +33,7 @@ import org.hibernate.engine.SessionImplementor;
 	    
 	    public static Session currentSession() throws HibernateException {
 	        Session s = (Session) session.get();
-	        //s.setFlushMode(FlushMode.MANUAL);
+	        //s.setFlushMode(FlushMode.ALWAYS);
 	        // Open a new Session, if this Thread has none yet
 	        if (s == null) {
 	            s = sessionFactory.openSession();

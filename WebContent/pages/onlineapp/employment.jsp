@@ -34,7 +34,7 @@
 		        	<bean:write name="loop" property="description"/>
 		        </td>
 		        <td colspan="7">
-		   			<html:checkbox property="workExperience[${i}]" value="YES" />
+		   			<html:checkbox property="workExperience[${i}]" value="Yes" />
 		   			<br />
 				</td>
 		        </tr>

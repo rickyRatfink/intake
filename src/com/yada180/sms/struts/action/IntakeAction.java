@@ -13,6 +13,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import com.yada180.sms.util.PDFBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -101,6 +102,11 @@ public class IntakeAction extends Action {
 		 else if ("status".equals(action)) {
 			 intakeForm.setEditIndex(new Integer(-1));
 			 return mapping.findForward(Constants.STATUS);
+		 }
+		 else if ("PDF".equals(action)) {
+			 PDFBuilder pdf = new PDFBuilder();
+			 pdf.applicationPdf(intakeForm, response);
+			 return mapping.findForward(Constants.PERSONAL);
 		 }
 		 else if ("PrintFull".equals(action)) {
 			 session.setAttribute("PRINT_INTAKE", intakeForm.getIntake());
@@ -305,6 +311,24 @@ public class IntakeAction extends Action {
 			 this.setPhysicalEffects(intakeForm);			 
 			 this.setUsagePatterns(intakeForm);			 
 			 
+			 if (intake.getUsageLosses().contains("Job"))
+				 intakeForm.setUsageLosses1("Job");
+			 if (intake.getUsageLosses().contains("Marriage"))
+				 intakeForm.setUsageLosses2("Marriage");
+			 if (intake.getUsageLosses().contains("Friends"))
+				 intakeForm.setUsageLosses3("Friends");
+			 if (intake.getUsageLosses().contains("Possessions"))
+				 intakeForm.setUsageLosses4("Possessions");
+			 if (intake.getUsageLosses().contains("Arrests"))
+				 intakeForm.setUsageLosses5("Arrests");
+			 if (intake.getUsageLosses().contains("DUIs"))
+				 intakeForm.setUsageLosses6("DUIs");
+			 if (intake.getUsageLosses().contains("Heavy Debt"))
+				 intakeForm.setUsageLosses7("Heavy Debt");
+			 if (intake.getUsageLosses().contains("Health"))
+				 intakeForm.setUsageLosses8("Health");
+			 if (intake.getUsageLosses().contains("Incarceration"))
+				 intakeForm.setUsageLosses9("Incarceration");
 			 /*
 			  * Find the most recent status and set it for the current
 			  */
@@ -406,6 +430,8 @@ public class IntakeAction extends Action {
 					 if ("discipline".equals(intakeForm.getPageSource()))
 					 	 saveDiscipline(intakeForm,user.getUsername()); 
 					 intakeDao.updateIntake(intakeForm.getIntake());
+					 saveIntakeQuestionAnswer(intakeForm);
+					 
 				 }
 				 else {
 
@@ -435,6 +461,7 @@ public class IntakeAction extends Action {
 					 
 					 Long id = intakeDao.addIntake(intakeForm.getIntake());
 					 intakeForm.getIntake().setIntakeId(id);
+					 saveIntakeQuestionAnswer(intakeForm);
 					 
 					 if ("personal".equals(intakeForm.getPageSource())) {
 						 this.setInitialStatus(intakeForm, user);
@@ -482,7 +509,7 @@ public class IntakeAction extends Action {
 		for (java.util.Iterator<IntakeMedicalCondition> iterator =
 				  intakeMedicalCondition.iterator(); iterator.hasNext();) {
 			  IntakeMedicalCondition obj = (IntakeMedicalCondition) iterator.next();
-			  medicalCondition[obj.getMedicalConditionId().intValue()-1]="YES";
+			  medicalCondition[obj.getMedicalConditionId().intValue()-1]="Yes";
 		  }
 		
 		intakeForm.setMedicalCondition(medicalCondition);
@@ -539,20 +566,19 @@ public class IntakeAction extends Action {
 				intakeQuestionAnswer.iterator(); iterator.hasNext();) {
 			IntakeQuestionAnswer obj = (IntakeQuestionAnswer) iterator.next();
 			int id=(int)obj.getQuestionId()-1;
-			
 			if (id<15)
-				healthAnswer[id]="YES";
+				healthAnswer[id]="Yes";
 			else if (id>14&&id<21) {
-				emotionalAnswer[id-15]="YES";
+				emotionalAnswer[id-15]="Yes";
 				emotionalAnswerDate[id-15]=obj.getDates();
 				emotionalAnswerDetails[id-15]=obj.getDetail();
 			}
 			else if (id>20&&id<26) {
-				physicalAnswer[id-21]="YES";
+				physicalAnswer[id-21]="Yes";
 				physicalAnswerDetails[id-21]=obj.getDetail();
 			}
 			else if (id>25&&id<32) {
-				mentalAnswer[id-26]="YES";
+				mentalAnswer[id-26]="Yes";
 				mentalAnswerDate[id-26]=obj.getDates();
 				mentalAnswerDetails[id-26]=obj.getDetail();
 			}
@@ -581,7 +607,7 @@ public class IntakeAction extends Action {
 		for (java.util.Iterator<IntakeJobSkill> iterator =
 				  intakeJobSkill.iterator(); iterator.hasNext();) {
 			IntakeJobSkill obj = (IntakeJobSkill) iterator.next();
-			  workExperience[(int)obj.getJobSkillId()-1]="YES";
+			  workExperience[(int)obj.getJobSkillId()-1]="Yes";
 		  }
 		
 		intakeForm.setWorkExperience(workExperience);
@@ -592,7 +618,7 @@ public class IntakeAction extends Action {
 		IntakeQuestionAnswerDao dao = new IntakeQuestionAnswerDao();
 		
 		 /*
-		  * First delete all medical conditions for given intake
+		  * First delete all answers for given intake
 		  */
 		 List<IntakeQuestionAnswer> intakeQuestionAnswers = dao.findById(intakeForm.getIntake().getIntakeId());
 		 for (Iterator iterator =
@@ -613,40 +639,40 @@ public class IntakeAction extends Action {
 		 
 		for (int index=0;index<15;index++) {
 	    	   
-	    	   if ("YES".equals(healthAnswer[index])) {
+	    	   if ("Yes".equals(healthAnswer[index])) {
 	    		   IntakeQuestionAnswer iqa = new IntakeQuestionAnswer();
 	    		   iqa.setIntakeId(intakeForm.getIntake().getIntakeId());
-	    		   iqa.setAnswer("YES");	 
+	    		   iqa.setAnswer("Yes");	 
 	    		   iqa.setQuestionId(new Long(index+1));
 	    		   dao.addIntakeQuestionAnswer(iqa);
 	    		 }
 	    	   
-	    	   if ("YES".equals(emotionalAnswer[index])) {
+	    	   if ("Yes".equals(emotionalAnswer[index])) {
 	    		   IntakeQuestionAnswer iqa = new IntakeQuestionAnswer();
 	    		   iqa.setIntakeId(intakeForm.getIntake().getIntakeId());
-	    		   iqa.setAnswer("YES");	
+	    		   iqa.setAnswer("Yes");	
 	    		   iqa.setDates(emotionalAnswerDate[index]);
 	    		   iqa.setDetail(emotionalAnswerDetails[index]);
-	    		   iqa.setQuestionId(new Long(index+1));
+	    		   iqa.setQuestionId(new Long(index+16));
 	    		   dao.addIntakeQuestionAnswer(iqa);
 	    		 }
 	    	   
-	    	   if ("YES".equals(physicalAnswer[index])) {
+	    	   if ("Yes".equals(physicalAnswer[index])) {
 	    		   IntakeQuestionAnswer iqa = new IntakeQuestionAnswer();
 	    		   iqa.setIntakeId(intakeForm.getIntake().getIntakeId());
-	    		   iqa.setAnswer("YES");	
+	    		   iqa.setAnswer("Yes");	
 	    		   iqa.setDetail(physicalAnswerDetails[index]);
-	    		   iqa.setQuestionId(new Long(index+1));
+	    		   iqa.setQuestionId(new Long(index+22));
 	    		   dao.addIntakeQuestionAnswer(iqa);
 	    		 }
 	    	   
-	    	   if ("YES".equals(mentalAnswer[index])) {
+	    	   if ("Yes".equals(mentalAnswer[index])) {
 	    		   IntakeQuestionAnswer iqa = new IntakeQuestionAnswer();
 	    		   iqa.setIntakeId(intakeForm.getIntake().getIntakeId());
-	    		   iqa.setAnswer("YES");	
+	    		   iqa.setAnswer("Yes");	
 	    		   iqa.setDates(mentalAnswerDate[index]);
 	    		   iqa.setDetail(mentalAnswerDetails[index]);
-	    		   iqa.setQuestionId(new Long(index+1));
+	    		   iqa.setQuestionId(new Long(index+27));
 	    		   dao.addIntakeQuestionAnswer(iqa);
 	    		 }
 	    }
@@ -678,11 +704,11 @@ public class IntakeAction extends Action {
 	    		   medicalConditions.iterator(); iterator.hasNext();){
 	    	   MedicalCondition obj = (MedicalCondition) iterator.next();	    			
 	    	   
-	    	   if ("YES".equals(medicalCondition[index])) {
+	    	   if ("Yes".equals(medicalCondition[index])) {
 	    		   IntakeMedicalCondition imc = new IntakeMedicalCondition();
 	    		   imc.setIntakeId(intakeForm.getIntake().getIntakeId());
 	    		   imc.setMedicalConditionId(obj.getMedicalConditionId());
-	    		   imc.setAnswer("YES");
+	    		   imc.setAnswer("Yes");
 	    		   dao.addIntakeMedicalCondition(imc);
 	    		 }
 	    	   
@@ -717,7 +743,7 @@ public class IntakeAction extends Action {
 	    		   medicalConditions.iterator(); iterator.hasNext();){
 	    	   JobSkill obj = (JobSkill) iterator.next();	    			
 	    	   
-	    	   if ("YES".equals(workExperience[index])) {
+	    	   if ("Yes".equals(workExperience[index])) {
 	    		   IntakeJobSkill ijs = new IntakeJobSkill();
 	    		   ijs.setIntakeId(intakeForm.getIntake().getIntakeId());	    		   
 	    		   ijs.setJobSkillId(obj.getJobSkillId());
@@ -755,15 +781,15 @@ public class IntakeAction extends Action {
 	
 	private void convertPhysicalEffects(IntakeForm intakeForm) {
 		String physicalEffects="";
-		if ("YES".equals(intakeForm.getMotivationalLossFlag()))
+		if ("Yes".equals(intakeForm.getMotivationalLossFlag()))
 				physicalEffects+="motivational loss,";
-		if ("YES".equals(intakeForm.getShakesConvulsionsFlag()))
+		if ("Yes".equals(intakeForm.getShakesConvulsionsFlag()))
 			physicalEffects+="shakes-convulsions,";
-		if ("YES".equals(intakeForm.getMemoryLossFlag()))
+		if ("Yes".equals(intakeForm.getMemoryLossFlag()))
 			physicalEffects+="memory loss,";
-		if ("YES".equals(intakeForm.getIncoherentThinkingFlag()))
+		if ("Yes".equals(intakeForm.getIncoherentThinkingFlag()))
 			physicalEffects+="incoherent thinking,";
-		if ("YES".equals(intakeForm.getOrganProblemsFlag()))
+		if ("Yes".equals(intakeForm.getOrganProblemsFlag()))
 			physicalEffects+="organ problems,";
 		
 		intakeForm.getIntake().setPhysicalEffects(physicalEffects);		
@@ -774,15 +800,15 @@ public class IntakeAction extends Action {
 		
 		if (physicalEffects!=null) {			
 			if (physicalEffects.contains("motivational"))
-				intakeForm.setMotivationalLossFlag("YES");
+				intakeForm.setMotivationalLossFlag("Yes");
 			if (physicalEffects.contains("shakes"))
-				intakeForm.setShakesConvulsionsFlag("YES");
+				intakeForm.setShakesConvulsionsFlag("Yes");
 			if (physicalEffects.contains("memory"))
-				intakeForm.setMemoryLossFlag("YES");
+				intakeForm.setMemoryLossFlag("Yes");
 			if (physicalEffects.contains("incoherent"))
-				intakeForm.setIncoherentThinkingFlag("YES");
+				intakeForm.setIncoherentThinkingFlag("Yes");
 			if (physicalEffects.contains("organ"))
-				intakeForm.setOrganProblemsFlag("YES");
+				intakeForm.setOrganProblemsFlag("Yes");
 		}
 	}
 	
@@ -791,17 +817,17 @@ public class IntakeAction extends Action {
 		
 		if (usagePattern!=null) {			
 			if (usagePattern.contains("Constantly"))
-				intakeForm.setUsagePattern1("YES");
+				intakeForm.setUsagePattern1("Yes");
 			if (usagePattern.contains("Weekends"))
-				intakeForm.setUsagePattern2("YES");
+				intakeForm.setUsagePattern2("Yes");
 			if (usagePattern.contains("Special Occasions"))
-				intakeForm.setUsagePattern3("YES");
+				intakeForm.setUsagePattern3("Yes");
 			if (usagePattern.contains("Whenever available"))
-				intakeForm.setUsagePattern4("YES");
+				intakeForm.setUsagePattern4("Yes");
 			if (usagePattern.contains("When Things Get Tough"))
-				intakeForm.setUsagePattern5("YES");
+				intakeForm.setUsagePattern5("Yes");
 			if (usagePattern.contains("A Week/Off A Week"))
-				intakeForm.setUsagePattern6("YES");
+				intakeForm.setUsagePattern6("Yes");
 		}
 	}
 	

@@ -146,21 +146,21 @@
         <tr>
     	<td>
         Physical effects of abuse<br>       
-        	<html:checkbox property="motivationalLossFlag" value="YES" />Motivational Loss&nbsp;&nbsp;
-        	<html:checkbox property="shakesConvulsionsFlag" value="YES" />Shakes-Convulsions&nbsp;&nbsp;
-        	<html:checkbox property="memoryLossFlag" value="YES" />Memory Loss&nbsp;&nbsp;
-        	<html:checkbox property="incoherentThinkingFlag" value="YES" />Incoherent Thinking&nbsp;&nbsp;
-        	<html:checkbox property="organProblemsFlag" value="YES" />Organ Problems&nbsp;&nbsp;
+        	<html:checkbox property="motivationalLossFlag" value="Yes" />Motivational Loss&nbsp;&nbsp;
+        	<html:checkbox property="shakesConvulsionsFlag" value="Yes" />Shakes-Convulsions&nbsp;&nbsp;
+        	<html:checkbox property="memoryLossFlag" value="Yes" />Memory Loss&nbsp;&nbsp;
+        	<html:checkbox property="incoherentThinkingFlag" value="Yes" />Incoherent Thinking&nbsp;&nbsp;
+        	<html:checkbox property="organProblemsFlag" value="Yes" />Organ Problems&nbsp;&nbsp;
   		<br><br>
 		<b>Any Previous Rehabs?</b>&nbsp;
-			<logic:equal name="onlineAppForm" property="intake.aaFlag" value="YES">
-				<html:checkbox property="intake.aaFlag" value="YES" />AA or NA&nbsp;&nbsp;
+			<logic:equal name="onlineAppForm" property="intake.aaFlag" value="Yes">
+				<html:checkbox property="intake.aaFlag" value="Yes" />AA or NA&nbsp;&nbsp;
 			</logic:equal>
-			<logic:notEqual name="onlineAppForm" property="intake.aaFlag" value="YES">
-				<html:checkbox property="intake.aaFlag" value="YES" />AA or NA&nbsp;&nbsp;
+			<logic:notEqual name="onlineAppForm" property="intake.aaFlag" value="Yes">
+				<html:checkbox property="intake.aaFlag" value="Yes" />AA or NA&nbsp;&nbsp;
 			</logic:notEqual>
             Number of Years&nbsp;
-            <html:text property="intake.aaFlag" size="10" maxlength="10" />
+            <html:text property="intake.aaYears" size="10" maxlength="10" />
         </td>
         </tr>
          <tr>

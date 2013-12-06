@@ -54,7 +54,7 @@
             <column name="ETHNICITY" length="25" />
         </property>
         <property name="hairColor" type="string">
-            <column name="HAIR_COLOR" length="20" />
+            <column name="HAIR_COLOR" length="40" />
         </property>
         <property name="eyeColor" type="string">
             <column name="EYE_COLOR" length="20" />
@@ -144,14 +144,14 @@
             <column name="STATE_ID_EXP_DATE" length="45" />
         </property>
         <property name="governmentBenefitsFlag" type="string">
-            <column name="GOVERNMENT_BENEFITS_FLAG" length="60" />
+            <column name="GOVERNMENT_BENEFITS_FLAG" length="300" />
         </property>
         <property name="religion" type="string">
             <column name="RELIGION" length="45" />
         </property>
         <property name="religiousExperience" type="string">
-            <column name="RELIGIOUS_EXPERIENCE" length="45" />
-        </property>
+            <column name="RELIGIOUS_EXPERIENCE" length="16777215" />
+        </property> 
         <property name="alcoholLastUsed" type="string">
             <column name="ALCOHOL_LAST_USED" length="15" />
         </property>
@@ -207,7 +207,7 @@
             <column name="SOBER_3_YEARS" length="15" />
         </property>
         <property name="usagePattern" type="string">
-            <column name="USAGE_PATTERN" length="45" />
+            <column name="USAGE_PATTERN" length="300" />
         </property>
         <property name="quantityPerWeek" type="string">
             <column name="QUANTITY_PER_WEEK" length="45" />
@@ -216,10 +216,10 @@
             <column name="QUANTITY_2_YEARS" length="45" />
         </property>
         <property name="usageLosses" type="string">
-            <column name="USAGE_LOSSES" length="45" />
+            <column name="USAGE_LOSSES" length="300" />
         </property>
         <property name="physicalEffects" type="string">
-            <column name="PHYSICAL_EFFECTS" length="45" />
+            <column name="PHYSICAL_EFFECTS" length="300" />
         </property>
         <property name="aaFlag" type="string">
             <column name="AA_FLAG" length="45" />
@@ -267,13 +267,13 @@
             <column name="EYEWEAR_USAGE" length="45" />
         </property>
         <property name="homelessTime" type="string">
-            <column name="HOMELESS_TIME" length="65" />
+            <column name="HOMELESS_TIME" length="300" />
         </property>
         <property name="homelessReason" type="string">
-            <column name="HOMELESS_REASON" length="150" />
+            <column name="HOMELESS_REASON" length="300" />
         </property>
         <property name="homelessHowOften" type="string">
-            <column name="HOMELESS_HOW_OFTEN" length="65" />
+            <column name="HOMELESS_HOW_OFTEN" length="300" />
         </property>
         <property name="industrialInjuryFlag" type="string">
             <column name="INDUSTRIAL_INJURY_FLAG" length="3" />
@@ -324,10 +324,10 @@
             <column name="CURRENT_LAWSUIT_FLAG" length="3" />
         </property>
         <property name="lawsuitDetails" type="string">
-            <column name="LAWSUIT_DETAILS" length="45" />
+            <column name="LAWSUIT_DETAILS" length="16777215" />
         </property>
         <property name="currentLawsuitDetails" type="string">
-            <column name="CURRENT_LAWSUIT_DETAILS" length="150" />
+            <column name="CURRENT_LAWSUIT_DETAILS" length="16777215" />
         </property>
         <property name="felonyFlag" type="string">
             <column name="FELONY_FLAG" length="45" />
@@ -336,13 +336,19 @@
             <column name="SEXUAL_OFFENSE_FLAG" length="3" />
         </property>
         <property name="felonyDetails" type="string">
-            <column name="FELONY_DETAILS" length="150" />
+            <column name="FELONY_DETAILS" length="16777215" />
         </property>
         <property name="sexualOffenseQty" type="string">
             <column name="SEXUAL_OFFENSE_QTY" length="2" />
         </property>
         <property name="sexualOffenseDetails" type="string">
-            <column name="SEXUAL_OFFENSE_DETAILS" length="150" />
+            <column name="SEXUAL_OFFENSE_DETAILS" length="16777215" />
+        </property>
+        <property name="caseNotes" type="string">
+            <column name="CASE_NOTES" length="16777215" />
+        </property>
+        <property name="responseStatus" type="string">
+            <column name="RESPONSE_STATUS" length="16777215" />
         </property>
         <property name="probationFlag" type="string">
             <column name="PROBATION_FLAG" length="3" />
@@ -360,7 +366,7 @@
             <column name="PROBATION_APPT_FLAG" length="3" />
         </property>
         <property name="probationApptDetails" type="string">
-            <column name="PROBATION_APPT_DETAILS" length="150" />
+            <column name="PROBATION_APPT_DETAILS" length="16777215" />
         </property>
         <property name="incomeAmount" type="string">
             <column name="INCOME_AMOUNT" length="45" />
@@ -543,7 +549,7 @@
             <column name="EMPLOYER2_CONTACT" length="60" />
         </property>
         <property name="employer3Contact" type="string">
-            <column name="EMPLOYER3_CONTACT" length="2060" />
+            <column name="EMPLOYER3_CONTACT" length="60" />
         </property>
         <property name="employer4Contact" type="string">
             <column name="EMPLOYER4_CONTACT" length="60" />
@@ -592,6 +598,9 @@
         </property>
         <property name="spiritualExperience" type="string">
             <column name="SPIRITUAL_EXPERIENCE" length="80" />
+        </property>
+        <property name="emailAddress" type="string">
+            <column name="EMAIL_ADDRESS" length="80" />
         </property>
     </class>
 </hibernate-mapping>
