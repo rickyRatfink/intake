@@ -1,9 +1,6 @@
 package com.yada180.sms.util;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -14,7 +11,7 @@ import com.lowagie.text.pdf.PdfReader;
 import com.lowagie.text.pdf.PdfStamper;
 import com.lowagie.text.pdf.PdfWriter;
 import com.yada180.sms.domain.Intake;
-import com.yada180.sms.domain.IntakeQuestionAnswer;
+import com.yada180.sms.domain.JobSkill;
 import com.yada180.sms.domain.MedicalCondition;
 import com.yada180.sms.struts.form.IntakeForm;
 
@@ -30,12 +27,14 @@ public class PDFBuilder {
 				response.getOutputStream()); // Code 2
 			document.open();
 			
+			String applicantName=intake.getFirstname()+" "+intake.getMi()+" "+intake.getLastname();
+			String currentDate=Validator.convertDate(new java.util.Date()+"");
 			
 			//Application Page 1
 			PdfReader pdfTemplate = new PdfReader("c:\\pdfFiles\\IntakeApplicationFinal_PDF.pdf");
 			PdfStamper stamper = new PdfStamper(pdfTemplate, response.getOutputStream());
 			stamper.setFormFlattening(true); 
-			stamper.getAcroFields().setField("todaysDate", Validator.convertDate((new java.util.Date()).toString()));
+			stamper.getAcroFields().setField("todaysDate", currentDate);
 			stamper.getAcroFields().setField("lastname", intake.getLastname());
 			stamper.getAcroFields().setField("firstname", intake.getFirstname());
 			stamper.getAcroFields().setField("mi", intake.getMi());
@@ -59,6 +58,8 @@ public class PDFBuilder {
 			stamper.getAcroFields().setField("ethnicity", intake.getEthnicity());
 			stamper.getAcroFields().setField("homeLocationOther", intake.getHomeLocation());
 			stamper.getAcroFields().setField("incomeSource", intake.getIncomeSource());
+			stamper.getAcroFields().setField("incomeSource1", intake.getIncomeSource());
+			stamper.getAcroFields().setField("income", intake.getIncomeAmount());
 			stamper.getAcroFields().setField("otherBenefits", intake.getOtherBenefits());
 			stamper.getAcroFields().setField("veteranFlag", intake.getVeteranStatus());
 			stamper.getAcroFields().setField("branchOfService", intake.getBranchOfService());
@@ -453,6 +454,75 @@ public class PDFBuilder {
 					stamper.getAcroFields().setField("probationApptNo", "Yes");
 				stamper.getAcroFields().setField("probationDate", intake.getProbationApptDetails());
 
+				//Application Page7
+				List<JobSkill> works = form.getJobSkills();
+				String work[] = form.getWorkExperience(); 
+				count=1;  
+				for (int i=0;i<25;i++) {
+					   if ("Yes".equals(work[i]))
+			    		   stamper.getAcroFields().setField("job"+count, "Yes");
+			    	   count++;
+			    }
+				stamper.getAcroFields().setField("jobOther", intake.getOtherJobSkill());
+				
+				stamper.getAcroFields().setField("employer1", intake.getEmployer1Name());
+				stamper.getAcroFields().setField("employerContact1", intake.getEmployer1Contact());
+				stamper.getAcroFields().setField("employerDate1", intake.getEmployer1Dates());
+				stamper.getAcroFields().setField("employerPhone1", intake.getEmployer1Phone());
+				stamper.getAcroFields().setField("employer2", intake.getEmployer2Name());
+				stamper.getAcroFields().setField("employerContact2", intake.getEmployer2Contact());
+				stamper.getAcroFields().setField("employerDate2", intake.getEmployer2Dates());
+				stamper.getAcroFields().setField("employerPhone2", intake.getEmployer2Phone());
+				stamper.getAcroFields().setField("employer3", intake.getEmployer3Name());
+				stamper.getAcroFields().setField("employerContact3", intake.getEmployer3Contact());
+				stamper.getAcroFields().setField("employerDate3", intake.getEmployer3Dates());
+				stamper.getAcroFields().setField("employerPhone3", intake.getEmployer3Phone());
+				stamper.getAcroFields().setField("employer4", intake.getEmployer4Name());
+				stamper.getAcroFields().setField("employerContact4", intake.getEmployer4Contact());
+				stamper.getAcroFields().setField("employerDate4", intake.getEmployer4Dates());
+				stamper.getAcroFields().setField("employerPhone41", intake.getEmployer4Phone());
+				
+				//All Applicant Print Name and Date fields
+				stamper.getAcroFields().setField("txtApplicantName", applicantName);
+				stamper.getAcroFields().setField("txtApplicantName1", applicantName);
+				stamper.getAcroFields().setField("txtApplicantName2", applicantName);
+				stamper.getAcroFields().setField("txtApplicantName3", applicantName);
+				stamper.getAcroFields().setField("txtApplicantName4", applicantName);
+				stamper.getAcroFields().setField("txtApplicantName5", applicantName);
+				stamper.getAcroFields().setField("txtApplicantName6", applicantName);
+				stamper.getAcroFields().setField("txtApplicantName7", applicantName);
+				stamper.getAcroFields().setField("txtApplicantName8", applicantName);
+				stamper.getAcroFields().setField("txtApplicantName9", applicantName);
+				stamper.getAcroFields().setField("txtApplicantName10", applicantName);
+				stamper.getAcroFields().setField("txtApplicantName11", applicantName);
+				stamper.getAcroFields().setField("txtApplicantName12", applicantName);
+				stamper.getAcroFields().setField("txtApplicantName13", applicantName);
+				stamper.getAcroFields().setField("txtApplicantName14", applicantName);
+				stamper.getAcroFields().setField("txtApplicantName15", applicantName);
+				
+				stamper.getAcroFields().setField("txtDate1", currentDate);
+				stamper.getAcroFields().setField("txtDate2", currentDate);
+				stamper.getAcroFields().setField("txtDate3", currentDate);
+				stamper.getAcroFields().setField("txtDate4", currentDate);
+				stamper.getAcroFields().setField("txtDate5", currentDate);
+				stamper.getAcroFields().setField("txtDate6", currentDate);
+				stamper.getAcroFields().setField("txtDate7", currentDate);
+				stamper.getAcroFields().setField("txtDate8", currentDate);
+				stamper.getAcroFields().setField("txtDate9", currentDate);
+				stamper.getAcroFields().setField("txtDate10", currentDate);
+				stamper.getAcroFields().setField("txtDate11", currentDate);
+				stamper.getAcroFields().setField("txtDate12", currentDate);
+				stamper.getAcroFields().setField("txtDate13", currentDate);
+				stamper.getAcroFields().setField("txtDate14", currentDate);
+				stamper.getAcroFields().setField("txtDate15", currentDate);
+				stamper.getAcroFields().setField("txtDate16", currentDate);
+				stamper.getAcroFields().setField("txtDate17", currentDate);
+				stamper.getAcroFields().setField("txtDate18", currentDate);
+				stamper.getAcroFields().setField("txtDate19", currentDate);
+				stamper.getAcroFields().setField("txtDate20", currentDate);
+				stamper.getAcroFields().setField("txtDate21", currentDate);
+				
+				
 				
 				stamper.close();
 			document.close(); 
