@@ -210,8 +210,9 @@ public class HtmlDropDownBuilder {
 
 	        List<DropDownItem> applicationStatus = new ArrayList<DropDownItem>();
 	        applicationStatus.add(new DropDownItem("Pending","Pending"));
-	        applicationStatus.add(new DropDownItem("Denied","Denied"));
 	        applicationStatus.add(new DropDownItem("Accepted","Accepted"));
+	        applicationStatus.add(new DropDownItem("Denied","Denied"));
+	        applicationStatus.add(new DropDownItem("Withdrawn","Withdrawn"));
 	        session.setAttribute("ddl_applicationStatus", applicationStatus);
 
 	        List<DropDownItem> reponseStatus = new ArrayList<DropDownItem>();
