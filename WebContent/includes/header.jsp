@@ -166,8 +166,7 @@
                
 <div class="menu" > 
 	<ul> 
-		<li><a href="<%=request.getContextPath()%>/pages/index.jsp">Home</a></li>
-        <logic:equal name="loginForm" property="systemUser.userRole" value="Administrator" >
+		<logic:equal name="loginForm" property="systemUser.userRole" value="Administrator" >
              <li><a href="<%=request.getContextPath()%>/Intake.do?action=SearchApps">Applications</a></li>
              <li><a href="<%=request.getContextPath()%>/Intake.do?action=Search">Search</a></li>
              <li><a href="<%=request.getContextPath()%>/Intake.do?action=Create">New Student</a></li>
