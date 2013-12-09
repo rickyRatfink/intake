@@ -266,6 +266,7 @@ function whichKey(e) {
 		     			<% if ("Boynton Beach".equals(user.getFarmBase())) { %>
 		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Admit" style="color:#19fd01"><b>Admit To Program</b></a>
 		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Unaccept" style="color:#19fd01"><b>Unaccept</b></a>
+		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Withdraw" style="color:#19fd01"><b>Withdraw</b></a>
 		     			<% } %>
 		     	</logic:equal>
 		     </logic:equal>
@@ -298,7 +299,8 @@ function whichKey(e) {
 		     			<% if ("Fort Lauderdale".equals(user.getFarmBase())) { %>
 		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Admit" style="color:#19fd01"><b>Admit To Program</b></a>
 		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Unaccept" style="color:#19fd01"><b>Unaccept</b></a>
-		     			<% } %>
+		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Withdraw" style="color:#19fd01"><b>Withdraw</b></a>
+		        		<% } %>
 		     	</logic:equal>
 		     </logic:equal>
 		     
@@ -330,7 +332,8 @@ function whichKey(e) {
 		     			<% if ("Okeechobee".equals(user.getFarmBase())) { %>
 		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Admit" style="color:#19fd01"><b>Admit To Program</b></a>
 		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Unaccept" style="color:#19fd01"><b>Unaccept</b></a>
-		     			<% } %>
+		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Withdraw" style="color:#19fd01"><b>Withdraw</b></a>
+		        		<% } %>
 		     	</logic:equal>
 		     </logic:equal>
 		     
@@ -361,7 +364,8 @@ function whichKey(e) {
 		     			<% if ("Women's Home".equals(user.getFarmBase())) { %>
 		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Admit" style="color:#19fd01"><b>Admit To Program</b></a>
 		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Unaccept" style="color:#19fd01"><b>Unaccept</b></a>
-		     			<% } %>
+		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Withdraw" style="color:#19fd01"><b>Withdraw</b></a>
+		        		<% } %>
 		     	</logic:equal>
 		     </logic:equal>
 		     
