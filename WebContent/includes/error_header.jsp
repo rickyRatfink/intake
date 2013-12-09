@@ -23,6 +23,7 @@
 <head><title>
 	Faith Farm Student Information System
 </title>
+<meta http-equiv="refresh" content="14400;url=/intake/pages/security/index.jsp" />
 
 	<link href="<%=request.getContextPath()%>/styles/site.css" rel="stylesheet" type="text/css" />
     <link href="<%=request.getContextPath()%>/styles/tcal.css" rel="stylesheet" type="text/css" />

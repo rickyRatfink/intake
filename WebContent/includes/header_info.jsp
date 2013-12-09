@@ -19,6 +19,7 @@
 <head><title>
 	Faith Farm Student Information System
 </title>
+<meta http-equiv="refresh" content="14400;url=/intake/pages/security/index.jsp" />
 
 	<link href="<%=request.getContextPath()%>/styles/site.css" rel="stylesheet" type="text/css" />
     <link href="<%=request.getContextPath()%>/styles/tcal.css" rel="stylesheet" type="text/css" />
@@ -255,10 +256,9 @@ function whichKey(e) {
 		     <tr>
 		      <td width="33"></td>
 		     <td>
-		     <a href="javascript:window.open('<%=request.getContextPath()%>/Intake.do?action=PDF');" style="color:#19fd01"><b>Print Application</b></a>&nbsp;&nbsp;&nbsp;
+		     <a href="javascript:window.open('<%=request.getContextPath()%>/pdfapp.do');" style="color:#19fd01"><b>Print Application</b></a>&nbsp;&nbsp;&nbsp;
 		     <a href="<%=request.getContextPath()%>/pages/student/card.jsp" style="color:#19fd01"><b>Print Card</b></a>
-		     &nbsp;&nbsp;&nbsp;
-		     <a href="<%=request.getContextPath()%>/pages/student/info.jsp" style="color:#19fd01""><b>Print Student Information</b></a>
+		     <!-- <a href="<%=request.getContextPath()%>/pages/student/info.jsp" style="color:#19fd01""><b>Print Student Information</b></a> -->
 		     
 		     <!-- Permission for Boynton Beach -->
 		     <logic:equal name="intakeForm" property="intake.applicationStatus" value="Accepted">
