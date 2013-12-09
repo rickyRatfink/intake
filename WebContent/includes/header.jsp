@@ -151,7 +151,7 @@
                 <h1>
                    Faith Farm Student Management 2.0
                 </h1>
-                
+                 
             </div>
             <div class="loginDisplay">
                     
@@ -159,6 +159,7 @@
                 	    Welcome <b>
                 	    <bean:write name="loginForm" property="systemUser.username" />@
                 	    <bean:write name="loginForm" property="systemUser.farmBase" /> </b>&nbsp;&nbsp;[ <a href="<%=request.getContextPath()%>/Login.do?action=logout" >Log Out</a> ]
+                    	<a href="<%=request.getContextPath()%>/Login.do?action=PasswordReset" ><img src="<%=request.getContextPath() %>/images/local/icon_changePassword.png" style="width:20px;height:auto;" border="0" alt="Change Password" title="Change Password"></img></a>
                     </logic:notEmpty>
                     
             </div>
@@ -167,6 +168,7 @@
 <div class="menu" > 
 	<ul> 
 		<logic:equal name="loginForm" property="systemUser.userRole" value="Administrator" >
+			 <li><a href="<%=request.getContextPath()%>/Intake.do?action=Home" >Home</a></li>
              <li><a href="<%=request.getContextPath()%>/Intake.do?action=SearchApps">Applications</a></li>
              <li><a href="<%=request.getContextPath()%>/Intake.do?action=Search">Search</a></li>
              <li><a href="<%=request.getContextPath()%>/Intake.do?action=Create">New Student</a></li>

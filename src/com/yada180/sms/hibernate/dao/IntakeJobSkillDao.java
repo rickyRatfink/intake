@@ -11,6 +11,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
+import com.yada180.sms.domain.CwtProgramMetric;
 import com.yada180.sms.domain.IntakeJobSkill;
 import com.yada180.sms.domain.IntakeMedicalCondition;
 import com.yada180.sms.hibernate.HibernateUtil;
@@ -91,6 +92,10 @@ public class IntakeJobSkillDao {
 
 			session = HibernateUtil.currentSession();
 			tx = session.beginTransaction();
+			IntakeJobSkill t = (IntakeJobSkill) session.get(IntakeJobSkill.class, obj.getIntakeJobSkillId());
+			if (t != null) { 
+			session.evict(t); 
+			} 
 			key = (Long) session.save(obj);
 			tx.commit();
 		} catch (HibernateException e) {

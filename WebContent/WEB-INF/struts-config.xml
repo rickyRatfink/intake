@@ -36,7 +36,8 @@
                  <forward name="manageusers" path="/pages/security/users.jsp" redirect="true"/>
                  <forward name="createuser" path="/pages/security/create_user.jsp" redirect="true"/>
                  <forward name="edituser" path="/pages/security/create_user.jsp" redirect="true"/>   
-                 <forward name="deleteuser" path="/pages/security/create_user.jsp" redirect="true"/>              
+                 <forward name="deleteuser" path="/pages/security/create_user.jsp" redirect="true"/>  
+                 <forward name="passwordreset" path="/pages/security/change_password.jsp" redirect="true"/>            
          </action>
 
         <action name="onlineAppForm" path="/OnlineApp" type="com.yada180.sms.struts.action.OnlineAppAction" scope="session" input="/pages/onlineapp/index.jsp" 
@@ -64,6 +65,7 @@
                  <forward name="joblist_byn" path="/pages/reports/joblist_boynton.jsp" redirect="true"/>
                  <forward name="joblist_ftl" path="/pages/reports/joblist_ftl.jsp" redirect="true"/>
                  <forward name="joblist_oke" path="/pages/reports/joblist_oke.jsp" redirect="true"/>
+                 <forward name="login" path="/pages/security/index.jsp" redirect="true"/>
          </action>
        
    
@@ -85,7 +87,8 @@
                  <forward name="create_sections" path="/pages/cwt/sections/create.jsp" redirect="true"/>
                  <forward name="failure" path="/pages/cwt/index.jsp" redirect="true"/>
                  <forward name="error" path="/pages/error.jsp" redirect="true"/> 
-                 <forward name="rotate" path="/pages/cwt/rosters/rotate.jsp" redirect="true"/>                 
+                 <forward name="rotate" path="/pages/cwt/rosters/rotate.jsp" redirect="true"/> 
+                 <forward name="login" path="/pages/security/index.jsp" redirect="true"/>                
          </action>
        
          <action name="cwtRoster" path="/CwtRoster" type="com.yada180.sms.struts.action.CwtRosterAction" scope="session" >
@@ -93,8 +96,8 @@
                  <forward name="failure" path="/pages/cwt/rosters/index.jsp" redirect="true"/>
                  <forward name="error" path="/pages/error.jsp" redirect="true"/>    
                  <forward name="createroster" path="/pages/cwt/rosters/create.jsp" redirect="true"/>  
-                 <forward name="roster" path="/pages/cwt/rosters/index.jsp" redirect="true"/>  
-                       
+                 <forward name="roster" path="/pages/cwt/rosters/index.jsp" redirect="true"/> 
+                 <forward name="login" path="/pages/security/index.jsp" redirect="true"/>
          </action>
      
          <action name="intakeForm" path="/Intake" type="com.yada180.sms.struts.action.IntakeAction" scope="session"  
@@ -118,10 +121,18 @@
                  <forward name="applications" path="/pages/applications/results.jsp" redirect="true"/> 
                  <forward name="searchapps" path="/pages/applications/search.jsp" redirect="true"/>       
                  <forward name="discipline" path="/pages/student/discipline.jsp" redirect="true"/>  
-                 <forward name="pass" path="/pages/student/pass.jsp" redirect="true"/>              
+                 <forward name="pass" path="/pages/student/pass.jsp" redirect="true"/>  
+                 <forward name="login" path="/pages/security/index.jsp" redirect="true"/>
          </action>
            
          <action name="intakeForm" path="/Image" type="com.yada180.sms.struts.action.ImageAction" scope="session"  
+             validate="false">
+                 <forward name="success" path="/pages/student/personal.jsp" redirect="true"/>
+                 <forward name="failure" path="/pages/student/personal.jsp" redirect="true"/>
+                 <forward name="error" path="/pages/error.jsp" redirect="true"/> 
+         </action>
+         
+         <action name="intakeForm" path="/pdfapp" type="com.yada180.sms.struts.action.PdfAppAction" scope="session"  
              validate="false">
                  <forward name="success" path="/pages/student/personal.jsp" redirect="true"/>
                  <forward name="failure" path="/pages/student/personal.jsp" redirect="true"/>

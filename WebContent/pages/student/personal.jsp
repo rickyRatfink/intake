@@ -70,18 +70,20 @@ function isNumberKey(evt)
     	<td colspan="8">
                 <table width="100%" border="0">
                 <tr>
-                	<td>Photo</td>
                 	<td colspan="2">
                 			<logic:notEmpty name="intakeForm" property="intake.imageHeadshot">
-                		   		<img src="<%=request.getContextPath()%>/Image.do" width="200" height="133"/>
+                		   		<img src="<%=request.getContextPath()%>/Image.do" style="height:auto; width:250px;/>
                 		    </logic:notEmpty>
                 	        <logic:empty name="intakeForm" property="intake.imageHeadshot">
                 	       		<img src="<%=request.getContextPath()%>/images/local/person.jpg" width="200" height="133"/>
                 	       </logic:empty>
                 	</td>
-                	<td colspan="5">
-                    	You may need to refresh your browser to see the lastest photo.<br/>
+                </tr>
+                <tr>	
+                	<td colspan="8></br>
+                		You may need to refresh your browser to see the lastest photo.
                         <a href="<%=request.getContextPath()%>/Intake.do?action=Photo">Edit Photo</a>
+                        </br></br>
                     </td>
                 </tr>
                 <tr>

@@ -11,6 +11,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
+import com.yada180.sms.domain.CwtProgramMetric;
 import com.yada180.sms.domain.IntakeJobSkill;
 import com.yada180.sms.domain.StudentDisciplineHistory;
 import com.yada180.sms.domain.SystemUser;
@@ -118,6 +119,10 @@ public class StudentDisciplineHistoryDao {
 
 			session = HibernateUtil.currentSession();
 			tx = session.beginTransaction();
+			StudentDisciplineHistory t = (StudentDisciplineHistory) session.get(StudentDisciplineHistory.class, obj.getStudentDisciplineHistoryId());
+			if (t != null) { 
+			session.evict(t); 
+			} 
 			// StudentDisciplineHistory StudentDisciplineHistory =
 			// (StudentDisciplineHistory)session.get(StudentDisciplineHistory.class,
 			// StudentDisciplineHistoryID);

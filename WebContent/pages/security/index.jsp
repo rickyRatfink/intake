@@ -10,10 +10,14 @@
     <h2> 
         Log In
     </h2>
+    
     <p>
-        Please enter your username and password.
-        <br />
-        If you don't have an account ask to Supervisor for have one.
+    	<img src="<%=request.getContextPath()%>/images/local/message.png"/><b>System notice:</b>&nbsp;&nbsp;
+    	<ul>
+    		<li>The intake application can now be printed by clicking the 'print application' option in the top menu.</li>
+    		<li>Withdraw status added for applications.</li>
+    		<li>An email notification is sent to receiving farms of application transfers.</li>
+    	</ul>
     </p>
     
             <span class="failureNotification">
@@ -27,6 +31,9 @@
             <div class="accountInfo">
                 <fieldset class="login">
                     <legend>Account Information</legend>
+				    <p>
+				        Please enter your username and password.&nbsp;&nbsp;&nbsp;If you don't have an account ask your supervisor for one.
+				    </p>
             
                     <p>
                         Username:<br />

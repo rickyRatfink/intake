@@ -11,6 +11,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
+import com.yada180.sms.domain.CwtModuleSection;
 import com.yada180.sms.domain.CwtProgramMetric;
 import com.yada180.sms.domain.IntakeMedicalCondition;
 import com.yada180.sms.domain.SystemUser;
@@ -91,6 +92,10 @@ public class CwtProgramMetricDao {
 
 			session = HibernateUtil.currentSession();
 			tx = session.beginTransaction();
+			CwtProgramMetric t = (CwtProgramMetric) session.get(CwtProgramMetric.class, obj.getProgramMetricId());
+			if (t != null) { 
+			session.evict(t); 
+			} 
 			// CwtProgramMetric CwtProgramMetric =
 			// (CwtProgramMetric)session.get(CwtProgramMetric.class,
 			// CwtProgramMetricID);

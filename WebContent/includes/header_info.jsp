@@ -205,6 +205,8 @@ function whichKey(e) {
             <div class="loginDisplay">
                 	<% if (user.getUsername()!=null) { %>
                         Welcome <b><%=user.getUsername() %>@<%=user.getFarmBase() %> </b>&nbsp;&nbsp;[ <a href="<%=request.getContextPath()%>/Login.do?action=logout" >Log Out</a> ]
+                        	<a href="<%=request.getContextPath()%>/Login.do?action=PasswordReset" ><img src="<%=request.getContextPath() %>/images/local/icon_changePassword.png" style="width:20px;height:auto;" border="0" alt="Change Password" title="Change Password"></img></a>
+                    
                     <% } else { %>
                         [ <a href="<%=request.getContextPath()%>/login" >Log In</a> ]
                     <% } %>

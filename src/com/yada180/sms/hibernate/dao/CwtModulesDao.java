@@ -12,6 +12,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import com.yada180.sms.domain.CwtModules;
+import com.yada180.sms.domain.Intake;
 import com.yada180.sms.domain.SystemUser;
 import com.yada180.sms.hibernate.HibernateUtil;
 
@@ -85,6 +86,10 @@ public class CwtModulesDao {
 
 			session = HibernateUtil.currentSession();
 			tx = session.beginTransaction();
+			CwtModules t = (CwtModules) session.get(CwtModules.class, obj.getModuleId());
+			if (t != null) { 
+			session.evict(t); 
+			} 
 			// CwtModules CwtModules =
 			// (CwtModules)session.get(CwtModules.class, CwtModulesID);
 			// CwtModules.setSalary( salary );

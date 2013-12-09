@@ -11,6 +11,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
+import com.yada180.sms.domain.Intake;
 import com.yada180.sms.domain.SystemUser;
 import com.yada180.sms.hibernate.HibernateUtil;
 
@@ -112,6 +113,10 @@ public class SystemUserDao {
 		try {
 			session = HibernateUtil.currentSession();
 			tx = session.beginTransaction();
+			SystemUser t = (SystemUser) session.get(SystemUser.class, obj.getUserId());
+			if (t != null) { 
+			session.evict(t); 
+			} 
 			session.update(obj);
 			tx.commit();
 		} catch (HibernateException e) {

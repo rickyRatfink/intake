@@ -12,6 +12,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import com.yada180.sms.domain.CwtModuleSection;
+import com.yada180.sms.domain.CwtModules;
 import com.yada180.sms.domain.IntakeMedicalCondition;
 import com.yada180.sms.domain.SystemUser;
 import com.yada180.sms.hibernate.HibernateUtil;
@@ -137,6 +138,10 @@ public class CwtModuleSectionDao {
 			session = HibernateUtil.currentSession();
 			tx = session.beginTransaction();
 			tx.begin();
+			CwtModuleSection t = (CwtModuleSection) session.get(CwtModuleSection.class, id);
+			if (t != null) { 
+			session.evict(t); 
+			} 
 			StringBuffer query = new StringBuffer(
 					"from CwtModuleSection where moduleId = :moduleId ");
 			Query q = session.createQuery(query.toString());

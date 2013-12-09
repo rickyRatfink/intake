@@ -82,7 +82,7 @@
    		</logic:equal>
    </logic:iterate>
    <tr>
-   		<td colspan="9"></br><i>Pending Applications:</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Boynton Beach=<b><%=byn %></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fort Lauderdale=<b><%=ftl %></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Okeechobee=<b><%=oke %></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Women's Home=<b><%=ewh %></b></td>
+   		<td colspan="9"></br><i>Applications:</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Boynton Beach=<b><%=byn %></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fort Lauderdale=<b><%=ftl %></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Okeechobee=<b><%=oke %></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Women's Home=<b><%=ewh %></b></td>
    </tr>
    </logic:notEmpty>
    <logic:empty name="intakeForm" property="applicantList">

@@ -31,7 +31,6 @@
         </td>
         <td>
    			<html:select property="healthAnswer[${i}]" styleClass="select" >
-				<html:option value="">Select</html:option>
 				<html:optionsCollection name="ddl_yesNo" value="value" label="label" />
 			</html:select>
 			<br />

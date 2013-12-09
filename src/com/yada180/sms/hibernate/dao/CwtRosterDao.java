@@ -11,6 +11,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
+import com.yada180.sms.domain.CwtProgramMetric;
 import com.yada180.sms.domain.CwtRoster;
 import com.yada180.sms.domain.SystemUser;
 import com.yada180.sms.hibernate.HibernateUtil;
@@ -90,6 +91,10 @@ public class CwtRosterDao {
 
 			session = HibernateUtil.currentSession();
 			tx = session.beginTransaction();
+			CwtRoster t = (CwtRoster) session.get(CwtRoster.class, obj.getRosterId());
+			if (t != null) { 
+			session.evict(t); 
+			} 
 			// CwtRoster CwtRoster =
 			// (CwtRoster)session.get(CwtRoster.class, CwtRosterID);
 			// CwtRoster.setSalary( salary );

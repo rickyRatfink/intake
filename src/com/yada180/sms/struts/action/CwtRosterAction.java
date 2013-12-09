@@ -61,6 +61,14 @@ public class CwtRosterAction extends Action {
 		 SystemUser user = (SystemUser) session.getAttribute("system_user");
 
 		try {
+			
+			/*
+			 * test ddl's stored in session.  If empty, session expired, redirect to login
+			 */
+			ArrayList ddllist = (ArrayList)session.getAttribute("ddl_farm");
+			if (ddllist==null) 
+				return mapping.findForward(Constants.LOGIN);
+
 		 IntakeDao intakeDao = new IntakeDao();
 		 CwtProgramDao cwtProgramDao = new CwtProgramDao();
 		 CwtMetricsDao cwtMetricsDao = new CwtMetricsDao();

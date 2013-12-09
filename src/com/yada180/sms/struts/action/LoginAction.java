@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -69,7 +71,7 @@ public class LoginAction extends Action {
 			 
 			 //login and store user in session
 			 user = userDao.findById(userSession.getUserId());
-			 if ("Intake".equals(user.getGroup())) {
+			 if ("Intake".equals(user.getGroup_())) {
 				 loginForm.setSystemUser(user);
 				 userSession.setActive("No");
 				 sessionDao.updateUserAuthorizedSession(userSession);
@@ -88,7 +90,7 @@ public class LoginAction extends Action {
 			 
 			 user = userDao.authenticate(loginForm.getSystemUser().getUsername(), loginForm.getSystemUser().getPassword());
 			 if (user!=null) {
-				 if ("Intake".equals(user.getGroup())) {
+				 if ("Intake".equals(user.getGroup_())) {
 					 html.refresh(session);
 					 loginForm.setSystemUser(user);
 					 session.setAttribute("system_user", user);
@@ -107,6 +109,22 @@ public class LoginAction extends Action {
 				 return mapping.findForward(Constants.FAILURE);
 			 }
 			 
+		 }
+		 else if ("PasswordReset".equals(action)) {
+			 return mapping.findForward(Constants.PASSWORD_RESET);
+		 }
+		 else if ("Change Password".equals(action)) {
+			 
+			 boolean success=this.validateNewPassword(loginForm);
+			 
+			 if (success) {
+				 SystemUser user1 = (SystemUser)session.getAttribute("system_user");
+				 user1.setPassword(loginForm.getPassword1());
+				 userDao.updateSystemUser(user1);
+				 return mapping.findForward(Constants.LOGIN);
+			 }
+			 else
+				 return mapping.findForward(Constants.PASSWORD_RESET);
 		 }
 		 else if ("ManageUsers".equals(action)) {
 			 loginForm.setUserList(userDao.listSystemUsers());
@@ -154,6 +172,7 @@ public class LoginAction extends Action {
 	public boolean validate(LoginForm loginForm) {
 		  List<ErrorMessage> messages = new ArrayList<ErrorMessage>();
 		  ActionErrors errors = new ActionErrors();
+		  loginForm.setMessage("");
 		  
 		  if ((loginForm.getSystemUser().getUsername()==null) || (loginForm.getSystemUser().getUsername().length() < 1)) 
 		     	messages.add(new ErrorMessage("username is required",""));
@@ -167,5 +186,93 @@ public class LoginAction extends Action {
 		  else
 			  return true;
 		}
+	
+	
+	public boolean validateNewPassword(LoginForm loginForm) {
+		
+		String pwd1=loginForm.getPassword1();
+		String pwd2=loginForm.getPassword2();
+		
+		//check if passwords match
+		if (!pwd1.equals(pwd2)) {
+			loginForm.setMessage("passwords must match");
+			return false;
+		}
+		//check length of password
+		if (pwd1.length()<8||pwd1.length()>15) {
+			loginForm.setMessage("password must be between 8 and 15 characters long");
+			return false;
+		}
+		//check for uppercase
+		int count=0;
+		for ( int i=0;i<pwd1.length();i++) {
+			Character ch=pwd1.charAt(i);
+			
+			if (ch.isUpperCase(ch))
+				count++;
+		}
+		if (count==0) {
+			loginForm.setMessage("password must contain at least 1 uppercase letter");
+			return false;
+		}
+		
+		//check for lowercase
+		count=0;
+		for ( int i=0;i<pwd1.length();i++) {
+			Character ch=pwd1.charAt(i);
+			
+			if (ch.isLowerCase(ch))
+				count++;
+		}
+		if (count==0) {
+			loginForm.setMessage("password must contain at least 1 lowercase letter");
+			return false;
+		}
+		//check for digit
+		count=0;
+		for ( int i=0;i<9;i++) {
+			if (pwd1.contains((i+"")))
+				count++;
+		}
+		if (count==0) {
+			loginForm.setMessage("password must contain at least 1 number (0-9)");
+			return false;
+		}
+		//check for alpha-numeric
+		count=0;
+		if (pwd1.contains("!")) count++;
+		if (pwd1.contains("#")) count++;
+		if (pwd1.contains("$")) count++;
+		if (pwd1.contains("%")) count++;
+		if (pwd1.contains("^")) count++;
+		if (pwd1.contains("&")) count++;
+		if (pwd1.contains("*")) count++;
+		if (pwd1.contains("(")) count++;
+		if (pwd1.contains(")")) count++;
+		if (pwd1.contains("-")) count++;
+		if (pwd1.contains("_")) count++;
+		if (pwd1.contains("+")) count++;
+		if (pwd1.contains("=")) count++;
+		if (pwd1.contains("[")) count++;
+		if (pwd1.contains("]")) count++;
+		if (pwd1.contains("{")) count++;
+		if (pwd1.contains("}")) count++;
+		if (pwd1.contains("<!")) count++;
+		if (pwd1.contains(">")) count++;
+		if (pwd1.contains("?")) count++;
+		if (pwd1.contains("~")) count++;
+		if (pwd1.contains("`")) count++;
+		if (pwd1.contains("\\")) count++;
+		if (pwd1.contains("|")) count++;
+		if (pwd1.contains("/")) count++;
+		if (count==0) {
+			loginForm.setMessage("password must contain at least 1 special character (!, @, #, %, etc.)");
+			return false;
+		}
+		
+		
+		
+		return true;
+	}
 	
 }

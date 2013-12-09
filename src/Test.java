@@ -2,6 +2,8 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -56,68 +58,10 @@ public class Test {
 		catch (Exception e) {
 			
 		}*/
+		//Pattern p = Pattern.compile("[A-Z]",Pattern.UNICODE_CHARACTER_CLASS);
+	    String msg="BuLL";	    
+	    System.out.println(msg.matches("[A-Z]+$"));
 		
-		Properties properties = new Properties();
-		properties.put("mail.smtp.auth", "true");
-		properties.put("mail.smtp.starttls.enable", "true");
-		properties.put("mail.smtp.host", "smtp.gmail.com");
-		properties.put("mail.smtp.port", "587");
-		
-		Session mailSession = Session.getDefaultInstance(properties,
-				new javax.mail.Authenticator() {
-					protected PasswordAuthentication getPasswordAuthentication() {
-						return new PasswordAuthentication("faithfarm.intake@gmail.com","It0525Ff");
-					}
-				});
-		try{
-	         // Create a default MimeMessage object.
-	         MimeMessage message = new MimeMessage(mailSession);
-
-	         // Set From: header field of the header.
-	         //message.setFrom(new InternetAddress("donnotreply@faithfarm.org"));
-
-	         // Set To: header field of the header.
-	         message.addRecipient(Message.RecipientType.TO,
-	        		 new InternetAddress("itdepartment@faithfarm.org"));
-	         /*message.addRecipient(Message.RecipientType.TO,
-                     new InternetAddress("intake.boyntonbeach@faithfarm.org"));
-	         message.addRecipient(Message.RecipientType.TO,
-                     new InternetAddress("intake.fortlauderdale@faithfarm.org"));
-	         message.addRecipient(Message.RecipientType.TO,
-                     new InternetAddress("intake.okeechobee@faithfarm.org"));
-	         message.addRecipient(Message.RecipientType.TO,
-                     new InternetAddress("intake.womensministry@faithfarm.org"));
-	         message.addRecipient(Message.RecipientType.TO,
-                     new InternetAddress("PZielinski@faithfarm.org"));
-	         message.addRecipient(Message.RecipientType.TO,
-                     new InternetAddress("RJurisDick@faithfarm.org"));
-	         message.addRecipient(Message.RecipientType.TO,
-                     new InternetAddress("MMurphy@faithfarm.org"));
-
-	         message.addRecipient(Message.RecipientType.TO,
-                     new InternetAddress("sjohnson@faithfarm.org"));
-	         message.addRecipient(Message.RecipientType.TO,
-                     new InternetAddress("iftl@faithfarm.org"));
-	         
-	         message.addRecipient(Message.RecipientType.TO,
-                     new InternetAddress("AGorrin@faithfarm.org"));
-	         message.addRecipient(Message.RecipientType.TO,
-                     new InternetAddress("VAndres@faithfarm.org"));
-			*/
-
-	         
-	         // Set Subject: header field
-	         message.setSubject("Intake Application Received: ");
-
-	         // Now set the actual message
-	         message.setText("This is actual message");
-
-	         // Send message
-	         Transport.send(message);
-	         System.out.println("Sent message successfully....");
-	      }catch (MessagingException mex) {
-	         mex.printStackTrace();
-	      }
 
 	}
 	
