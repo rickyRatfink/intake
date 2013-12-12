@@ -10,12 +10,20 @@
     </h2>
     <br/><br/>  
             <div align="left">
-            	<b>Class List</b>
+            
+            
+           	<b>Class List</b>
             	<ul>
+            		<li><a href="javascript:window.open('<%=request.getContextPath()%>/pdfapp.do?action=classlist&farm=Boynton Beach');">Boynton Beach</a></li>
+            		<li><a href="javascript:window.open('<%=request.getContextPath()%>/pdfapp.do?action=classlist&farm=Fort Lauderdale');">Fort Lauderdale</a></li>
+            		<li><a href="javascript:window.open('<%=request.getContextPath()%>/pdfapp.do?action=classlist&farm=Okeechobee');">Okeechobee</a></li>
+            		<li><a href="javascript:window.open('<%=request.getContextPath()%>/pdfapp.do?action=classlist&farm=Women's Home');">Women's Home</a></li>
+            		<!-- 
             		<li><a href="<%=request.getContextPath()%>/Report.do?rpt=ClassList&farm=Boynton Beach">Boynton Beach</a></li>
             		<li><a href="<%=request.getContextPath()%>/Report.do?rpt=ClassList&farm=Fort Lauderdale">Fort Lauderdale</a></li>
             		<li><a href="<%=request.getContextPath()%>/Report.do?rpt=ClassList&farm=Okeechobee">Okeechobee</a></li>
             		<li><a href="<%=request.getContextPath()%>/Report.do?rpt=ClassList&farm=Women's Home">Women's Home</a></li>
+            		 -->
             	</ul>
             	<br/><br/>
             	<!-- 
@@ -44,6 +52,15 @@
             	</ul>
             	<br/><br/>
             	 -->
+            	<b>Wait List</b>
+            	<ul>
+            		<li><a href="javascript:window.open('<%=request.getContextPath()%>/pdfapp.do?action=waitlist&farm=Boynton Beach');">Boynton Beach</a></li>
+            		<li><a href="javascript:window.open('<%=request.getContextPath()%>/pdfapp.do?action=waitlist&farm=Fort Lauderdale');">Fort Lauderdale</a></li>
+            		<li><a href="javascript:window.open('<%=request.getContextPath()%>/pdfapp.do?action=waitlist&farm=Okeechobee');">Okeechobee</a></li>
+            		<li><a href="javascript:window.open('<%=request.getContextPath()%>/pdfapp.do?action=waitlist&farm=Women's Home');">Women's Home</a></li>
+            	</ul>
+            	</br></br>
+ 
             </div>
             
             

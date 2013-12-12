@@ -143,6 +143,9 @@
         <property name="stateIdExpDate" type="string">
             <column name="STATE_ID_EXP_DATE" length="45" />
         </property>
+        <property name="stateIdType" type="string">
+            <column name="STATE_ID_TYPE" length="100" />
+        </property>
         <property name="governmentBenefitsFlag" type="string">
             <column name="GOVERNMENT_BENEFITS_FLAG" length="300" />
         </property>
@@ -601,6 +604,9 @@
         </property>
         <property name="emailAddress" type="string">
             <column name="EMAIL_ADDRESS" length="80" />
+        </property>
+        <property name="applicationSubmissionDate" type="string">
+            <column name="APPLICATION_SUBMISSION_DATE" length="20" />
         </property>
     </class>
 </hibernate-mapping>

@@ -204,9 +204,19 @@ function whichKey(e) {
             </div>
             <div class="loginDisplay">
                 	<% if (user.getUsername()!=null) { %>
-                        Welcome <b><%=user.getUsername() %>@<%=user.getFarmBase() %> </b>&nbsp;&nbsp;[ <a href="<%=request.getContextPath()%>/Login.do?action=logout" >Log Out</a> ]
-                        	<a href="<%=request.getContextPath()%>/Login.do?action=PasswordReset" ><img src="<%=request.getContextPath() %>/images/local/icon_changePassword.png" style="width:20px;height:auto;" border="0" alt="Change Password" title="Change Password"></img></a>
-                    
+                     <table width="680" cellpadding="0" cellspacing="0" border="0">
+                	<tr>
+                		<td align="right" valign="center">
+	                	    <bean:write name="loginForm" property="systemUser.username" />@<bean:write name="loginForm" property="systemUser.farmBase" /> </b>
+                	    </td>
+                        <td valign="center" width="25">
+	                    	<a href="<%=request.getContextPath()%>/Login.do?action=logout" ><img src="<%=request.getContextPath() %>/images/local/logout.png" style="width:15px;height:auto;" border="0" alt="Logout" title="Logout"></img></a>
+	                    </td>
+	                    <td valign="center" width="25"> 	
+                   			<a href="<%=request.getContextPath()%>/Login.do?action=PasswordReset" ><img src="<%=request.getContextPath() %>/images/local/icon_changePassword.png" style="width:20px;height:auto;" border="0" alt="Change Password" title="Change Password"></img></a>
+	                    </td>
+                    </tr>
+                    </table>
                     <% } else { %>
                         [ <a href="<%=request.getContextPath()%>/login" >Log In</a> ]
                     <% } %>
@@ -258,7 +268,7 @@ function whichKey(e) {
 		     <tr>
 		      <td width="33"></td>
 		     <td>
-		     <a href="javascript:window.open('<%=request.getContextPath()%>/pdfapp.do');" style="color:#19fd01"><b>Print Application</b></a>&nbsp;&nbsp;&nbsp;
+		     <a href="javascript:window.open('<%=request.getContextPath()%>/pdfapp.do?action=application');" style="color:#19fd01"><b>Print Application</b></a>&nbsp;&nbsp;&nbsp;
 		     <a href="<%=request.getContextPath()%>/pages/student/card.jsp" style="color:#19fd01"><b>Print Card</b></a>
 		     <!-- <a href="<%=request.getContextPath()%>/pages/student/info.jsp" style="color:#19fd01""><b>Print Student Information</b></a> -->
 		     
@@ -268,8 +278,7 @@ function whichKey(e) {
 		     			<% if ("Boynton Beach".equals(user.getFarmBase())) { %>
 		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Admit" style="color:#19fd01"><b>Admit To Program</b></a>
 		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Unaccept" style="color:#19fd01"><b>Unaccept</b></a>
-		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Withdraw" style="color:#19fd01"><b>Withdraw</b></a>
-		     			<% } %>
+		        		<% } %>
 		     	</logic:equal>
 		     </logic:equal>
 		     
@@ -278,6 +287,8 @@ function whichKey(e) {
 		     			<% if ("Boynton Beach".equals(user.getFarmBase())) { %>
 		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Accept" style="color:#19fd01"><b>Accept Application</b></a>
 		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Deny" style="color:#19fd01"><b>Deny Application</b></a>
+		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Waitlist" style="color:#19fd01"><b>Waitlist</b></a>
+ 							&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Withdraw" style="color:#19fd01"><b>Withdraw</b></a>
 		        			&nbsp;&nbsp;&nbsp;<font style="color:#FFFFFF">Transfer&nbsp;[&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Transfer&tfarm=OKE" style="color:#19fd01"><b>OKE</b></a>
 		        									<a href="<%=request.getContextPath()%>/Intake.do?action=Transfer&tfarm=FTL" style="color:#19fd01"><b>FTL</b></a>
 		        									<a href="<%=request.getContextPath()%>/Intake.do?action=Transfer&tfarm=EHW" style="color:#19fd01"><b>EHW</b></a>
@@ -293,7 +304,24 @@ function whichKey(e) {
 		     			<% } %>
 		     	</logic:equal>
 		     </logic:equal>
-		     
+
+		     <logic:equal name="intakeForm" property="intake.applicationStatus" value="Withdrawn">
+		     	<logic:equal name="intakeForm" property="intake.farmBase" value="Boynton Beach">
+		     			<% if ("Boynton Beach".equals(user.getFarmBase())) { %>
+		    				&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Reinstate" style="color:#19fd01"><b>Reinstate Application</b></a>
+		     			<% } %>
+		     	</logic:equal>
+		     </logic:equal>
+
+		     <logic:equal name="intakeForm" property="intake.applicationStatus" value="Waitlist">
+		     	<logic:equal name="intakeForm" property="intake.farmBase" value="Boynton Beach">
+		     			<% if ("Boynton Beach".equals(user.getFarmBase())) { %>
+		    				&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Accept" style="color:#19fd01"><b>Accept Application</b></a>
+ 							&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Withdraw" style="color:#19fd01"><b>Withdraw</b></a>
+		     			<% } %>
+		     	</logic:equal>
+		     </logic:equal>
+   			  
 		     
 		      <!-- Permission for Fort Lauderdale -->
 		     <logic:equal name="intakeForm" property="intake.applicationStatus" value="Accepted">
@@ -301,7 +329,6 @@ function whichKey(e) {
 		     			<% if ("Fort Lauderdale".equals(user.getFarmBase())) { %>
 		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Admit" style="color:#19fd01"><b>Admit To Program</b></a>
 		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Unaccept" style="color:#19fd01"><b>Unaccept</b></a>
-		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Withdraw" style="color:#19fd01"><b>Withdraw</b></a>
 		        		<% } %>
 		     	</logic:equal>
 		     </logic:equal>
@@ -311,6 +338,8 @@ function whichKey(e) {
 		     			<% if ("Fort Lauderdale".equals(user.getFarmBase())) { %>
 		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Accept" style="color:#19fd01"><b>Accept Application</b></a>
 		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Deny" style="color:#19fd01"><b>Deny Application</b></a>
+		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Waitlist" style="color:#19fd01"><b>Waitlist</b></a>
+		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Withdraw" style="color:#19fd01"><b>Withdraw</b></a>
 		        			&nbsp;&nbsp;&nbsp;<font style="color:#FFFFFF">Transfer&nbsp;[&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Transfer&tfarm=OKE" style="color:#19fd01"><b>OKE</b></a>
 		        									<a href="<%=request.getContextPath()%>/Intake.do?action=Transfer&tfarm=BYN" style="color:#19fd01"><b>BYN</b></a>
 		        									<a href="<%=request.getContextPath()%>/Intake.do?action=Transfer&tfarm=FTL" style="color:#19fd01"><b>EHW</b></a>
@@ -326,15 +355,30 @@ function whichKey(e) {
 		     			<% } %>
 		     	</logic:equal>
 		     </logic:equal>
+
+		     <logic:equal name="intakeForm" property="intake.applicationStatus" value="Withdrawn">
+		     	<logic:equal name="intakeForm" property="intake.farmBase" value="Fort Lauderdale">
+		     			<% if ("Fort Lauderdale".equals(user.getFarmBase())) { %>
+		    				&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Reinstate" style="color:#19fd01"><b>Reinstate Application</b></a>
+		     			<% } %>
+		     	</logic:equal>
+		     </logic:equal>
 		     
-		     
+		    <logic:equal name="intakeForm" property="intake.applicationStatus" value="Waitlist">
+		     	<logic:equal name="intakeForm" property="intake.farmBase" value="Fort Lauderdale">
+		     			<% if ("Fort Lauderdale".equals(user.getFarmBase())) { %>
+		    				&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Accept" style="color:#19fd01"><b>Accept Application</b></a>
+		     				&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Withdraw" style="color:#19fd01"><b>Withdraw</b></a>
+		     			<% } %>
+		     	</logic:equal>
+		     </logic:equal>
+   			 
 		     <!-- Permission for Okeechobee -->
 		     <logic:equal name="intakeForm" property="intake.applicationStatus" value="Accepted">
 		     	<logic:equal name="intakeForm" property="intake.farmBase" value="Okeechobee">
 		     			<% if ("Okeechobee".equals(user.getFarmBase())) { %>
 		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Admit" style="color:#19fd01"><b>Admit To Program</b></a>
 		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Unaccept" style="color:#19fd01"><b>Unaccept</b></a>
-		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Withdraw" style="color:#19fd01"><b>Withdraw</b></a>
 		        		<% } %>
 		     	</logic:equal>
 		     </logic:equal>
@@ -344,6 +388,8 @@ function whichKey(e) {
 		     			<% if ("Okeechobee".equals(user.getFarmBase())) { %>
 		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Accept" style="color:#19fd01"><b>Accept Application</b></a>
 		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Deny" style="color:#19fd01"><b>Deny Application</b></a>
+		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Waitlist" style="color:#19fd01"><b>Waitlist</b></a>
+		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Withdraw" style="color:#19fd01"><b>Withdraw</b></a>
 		        			&nbsp;&nbsp;&nbsp;<font style="color:#FFFFFF">Transfer&nbsp;[&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Transfer&tfarm=FTL" style="color:#19fd01"><b>FTL</b></a>
 		        									<a href="<%=request.getContextPath()%>/Intake.do?action=Transfer&tfarm=BYN" style="color:#19fd01"><b>BYN</b>
 		        									<a href="<%=request.getContextPath()%>/Intake.do?action=Transfer&tfarm=FTL" style="color:#19fd01"><b>EHW</b></a></a>
@@ -359,14 +405,31 @@ function whichKey(e) {
 		     			<% } %>
 		     	</logic:equal>
 		     </logic:equal>
+
+		     <logic:equal name="intakeForm" property="intake.applicationStatus" value="Withdrawn">
+		     	<logic:equal name="intakeForm" property="intake.farmBase" value="Okeechobee">
+		     			<% if ("Okeechobee".equals(user.getFarmBase())) { %>
+		    				&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Reinstate" style="color:#19fd01"><b>Reinstate Application</b></a>
+		     			<% } %>
+		     	</logic:equal>
+		     </logic:equal>
+		     		     
+		     <logic:equal name="intakeForm" property="intake.applicationStatus" value="Waitlist">
+		     	<logic:equal name="intakeForm" property="intake.farmBase" value="Okeechobee">
+		     			<% if ("Okeechobee".equals(user.getFarmBase())) { %>
+		    				&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Accept" style="color:#19fd01"><b>Accept Application</b></a>
+		     				&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Withdraw" style="color:#19fd01"><b>Withdraw</b></a>
+		     			<% } %>
+		     	</logic:equal>
+		     </logic:equal>
 		     
+   			  
 		     <!-- Permission for Women's Home -->
 		     <logic:equal name="intakeForm" property="intake.applicationStatus" value="Accepted">
 		     	<logic:equal name="intakeForm" property="intake.farmBase" value="Women's Home">
 		     			<% if ("Women's Home".equals(user.getFarmBase())) { %>
 		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Admit" style="color:#19fd01"><b>Admit To Program</b></a>
 		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Unaccept" style="color:#19fd01"><b>Unaccept</b></a>
-		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Withdraw" style="color:#19fd01"><b>Withdraw</b></a>
 		        		<% } %>
 		     	</logic:equal>
 		     </logic:equal>
@@ -376,7 +439,9 @@ function whichKey(e) {
 		     			<% if ("Women's Home".equals(user.getFarmBase())) { %>
 		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Accept" style="color:#19fd01"><b>Accept Application</b></a>
 		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Deny" style="color:#19fd01"><b>Deny Application</b></a>
+		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Waitlist" style="color:#19fd01"><b>Waitlist</b></a>
 		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Transfer" style="color:#19fd01"><b>Transfer Application</b></a>
+		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Withdraw" style="color:#19fd01"><b>Withdraw</b></a>
 		        		<% } %>
 		     	</logic:equal>
 		     </logic:equal>
@@ -388,7 +453,24 @@ function whichKey(e) {
 		     			<% } %>
 		     	</logic:equal>
 		     </logic:equal>
-		     </td>
+
+		     <logic:equal name="intakeForm" property="intake.applicationStatus" value="Withdrawn">
+		     	<logic:equal name="intakeForm" property="intake.farmBase" value="Women's Home">
+		     			<% if ("Women's Home".equals(user.getFarmBase())) { %>
+		    				&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Reinstate" style="color:#19fd01"><b>Reinstate Application</b></a>
+		     			<% } %>
+		     	</logic:equal>
+		     </logic:equal>
+		     		     
+		     <logic:equal name="intakeForm" property="intake.applicationStatus" value="Waitlist">
+		     	<logic:equal name="intakeForm" property="intake.farmBase" value="Women's Home">
+		     			<% if ("Women's Home".equals(user.getFarmBase())) { %>
+		    				&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Accept" style="color:#19fd01"><b>Accept Application</b></a>
+		     				&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Withdraw" style="color:#19fd01"><b>Withdraw</b></a>
+		     			<% } %>
+		     	</logic:equal>
+		     </logic:equal>
+   		   </td>
 		     
     	</tr>
     </table> 

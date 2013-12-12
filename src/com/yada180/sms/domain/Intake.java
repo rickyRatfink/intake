@@ -53,6 +53,7 @@ public class Intake implements java.io.Serializable {
 	private String stateIdFlag;
 	private String stateIdState;
 	private String stateIdExpDate;
+	private String stateIdType;
 	private String governmentBenefitsFlag;
 	private String religion;
 	private String religiousExperience;
@@ -206,6 +207,7 @@ public class Intake implements java.io.Serializable {
 	private String caseNotes;
 	private String responseStatus;
 	private String emailAddress;
+	private String applicationSubmissionDate;
 	
 	public Intake() {
 	}
@@ -225,6 +227,7 @@ public class Intake implements java.io.Serializable {
 			String rank, String lengthOfService, String dlFlag,
 			String dlNumber, String dlState, String dlExpDate,
 			String stateIdFlag, String stateIdState, String stateIdExpDate,
+			String stateIdType,
 			String governmentBenefitsFlag, String religion,
 			String religiousExperience, String alcoholLastUsed,
 			String cocaineLastUsed, String marijuanaLastUsed,
@@ -288,7 +291,7 @@ public class Intake implements java.io.Serializable {
 			String employer3Job, String employer4Job, String employer4Name,
 			String ssFlag, String vaFlag, String wcFlag, String needGed, 
 			String spiritualExperience, String caseNotes, String responseStatus,
-			String emailAddress ) {
+			String emailAddress, String applicationSubmissionDate ) {
 		this.lastname = lastname;
 		this.firstname = firstname;
 		this.mi = mi;
@@ -334,6 +337,7 @@ public class Intake implements java.io.Serializable {
 		this.stateIdFlag = stateIdFlag;
 		this.stateIdState = stateIdState;
 		this.stateIdExpDate = stateIdExpDate;
+		this.stateIdType = stateIdType;
 		this.governmentBenefitsFlag = governmentBenefitsFlag;
 		this.religion = religion;
 		this.religiousExperience = religiousExperience;
@@ -486,6 +490,7 @@ public class Intake implements java.io.Serializable {
 		this.caseNotes = caseNotes;
 		this.responseStatus = responseStatus;
 		this.emailAddress = emailAddress;
+		this.applicationSubmissionDate = applicationSubmissionDate;
 	}
 
 	public Long getIntakeId() {
@@ -2079,6 +2084,22 @@ public class Intake implements java.io.Serializable {
 
 	public void setEmailAddress(String emailAddress) {
 		this.emailAddress = emailAddress;
+	}
+
+	public String getStateIdType() {
+		return stateIdType;
+	}
+
+	public void setStateIdType(String stateIdType) {
+		this.stateIdType = stateIdType;
+	}
+
+	public String getApplicationSubmissionDate() {
+		return applicationSubmissionDate;
+	}
+
+	public void setApplicationSubmissionDate(String applicationSubmissionDate) {
+		this.applicationSubmissionDate = applicationSubmissionDate;
 	}
 	
 

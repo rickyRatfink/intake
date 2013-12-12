@@ -5,7 +5,22 @@
  
 <jsp:include page="../../../includes/header.jsp" flush="true"/>
 
+<script language="javascript">
 
+function checkAll(bx)
+{
+
+ var cbs = document.getElementsByTagName('input');
+ for(var i=0; i < cbs.length; i++)
+ {
+    if(cbs[i].type == 'checkbox')
+    {
+        cbs[i].checked = bx.checked;
+     }
+ }
+}
+
+</script>
 
 <html:form method="POST" action="/CwtRoster">
 
@@ -25,7 +40,7 @@
             	<td>
                 <table width="100%" cellpadding="0" cellspacing="0" border="0">
                 <tr>
-                    <td class="colHeading2" width="100">Enroll</td>
+                    <td class="colHeading2" width="100"><input type="checkbox" name="checkall" onclick="checkAll(this);" style="height:10px;" checked>Enroll</td>
                     <td class="colHeading2" width="150">Student</td>
                     <td class="colHeading2" width="100">Department</td>
                     <td class="colHeading2" width="100">Job</td>
@@ -35,7 +50,7 @@
                
                 <logic:iterate id="loop" name="cwtRoster" property="masterList" indexId="i">
                 <tr>
-                   	<td class="searchRowOdd2" width="50" ><html:checkbox name="cwtRoster" property="enrollFlag[${i}]" value="Yes" /></td>
+                   	<td class="searchRowOdd2" width="50" ><html:checkbox name="cwtRoster" property="enrollFlag[${i}]" value="Yes" styleId="chkbx" /></td>
                     <td class="searchRowOdd2" ><bean:write name="loop" property="intake.firstname"/>&nbsp;<bean:write name="loop" property="intake.lastname"/></td>
                     <td class="searchRowOdd2" ><bean:write name="loop" property="cwtDepartment.title"/></td>
                     <td class="searchRowOdd2" ><bean:write name="loop" property="cwtJob.title"/></td>

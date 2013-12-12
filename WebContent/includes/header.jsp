@@ -156,10 +156,19 @@
             <div class="loginDisplay">
                     
                     <logic:notEmpty name="loginForm" property="systemUser.username">
-                	    Welcome <b>
-                	    <bean:write name="loginForm" property="systemUser.username" />@
-                	    <bean:write name="loginForm" property="systemUser.farmBase" /> </b>&nbsp;&nbsp;[ <a href="<%=request.getContextPath()%>/Login.do?action=logout" >Log Out</a> ]
-                    	<a href="<%=request.getContextPath()%>/Login.do?action=PasswordReset" ><img src="<%=request.getContextPath() %>/images/local/icon_changePassword.png" style="width:20px;height:auto;" border="0" alt="Change Password" title="Change Password"></img></a>
+                    <table width="680" cellpadding="0" cellspacing="0" border="0">
+                	<tr>
+                		<td align="right" valign="center">
+	                	    <bean:write name="loginForm" property="systemUser.username" />@<bean:write name="loginForm" property="systemUser.farmBase" /> </b>
+                	    </td>
+                        <td valign="center" width="25">
+	                    	<a href="<%=request.getContextPath()%>/Login.do?action=logout" ><img src="<%=request.getContextPath() %>/images/local/logout.png" style="width:15px;height:auto;" border="0" alt="Logout" title="Logout"></img></a>
+	                    </td>
+	                    <td valign="center" width="25"> 	
+                   			<a href="<%=request.getContextPath()%>/Login.do?action=PasswordReset" ><img src="<%=request.getContextPath() %>/images/local/icon_changePassword.png" style="width:20px;height:auto;" border="0" alt="Change Password" title="Change Password"></img></a>
+	                    </td>
+                    </tr>
+                    </table>
                     </logic:notEmpty>
                     
             </div>

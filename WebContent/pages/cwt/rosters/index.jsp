@@ -5,6 +5,22 @@
  
 <jsp:include page="../../../includes/header.jsp" flush="true"/>
 
+<script language="javascript">
+
+function checkAll(bx)
+{
+
+ var cbs = document.getElementsByTagName('input');
+ for(var i=0; i < cbs.length; i++)
+ {
+    if(cbs[i].type == 'checkbox')
+    {
+        cbs[i].checked = bx.checked;
+     }
+ }
+}
+
+</script>
 
 
 <html:form method="POST" action="/CwtRoster">
@@ -27,7 +43,7 @@
                     <td class="colHeading2" width="100">Department</td>
                     <td class="colHeading2" width="100">Job</td>
                     <td class="colHeading2" width="100">Supervisor</td>
-                    <td class="colHeading2" width="100">Attended</td>
+                    <td class="colHeading2" width="100"><input type="checkbox" name="checkall" onclick="checkAll(this);" style="height:10px;" >Attended</td>
                     <td class="colHeading2" width="100">Exam Score</td>
                     <td class="colHeading2" width="100">Status</td>
                 </tr>

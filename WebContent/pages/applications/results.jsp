@@ -48,7 +48,7 @@
 	                    	 <a href="<%=request.getContextPath()%>/Intake.do?action=Edit&key=<bean:write name="loop" property="intakeId"/>" style="text-decoration:none">
 	                    	 <img src="<%=request.getContextPath()%>/images/local/Edit.gif" width="16" height="14" border="0"/>&nbsp;</a>	                   		 
 	      </td>
-	       <td class="searchRow<%=rowClass%>2"><bean:write name="loop" property="creationDate"/></td>
+	       <td class="searchRow<%=rowClass%>2"><bean:write name="loop" property="applicationSubmissionDate"/></td>
 	       <td class="searchRow<%=rowClass%>2"><bean:write name="loop" property="firstname"/>&nbsp;<bean:write name="loop" property="mi"/>&nbsp;<bean:write name="loop" property="lastname"/></td>
 	       <td class="searchRow<%=rowClass%>2"><bean:write name="loop" property="ssn"/></td>
 	       <td class="searchRow<%=rowClass%>2"><bean:write name="loop" property="dob"/></td>

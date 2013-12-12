@@ -269,6 +269,14 @@ public class IntakeAction extends Action {
 							.setMessage("More than 200 results were returned. Please narrow your search.");
 
 				return mapping.findForward(Constants.APPLICATIONS);
+			} else if ("Waitlist".equals(action)) {
+				intakeForm.getIntake().setApplicationStatus("Waitlist");
+				intakeForm.getIntake().setIntakeStatus("Waitlist");
+				intakeForm.getIntake().setLastUpdatedDate(
+						validator.getEpoch() + "");
+				intakeForm.getIntake().setLastUpdatedBy(user.getUsername());
+				intakeDao.updateIntake(intakeForm.getIntake());
+				return mapping.findForward(Constants.PERSONAL);
 			} else if ("Withdraw".equals(action)) {
 				intakeForm.getIntake().setApplicationStatus("Withdrawn");
 				intakeForm.getIntake().setIntakeStatus("Withdrawn");

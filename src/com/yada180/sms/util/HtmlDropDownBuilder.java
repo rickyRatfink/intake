@@ -155,6 +155,19 @@ public class HtmlDropDownBuilder {
 		   rosterStatus.add(new DropDownItem("Failed","Failed"));
 		   session.setAttribute("ddl_rosterStatus", rosterStatus);
 
+		   List<DropDownItem> stateIdType = new ArrayList<DropDownItem>();
+		   stateIdType.add(new DropDownItem("State Government Issued Certificate of Birth","State Government Issued Certificate of Birth"));
+		   stateIdType.add(new DropDownItem("US Active Duty/Retiree/Reservist Military ID Card (000 10-2)","US Active Duty/Retiree/Reservist Military ID Card (000 10-2)"));
+		   stateIdType.add(new DropDownItem("Passport from any country","Passport from any country"));
+		   stateIdType.add(new DropDownItem("Social Security Card","Social Security Card"));
+		   stateIdType.add(new DropDownItem("Certificate of Citizenship (N560)","Certificate of Citizenship (N560)"));
+		   stateIdType.add(new DropDownItem("Certificate of Naturalization (N550)","Certificate of Naturalization (N550)"));
+		   stateIdType.add(new DropDownItem("Certificate of Naturalization (N550)","Certificate of Naturalization (N550)"));
+		   stateIdType.add(new DropDownItem("INS I-551 Resident Alien Card Issued since 1997","INS I-551 Resident Alien Card Issued since 1997"));
+		   stateIdType.add(new DropDownItem("INS 1-688 Temporary Resident Identification Card","INS 1-688 Temporary Resident Identification Card"));
+		   stateIdType.add(new DropDownItem("INS I-688B, I-766 Employment Authorization Card","INS I-688B, I-766 Employment Authorization Card"));
+		   session.setAttribute("ddl_stateIdType", stateIdType);
+		   
 		   List<DropDownItem> spiritual = new ArrayList<DropDownItem>();
 		   spiritual.add(new DropDownItem("I've Never Known God","I've Never Known God"));
 		   spiritual.add(new DropDownItem("I'm Open to Knowing God","I'm Open to Knowing God"));
@@ -213,10 +226,12 @@ public class HtmlDropDownBuilder {
 	        applicationStatus.add(new DropDownItem("Accepted","Accepted"));
 	        applicationStatus.add(new DropDownItem("Denied","Denied"));
 	        applicationStatus.add(new DropDownItem("Withdrawn","Withdrawn"));
+	        applicationStatus.add(new DropDownItem("Waitlist","Waitlist"));
 	        session.setAttribute("ddl_applicationStatus", applicationStatus);
 
 	        List<DropDownItem> reponseStatus = new ArrayList<DropDownItem>();
 	        reponseStatus.add(new DropDownItem("Phone interview scheduled","Phone interview scheduled"));
+	        reponseStatus.add(new DropDownItem("Phone interview completed","Phone interview completed"));
 	        reponseStatus.add(new DropDownItem("Called, Awaiting Response","Called, Awaiting Response"));
 	        reponseStatus.add(new DropDownItem("Left Message","Left Message"));
 	        reponseStatus.add(new DropDownItem("No Answer","No Answer"));

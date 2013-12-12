@@ -79,6 +79,7 @@ public class OnlineAppAction extends Action {
 		html.getOnlineApplicationQuestions(onlineAppForm);
 
 		if ("Next".equals(action)) {
+			System.out.println ("---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" click Next on "+onlineAppForm.getPageSource()+" @ "+(new java.util.Date()));
 			boolean valid=false;
 			
 			valid = intakeValidator.validate(onlineAppForm);
@@ -100,7 +101,8 @@ public class OnlineAppAction extends Action {
 				return mapping.findForward(Constants.PROCESS);
 
 		} else if ("Back".equals(action)) {
-
+			System.out.println ("---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" click Next on "+onlineAppForm.getPageSource()+" @ "+(new java.util.Date()));
+			
 			if ("personal".equals(onlineAppForm.getPrevStep()))
 				return mapping.findForward(Constants.PERSONAL);
 			else if ("religious".equals(onlineAppForm.getPrevStep()))
@@ -115,7 +117,20 @@ public class OnlineAppAction extends Action {
 				return mapping.findForward(Constants.EMPLOYMENT);
 
 		} else if ("Submit".equals(action)) {
+			System.out.println ("---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" click Next on "+onlineAppForm.getPageSource()+" @ "+(new java.util.Date()));
+			
+			
+			/*
+			 * Prevent NULL applications being submitted after user goes away from computer
+			 * returns and presses submit
+			 */
+			if (onlineAppForm.getIntake().getFirstname()==null)
+				return mapping.findForward(Constants.PERSONAL);
+				
 			onlineAppForm.setMessageType("");
+			String submitDate = Validator.convertEpoch(Validator.getEpoch());
+			onlineAppForm.getIntake().setApplicationSubmissionDate(submitDate);
+			
 			// boolean valid = inakeValidator.validate(intakeForm);
 			if (true) {
 				onlineAppForm.getIntake().setCreationDate(
@@ -128,6 +143,7 @@ public class OnlineAppAction extends Action {
 				
 				Long id = intakeDao.addIntake(onlineAppForm.getIntake());
 				onlineAppForm.getIntake().setIntakeId(id);
+				System.out.println ("---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" saved application with id "+id+" @ "+(new java.util.Date()));
 				
 				if (id!=null) {
 					saveMedicalConditions(onlineAppForm);
@@ -151,21 +167,9 @@ public class OnlineAppAction extends Action {
 				         // Create a default MimeMessage object.
 				         MimeMessage message = new MimeMessage(mailSession);
 
-				         // Set From: header field of the header.
-				         //message.setFrom(new InternetAddress("donnotreply@faithfarm.org"));
-
-				         // Set To: header field of the header.
-				         
-				         //temp for testing purposes
 				         message.addRecipient(Message.RecipientType.TO,
 			                     new InternetAddress("itdepartment@faithfarm.org"));
-				         /*
-				         message.addRecipient(Message.RecipientType.TO,
-			                     new InternetAddress("ricky.raymond.ratliff@gmail.com"));
 				         
-				         message.addRecipient(Message.RecipientType.TO,
-			                     new InternetAddress("rrratliff@yahoo.com"));
-				        */
 				         if ("Boynton Beach".equals(onlineAppForm.getIntake().getFarmBase())) {
 				        	 message.addRecipient(Message.RecipientType.TO,
 				                     new InternetAddress("intake.boyntonbeach@faithfarm.org"));
@@ -196,7 +200,7 @@ public class OnlineAppAction extends Action {
 					        message.addRecipient(Message.RecipientType.TO,
 				                     new InternetAddress("VAndres@faithfarm.org"));
 				         }
-				         	        
+				             
 				         // Set Subject: header field
 				         message.setSubject("Intake Application Received for "+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" at "+onlineAppForm.getIntake().getFarmBase());
 
@@ -205,13 +209,15 @@ public class OnlineAppAction extends Action {
 
 				         // Send message
 				         Transport.send(message);
+				         System.out.println ("----> email sent for "+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" @ "+(new java.util.Date()));
+							
 				       }catch (MessagingException mex) {
 				         mex.printStackTrace();
 				         LOGGER.log(Level.SEVERE,"Error occurred sending email for application: "+mex.getMessage());
 				      }
-
+					onlineAppForm.setIntake(new Intake());
 					session.invalidate(); 
-					return mapping.findForward(Constants.SUCCESS);
+					return mapping.findForward(Constants.WEBSITE);
 				}
 				else {
 					LOGGER.log(Level.INFO,"Error occurred saving online application:  Data displayed below");

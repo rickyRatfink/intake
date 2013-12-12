@@ -7,7 +7,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
+<meta http-equiv="refresh" content="1800;url=http://faithfarm.org" />
 <link href="<%=request.getContextPath() %>/styles/style.css" rel="stylesheet" type="text/css" />
 <link href="<%=request.getContextPath() %>/styles/tcal.css" rel="stylesheet" type="text/css" />
 <link href="<%=request.getContextPath() %>/styles/intake.css" rel="stylesheet" type="text/css" />
@@ -61,7 +61,6 @@ td {
 						<a target="_blank" href="https://twitter.com/faithfarm" title="Twitter"><img src="http://www.faithfarm.org/wp-content/themes/rttheme17/images/assets/social_media/icon-twitter.png" width="24" height="24" alt="" border="0" /></a>
 						<a target="_blank" href="http://www.flickr.com/photos/faithfarmministries" title="Flickr"><img src="http://www.faithfarm.org/wp-content/themes/rttheme17/images/assets/social_media/icon-flickr.png" width="24" height="24" alt="" border="0" /></a>
 						<a target="_blank" href="https://www.facebook.com/FaithFarmMinistries" title="Facebook"><img src="http://www.faithfarm.org/wp-content/themes/rttheme17/images/assets/social_media/icon-facebook.png" width="24" height="24" alt="" border="0" /></a>
-						<a target="_blank" href="https://plus.google.com/102168673948935210475/about" title="Google&nbsp;Plus"><img src="http://www.faithfarm.org/wp-content/themes/rttheme17/images/assets/social_media/icon-googleplus.png" width="24" height="24" alt="" border="0" /></a>
 						<a target="_blank" href="http://www.linkedin.com/groups/Faith-Farm-Ministries-138010" title="Linkedin"><img src="http://www.faithfarm.org/wp-content/themes/rttheme17/images/assets/social_media/icon-linkedin.png" width="24" height="24" alt="" border="0" /></a>
 						<a target="_blank" href="http://www.youtube.com/user/FaithFarmMinistries?feature=watch" title="YouTube"><img src="http://www.faithfarm.org/wp-content/themes/rttheme17/images/assets/social_media/icon-youtube.png" width="24" height="24" alt="" border="0" /></a>
 						<a target="_blank" href="http://www.pinterest.com/faithfarmminist" title="Pinterest"><img src="http://www.faithfarm.org/wp-content/themes/rttheme17/images/assets/social_media/icon-pinterest.png" width="24" height="24" alt="" border="0" /></a>

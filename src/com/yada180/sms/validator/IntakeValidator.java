@@ -81,6 +81,25 @@ public class IntakeValidator {
 			 messages.add(new ErrorMessage("date of birth","is needs to be in MM/DD/YYYY format"));
 			
 		}
+		
+		if ("Yes".equals(intake.getDlFlag())) {
+			if (intake.getDlState()!=null&&intake.getDlState().length()==0) 		
+				 messages.add(new ErrorMessage("drivers license state","is required"));
+			if (intake.getDlNumber()!=null&&intake.getDlNumber().length()==0) 		
+				 messages.add(new ErrorMessage("drivers license number","is required"));
+		}
+		
+		if ("No".equals(intake.getDlFlag())) {
+			if (intake.getStateIdFlag()!=null&&intake.getStateIdFlag().length()==0) 		
+				 messages.add(new ErrorMessage("government id"," or a valid drivers license is required"));
+		}
+		
+		if ("Yes".equals(intake.getStateIdFlag())) {
+			if (intake.getStateIdType()!=null&&intake.getStateIdType().length()==0) 		
+				 messages.add(new ErrorMessage("type of government id","is required"));
+		}
+		
+		
 
 		/*
 		if (intake.getAddress()==null||intake.getAddress().length()==0)

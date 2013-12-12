@@ -80,9 +80,8 @@ function isNumberKey(evt)
                 	</td>
                 </tr>
                 <tr>	
-                	<td colspan="8></br>
-                		You may need to refresh your browser to see the lastest photo.
-                        <a href="<%=request.getContextPath()%>/Intake.do?action=Photo">Edit Photo</a>
+                	<td colspan="2">
+                	    <a href="<%=request.getContextPath() %>/Intake.do?action=Photo">Edit Photo</a>
                         </br></br>
                     </td>
                 </tr>
@@ -372,7 +371,24 @@ function isNumberKey(evt)
        
     </tr>
     
-    </table>
+     <tr>
+     <td colspan="8">
+     	<table width="100%">
+        <tr>
+        <td width="260">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>If no driver's license, do you ave a valid government id?</i>&nbsp;&nbsp;
+        		   		<html:select property="intake.stateIdFlag" styleClass="select" >
+							<html:option value="">Select</html:option>
+							<html:optionsCollection name="ddl_yesNo" value="value" label="label" />
+						</html:select>
+        	&nbsp;&nbsp;&nbsp;
+        	<i>Id Type</i>
+			   		   <html:select property="intake.stateIdType" styleClass="select" >
+							<html:option value="">Select</html:option>
+							<html:optionsCollection name="ddl_stateIdType" value="value" label="label" />
+						</html:select>
+        </td>
+	    </tr>
+	    </table>
     </td></tr>
     
    

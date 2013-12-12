@@ -51,7 +51,8 @@
                  <forward name="employment" path="/pages/onlineapp/employment.jsp" redirect="true"/>
                  <forward name="process" path="/pages/onlineapp/process.jsp" redirect="true"/>
                  <forward name="failure" path="/pages/onlineapp/index.jsp" redirect="true"/>
-                 <forward name="error" path="/pages/onlineapp/error.jsp" redirect="true"/>               
+                 <forward name="error" path="/pages/onlineapp/error.jsp" redirect="true"/>  
+                 <forward name="website" path="http://faithfarm.org" redirect="true"/>               
          </action>
 
          <action name="reportForm" path="/Report" type="com.yada180.sms.struts.action.ReportAction" scope="session" input="/pages/reports/index.jsp" >

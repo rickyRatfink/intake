@@ -12,11 +12,14 @@
     </h2>
     
     <p>
-    	<img src="<%=request.getContextPath()%>/images/local/message.png"/><b>System notice:</b>&nbsp;&nbsp;
+    	<img src="<%=request.getContextPath()%>/images/local/message.png"/><b>System notices:</b>&nbsp;&nbsp;
     	<ul>
     		<li>The intake application can now be printed by clicking the 'print application' option in the top menu.</li>
     		<li>Withdraw status added for applications.</li>
     		<li>An email notification is sent to receiving farms of application transfers.</li>
+    		<li>You may now change your password by clicking <img src="<%=request.getContextPath()%>/images/local/icon_changePassword.png" style="width:15px;height:auto;"/> in the header.</li>
+    		<li>Waitlist status added to applications.</li>
+    		<li>A waiting list report is now available under 'Reports for Printing'.</li>
     	</ul>
     </p>
     
