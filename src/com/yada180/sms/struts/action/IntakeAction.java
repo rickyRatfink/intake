@@ -366,24 +366,26 @@ public class IntakeAction extends Action {
 				this.setPhysicalEffects(intakeForm);
 				this.setUsagePatterns(intakeForm);
 
-				if (intake.getUsageLosses().contains("Job"))
-					intakeForm.setUsageLosses1("Job");
-				if (intake.getUsageLosses().contains("Marriage"))
-					intakeForm.setUsageLosses2("Marriage");
-				if (intake.getUsageLosses().contains("Friends"))
-					intakeForm.setUsageLosses3("Friends");
-				if (intake.getUsageLosses().contains("Possessions"))
-					intakeForm.setUsageLosses4("Possessions");
-				if (intake.getUsageLosses().contains("Arrests"))
-					intakeForm.setUsageLosses5("Arrests");
-				if (intake.getUsageLosses().contains("DUIs"))
-					intakeForm.setUsageLosses6("DUIs");
-				if (intake.getUsageLosses().contains("Heavy Debt"))
-					intakeForm.setUsageLosses7("Heavy Debt");
-				if (intake.getUsageLosses().contains("Health"))
-					intakeForm.setUsageLosses8("Health");
-				if (intake.getUsageLosses().contains("Incarceration"))
-					intakeForm.setUsageLosses9("Incarceration");
+				if (intake.getUsageLosses()!=null) {
+					if (intake.getUsageLosses().contains("Job"))
+						intakeForm.setUsageLosses1("Job");
+					if (intake.getUsageLosses().contains("Marriage"))
+						intakeForm.setUsageLosses2("Marriage");
+					if (intake.getUsageLosses().contains("Friends"))
+						intakeForm.setUsageLosses3("Friends");
+					if (intake.getUsageLosses().contains("Possessions"))
+						intakeForm.setUsageLosses4("Possessions");
+					if (intake.getUsageLosses().contains("Arrests"))
+						intakeForm.setUsageLosses5("Arrests");
+					if (intake.getUsageLosses().contains("DUIs"))
+						intakeForm.setUsageLosses6("DUIs");
+					if (intake.getUsageLosses().contains("Heavy Debt"))
+						intakeForm.setUsageLosses7("Heavy Debt");
+					if (intake.getUsageLosses().contains("Health"))
+						intakeForm.setUsageLosses8("Health");
+					if (intake.getUsageLosses().contains("Incarceration"))
+						intakeForm.setUsageLosses9("Incarceration");
+				}
 				/*
 				 * Find the most recent status and set it for the current
 				 */
