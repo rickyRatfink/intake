@@ -24,7 +24,7 @@ import com.yada180.sms.application.Constants;
 import com.yada180.sms.domain.ErrorMessage;
 import com.yada180.sms.domain.SystemUser;
 import com.yada180.sms.domain.UserAuthorizedSession;
-import com.yada180.sms.hibernate.dao.SystemUserDao;
+import com.yada180.sms.hibernate.data.SystemUserDao;
 import com.yada180.sms.hibernate.dao.UserAuthorizedSessionDao;
 import com.yada180.sms.struts.form.LoginForm;
 import com.yada180.sms.util.HtmlDropDownBuilder;
@@ -37,7 +37,7 @@ public class LoginAction extends Action {
 	private final static HtmlDropDownBuilder html = new HtmlDropDownBuilder();
 	
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {		
-		LOGGER.setLevel(Level.INFO);
+		LOGGER.setLevel(Level.SEVERE);
 
 		 HttpSession session = request.getSession(true);
 		 
@@ -60,30 +60,7 @@ public class LoginAction extends Action {
 		 
 		 LOGGER.log(Level.INFO, "In login action..."+loginForm.getSystemUser().getUsername());
 		 SystemUser user=null;
-		 if ("autologin".equals(action)) {
-			 String sessionKey = request.getParameter("sessionKey");
-			 UserAuthorizedSession userSession = sessionDao.findById(sessionKey);
-			 if (userSession==null)
-				 return mapping.findForward(Constants.GLOBAL_LOGIN);
-			 
-			 String sessionTime = userSession.getLoginTime();
-			 //check if sessionTime is less than X seconds, if so, change to inactive redirect back to login
-			 
-			 //login and store user in session
-			 user = userDao.findById(userSession.getUserId());
-			 if ("Intake".equals(user.getGroup_())) {
-				 loginForm.setSystemUser(user);
-				 userSession.setActive("No");
-				 sessionDao.updateUserAuthorizedSession(userSession);
-				 session.setAttribute("system_user", user);
-				 return mapping.findForward(Constants.SUCCESS);
-			 } else  {
-				 userSession.setActive("No");
-				 sessionDao.updateUserAuthorizedSession(userSession);
-				 return mapping.findForward(Constants.GLOBAL_LOGIN);
-			}
-		 }
-		 else if ("Login".equals(action)) {
+		 if ("Login".equals(action)) {
 			 boolean valid = this.validate(loginForm);
 			 if (!valid)
 				 return mapping.findForward(Constants.LOGIN);
@@ -120,25 +97,25 @@ public class LoginAction extends Action {
 			 if (success) {
 				 SystemUser user1 = (SystemUser)session.getAttribute("system_user");
 				 user1.setPassword(loginForm.getPassword1());
-				 userDao.updateSystemUser(user1);
+				 userDao.update(user1);
 				 return mapping.findForward(Constants.LOGIN);
 			 }
 			 else
 				 return mapping.findForward(Constants.PASSWORD_RESET);
 		 }
 		 else if ("ManageUsers".equals(action)) {
-			 loginForm.setUserList(userDao.listSystemUsers());
+			 loginForm.setUserList(userDao.list());
 		 	 return mapping.findForward(Constants.MANAGE_USERS);
 		 } else if ("Create".equals(action)) 
 			 	return mapping.findForward(Constants.CREATE_USER);
 		 else if ("Edit".equals(action)) { 
 			 	String key = request.getParameter("id");
-			 	loginForm.setUser(userDao.findById(new Long(key+"")));
+			 	loginForm.setUser(userDao.find(new Long(key+"")));
 			 	return mapping.findForward(Constants.CREATE_USER);
 		 }
 		 else if ("Delete".equals(action)) {
-			 	userDao.deleteSystemUser(loginForm.getUser().getUserId());
-			 	loginForm.setUserList(userDao.listSystemUsers());
+			 	userDao.delete(loginForm.getUser().getUserId());
+			 	loginForm.setUserList(userDao.list());
 			 	return mapping.findForward(Constants.MANAGE_USERS);
 		 }
 		 else if ("Save".equals(action)) { 
@@ -146,14 +123,14 @@ public class LoginAction extends Action {
 			 if (loginForm.getUser().getUserId()==null) {
 				loginForm.getUser().setCreatedBy(loggedInUser.getUsername());
 				loginForm.getUser().setCreationDate(Validator.getEpoch()+"");
-			 	userDao.addSystemUser(loginForm.getUser());
+			 	userDao.save(loginForm.getUser());
 			 }
 			 else {				
 				loginForm.getUser().setLastUpdatedBy(loggedInUser.getUsername());
 				loginForm.getUser().setLastUpdatedDate(Validator.getEpoch()+"");
-				userDao.updateSystemUser(loginForm.getUser());
+				userDao.update(loginForm.getUser());
 			 }
-			 	loginForm.setUserList(userDao.listSystemUsers());
+			 	loginForm.setUserList(userDao.list());
 			 	return mapping.findForward(Constants.MANAGE_USERS);
 		 }
 		 return mapping.findForward(Constants.LOGIN);
@@ -242,6 +219,7 @@ public class LoginAction extends Action {
 		count=0;
 		if (pwd1.contains("!")) count++;
 		if (pwd1.contains("#")) count++;
+		if (pwd1.contains("@")) count++;
 		if (pwd1.contains("$")) count++;
 		if (pwd1.contains("%")) count++;
 		if (pwd1.contains("^")) count++;

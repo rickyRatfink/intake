@@ -48,10 +48,10 @@ import com.yada180.sms.domain.StudentDisciplineHistory;
 import com.yada180.sms.domain.StudentHistory;
 import com.yada180.sms.domain.StudentPassHistory;
 import com.yada180.sms.domain.SystemUser;
-import com.yada180.sms.hibernate.dao.IntakeDao;
-import com.yada180.sms.hibernate.dao.IntakeJobSkillDao;
+import com.yada180.sms.hibernate.data.IntakeDao;
+import com.yada180.sms.hibernate.data.IntakeJobSkillDao;
 import com.yada180.sms.hibernate.dao.IntakeMedicalConditionDao;
-import com.yada180.sms.hibernate.dao.IntakeQuestionAnswerDao;
+import com.yada180.sms.hibernate.data.IntakeQuestionAnswerDao;
 import com.yada180.sms.hibernate.dao.StudentDisciplineHistoryDao;
 import com.yada180.sms.hibernate.dao.StudentHistoryDao;
 import com.yada180.sms.hibernate.dao.StudentPassHistoryDao;
@@ -195,21 +195,7 @@ public class IntakeAction extends Action {
 						.getSearchParameter().getApplicationStatus(),
 						intakeForm.getSearchParameter().getFarmBase());
 
-				// convert creationDate to display formatted Submitted Date
-				List intakeList2 = new ArrayList<Intake>();
-				for (java.util.Iterator<Intake> iterator = intakeList
-						.iterator(); iterator.hasNext();) {
-					Intake applicant = (Intake) iterator.next();
-					try {
-						String submitDate = Validator.convertEpoch(new Long(
-								applicant.getCreationDate()));
-						applicant.setCreationDate(submitDate);
-					} catch (Exception e) {
-					}
-					intakeList2.add(applicant);
-				}
-
-				intakeForm.setApplicantList(intakeList2);
+				intakeForm.setApplicantList(intakeList);
 
 				if (intakeList != null && intakeList.size() > 199)
 					intakeForm
@@ -227,7 +213,7 @@ public class IntakeAction extends Action {
 				intakeForm.getIntake().setLastUpdatedBy(user.getUsername());
 				intakeForm.getIntake().setFarmBase(user.getFarmBase());
 				intakeForm.getIntake().setEntryDate(entryDate);
-				intakeDao.updateIntake(intakeForm.getIntake());
+				intakeDao.update(intakeForm.getIntake());
 
 				// create history record
 				StudentHistory history = new StudentHistory();
@@ -251,7 +237,7 @@ public class IntakeAction extends Action {
 					intakeForm.getIntake().setFarmBase("Fort Lauderdale");
 				if ("EHW".equals(tfarm))
 					intakeForm.getIntake().setFarmBase("Women's Home");
-				intakeDao.updateIntake(intakeForm.getIntake());
+				intakeDao.update(intakeForm.getIntake());
 				this.sendEmail(intakeForm.getIntake().getFarmBase(), user.getFarmBase(), intakeForm);
 				List intakeList = intakeDao.searchApplications(intakeForm
 						.getSearchParameter().getBeginDate(), intakeForm
@@ -275,7 +261,7 @@ public class IntakeAction extends Action {
 				intakeForm.getIntake().setLastUpdatedDate(
 						validator.getEpoch() + "");
 				intakeForm.getIntake().setLastUpdatedBy(user.getUsername());
-				intakeDao.updateIntake(intakeForm.getIntake());
+				intakeDao.update(intakeForm.getIntake());
 				return mapping.findForward(Constants.PERSONAL);
 			} else if ("Withdraw".equals(action)) {
 				intakeForm.getIntake().setApplicationStatus("Withdrawn");
@@ -283,7 +269,7 @@ public class IntakeAction extends Action {
 				intakeForm.getIntake().setLastUpdatedDate(
 						validator.getEpoch() + "");
 				intakeForm.getIntake().setLastUpdatedBy(user.getUsername());
-				intakeDao.updateIntake(intakeForm.getIntake());
+				intakeDao.update(intakeForm.getIntake());
 				return mapping.findForward(Constants.PERSONAL);
 			} else if ("Accept".equals(action)) {
 				intakeForm.getIntake().setApplicationStatus("Accepted");
@@ -291,7 +277,7 @@ public class IntakeAction extends Action {
 				intakeForm.getIntake().setLastUpdatedDate(
 						validator.getEpoch() + "");
 				intakeForm.getIntake().setLastUpdatedBy(user.getUsername());
-				intakeDao.updateIntake(intakeForm.getIntake());
+				intakeDao.update(intakeForm.getIntake());
 				return mapping.findForward(Constants.PERSONAL);
 			} else if ("Unaccept".equals(action)) {
 				intakeForm.getIntake().setApplicationStatus("Pending");
@@ -299,21 +285,21 @@ public class IntakeAction extends Action {
 				intakeForm.getIntake().setLastUpdatedDate(
 						validator.getEpoch() + "");
 				intakeForm.getIntake().setLastUpdatedBy(user.getUsername());
-				intakeDao.updateIntake(intakeForm.getIntake());
+				intakeDao.update(intakeForm.getIntake());
 				return mapping.findForward(Constants.PERSONAL);
 			} else if ("Deny".equals(action)) {
 				intakeForm.getIntake().setApplicationStatus("Denied");
 				intakeForm.getIntake().setLastUpdatedDate(
 						validator.getEpoch() + "");
 				intakeForm.getIntake().setLastUpdatedBy(user.getUsername());
-				intakeDao.updateIntake(intakeForm.getIntake());
+				intakeDao.update(intakeForm.getIntake());
 				return mapping.findForward(Constants.PERSONAL);
 			} else if ("Reinstate".equals(action)) {
 				intakeForm.getIntake().setApplicationStatus("Pending");
 				intakeForm.getIntake().setLastUpdatedDate(
 						validator.getEpoch() + "");
 				intakeForm.getIntake().setLastUpdatedBy(user.getUsername());
-				intakeDao.updateIntake(intakeForm.getIntake());
+				intakeDao.update(intakeForm.getIntake());
 				return mapping.findForward(Constants.PERSONAL);
 			} else if ("Create".equals(action)) {
 				this.clearForm(intakeForm);
@@ -337,17 +323,17 @@ public class IntakeAction extends Action {
 				return mapping.findForward(Constants.PERSONAL);
 			} else if ("Edit".equals(action)) {
 				String key = request.getParameter("key");
-				Intake intake = intakeDao.findById(new Long(key));
+				Intake intake = intakeDao.find(new Long(key));
 				List studentHistory = studentHistoryDao.search(intake
 						.getIntakeId());
 				List studentPassHistory = studentPassHistoryDao.search(intake
 						.getIntakeId());
 				List<IntakeMedicalCondition> intakeMedicalCondition = intakeMedicalConditionDao
 						.findById(intake.getIntakeId());
-				List<IntakeQuestionAnswer> intakeQuestionAnswer = intakeQuestionAnswerDao
-						.findById(intake.getIntakeId());
-				List<IntakeJobSkill> intakeJobSkill = intakeJobSkillDao
-						.findById(intake.getIntakeId());
+				List<IntakeQuestionAnswer> intakeQuestionAnswer = intakeQuestionAnswerDao.findByIntakeId(new IntakeQuestionAnswer().getClass(), intake.getIntakeId());
+						//.findById(intake.getIntakeId());
+				List<IntakeJobSkill> intakeJobSkill = intakeJobSkillDao.findByIntakeId(new IntakeJobSkill().getClass(), intake.getIntakeId());
+						//.findById(intake.getIntakeId());
 
 				/*
 				 * Check program status and graduation date to check for 'time
@@ -455,7 +441,7 @@ public class IntakeAction extends Action {
 				return mapping.findForward(Constants.DISCIPLINE);
 			} else if ("Save".equals(action)) {
 				intakeForm.setMessageType("");
-
+				
 				if (user != null)
 					intakeForm.getIntake().setFarmBase(user.getFarmBase());
 				boolean valid = inakeValidator.validate(intakeForm);
@@ -487,14 +473,14 @@ public class IntakeAction extends Action {
 						if ("substance".equals(intakeForm.getPageSource()))
 							saveUsagePatternAndLosses(intakeForm);
 						if ("employment".equals(intakeForm.getPageSource()))
-							saveJobSkills(intakeForm);
+							saveJobSkills(intakeForm,request);
 						if ("status".equals(intakeForm.getPageSource()))
 							saveStatus(intakeForm, user);
 						if ("pass".equals(intakeForm.getPageSource()))
 							savePass(intakeForm, user);
 						if ("discipline".equals(intakeForm.getPageSource()))
 							saveDiscipline(intakeForm, user.getUsername());
-						intakeDao.updateIntake(intakeForm.getIntake());
+						intakeDao.update(intakeForm.getIntake());
 						saveIntakeQuestionAnswer(intakeForm);
 
 					} else {
@@ -515,7 +501,7 @@ public class IntakeAction extends Action {
 						if ("substance".equals(intakeForm.getPageSource()))
 							saveUsagePatternAndLosses(intakeForm);
 						if ("employment".equals(intakeForm.getPageSource()))
-							saveJobSkills(intakeForm);
+							saveJobSkills(intakeForm,request);
 						if ("status".equals(intakeForm.getPageSource()))
 							saveStatus(intakeForm, user);
 						if ("pass".equals(intakeForm.getPageSource()))
@@ -527,7 +513,7 @@ public class IntakeAction extends Action {
 							intakeForm.getIntake().setFarmBase(
 									user.getFarmBase());
 
-						Long id = intakeDao.addIntake(intakeForm.getIntake());
+						Long id = intakeDao.save(intakeForm.getIntake());
 						intakeForm.getIntake().setIntakeId(id);
 						saveIntakeQuestionAnswer(intakeForm);
 
@@ -679,10 +665,12 @@ public class IntakeAction extends Action {
 		for (java.util.Iterator<IntakeJobSkill> iterator = intakeJobSkill
 				.iterator(); iterator.hasNext();) {
 			IntakeJobSkill obj = (IntakeJobSkill) iterator.next();
-			workExperience[(int) obj.getJobSkillId() - 1] = "Yes";
-		}
+			workExperience[obj.getJobSkillId().intValue() - 1] = "Yes";
+		} 
 
 		intakeForm.setWorkExperience(workExperience);
+	
+
 	}
 
 	private void saveIntakeQuestionAnswer(IntakeForm intakeForm) {
@@ -692,12 +680,13 @@ public class IntakeAction extends Action {
 		/*
 		 * First delete all answers for given intake
 		 */
-		List<IntakeQuestionAnswer> intakeQuestionAnswers = dao
-				.findById(intakeForm.getIntake().getIntakeId());
+		List<IntakeQuestionAnswer> intakeQuestionAnswers = dao.findByIntakeId(new IntakeQuestionAnswer().getClass(), intakeForm.getIntake().getIntakeId());
+				//.findById(intakeForm.getIntake().getIntakeId());
 		for (Iterator iterator = intakeQuestionAnswers.iterator(); iterator
 				.hasNext();) {
 			IntakeQuestionAnswer obj = (IntakeQuestionAnswer) iterator.next();
-			dao.deleteIntakeQuestionAnswer(obj.getIntakeQuestionAnswerId());
+			dao.delete(obj); //obj.getIntakeQuestionAnswerId());
+			//dao.deleteIntakeQuestionAnswer(obj.getIntakeQuestionAnswerId());
 		}
 
 		String healthAnswer[] = intakeForm.getHealthAnswer();
@@ -718,7 +707,8 @@ public class IntakeAction extends Action {
 				iqa.setIntakeId(intakeForm.getIntake().getIntakeId());
 				iqa.setAnswer("Yes");
 				iqa.setQuestionId(new Long(index + 1));
-				dao.addIntakeQuestionAnswer(iqa);
+				//dao.addIntakeQuestionAnswer(iqa);
+				dao.save(iqa);
 			}
 
 			if ("Yes".equals(emotionalAnswer[index])) {
@@ -728,7 +718,8 @@ public class IntakeAction extends Action {
 				iqa.setDates(emotionalAnswerDate[index]);
 				iqa.setDetail(emotionalAnswerDetails[index]);
 				iqa.setQuestionId(new Long(index + 16));
-				dao.addIntakeQuestionAnswer(iqa);
+				//dao.addIntakeQuestionAnswer(iqa);
+				dao.save(iqa);
 			}
 
 			if ("Yes".equals(physicalAnswer[index])) {
@@ -737,7 +728,8 @@ public class IntakeAction extends Action {
 				iqa.setAnswer("Yes");
 				iqa.setDetail(physicalAnswerDetails[index]);
 				iqa.setQuestionId(new Long(index + 22));
-				dao.addIntakeQuestionAnswer(iqa);
+				//dao.addIntakeQuestionAnswer(iqa);
+				dao.save(iqa);
 			}
 
 			if ("Yes".equals(mentalAnswer[index])) {
@@ -747,7 +739,8 @@ public class IntakeAction extends Action {
 				iqa.setDates(mentalAnswerDate[index]);
 				iqa.setDetail(mentalAnswerDetails[index]);
 				iqa.setQuestionId(new Long(index + 27));
-				dao.addIntakeQuestionAnswer(iqa);
+				//dao.addIntakeQuestionAnswer(iqa);
+				dao.save(iqa);
 			}
 		}
 
@@ -793,40 +786,43 @@ public class IntakeAction extends Action {
 
 	}
 
-	private void saveJobSkills(IntakeForm intakeForm) {
+	private void saveJobSkills(IntakeForm intakeForm, HttpServletRequest request) {
 
 		IntakeJobSkillDao dao = new IntakeJobSkillDao();
 
 		/*
-		 * First delete all medical conditions for given intake
+		 * First delete all Job SKills for given intake
 		 */
-		List<IntakeJobSkill> intakeJobSkills = dao.findById(intakeForm
-				.getIntake().getIntakeId());
+		List<IntakeJobSkill> intakeJobSkills = dao.findByIntakeId(new IntakeJobSkill().getClass(), intakeForm.getIntake().getIntakeId());
+				//.findById(intakeForm.getIntake().getIntakeId());
 		for (Iterator iterator = intakeJobSkills.iterator(); iterator.hasNext();) {
 			IntakeJobSkill obj = (IntakeJobSkill) iterator.next();
-			dao.deleteIntakeJobSkill(obj.getIntakeJobSkillId());
+			dao.delete(obj);//deleteIntakeJobSkill(obj.getIntakeJobSkillId());
 		}
 
 		/*
-		 * write to db medical conditions for given intake marked yes
+		 * write to db job skills for given intake marked yes
 		 */
-		List<JobSkill> medicalConditions = intakeForm.getJobSkills();
-		String workExperience[] = intakeForm.getWorkExperience();
+		List<JobSkill> jobSkills = intakeForm.getJobSkills();
+		String workexperience[] = intakeForm.getWorkExperience();
 		int index = 0;
-		for (Iterator iterator = medicalConditions.iterator(); iterator
+		for (Iterator iterator = jobSkills.iterator(); iterator
 				.hasNext();) {
 			JobSkill obj = (JobSkill) iterator.next();
-
-			if ("Yes".equals(workExperience[index])) {
+			String workExperienceFlag=request.getParameter("workExperience["+index+"]");
+			if ("Yes".equals(workExperienceFlag)) {
 				IntakeJobSkill ijs = new IntakeJobSkill();
 				ijs.setIntakeId(intakeForm.getIntake().getIntakeId());
 				ijs.setJobSkillId(obj.getJobSkillId());
-				dao.addIntakeJobSkill(ijs);
-			}
+				dao.save(ijs);//.addIntakeJobSkill(ijs);
+				workexperience[index]="Yes";
+			} else
+				workexperience[index]="No";
 
 			index++;
 		}
-
+		
+		intakeForm.setWorkExperience(workexperience);
 	}
 
 	private void saveUsagePatternAndLosses(IntakeForm intakeForm) {
@@ -926,7 +922,7 @@ public class IntakeAction extends Action {
 			intakeForm.getIntake().setApplicationStatus(
 					studentHistory.getProgramStatus());
 			intakeForm.getIntake().setFarmBase(studentHistory.getFarm());
-			intakeDao.updateIntake(intakeForm.getIntake());
+			intakeDao.update(intakeForm.getIntake());
 
 		}
 
@@ -1101,12 +1097,6 @@ public class IntakeAction extends Action {
 	         message.addRecipient(Message.RecipientType.TO,
                      new InternetAddress("itdepartment@faithfarm.org"));
 	         
-	         message.addRecipient(Message.RecipientType.TO,
-                     new InternetAddress("ricky.raymond.ratliff@gmail.com"));
-	         
-	         message.addRecipient(Message.RecipientType.TO,
-                     new InternetAddress("rrratliff@yahoo.com"));
-	        
 	         if ("Boynton Beach".equals(tfarm)) {
 	        	 message.addRecipient(Message.RecipientType.TO,
 	                     new InternetAddress("intake.boyntonbeach@faithfarm.org"));
@@ -1126,8 +1116,6 @@ public class IntakeAction extends Action {
 	         if ("Okeechobee".equals(tfarm)) {
 	        	 message.addRecipient(Message.RecipientType.TO,
 	                     new InternetAddress("intake.okeechobee@faithfarm.org"));
-	        	 //message.addRecipient(Message.RecipientType.TO,
-	             //        new InternetAddress("MMurphy@faithfarm.org"));
 	         }
 	         if ("Women's Home".equals(tfarm)) {
 	        	message.addRecipient(Message.RecipientType.TO,
@@ -1139,7 +1127,7 @@ public class IntakeAction extends Action {
 	         }
 	              
 	         // Set Subject: header field
-	         message.setSubject("Intake Application transferred from "+ffarm+" for "+intakeForm.getIntake().getFirstname()+" "+intakeForm.getIntake().getLastname());
+	         message.setSubject("Intake Application transferred to "+tfarm+" from "+ffarm+" for "+intakeForm.getIntake().getFirstname()+" "+intakeForm.getIntake().getLastname());
 
 	         // Now set the actual message
 	         message.setText("This is an automated response sent to notify you of an application submitted online. Please log into http://apps.faithfarm.org/intake to view the application.  Do not reply to this message.");

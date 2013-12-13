@@ -8,45 +8,37 @@ package com.yada180.sms.domain;
 public class IntakeJobSkill implements java.io.Serializable {
 
 	private Long intakeJobSkillId;
-	private long jobSkillId;
-	private long intakeId;
+	private Long jobSkillId;
+	private Long intakeId;
 
 	public IntakeJobSkill() {
 	}
 
-	public IntakeJobSkill(long jobSkillId) {
-		this.jobSkillId = jobSkillId;
-	}
-
-	public IntakeJobSkill(long jobSkillId, long intakeId) {
-		this.jobSkillId = jobSkillId;
-		this.intakeId = intakeId;
-	}
-
 	public Long getIntakeJobSkillId() {
-		return this.intakeJobSkillId;
+		return intakeJobSkillId;
 	}
 
 	public void setIntakeJobSkillId(Long intakeJobSkillId) {
 		this.intakeJobSkillId = intakeJobSkillId;
 	}
 
-	public long getJobSkillId() {
-		return this.jobSkillId;
+	public Long getJobSkillId() {
+		return jobSkillId;
 	}
 
-	public void setJobSkillId(long jobSkillId) {
+	public void setJobSkillId(Long jobSkillId) {
 		this.jobSkillId = jobSkillId;
 	}
 
-	public long getIntakeId() {
+	public Long getIntakeId() {
 		return intakeId;
 	}
 
-	public void setIntakeId(long intakeId) {
+	public void setIntakeId(Long intakeId) {
 		this.intakeId = intakeId;
 	}
 
+	
 	
 
 }

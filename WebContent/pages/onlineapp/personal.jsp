@@ -71,6 +71,16 @@ System.out.println("*****START OF NEW APPLICATION*******");
 <tr>
 <td align="left">
 	<table width="100%">
+	<% if ("true".equals(session.getAttribute("session_expired"))) { %>
+	<tr>
+		<td>
+		<p>
+		<font style="color:#f90606;size=4;"><b>Your session has expired.  Please re-do your application.</b></font>
+		</p>
+		<br/>
+		</td>
+	</tr>
+	<% } %>
 	<tr>
 		<td><p><i>Thank you for your interest in Faith Farm Ministries.  Please complete the online application as accurately 
 		as possible.  Once the application is submitted it will be reviewed and an intake coordinator will contact you shortly.</i></p>
@@ -370,13 +380,13 @@ System.out.println("*****START OF NEW APPLICATION*******");
 						</html:select>
         </td>
         <td>
-        	DL State
+        	License/Id State
 			   		   <html:select property="intake.dlState" styleClass="select" >
 							<html:option value="">Select</html:option>
 							<html:optionsCollection name="ddl_state" value="value" label="label" />
 						</html:select>
         </td>	
-        <td>DL#:&nbsp;&nbsp;
+        <td>License/Id#:&nbsp;&nbsp;
 			<html:text property="intake.dlNumber" size="22" maxlength="22"  />
         </td>	
        
@@ -386,7 +396,7 @@ System.out.println("*****START OF NEW APPLICATION*******");
      <td colspan="8">
      	<table width="100%">
         <tr>
-        <td width="260">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>If no driver's license, do you ave a valid government id?</i>&nbsp;&nbsp;
+        <td width="260">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>If no driver's license, do you have a valid government id?</i>&nbsp;&nbsp;
         		   		<html:select property="intake.stateIdFlag" styleClass="select" >
 							<html:option value="">Select</html:option>
 							<html:optionsCollection name="ddl_yesNo" value="value" label="label" />

@@ -1,23 +1,4 @@
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.Properties;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-
-import com.lowagie.text.Document;
-import com.lowagie.text.Element;
-import com.lowagie.text.html.simpleparser.HTMLWorker;
-import com.lowagie.text.html.simpleparser.StyleSheet;
-import com.lowagie.text.pdf.PdfWriter;
+import java.net.InetAddress;
 
 
 public class Test {
@@ -59,10 +40,17 @@ public class Test {
 			
 		}*/
 		//Pattern p = Pattern.compile("[A-Z]",Pattern.UNICODE_CHARACTER_CLASS);
-	    String msg="BuLL";	    
-	    System.out.println(msg.matches("[A-Z]+$"));
-		
-
+	    //String msg="BuLL";	    
+	    //System.out.println(msg.matches("[A-Z]+$"));
+		/*
+		IntakeMedicalConditionDao dao = new IntakeMedicalConditionDao();
+		IntakeMedicalCondition obj = new IntakeMedicalCondition();
+		List<IntakeMedicalCondition> list = dao.findByIntakeId(obj, new Long(4116097));
+		System.out.println(list.size());
+		*/
+		try {
+		System.out.println(InetAddress.getLocalHost().getHostAddress());
+		} catch (Exception e) {}
 	}
 	
 	

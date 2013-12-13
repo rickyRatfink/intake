@@ -5,6 +5,7 @@ import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -23,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.logging.Log;
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -35,10 +37,10 @@ import com.yada180.sms.domain.IntakeMedicalCondition;
 import com.yada180.sms.domain.IntakeQuestionAnswer;
 import com.yada180.sms.domain.JobSkill;
 import com.yada180.sms.domain.MedicalCondition;
-import com.yada180.sms.hibernate.dao.IntakeDao;
-import com.yada180.sms.hibernate.dao.IntakeJobSkillDao;
 import com.yada180.sms.hibernate.dao.IntakeMedicalConditionDao;
 import com.yada180.sms.hibernate.dao.IntakeQuestionAnswerDao;
+import com.yada180.sms.hibernate.data.IntakeDao;
+import com.yada180.sms.hibernate.data.IntakeJobSkillDao;
 import com.yada180.sms.struts.form.OnlineAppForm;
 import com.yada180.sms.util.HtmlDropDownBuilder;
 import com.yada180.sms.util.Validator;
@@ -79,7 +81,8 @@ public class OnlineAppAction extends Action {
 		html.getOnlineApplicationQuestions(onlineAppForm);
 
 		if ("Next".equals(action)) {
-			System.out.println ("---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" click Next on "+onlineAppForm.getPageSource()+" @ "+(new java.util.Date()));
+			session.removeAttribute("session_expired");
+			System.out.println ("!!!!---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" click Next on "+onlineAppForm.getPageSource()+" @ "+(new java.util.Date()));
 			boolean valid=false;
 			
 			valid = intakeValidator.validate(onlineAppForm);
@@ -124,8 +127,10 @@ public class OnlineAppAction extends Action {
 			 * Prevent NULL applications being submitted after user goes away from computer
 			 * returns and presses submit
 			 */
-			if (onlineAppForm.getIntake().getFirstname()==null)
+			if (onlineAppForm.getIntake().getFirstname()==null) {
+				session.setAttribute("session_expired", "true");
 				return mapping.findForward(Constants.PERSONAL);
+			}
 				
 			onlineAppForm.setMessageType("");
 			String submitDate = Validator.convertEpoch(Validator.getEpoch());
@@ -141,7 +146,7 @@ public class OnlineAppAction extends Action {
 				//temp log all data before attempted save
 				this.logApplicationDataOnException(onlineAppForm);
 				
-				Long id = intakeDao.addIntake(onlineAppForm.getIntake());
+				Long id = intakeDao.save(onlineAppForm.getIntake());
 				onlineAppForm.getIntake().setIntakeId(id);
 				System.out.println ("---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" saved application with id "+id+" @ "+(new java.util.Date()));
 				
@@ -149,7 +154,7 @@ public class OnlineAppAction extends Action {
 					saveMedicalConditions(onlineAppForm);
 					saveUsagePatternAndLosses(onlineAppForm);
 					saveIntakeQuestionAnswer(onlineAppForm);
-					saveJobSkills(onlineAppForm);
+					saveJobSkills(onlineAppForm,request);
 					
 					Properties properties = new Properties();
 					properties.put("mail.smtp.auth", "true");
@@ -206,12 +211,19 @@ public class OnlineAppAction extends Action {
 
 				         // Now set the actual message
 				         message.setText("This is an automated response sent to notify you of an application submitted online. Please log into http://apps.faithfarm.org/intake to view the application.  Do not reply to this message.");
-
+				         
 				         // Send message
-				         Transport.send(message);
-				         System.out.println ("----> email sent for "+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" @ "+(new java.util.Date()));
-							
-				       }catch (MessagingException mex) {
+				         try {
+				     		String ipAddy=InetAddress.getLocalHost().getHostAddress();
+				     		if ("50.63.180.165".equals(ipAddy)) {
+				     				Transport.send(message);
+				     				System.out.println ("----> email sent for "+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" @ "+(new java.util.Date()));
+				     			}
+				     		} catch (Exception e) {
+				     			LOGGER.log(Level.SEVERE,"Error occurred in getting IP when trying to send email: "+e.getMessage());
+				     		}
+				         
+				        }catch (MessagingException mex) {
 				         mex.printStackTrace();
 				         LOGGER.log(Level.SEVERE,"Error occurred sending email for application: "+mex.getMessage());
 				      }
@@ -255,7 +267,7 @@ public class OnlineAppAction extends Action {
 	}
 
 	private void saveIntakeQuestionAnswer(OnlineAppForm intakeForm) {
-		
+		try{
 		IntakeQuestionAnswerDao dao = new IntakeQuestionAnswerDao();
 		
 		 /*
@@ -316,11 +328,16 @@ public class OnlineAppAction extends Action {
 	    		   dao.addIntakeQuestionAnswer(iqa);
 	    		 }
 	    }
+		} catch (Exception e) {
+			 LOGGER.log(Level.SEVERE,"Error in saveIntakeQuestionAnswer:"+intakeForm.getIntake().getIntakeId()+":"+e.getMessage());
+		 }
 
 	}
 	
 	private void saveMedicalConditions(OnlineAppForm intakeForm) {
 		 
+		try {
+			
 		 IntakeMedicalConditionDao dao = new IntakeMedicalConditionDao();
 
 		 
@@ -355,46 +372,52 @@ public class OnlineAppAction extends Action {
 	    	   
 	    	 index++;
 	       }
+		}
+		 catch (Exception e) {
+			 LOGGER.log(Level.SEVERE,"Error in saveMedicalConditions:"+intakeForm.getIntake().getIntakeId()+":"+e.getMessage());
+		 }
 	       
                 
 	}
-	
-	private void saveJobSkills(OnlineAppForm intakeForm) {
-		 
-		 IntakeJobSkillDao dao = new IntakeJobSkillDao();
-		 
-		 /*
-		  * First delete all medical conditions for given intake
-		  */
-		 List<IntakeJobSkill> intakeJobSkills = dao.findById(intakeForm.getIntake().getIntakeId());
-		 for (Iterator iterator =
-				 intakeJobSkills.iterator(); iterator.hasNext();){
-			 IntakeJobSkill obj = (IntakeJobSkill) iterator.next();
-			 dao.deleteIntakeJobSkill(obj.getIntakeJobSkillId());
+	private void saveJobSkills(OnlineAppForm intakeForm, HttpServletRequest request) {
+
+		try {
+		IntakeJobSkillDao dao = new IntakeJobSkillDao();
+
+		/*
+		 * First delete all Job SKills for given intake
+		 */
+		List<IntakeJobSkill> intakeJobSkills = dao.findByIntakeId(new IntakeJobSkill().getClass(), intakeForm.getIntake().getIntakeId());
+				//.findById(intakeForm.getIntake().getIntakeId());
+		for (Iterator iterator = intakeJobSkills.iterator(); iterator.hasNext();) {
+			IntakeJobSkill obj = (IntakeJobSkill) iterator.next();
+			dao.delete(obj);//deleteIntakeJobSkill(obj.getIntakeJobSkillId());
+		}
+
+		/*
+		 * write to db job skills for given intake marked yes
+		 */
+		List<JobSkill> jobSkills = intakeForm.getJobSkills();
+		String workexperience[] = intakeForm.getWorkExperience();
+		int index = 0;
+		for (Iterator iterator = jobSkills.iterator(); iterator
+				.hasNext();) {
+			JobSkill obj = (JobSkill) iterator.next();
+			//String workExperienceFlag=request.getParameter("workExperience["+index+"]");
+			if ("Yes".equals(workexperience[index])) {
+				IntakeJobSkill ijs = new IntakeJobSkill();
+				ijs.setIntakeId(intakeForm.getIntake().getIntakeId());
+				ijs.setJobSkillId(obj.getJobSkillId());
+				dao.save(ijs);//.addIntakeJobSkill(ijs);
+			}
+			index++;
+		}
+		}catch (Exception e) {
+			 LOGGER.log(Level.SEVERE,"Error in saveJobSkills:"+intakeForm.getIntake().getIntakeId()+":"+e.getMessage());
 		 }
-		 
-		 /*
-		  * write to db medical conditions for given intake marked yes
-		  */
-		 List<JobSkill> medicalConditions = intakeForm.getJobSkills();
-		 String workExperience[] = intakeForm.getWorkExperience();
-	     int index=0;  
-		 for (Iterator iterator =
-	    		   medicalConditions.iterator(); iterator.hasNext();){
-	    	   JobSkill obj = (JobSkill) iterator.next();	    			
-	    	   
-	    	   if ("Yes".equals(workExperience[index])) {
-	    		   IntakeJobSkill ijs = new IntakeJobSkill();
-	    		   ijs.setIntakeId(intakeForm.getIntake().getIntakeId());	    		   
-	    		   ijs.setJobSkillId(obj.getJobSkillId());
-	    		   dao.addIntakeJobSkill(ijs);
-	    		 }	    	   
-	    	   
-	    	 index++;
-	       }
-	       
-               
+	
 	}
+
 	
 	private void saveUsagePatternAndLosses(OnlineAppForm intakeForm) {
 		intakeForm.getIntake().setUsageLosses(intakeForm.getUsageLosses1()+","+

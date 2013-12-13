@@ -359,13 +359,13 @@ function isNumberKey(evt)
 						</html:select>
         </td>
         <td>
-        	DL State
+        	License/Id State
 			   		   <html:select property="intake.dlState" styleClass="select" >
 							<html:option value="">Select</html:option>
 							<html:optionsCollection name="ddl_state" value="value" label="label" />
 						</html:select>
         </td>	
-        <td>DL#:&nbsp;&nbsp;
+        <td>License/Id#:&nbsp;&nbsp;
 			<html:text property="intake.dlNumber" size="22" maxlength="22"  />
         </td>	
        
@@ -375,7 +375,7 @@ function isNumberKey(evt)
      <td colspan="8">
      	<table width="100%">
         <tr>
-        <td width="260">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>If no driver's license, do you ave a valid government id?</i>&nbsp;&nbsp;
+        <td width="260">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>If no driver's license, do you have a valid government id?</i>&nbsp;&nbsp;
         		   		<html:select property="intake.stateIdFlag" styleClass="select" >
 							<html:option value="">Select</html:option>
 							<html:optionsCollection name="ddl_yesNo" value="value" label="label" />

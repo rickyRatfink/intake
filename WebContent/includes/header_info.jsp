@@ -243,7 +243,10 @@ function whichKey(e) {
 		<table>
     	<tr>
     		 <td width="33"></td>
-		     <td><font style="color:#FFFFFF"><b>Student Name:</b>&nbsp;<font style="color:#aeadad"><bean:write name="intakeForm" property="intake.firstname" />&nbsp;<bean:write name="intakeForm" property="intake.lastname" /></font>
+		     <td><font style="color:#FFFFFF">
+		     <b>Student Id:</b>&nbsp;<font style="color:#aeadad"><bean:write name="intakeForm" property="intake.intakeId" /></font>
+		     &nbsp;&nbsp;&nbsp;
+		     <b>Student Name:</b>&nbsp;<font style="color:#aeadad"><bean:write name="intakeForm" property="intake.firstname" />&nbsp;<bean:write name="intakeForm" property="intake.lastname" /></font>
 		     &nbsp;&nbsp;&nbsp;
 		     <font style="color:#FFFFFF"><b>SSN:</b>&nbsp;<font style="color:#aeadad"><bean:write name="intakeForm" property="intake.ssn" /></font>
 		     &nbsp;&nbsp;&nbsp;
