@@ -156,6 +156,7 @@ public class HtmlDropDownBuilder {
 		   session.setAttribute("ddl_rosterStatus", rosterStatus);
 
 		   List<DropDownItem> stateIdType = new ArrayList<DropDownItem>();
+		   stateIdType.add(new DropDownItem("State Issued Id","State Issued Id"));
 		   stateIdType.add(new DropDownItem("State Government Issued Certificate of Birth","State Government Issued Certificate of Birth"));
 		   stateIdType.add(new DropDownItem("US Active Duty/Retiree/Reservist Military ID Card (000 10-2)","US Active Duty/Retiree/Reservist Military ID Card (000 10-2)"));
 		   stateIdType.add(new DropDownItem("Passport from any country","Passport from any country"));
