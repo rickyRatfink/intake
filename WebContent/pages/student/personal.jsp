@@ -28,30 +28,46 @@ function isNumberKey(evt)
       }
 </script>
 
-<html:form action="/Intake">
+<html:form action="/Intake" enctype="multipart/form-data" styleId="intake">
 <div onKeyPress="return checkSubmit(event)">
-
+	<% String sTitle="Student Electronic File"; %>
 	<table width="100%">
 	<tr>
 		<logic:equal name="intakeForm" property="intake.applicationStatus" value="Pending">
-			<td>
-				<font size="5"><b><bean:write name="intakeForm" property="intake.farmBase" /> Online Student Application</b></font>
+			<% sTitle="Online Pending Application"; %>
+		</logic:equal>
+		<logic:equal name="intakeForm" property="intake.applicationStatus" value="Accepted">
+			<% sTitle="Online Accepted Application"; %>
+		</logic:equal>
+		<logic:equal name="intakeForm" property="intake.applicationStatus" value="Withdrawn">
+			<% sTitle="Online Withdrawn Application"; %>
+		</logic:equal>
+		<logic:equal name="intakeForm" property="intake.applicationStatus" value="Denied">
+			<% sTitle="Online Denied Application"; %>
+		</logic:equal>
+		<logic:equal name="intakeForm" property="intake.applicationStatus" value="Waitlist">
+			<% sTitle="Online Waitlisted Application"; %>
+		</logic:equal>
+	
+		<td valign="top">
+				<font size="5"><b><bean:write name="intakeForm" property="intake.farmBase" /> <%=sTitle %></b></font>
 				</br>
+				<logic:equal name="intakeForm" property="intake.applicationStatus" value="Pending">
 				 <table width="100%" border="0">
 	             <tr>
 	                 <td width="250">Application Response Status&nbsp;
 	                 	<html:select property="intake.responseStatus" styleClass="select" >
-					<html:option value="">Select</html:option>
-					<html:optionsCollection name="ddl_responseStatus" value="value" label="label" />
-				</html:select>
+							<html:option value="">Select</html:option>
+							<html:optionsCollection name="ddl_responseStatus" value="value" label="label" />
+						</html:select>
 	                 </td>
 	               </tr>
 	             </table>
-			</td>
-		</logic:equal>
-			<td align="right">
+	             </logic:equal>
+		</td>
+		<td align="right">
 	        		<a href="<%=request.getContextPath()%>/Intake.do?action=PrintFull" style="text-decoration:none;"><img src="<%=request.getContextPath()%>/images/local/print.jpg"/></a>
-	        </td>       
+	    </td>       
 	</tr>
 	</table>
 	
@@ -65,12 +81,10 @@ function isNumberKey(evt)
     		<jsp:include page="../../includes/messages.jsp" flush="true"/>
 	   </td>
 	</tr>
-
-	<tr>
-    	<td colspan="8">
-                <table width="100%" border="0">
+	</table>
+	             <table width="250" border="0">
                 <tr>
-                	<td colspan="2">
+                	<td>
                 			<logic:notEmpty name="intakeForm" property="intake.imageHeadshot">
                 		   		<img src="<%=request.getContextPath()%>/Image.do" style="height:auto; width:250px;/>
                 		    </logic:notEmpty>
@@ -79,12 +93,43 @@ function isNumberKey(evt)
                 	       </logic:empty>
                 	</td>
                 </tr>
+                </table>
+               
+                <table>
                 <tr>	
-                	<td colspan="2">
-                	    <a href="<%=request.getContextPath() %>/Intake.do?action=Photo">Edit Photo</a>
-                        </br></br>
-                    </td>
+                	<td><a href=""></a>				
+                		<logic:equal name="loginForm" property="systemUser.farmBase" value="Boynton Beach" >
+							<logic:equal name="intakeForm" property="intake.farmBase" value="Boynton Beach">
+							 	<a href="#" onclick="javascript:document.getElementById('uploadButton').click();"><img src="<%=request.getContextPath() %>/images/local/uploadIcon.png" border="0"/></a>
+                	    		<html:file property="imageFile" styleClass="imageButtonUpload" styleId="uploadButton" onchange="javascript:document.getElementById('uploadFileFlag').value='Yes';document.getElementById('intake').submit();" />
+                       		</logic:equal>
+						</logic:equal>
+
+                	    <logic:equal name="loginForm" property="systemUser.farmBase" value="Fort Lauderdale" >
+							<logic:equal name="intakeForm" property="intake.farmBase" value="Fort Lauderdale">
+							 	<a href="#" onclick="javascript:document.getElementById('uploadButton').click();"><img src="<%=request.getContextPath() %>/images/local/uploadIcon.png" border="0"/></a>
+                	    		<html:file property="imageFile" styleClass="imageButtonUpload" styleId="uploadButton" onchange="javascript:document.getElementById('uploadFileFlag').value='Yes';document.getElementById('intake').submit();" />
+                       		</logic:equal>
+						</logic:equal>
+
+                	    <logic:equal name="loginForm" property="systemUser.farmBase" value="Okeechobee" >
+							<logic:equal name="intakeForm" property="intake.farmBase" value="Okeechobee">
+							 	<a href="#" onclick="javascript:document.getElementById('uploadButton').click();"><img src="<%=request.getContextPath() %>/images/local/uploadIcon.png" border="0"/></a>
+                	    		<html:file property="imageFile" styleClass="imageButtonUpload" styleId="uploadButton" onchange="javascript:document.getElementById('uploadFileFlag').value='Yes';document.getElementById('intake').submit();" />
+                       		</logic:equal>
+						</logic:equal>
+
+                	    <logic:equal name="loginForm" property="systemUser.farmBase" value="Women's Home" >
+							<logic:equal name="intakeForm" property="intake.farmBase" value="Women's Home">
+							 	<a href="#" onclick="javascript:document.getElementById('uploadButton').click();"><img src="<%=request.getContextPath() %>/images/local/uploadIcon.png" border="0"/></a>
+                	    		<html:file property="imageFile" styleClass="imageButtonUpload" styleId="uploadButton"  onchange="javascript:document.getElementById('uploadFileFlag').value='Yes';document.getElementById('intake').submit();" />
+                       		</logic:equal>
+						</logic:equal>
+                	</td>
                 </tr>
+                </table>
+                
+                <table>
                 <tr>
                 <td>Last Name</td>
                 <td><html:text property="intake.lastname" size="30" maxlength="30" /></td>
@@ -97,11 +142,7 @@ function isNumberKey(evt)
                 </td>
             </tr>
             </table>
-        </td>
-    </tr>
-	
-	<tr>
-    	<td colspan="8">
+      
                 <table width="100%" border="0">
                 <tr>	
                 <td>SSN</td>
@@ -113,11 +154,7 @@ function isNumberKey(evt)
                 </td>
            		</tr>
                 </table>
-         </td>
-   </tr>
-
-	<tr>
-    	<td colspan="8">
+    
                 <table width="100%" border="0">
                 <tr>
                 <td>Current Address&nbsp;<html:text property="intake.address" size="30" maxlength="45"  /></td>
@@ -132,12 +169,7 @@ function isNumberKey(evt)
                 </td>
                 </tr>
             </table>
-        </td>
-    </tr>
-    
-
-	<tr>
-    	<td colspan="8"> 
+   
                 <table width="100%" border="0">
                 <tr>
                 <td width="150">Phone Number&nbsp;&nbsp;
@@ -157,11 +189,7 @@ function isNumberKey(evt)
                 <td>Age&nbsp;<html:text property="intake.age" size="2"  maxlength="2" onkeypress="return isNumberKey(event)"/></td>
                 </tr>                
                 </table>
-          </td>
-     </tr>
-     
-    <tr>
-          <td colspan="8">
+   
                 <table width="100%" border="0">
                
                 <tr>
@@ -170,11 +198,7 @@ function isNumberKey(evt)
                  <td>Emergency Phone&nbsp;&nbsp;<html:text property="intake.emergencyPhone" size="20" maxlength="12" onkeypress="return maskPhone(event,this)" /></td>
                </tr>               
                 </table>
-          </td>
-	</tr>
- 
-	<tr>
-		<td colspan="8">
+       
 	        <table width="100%" border="0">
                 <tr>
                     <td width="250">Marial Status&nbsp;
@@ -191,11 +215,7 @@ function isNumberKey(evt)
                     </td>
                 </tr>
              </table>
-           </td>
-     </tr>  
- 
-	<tr>
-		<td colspan="8">
+           
         <table width="100%">
         <tr>
         <td>Height&nbsp;<html:text property="intake.height" size="5" /></td>
@@ -215,11 +235,7 @@ function isNumberKey(evt)
         </tr>
         
         </table>
-       </td>
-	</tr>
-
-	<tr>
-    <td colspan="8">
+      
         <table width="100%">
         <tr>
         <td>Where do you live?
@@ -248,10 +264,7 @@ function isNumberKey(evt)
         </tr>
        
          </table>
-        </td>
-  
-	<tr>
-    	<td colspan="8">
+      
         <table width="100%">
         <tr>
         <td>Did you graduate?&nbsp;
@@ -275,6 +288,7 @@ function isNumberKey(evt)
         
         </table>
    
+   <table>
      <tr>
 		<td colspan="8"><b>Current Income?</b><html:text property="intake.incomeAmount" size="10" maxlength="10"/>&nbsp;&nbsp;<b>Check One:</b>&nbsp;
 			<input type="checkbox" property="intake.incomeWeeklyFlag" value="Yes" />Weekly&nbsp;&nbsp;
@@ -304,13 +318,9 @@ function isNumberKey(evt)
 		<html:text property="intake.otherBenefits" size="20" maxlength="20" />
         </td>	
     </tr>
+    </table>
     
     
-    
-    
-
-    <tr>
-     <td colspan="8">
      	<table width="100%">
         <tr>
         <td width="220">
@@ -329,11 +339,7 @@ function isNumberKey(evt)
          </tr>
       
         </table>
-       </td>
-     </tr>
-  
-    <tr>
-    	<td colspan="8">
+     
             <table width="100%">
             <tr>
             <td width="220">Highest Rank&nbsp;&nbsp;
@@ -345,11 +351,7 @@ function isNumberKey(evt)
         </tr>
         
          </table>
-     </td>
-     </tr>
     
-    <tr>
-     <td colspan="8">
      	<table width="100%">
         <tr>
         <td width="260">Have a Valid Driver's License?&nbsp;&nbsp;
@@ -370,9 +372,8 @@ function isNumberKey(evt)
         </td>	
        
     </tr>
+    </table>
     
-     <tr>
-     <td colspan="8">
      	<table width="100%">
         <tr>
         <td width="260">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>If no driver's license, do you have a valid government id?</i>&nbsp;&nbsp;
@@ -389,11 +390,7 @@ function isNumberKey(evt)
         </td>
 	    </tr>
 	    </table>
-    </td></tr>
-    
    
-    <tr>
-     <td colspan="8">
      	<table width="100%">
         <tr>
         <td width="90">
@@ -410,14 +407,7 @@ function isNumberKey(evt)
 						</html:select>
         	</td>
          </tr>
-       
-         
-         
-             <tr>
-		<td colspan="8">&nbsp;</td>
-	</tr>
-        <tr>
-     <td colspan="8">
+   </table>
      	<table width="100%">
         <tr>
         <td width="280">Relationship with Mother?&nbsp;&nbsp;
@@ -435,26 +425,25 @@ function isNumberKey(evt)
         <tr>
         
         </table>
-    </td></tr>
-    
-  
+   </table>
+   <table>
     <tr>
-    	<td colspan="8">Number of Brothers&nbsp;&nbsp;<html:text property="intake.brothers" size="2"  onkeypress="return isNumberKey(event)" />&nbsp;&nbsp;&nbsp;&nbsp;
+    	<td >Number of Brothers&nbsp;&nbsp;<html:text property="intake.brothers" size="2"  onkeypress="return isNumberKey(event)" />&nbsp;&nbsp;&nbsp;&nbsp;
         				Number of Sisters&nbsp;&nbsp;<html:text property="intake.sisters" size="2"  onkeypress="return isNumberKey(event)" />&nbsp;&nbsp;&nbsp;&nbsp;
         				Number of Children&nbsp;&nbsp;<html:text property="intake.children" size="2" onkeypress="return isNumberKey(event)" />
     <tr>
-		<td colspan="8">&nbsp;</td>
+		<td >&nbsp;</td>
 	</tr>
 
     <tr>
-		<td colspan="8"><b>Homelessness Documentation:</b><br /></td>
+		<td ><b>Homelessness Documentation:</b><br /></td>
 	</tr>
     
      <tr>
-		<td colspan="8"><br />How long have you been homeless?<br /></td>
+		<td><br />How long have you been homeless?<br /></td>
       </tr>
       <tr>
-      	<td colspan="8">
+      	<td>
       		<html:radio property="intake.homelessTime" value="Never" />&nbsp;Never&nbsp;&nbsp;
 			<html:radio property="intake.homelessTime" value="Less than 2 weeks"  />&nbsp;Less than 2 weeks&nbsp;&nbsp;
             <html:radio property="intake.homelessTime" value="2 weeks to 1 month" />&nbsp;2 weeks to 1 month&nbsp;&nbsp;
@@ -467,10 +456,10 @@ function isNumberKey(evt)
      	<td></td>
      </tr>
      <tr>
-		<td colspan="8"><br />How often have you been homeless?<br /></td>
+		<td><br />How often have you been homeless?<br /></td>
       </tr>
       <tr>
-      	<td colspan="8">
+      	<td >
 			<html:radio property="intake.homelessHowOften" value="Never" />&nbsp;Never&nbsp;&nbsp;
             <html:radio property="intake.homelessHowOften" value="1 to 2 times" />&nbsp;1 to 2 times&nbsp;&nbsp;
             <html:radio property="intake.homelessHowOften" value="more than 2 times in 2 years" />&nbsp;more than 2 times in 2 years&nbsp;&nbsp;
@@ -478,20 +467,18 @@ function isNumberKey(evt)
         </td>
      </tr>
      <tr>
-		<td colspan="8"><br />Reason for homelessness:<br /></td>
+		<td ><br />Reason for homelessness:<br /></td>
       </tr>
       <tr>
-      	<td colspan="8">
+      	<td >
 			<html:radio property="intake.homelessReason" value="Lack of a fixed, regular and adequate night time residence." />&nbsp;Lack of a fixed, regular and adequate night time residence.<br />
             <html:radio property="intake.homelessReason" value="Primary night time residence is a shelter designed to provide temporary living accomodations (including welfar hotels, congregate shelters, and transitional housing for the mentally ill)." />&nbsp;Primary night time residence is a shelter designed to provide temporary living accomodations (including welfar hotels, congregate shelters, and transitional housing for the mentally ill).<br />
             <html:radio property="intake.homelessReason" value="Primary night time residence is an institution that provides a temporary residence for individuals intended to be institutionalized." />&nbsp;Primary night time residence is an institution that provides a temporary residence for individuals intended to be institutionalized.<br />
             <html:radio property="intake.homelessReason" value="Primary night time residence is a public or private place not designated for, or ordinarily used as a regular sleeping accomodation for human beings."/>&nbsp;Primary night time residence is a public or private place not designated for, or ordinarily used as a regular sleeping accomodation for human beings.
         </td>
      </tr>
-         </table>
-     </td>
-     </tr>
-    </table>
+     </table>
+     
     </br>
     <table width="600">
     <tr>
@@ -508,7 +495,7 @@ function isNumberKey(evt)
 	<div align="center">
 		<logic:equal name="loginForm" property="systemUser.farmBase" value="Boynton Beach" >
 			<logic:equal name="intakeForm" property="intake.farmBase" value="Boynton Beach">
-				<input type="submit" name="action" value="Save" class="imageButtonSave" title="Save" />
+				<input type="submit" name="action" value="Save" class="imageButtonSave" title="Save" id="action" />
 			</logic:equal>
 			<logic:notEqual name="intakeForm" property="intake.farmBase" value="Boynton Beach">
 				<input type="submit" name="action" value="Save" class="imageButtonSave" title="Save" disabled/>
@@ -517,7 +504,7 @@ function isNumberKey(evt)
 		
 		<logic:equal name="loginForm" property="systemUser.farmBase" value="Okeechobee" >
 			<logic:equal name="intakeForm" property="intake.farmBase" value="Okeechobee">
-				<input type="submit" name="action" value="Save" class="imageButtonSave" title="Save" />
+				<input type="submit" name="action" value="Save" class="imageButtonSave" title="Save" id="action" />
 			</logic:equal>
 			<logic:notEqual name="intakeForm" property="intake.farmBase" value="Okeechobee">
 				<input type="submit" name="action" value="Save" class="imageButtonSave" title="Save" disabled/>
@@ -526,7 +513,7 @@ function isNumberKey(evt)
 		
 		<logic:equal name="loginForm" property="systemUser.farmBase" value="Fort Lauderdale" >
 			<logic:equal name="intakeForm" property="intake.farmBase" value="Fort Lauderdale">
-				<input type="submit" name="action" value="Save" class="imageButtonSave" title="Save" />
+				<input type="submit" name="action" value="Save" class="imageButtonSave" title="Save" id="action" />
 			</logic:equal>
 			<logic:notEqual name="intakeForm" property="intake.farmBase" value="Fort Lauderdale">
 				<input type="submit" name="action" value="Save" class="imageButtonSave" title="Save" disabled/>
@@ -535,7 +522,7 @@ function isNumberKey(evt)
 		
 		<logic:equal name="loginForm" property="systemUser.farmBase" value="Women's Home" >
 			<logic:equal name="intakeForm" property="intake.farmBase" value="Women's Home">
-				<input type="submit" name="action" value="Save" class="imageButtonSave" title="Save" />
+				<input type="submit" name="action" value="Save" class="imageButtonSave" title="Save" id="action" />
 			</logic:equal>
 			<logic:notEqual name="intakeForm" property="intake.farmBase" value="Women's Home">
 				<input type="submit" name="action" value="Save" class="imageButtonSave" title="Save" disabled/>
@@ -544,9 +531,9 @@ function isNumberKey(evt)
 	</div>   			
        
     <html:hidden property="pageSource" value="personal"/>  
+    <html:hidden property="uploadFileFlag" styleId="uploadFileFlag" />
     </div>  
 </html:form>
-  </div>
 
  
 </div>
