@@ -44,7 +44,7 @@ public class IntakeForm extends ActionForm {
     private Integer editIndex;
     private FormFile imageFile;
     private String message;
-    
+    private String uploadFileFlag;
 	private String usagePattern1 = "";
 	private String usagePattern2 = "";
 	private String usagePattern3 = "";
@@ -573,6 +573,12 @@ public class IntakeForm extends ActionForm {
 	}
 	public void setEditIndex(Integer editIndex) {
 		this.editIndex = editIndex;
+	}
+	public String getUploadFileFlag() {
+		return uploadFileFlag;
+	}
+	public void setUploadFileFlag(String uploadFileFlag) {
+		this.uploadFileFlag = uploadFileFlag;
 	}
 	
 	
