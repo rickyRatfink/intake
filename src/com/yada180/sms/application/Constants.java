@@ -27,7 +27,7 @@ public final class Constants {
 	public static final String APPLICATIONS="applications";
 	public static final String SEARCH_APPLICATIONS="searchapps";
 	public static final String PASSWORD_RESET="passwordreset";
-	
+	public static final String ACCESS_DENIED="denied";
 	public static final String METRICS="metrics";
 	public static final String MODULES="modules";
 	public static final String PROGRAMS="programs";

@@ -815,5 +815,13 @@ td {
 	font-size : 0em; 
 	vertical-align:top;
 }
+.imageButtonUpload{
+    border : none;
+	color : transparent;
+	font-size : 0em; 
+	vertical-align:top;
+	color:#FFFFFF;
+	visibility:hidden;
+}
 
 

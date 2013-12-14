@@ -37,7 +37,8 @@
                  <forward name="createuser" path="/pages/security/create_user.jsp" redirect="true"/>
                  <forward name="edituser" path="/pages/security/create_user.jsp" redirect="true"/>   
                  <forward name="deleteuser" path="/pages/security/create_user.jsp" redirect="true"/>  
-                 <forward name="passwordreset" path="/pages/security/change_password.jsp" redirect="true"/>            
+                 <forward name="passwordreset" path="/pages/security/change_password.jsp" redirect="true"/>    
+                 <forward name="denied" path="/denied.html" redirect="true"/>            
          </action>
 
         <action name="onlineAppForm" path="/OnlineApp" type="com.yada180.sms.struts.action.OnlineAppAction" scope="session" input="/pages/onlineapp/index.jsp" 

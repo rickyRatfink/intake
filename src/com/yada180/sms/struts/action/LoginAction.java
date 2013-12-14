@@ -39,6 +39,14 @@ public class LoginAction extends Action {
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {		
 		LOGGER.setLevel(Level.SEVERE);
 
+		String ip=request.getRemoteAddr().toString();
+		if (!"75.147.217.62".equals(ip) && //Boynton Beach Farm
+				!"70.89.102.41".equals(ip) && //FTL Farm
+				!"127.0.0.1".equals(ip)  ) { //Local Development Box
+			LOGGER.log(Level.SEVERE,"INVALID IP ADDRESS TRIED TO ACCESS THE SYSTEM: "+request.getRemoteAddr().toString());
+			return mapping.findForward(Constants.ACCESS_DENIED);
+		}
+		
 		 HttpSession session = request.getSession(true);
 		 
 		 try {
