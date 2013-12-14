@@ -95,6 +95,7 @@ public class IntakeAction extends Action {
 			IntakeQuestionAnswerDao intakeQuestionAnswerDao = new IntakeQuestionAnswerDao();
 			IntakeJobSkillDao intakeJobSkillDao = new IntakeJobSkillDao();
 
+			
 			// clear out messages
 			intakeForm.setMessages(new ArrayList());
 			intakeForm.setMessageType("");
@@ -112,7 +113,21 @@ public class IntakeAction extends Action {
 			 * handle first so there will be no redirection, since the PDF
 			 * servlet opens in a separate window. There is no need to forward.
 			 */
-
+			if ("Yes".equals(intakeForm.getUploadFileFlag())) {
+				FormFile file = intakeForm.getImageFile();
+				try {
+					// InputStream stream = file.getInputStream();
+					InputStream stream = new BufferedInputStream(
+							file.getInputStream());
+					final byte[] bytes = new byte[5224024];
+					int read = stream.read(bytes);
+					intakeForm.getIntake().setImageHeadshot(bytes);
+				} catch (Exception e) {
+					LOGGER.log(Level.SEVERE, e.getMessage());
+				}
+				intakeForm.setUploadFileFlag(null);
+				return mapping.findForward(Constants.PERSONAL);
+			} else
 			if ("personal".equals(action))
 				return mapping.findForward(Constants.PERSONAL);
 			else if ("religious".equals(action))
@@ -307,21 +322,7 @@ public class IntakeAction extends Action {
 				return mapping.findForward(Constants.PERSONAL);
 			} else if ("Home".equals(action))
 				return mapping.findForward(Constants.HOME);
-			else if ("Upload".equals(action)) {
-				FormFile file = intakeForm.getImageFile();
-				try {
-					// InputStream stream = file.getInputStream();
-					InputStream stream = new BufferedInputStream(
-							file.getInputStream());
-					final byte[] bytes = new byte[5224024];
-					int read = stream.read(bytes);
-					intakeForm.getIntake().setImageHeadshot(bytes);
-				} catch (Exception e) {
-					LOGGER.log(Level.SEVERE, e.getMessage());
-				}
-
-				return mapping.findForward(Constants.PERSONAL);
-			} else if ("Edit".equals(action)) {
+			else if ("Edit".equals(action)) {
 				String key = request.getParameter("key");
 				Intake intake = intakeDao.find(new Long(key));
 				List studentHistory = studentHistoryDao.search(intake
@@ -1141,6 +1142,20 @@ public class IntakeAction extends Action {
 		
 		
 		
+	}
+	
+	private void uploadFile(IntakeForm intakeForm) {
+		FormFile file = intakeForm.getImageFile();
+		try {
+			// InputStream stream = file.getInputStream();
+			InputStream stream = new BufferedInputStream(
+					file.getInputStream());
+			final byte[] bytes = new byte[5224024];
+			int read = stream.read(bytes);
+			intakeForm.getIntake().setImageHeadshot(bytes);
+		} catch (Exception e) {
+			LOGGER.log(Level.SEVERE, e.getMessage());
+		}
 	}
 
 }
