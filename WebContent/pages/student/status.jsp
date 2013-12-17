@@ -184,7 +184,7 @@
                         <td style="height:20px;border: 1px solid #666;color:#000000;font-weight:bold;padding-left:5px;">Program</td>
                         <td style="height:20px;border: 1px solid #666;color:#000000;font-weight:bold;padding-left:5px;">Ending Status</td>
                         <td style="height:20px;border: 1px solid #666;color:#000000;font-weight:bold;padding-left:5px;">Reason</td>
-                        <td style="height:20px;border: 1px solid #666;color:#000000;font-weight:bold;padding-left:5px;">Del</td>
+                        <td style="height:20px;border: 1px solid #666;color:#000000;font-weight:bold;padding-left:5px;">Action</td>
                      </tr>
                     <logic:iterate id="loop" name="intakeForm" property="studentHistory" indexId="i">
                     

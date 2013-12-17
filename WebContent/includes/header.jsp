@@ -24,7 +24,8 @@
 	Faith Farm Student Information System
 </title>
 <meta http-equiv="refresh" content="14400;url=/intake/pages/security/index.jsp" />
-
+   <script type="text/javascript" src="<%=request.getContextPath()%>/scripts/analytics.js"></script>
+   
 	<link href="<%=request.getContextPath()%>/styles/site.css" rel="stylesheet" type="text/css" />
     <link href="<%=request.getContextPath()%>/styles/tcal.css" rel="stylesheet" type="text/css" />
    

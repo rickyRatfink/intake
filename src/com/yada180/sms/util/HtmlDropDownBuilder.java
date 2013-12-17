@@ -231,6 +231,7 @@ public class HtmlDropDownBuilder {
 	        session.setAttribute("ddl_applicationStatus", applicationStatus);
 
 	        List<DropDownItem> reponseStatus = new ArrayList<DropDownItem>();
+	        reponseStatus.add(new DropDownItem("Scheduled to arrive","Scheduled to arrive"));
 	        reponseStatus.add(new DropDownItem("Phone interview scheduled","Phone interview scheduled"));
 	        reponseStatus.add(new DropDownItem("Phone interview completed","Phone interview completed"));
 	        reponseStatus.add(new DropDownItem("Called, Awaiting Response","Called, Awaiting Response"));

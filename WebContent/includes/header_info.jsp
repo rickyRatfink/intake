@@ -23,6 +23,7 @@
 
 	<link href="<%=request.getContextPath()%>/styles/site.css" rel="stylesheet" type="text/css" />
     <link href="<%=request.getContextPath()%>/styles/tcal.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="<%=request.getContextPath()%>/scripts/analytics.js"></script>
    
     <script type="text/javascript" src="<%=request.getContextPath()%>/scripts/tcal.js"></script>
     <script type="text/javascript" src="<%=request.getContextPath()%>/scripts/chart.js"></script>
@@ -345,7 +346,7 @@ function whichKey(e) {
 		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Withdraw" style="color:#19fd01"><b>Withdraw</b></a>
 		        			&nbsp;&nbsp;&nbsp;<font style="color:#FFFFFF">Transfer&nbsp;[&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Transfer&tfarm=OKE" style="color:#19fd01"><b>OKE</b></a>
 		        									<a href="<%=request.getContextPath()%>/Intake.do?action=Transfer&tfarm=BYN" style="color:#19fd01"><b>BYN</b></a>
-		        									<a href="<%=request.getContextPath()%>/Intake.do?action=Transfer&tfarm=FTL" style="color:#19fd01"><b>EHW</b></a>
+		        									<a href="<%=request.getContextPath()%>/Intake.do?action=Transfer&tfarm=EHW" style="color:#19fd01"><b>EHW</b></a>
 		        									]</font>
 		        		<% } %>
 		     	</logic:equal>
@@ -395,7 +396,7 @@ function whichKey(e) {
 		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Withdraw" style="color:#19fd01"><b>Withdraw</b></a>
 		        			&nbsp;&nbsp;&nbsp;<font style="color:#FFFFFF">Transfer&nbsp;[&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Transfer&tfarm=FTL" style="color:#19fd01"><b>FTL</b></a>
 		        									<a href="<%=request.getContextPath()%>/Intake.do?action=Transfer&tfarm=BYN" style="color:#19fd01"><b>BYN</b>
-		        									<a href="<%=request.getContextPath()%>/Intake.do?action=Transfer&tfarm=FTL" style="color:#19fd01"><b>EHW</b></a></a>
+		        									<a href="<%=request.getContextPath()%>/Intake.do?action=Transfer&tfarm=EHW" style="color:#19fd01"><b>EHW</b></a></a>
 		        									]</font>
 		        		<% } %>
 		     	</logic:equal>

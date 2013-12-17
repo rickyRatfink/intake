@@ -15,8 +15,6 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.yada180.sms.util.PDFBuilder;
-
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -29,14 +27,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.struts.action.Action;
-import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 
 import com.yada180.sms.application.Constants;
-import com.yada180.sms.domain.ErrorMessage;
 import com.yada180.sms.domain.Intake;
 import com.yada180.sms.domain.IntakeJobSkill;
 import com.yada180.sms.domain.IntakeMedicalCondition;
@@ -50,11 +46,11 @@ import com.yada180.sms.domain.StudentPassHistory;
 import com.yada180.sms.domain.SystemUser;
 import com.yada180.sms.hibernate.data.IntakeDao;
 import com.yada180.sms.hibernate.data.IntakeJobSkillDao;
-import com.yada180.sms.hibernate.dao.IntakeMedicalConditionDao;
+import com.yada180.sms.hibernate.data.IntakeMedicalConditionDao;
 import com.yada180.sms.hibernate.data.IntakeQuestionAnswerDao;
-import com.yada180.sms.hibernate.dao.StudentDisciplineHistoryDao;
-import com.yada180.sms.hibernate.dao.StudentHistoryDao;
-import com.yada180.sms.hibernate.dao.StudentPassHistoryDao;
+import com.yada180.sms.hibernate.data.StudentDisciplineHistoryDao;
+import com.yada180.sms.hibernate.data.StudentHistoryDao;
+import com.yada180.sms.hibernate.data.StudentPassHistoryDao;
 import com.yada180.sms.struts.form.IntakeForm;
 import com.yada180.sms.util.HtmlDropDownBuilder;
 import com.yada180.sms.util.Validator;
@@ -161,9 +157,9 @@ public class IntakeAction extends Action {
 
 			else if ("discipline".equals(action)) {
 				intakeForm
-						.setStudentDisciplineHistory(studentDisciplineHistoryDao
-								.findByIntakeId(intakeForm.getIntake()
-										.getIntakeId()));
+						.setStudentDisciplineHistory(studentDisciplineHistoryDao.findByIntakeId(new StudentDisciplineHistory().getClass(), intakeForm.getIntake().getIntakeId()));
+								//.findByIntakeId(intakeForm.getIntake()
+								//		.getIntakeId()));
 				return mapping.findForward(Constants.DISCIPLINE);
 			} else if ("Photo".equals(action))
 				return mapping.findForward(Constants.PHOTO);
@@ -240,7 +236,7 @@ public class IntakeAction extends Action {
 				history.setCreationDate(validator.getEpoch() + "");
 				history.setIntakeId(intakeForm.getIntake().getIntakeId());
 
-				studentHistoryDao.addStudentHistory(history);
+				studentHistoryDao.save(history);
 				return mapping.findForward(Constants.PERSONAL);
 			} else if ("Transfer".equals(action)) {
 				String tfarm = request.getParameter("tfarm");
@@ -253,7 +249,7 @@ public class IntakeAction extends Action {
 				if ("EHW".equals(tfarm))
 					intakeForm.getIntake().setFarmBase("Women's Home");
 				intakeDao.update(intakeForm.getIntake());
-				this.sendEmail(intakeForm.getIntake().getFarmBase(), user.getFarmBase(), intakeForm);
+				this.sendEmail(intakeForm.getIntake().getFarmBase(), user.getFarmBase(), intakeForm, request);
 				List intakeList = intakeDao.searchApplications(intakeForm
 						.getSearchParameter().getBeginDate(), intakeForm
 						.getSearchParameter().getEndDate(), intakeForm
@@ -325,12 +321,11 @@ public class IntakeAction extends Action {
 			else if ("Edit".equals(action)) {
 				String key = request.getParameter("key");
 				Intake intake = intakeDao.find(new Long(key));
-				List studentHistory = studentHistoryDao.search(intake
-						.getIntakeId());
-				List studentPassHistory = studentPassHistoryDao.search(intake
+				List studentHistory = studentHistoryDao.findByIntakeId(new StudentHistory().getClass(), intake.getIntakeId());
+				List studentPassHistory = studentPassHistoryDao.findByIntakeId(new StudentPassHistory().getClass(), intake
 						.getIntakeId());
 				List<IntakeMedicalCondition> intakeMedicalCondition = intakeMedicalConditionDao
-						.findById(intake.getIntakeId());
+						.findByIntakeId(new IntakeMedicalCondition().getClass(), intake.getIntakeId());
 				List<IntakeQuestionAnswer> intakeQuestionAnswer = intakeQuestionAnswerDao.findByIntakeId(new IntakeQuestionAnswer().getClass(), intake.getIntakeId());
 						//.findById(intake.getIntakeId());
 				List<IntakeJobSkill> intakeJobSkill = intakeJobSkillDao.findByIntakeId(new IntakeJobSkill().getClass(), intake.getIntakeId());
@@ -389,15 +384,17 @@ public class IntakeAction extends Action {
 					return mapping.findForward(Constants.EDIT);
 			} else if ("Delete Pass History".equals(action)) {
 				Long id = intakeForm.getDeleteId();
-				studentPassHistoryDao.deleteStudentPassHistory(id);
+				StudentPassHistory obj = studentPassHistoryDao.find(id);
+				studentPassHistoryDao.delete(obj);
 				intakeForm.setStudentPassHistory(studentPassHistoryDao
-						.findByIntakeId(intakeForm.getIntake().getIntakeId()));
+						.findByIntakeId(new StudentPassHistory().getClass(),intakeForm.getIntake().getIntakeId()));
 				return mapping.findForward(Constants.PASS);
 			} else if ("Delete History".equals(action)) {
 				Long id = intakeForm.getDeleteId();
-				studentHistoryDao.deleteStudentHistory(id);
+				StudentHistory obj = studentHistoryDao.find(id);
+				studentHistoryDao.delete(obj);
 				intakeForm.setStudentHistory(studentHistoryDao
-						.findByIntakeId(intakeForm.getIntake().getIntakeId()));
+						.findByIntakeId(new StudentHistory().getClass(), intakeForm.getIntake().getIntakeId()));
 				StudentHistory currentStatus = new StudentHistory();
 				for (java.util.Iterator<StudentHistory> iterator = intakeForm
 						.getStudentHistory().iterator(); iterator.hasNext();) {
@@ -409,18 +406,17 @@ public class IntakeAction extends Action {
 				Integer id = intakeForm.getEditIndex();
 				Long key = intakeForm.getEditId();
 				// System.out.println ("id="+id+", key="+key);
-				StudentHistory status = studentHistoryDao.findById(key);
+				StudentHistory status = studentHistoryDao.find(key);
 				intakeForm.setEditStatus(status);
 				intakeForm.setStudentHistory(studentHistoryDao
-						.findByIntakeId(intakeForm.getIntake().getIntakeId()));
+						.findByIntakeId(new StudentHistory().getClass(), intakeForm.getIntake().getIntakeId()));
 				return mapping.findForward(Constants.STATUS);
 			} else if ("Save History Change".equals(action)) {
 				Long key = intakeForm.getEditId();
-				studentHistoryDao.updateStudentHistory(intakeForm
-						.getEditStatus());
+								studentHistoryDao.update(intakeForm.getEditStatus());
 				intakeForm.setEditStatus(new StudentHistory());
 				intakeForm.setStudentHistory(studentHistoryDao
-						.findByIntakeId(intakeForm.getIntake().getIntakeId()));
+						.findByIntakeId(new StudentHistory().getClass(), intakeForm.getIntake().getIntakeId()));
 				intakeForm.setEditId(null);
 				intakeForm.setEditIndex(new Integer(-1));
 
@@ -434,10 +430,11 @@ public class IntakeAction extends Action {
 				return mapping.findForward(Constants.STATUS);
 			} else if ("Delete Discipline History".equals(action)) {
 				Long id = intakeForm.getDeleteId();
-				studentDisciplineHistoryDao.deleteStudentDisciplineHistory(id);
+				StudentDisciplineHistory obj = studentDisciplineHistoryDao.find(id);
+				studentDisciplineHistoryDao.delete(obj);
 				intakeForm
 						.setStudentDisciplineHistory(studentDisciplineHistoryDao
-								.findByIntakeId(intakeForm.getIntake()
+								.findByIntakeId(new StudentDisciplineHistory().getClass(), intakeForm.getIntake()
 										.getIntakeId()));
 				return mapping.findForward(Constants.DISCIPLINE);
 			} else if ("Save".equals(action)) {
@@ -458,7 +455,7 @@ public class IntakeAction extends Action {
 				}
 				if (intakeForm.getIntake().getEntryDate() != null
 						&& intakeForm.getIntake().getEntryDate().length() == 10)
-					intakeForm.getIntake().setDob(
+					intakeForm.getIntake().setEntryDate(
 							intakeForm.getIntake().getEntryDate()
 									.replace("-", "/"));
 
@@ -521,7 +518,7 @@ public class IntakeAction extends Action {
 						if ("personal".equals(intakeForm.getPageSource())) {
 							this.setInitialStatus(intakeForm, user);
 							List studentHistory = studentHistoryDao
-									.search(intakeForm.getIntake()
+									.findByIntakeId(new StudentHistory().getClass(), intakeForm.getIntake()
 											.getIntakeId());
 							intakeForm.setStudentHistory(studentHistory);
 							intakeForm.getIntake().setArchivedFlag("No");
@@ -755,12 +752,12 @@ public class IntakeAction extends Action {
 		 * First delete all medical conditions for given intake
 		 */
 		List<IntakeMedicalCondition> intakeMedicalConditions = dao
-				.findById(intakeForm.getIntake().getIntakeId());
+				.findByIntakeId(new IntakeMedicalCondition().getClass(), intakeForm.getIntake().getIntakeId());
 		for (Iterator iterator = intakeMedicalConditions.iterator(); iterator
 				.hasNext();) {
 			IntakeMedicalCondition obj = (IntakeMedicalCondition) iterator
 					.next();
-			dao.deleteIntakeMedicalCondition(obj.getIntakeMedicalConditionId());
+			dao.delete(obj); //.getIntakeMedicalConditionId());
 		}
 
 		/*
@@ -779,7 +776,7 @@ public class IntakeAction extends Action {
 				imc.setIntakeId(intakeForm.getIntake().getIntakeId());
 				imc.setMedicalConditionId(obj.getMedicalConditionId());
 				imc.setAnswer("Yes");
-				dao.addIntakeMedicalCondition(imc);
+				dao.save(imc);
 			}
 
 			index++;
@@ -915,7 +912,7 @@ public class IntakeAction extends Action {
 			studentHistory.setIntakeId(intakeForm.getIntake().getIntakeId());
 			studentHistory.setCreationDate(validator.getEpoch() + "");
 			studentHistory.setCreatedBy(user.getUsername());
-			dao.addStudentHistory(studentHistory);
+			dao.save(studentHistory);
 
 			// update intakeStatus to program status
 			intakeForm.getIntake().setIntakeStatus(
@@ -940,7 +937,7 @@ public class IntakeAction extends Action {
 		// intakeForm.setPassHistory(new StudentPassHistory());
 		intakeForm.setHistory(new StudentHistory());
 		intakeForm.setCurrentStatus(studentHistory);
-		intakeForm.setStudentHistory(dao.findByIntakeId(intakeForm.getIntake()
+		intakeForm.setStudentHistory(dao.findByIntakeId(new StudentHistory().getClass(), intakeForm.getIntake()
 				.getIntakeId()));
 		// intakeForm.setStudentPassHistory(dao1.findByIntakeId(intakeForm.getIntake().getIntakeId()));
 
@@ -957,11 +954,11 @@ public class IntakeAction extends Action {
 			passHistory.setIntakeId(intakeForm.getIntake().getIntakeId());
 			passHistory.setCreationDate(validator.getEpoch() + "");
 			passHistory.setCreatedBy(user.getUsername());
-			dao1.addStudentPassHistory(passHistory);
+			dao1.save(passHistory);
 		}
 
 		intakeForm.setPassHistory(new StudentPassHistory());
-		intakeForm.setStudentPassHistory(dao1.findByIntakeId(intakeForm
+		intakeForm.setStudentPassHistory(dao1.findByIntakeId(new StudentPassHistory().getClass(), intakeForm
 				.getIntake().getIntakeId()));
 	}
 
@@ -1013,7 +1010,7 @@ public class IntakeAction extends Action {
 		intakeForm.getDisciplineHistory().setCreatedBy(username);
 		intakeForm.getDisciplineHistory().setCreationDate(
 				validator.getEpoch() + "");
-		dao.addStudentDisciplineHistory(intakeForm.getDisciplineHistory());
+		dao.save(intakeForm.getDisciplineHistory());
 		intakeForm.setDisciplineHistory(new StudentDisciplineHistory());
 
 	}
@@ -1024,7 +1021,7 @@ public class IntakeAction extends Action {
 		StudentHistoryDao dao = new StudentHistoryDao();
 		Intake intake = intakeForm.getIntake();
 
-		List<StudentHistory> list = dao.findByIntakeId(intake.getIntakeId());
+		List<StudentHistory> list = dao.findByIntakeId(new StudentHistory().getClass(), intake.getIntakeId());
 
 		StudentHistory history = new StudentHistory();
 
@@ -1068,11 +1065,11 @@ public class IntakeAction extends Action {
 		history.setBeginDate(beginDate);
 		history.setIntakeId(intake.getIntakeId());
 
-		dao.addStudentHistory(history);
+		dao.save(history);
 
 	}
 	
-	private void sendEmail (String tfarm, String ffarm, IntakeForm intakeForm) {
+	private void sendEmail (String tfarm, String ffarm, IntakeForm intakeForm, HttpServletRequest request) {
 		Properties properties = new Properties();
 		properties.put("mail.smtp.auth", "true");
 		properties.put("mail.smtp.starttls.enable", "true");
@@ -1134,7 +1131,9 @@ public class IntakeAction extends Action {
 	         message.setText("This is an automated response sent to notify you of an application submitted online. Please log into http://apps.faithfarm.org/intake to view the application.  Do not reply to this message.");
 
 	         // Send message
-	         Transport.send(message);
+	         if (!"127.0.0.1".equals(request.getRemoteAddr()))
+	        	 Transport.send(message);
+	         
 	       }catch (MessagingException mex) {
 	         mex.printStackTrace();
 	         LOGGER.log(Level.SEVERE,"Error occurred sending email for application: "+mex.getMessage());

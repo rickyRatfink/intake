@@ -12,6 +12,7 @@
 <link href="<%=request.getContextPath() %>/styles/tcal.css" rel="stylesheet" type="text/css" />
 <link href="<%=request.getContextPath() %>/styles/intake.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="<%=request.getContextPath()%>/scripts/tcal.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/scripts/analytics.js"></script>
 
 <style>
     .dotted {border: 1px dotted #456879; border-style: none none dotted; color: #fff; background-color: #fff; }
