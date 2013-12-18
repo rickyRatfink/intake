@@ -260,7 +260,20 @@ body {
 								<td>Personal Effects<br/></td>
 							</tr>
 							<tr>
-								<td><b><bean:write name="intakeForm" property="intake.governmentBenefitsFlag" /></b></td>
+								<td><b>
+									<logic:equal name="intakeForm" property="intake.foodStampFlag" value="Yes">
+									FOOD STAMPS,
+									</logic:equal>
+									<logic:equal name="intakeForm" property="intake.ssFlag" value="Yes">
+									SOC-SEC,
+									</logic:equal>
+									<logic:equal name="intakeForm" property="intake.vaFlag" value="Yes">
+									VA,
+									</logic:equal>
+									<logic:equal name="intakeForm" property="intake.wcFlag" value="Yes">
+									WORKERS COMP.
+									</logic:equal>
+									</b></td>
 							</tr>
 							<tr>
 								<td>Government Benefits</td>
