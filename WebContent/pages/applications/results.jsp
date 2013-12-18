@@ -49,7 +49,9 @@
 	                    	 <img src="<%=request.getContextPath()%>/images/local/Edit.gif" width="16" height="14" border="0"/>&nbsp;</a>	                   		 
 	      </td>
 	       <td class="searchRow<%=rowClass%>2"><bean:write name="loop" property="applicationSubmissionDate"/></td>
-	       <td class="searchRow<%=rowClass%>2"><bean:write name="loop" property="firstname"/>&nbsp;<bean:write name="loop" property="mi"/>&nbsp;<bean:write name="loop" property="lastname"/></td>
+	       <td class="searchRow<%=rowClass%>2">
+	       				<logic:equal name="loop" property="reapplyFlag" value="Yes"><img src="<%=request.getContextPath()%>/images/local/exclamation.png" width="10" height="10" border="0"/></logic:equal>
+	       				<bean:write name="loop" property="firstname"/>&nbsp;<bean:write name="loop" property="mi"/>&nbsp;<bean:write name="loop" property="lastname"/></td>
 	       <td class="searchRow<%=rowClass%>2"><bean:write name="loop" property="ssn"/></td>
 	       <td class="searchRow<%=rowClass%>2"><bean:write name="loop" property="dob"/></td>
 	       <td class="searchRow<%=rowClass%>2"><bean:write name="loop" property="dlFlag"/></td>
@@ -82,7 +84,9 @@
    		</logic:equal>
    </logic:iterate>
    <tr>
-   		<td colspan="9"></br><i>Applications:</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Boynton Beach=<b><%=byn %></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fort Lauderdale=<b><%=ftl %></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Okeechobee=<b><%=oke %></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Women's Home=<b><%=ewh %></b></td>
+   		<td colspan="9"></br><i>Applications:</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Boynton Beach=<b><%=byn %></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fort Lauderdale=<b><%=ftl %></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Okeechobee=<b><%=oke %></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Women's Home=<b><%=ewh %></b>
+   			</br></br><img src="<%=request.getContextPath()%>/images/local/exclamation.png" width="10" height="10" border="0"/>&nbsp;<i>returning student or previous applicant</i>
+   		</td>
    </tr>
    </logic:notEmpty>
    <logic:empty name="intakeForm" property="applicantList">

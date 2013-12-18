@@ -608,5 +608,9 @@
         <property name="applicationSubmissionDate" type="string">
             <column name="APPLICATION_SUBMISSION_DATE" length="20" />
         </property>
+        <property name="reapplyFlag" type="string">
+            <column name="REAPPLY_FLAG" length="20" />
+        </property>
+        
     </class>
 </hibernate-mapping>

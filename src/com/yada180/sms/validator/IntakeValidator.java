@@ -78,8 +78,8 @@ public class IntakeValidator {
 
 		if (intake.getDob()!=null) {
 			if (intake.getDob().length()!=10) 		
-			 messages.add(new ErrorMessage("date of birth","is needs to be in MM/DD/YYYY format"));
-			
+				messages.add(new ErrorMessage("date of birth","needs to be in MM/DD/YYYY format"));
+			intake.setDob(intake.getDob().replace("-", "/"));
 		}
 		
 		if ("Yes".equals(intake.getDlFlag())) {

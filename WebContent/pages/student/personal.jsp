@@ -71,6 +71,27 @@ function isNumberKey(evt)
 	</tr>
 	</table>
 	
+	
+	<logic:equal name="intakeForm" property="intake.reapplyFlag" value="Yes">
+	<table width="750">
+	<tr>
+		<td >
+		
+			<table width="98%" style="background:#f8b81f;border-color:#986f0b;border: 1px solid black;">
+			<tr>
+				<td width="35"><img src="<%=request.getContextPath() %>/images/local/icon_warning.jpg"/></td>
+				<td>
+					<p>
+						&nbsp;&nbsp;<font style="color:#000000;size=4;"><b>This application is for a returning student or previous applicant.</b></font>
+					</p>
+				</td>
+			</tr>
+			</table>
+		</td>
+	</tr>
+	</table>
+	</logic:equal>
+	
     <table width="750">
 	<tr>
 		<td colspan="8"><b>Personal Information: </b></td>

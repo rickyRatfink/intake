@@ -16,7 +16,7 @@ public class OnlineAppForm extends ActionForm {
 	private Intake intake = new Intake();
 	private String pageSource;
 	private String nextStep;
-	private String prevStep;
+	private String previousStep;
 	private String messageType;
 	private List<ErrorMessage> messages = new ArrayList<ErrorMessage>();
     
@@ -291,12 +291,12 @@ public class OnlineAppForm extends ActionForm {
 	}
 	public void setNextStep(String nextStep) {
 		this.nextStep = nextStep;
+	}	
+	public String getPreviousStep() {
+		return previousStep;
 	}
-	public String getPrevStep() {
-		return prevStep;
-	}
-	public void setPrevStep(String prevStep) {
-		this.prevStep = prevStep;
+	public void setPreviousStep(String previousStep) {
+		this.previousStep = previousStep;
 	}
 	public String getMotivationalLossFlag() {
 		return motivationalLossFlag;

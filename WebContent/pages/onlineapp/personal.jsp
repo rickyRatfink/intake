@@ -81,12 +81,30 @@ System.out.println("*****START OF NEW APPLICATION*******");
 		</td>
 	</tr>
 	<% } %>
+	<% if ("true".equals(session.getAttribute("previous_intake"))) { %>
+	<tr>
+		<td >
+		
+			<table width="98%" style="background:#f8b81f;border-color:#986f0b;border: 1px solid black;">
+			<tr>
+				<td width="35"><img src="<%=request.getContextPath() %>/images/local/icon_warning.jpg"/></td>
+				<td>
+					<p>
+						&nbsp;&nbsp;<font style="color:#000000;size=4;"><b>A previous record has been found that matches your identity. Please update your information before submitting.</b></font>
+					</p>
+				</td>
+			</tr>
+			</table>
+		</td>
+	</tr>
+	<% } else { %>
 	<tr>
 		<td><p><i>Thank you for your interest in Faith Farm Ministries.  Please complete the online application as accurately 
 		as possible.  Once the application is submitted it will be reviewed and an intake coordinator will contact you shortly.</i></p>
 		<br/>
 		</td>
 	</tr>
+	<% } %>
 	</table>
 	
 	<table width="100%">

@@ -24,7 +24,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.logging.Log;
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -37,10 +36,12 @@ import com.yada180.sms.domain.IntakeMedicalCondition;
 import com.yada180.sms.domain.IntakeQuestionAnswer;
 import com.yada180.sms.domain.JobSkill;
 import com.yada180.sms.domain.MedicalCondition;
-import com.yada180.sms.hibernate.data.IntakeMedicalConditionDao;
-import com.yada180.sms.hibernate.data.IntakeQuestionAnswerDao;
+import com.yada180.sms.domain.StudentHistory;
+import com.yada180.sms.domain.StudentPassHistory;
 import com.yada180.sms.hibernate.data.IntakeDao;
 import com.yada180.sms.hibernate.data.IntakeJobSkillDao;
+import com.yada180.sms.hibernate.data.IntakeMedicalConditionDao;
+import com.yada180.sms.hibernate.data.IntakeQuestionAnswerDao;
 import com.yada180.sms.struts.form.IntakeForm;
 import com.yada180.sms.struts.form.OnlineAppForm;
 import com.yada180.sms.util.HtmlDropDownBuilder;
@@ -91,6 +92,78 @@ public class OnlineAppAction extends Action {
 			if (!valid)
 				 return mapping.findForward(onlineAppForm.getPageSource());
 			
+			
+			if ("personal".equals(onlineAppForm.getPageSource())) {
+				
+				if (!"true".equals((String)session.getAttribute("previous_intake"))) {
+					//First check to see if ssn/name has already been to Faith Farm
+					String ssn = onlineAppForm.getIntake().getSsn().replace("-", "");
+					String dob = onlineAppForm.getIntake().getDob();
+					String fname = onlineAppForm.getIntake().getFirstname();
+					String lname = onlineAppForm.getIntake().getLastname();
+					String appFarm=onlineAppForm.getIntake().getFarmBase();
+					
+					//First check SSN in Format xxxxxxxxx ( Intake 1.0)
+					List<Intake> list = intakeDao.search(null, null, null, null, ssn, dob, null, null, null, null);
+					
+					//if list=0 check SSN in Format xxx-xx-xxxx ( Intake 2.0)
+					if (list.size()==0)
+						list = intakeDao.search(null, null, null, null, onlineAppForm.getIntake().getSsn(), dob, null, null, null, null);
+					
+					if (list.size()!=0) {
+						Intake intake = (Intake)list.get(0);
+						intake.setReapplyFlag("Yes");
+						intake.setFarmBase(appFarm);
+						onlineAppForm.setIntake(intake);
+						
+						//set supporting values
+						List<IntakeMedicalCondition> intakeMedicalCondition = intakeMedicalConditionDao
+								.findByIntakeId(new IntakeMedicalCondition().getClass(), intake.getIntakeId());
+						List<IntakeQuestionAnswer> intakeQuestionAnswer = intakeQuestionAnswerDao.findByIntakeId(new IntakeQuestionAnswer().getClass(), intake.getIntakeId());
+								//.findById(intake.getIntakeId());
+						List<IntakeJobSkill> intakeJobSkill = intakeJobSkillDao.findByIntakeId(new IntakeJobSkill().getClass(), intake.getIntakeId());
+								//.findById(intake.getIntakeId());
+
+						/*
+						 * Check program status and graduation date to check for 'time
+						 * is up', display msg if it is
+						 */
+
+						setIntakeMedicalConditions(intakeMedicalCondition, onlineAppForm);
+						setIntakeQuestionAnswer(intakeQuestionAnswer, onlineAppForm);
+						setIntakeJobSkills(intakeJobSkill, onlineAppForm);
+
+						// convert phsycial effects to Flags
+						this.setPhysicalEffects(onlineAppForm);
+						this.setUsagePatterns(onlineAppForm);
+
+						if (intake.getUsageLosses()!=null) {
+							if (intake.getUsageLosses().contains("Job"))
+								onlineAppForm.setUsageLosses1("Job");
+							if (intake.getUsageLosses().contains("Marriage"))
+								onlineAppForm.setUsageLosses2("Marriage");
+							if (intake.getUsageLosses().contains("Friends"))
+								onlineAppForm.setUsageLosses3("Friends");
+							if (intake.getUsageLosses().contains("Possessions"))
+								onlineAppForm.setUsageLosses4("Possessions");
+							if (intake.getUsageLosses().contains("Arrests"))
+								onlineAppForm.setUsageLosses5("Arrests");
+							if (intake.getUsageLosses().contains("DUIs"))
+								onlineAppForm.setUsageLosses6("DUIs");
+							if (intake.getUsageLosses().contains("Heavy Debt"))
+								onlineAppForm.setUsageLosses7("Heavy Debt");
+							if (intake.getUsageLosses().contains("Health"))
+								onlineAppForm.setUsageLosses8("Health");
+							if (intake.getUsageLosses().contains("Incarceration"))
+								onlineAppForm.setUsageLosses9("Incarceration");
+						}
+			
+						
+						session.setAttribute("previous_intake", "true");
+						return mapping.findForward(Constants.PERSONAL);
+					}
+				}
+			}
 			if ("religious".equals(onlineAppForm.getNextStep()))
 				return mapping.findForward(Constants.RELIGIOUS);
 			else if ("health".equals(onlineAppForm.getNextStep()))
@@ -107,17 +180,17 @@ public class OnlineAppAction extends Action {
 		} else if ("Back".equals(action)) {
 			System.out.println ("---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" click Next on "+onlineAppForm.getPageSource()+" @ "+(new java.util.Date()));
 			
-			if ("personal".equals(onlineAppForm.getPrevStep()))
+			if ("personal".equals(onlineAppForm.getPreviousStep()))
 				return mapping.findForward(Constants.PERSONAL);
-			else if ("religious".equals(onlineAppForm.getPrevStep()))
+			else if ("religious".equals(onlineAppForm.getPreviousStep()))
 				return mapping.findForward(Constants.RELIGIOUS);
-			else if ("health".equals(onlineAppForm.getPrevStep()))
+			else if ("health".equals(onlineAppForm.getPreviousStep()))
 				return mapping.findForward(Constants.HEALTH);
-			else if ("substance".equals(onlineAppForm.getPrevStep()))
+			else if ("substance".equals(onlineAppForm.getPreviousStep()))
 				return mapping.findForward(Constants.SUBSTANCE);
-			else if ("legal".equals(onlineAppForm.getPrevStep()))
+			else if ("legal".equals(onlineAppForm.getPreviousStep()))
 				return mapping.findForward(Constants.LEGAL);
-			else if ("employment".equals(onlineAppForm.getPrevStep()))
+			else if ("employment".equals(onlineAppForm.getPreviousStep()))
 				return mapping.findForward(Constants.EMPLOYMENT);
 
 		} else if ("Submit".equals(action)) {
@@ -132,6 +205,8 @@ public class OnlineAppAction extends Action {
 				session.setAttribute("session_expired", "true");
 				return mapping.findForward(Constants.PERSONAL);
 			}
+			
+			
 				
 			onlineAppForm.setMessageType("");
 			String submitDate = Validator.convertEpoch(Validator.getEpoch());
@@ -143,16 +218,25 @@ public class OnlineAppAction extends Action {
 						validator.getEpoch() + "");
 				onlineAppForm.getIntake().setCreatedBy("online application");
 				onlineAppForm.getIntake().setApplicationStatus("Pending");
+				onlineAppForm.getIntake().setIntakeStatus("Pending");
 				
 				//temp log all data before attempted save
 				this.logApplicationDataOnException(onlineAppForm);
 				
 				saveUsagePatternAndLosses(onlineAppForm);
-				Long id = intakeDao.save(onlineAppForm.getIntake());
-				onlineAppForm.getIntake().setIntakeId(id);
-				System.out.println ("---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" saved application with id "+id+" @ "+(new java.util.Date()));
 				
-				if (id!=null) {
+				if (onlineAppForm.getIntake().getIntakeId()==null) {
+					Long id=intakeDao.save(onlineAppForm.getIntake());
+					onlineAppForm.getIntake().setIntakeId(id);
+				}
+				else
+					intakeDao.update(onlineAppForm.getIntake());
+				
+				
+				System.out.println ("---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" saved application with id "+onlineAppForm.getIntake().getIntakeId()+" @ "+(new java.util.Date()));
+				session.removeAttribute("previous_intake");
+				
+				if (onlineAppForm.getIntake().getIntakeId()!=null) {
 					saveMedicalConditions(onlineAppForm);
 					saveIntakeQuestionAnswer(onlineAppForm);
 					saveJobSkills(onlineAppForm,request);
@@ -175,7 +259,7 @@ public class OnlineAppAction extends Action {
 
 				         message.addRecipient(Message.RecipientType.TO,
 			                     new InternetAddress("itdepartment@faithfarm.org"));
-				         
+				        
 				         if ("Boynton Beach".equals(onlineAppForm.getIntake().getFarmBase())) {
 				        	 message.addRecipient(Message.RecipientType.TO,
 				                     new InternetAddress("intake.boyntonbeach@faithfarm.org"));
@@ -208,11 +292,14 @@ public class OnlineAppAction extends Action {
 				         }
 				             
 				         // Set Subject: header field
-				         message.setSubject("Intake Application Received for "+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" at "+onlineAppForm.getIntake().getFarmBase());
+				         if ("Yes".equals(onlineAppForm.getIntake().getReapplyFlag()))
+			        		 message.setSubject("Returning Student or Applicant has submitted an Application for "+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" at "+onlineAppForm.getIntake().getFarmBase());
+				         else		 
+				        	 message.setSubject("Intake Application Received for "+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" at "+onlineAppForm.getIntake().getFarmBase());
 
 				         // Now set the actual message
 				         message.setText("This is an automated response sent to notify you of an application submitted online. Please log into http://apps.faithfarm.org/intake to view the application.  Do not reply to this message.");
-				         
+				         Transport.send(message);
 				         // Send message
 				         try {
 				     		String ipAddy=InetAddress.getLocalHost().getHostAddress();
@@ -473,6 +560,161 @@ public class OnlineAppAction extends Action {
 			StringWriter sw = new StringWriter();
 			PrintWriter pw = new PrintWriter(sw);
 	}
+	
+	private void setIntakeMedicalConditions(
+			List<IntakeMedicalCondition> intakeMedicalCondition,
+			OnlineAppForm intakeForm) {
+
+		String medicalCondition[] = new String[] { "No", "No", "No", "No",
+				"No", "No", "No", "No", "No", "No", "No", "No", "No", "No",
+				"No", "No", "No", "No", "No", "No", "No", "No", "No", "No",
+				"No", "No", "No", "No", "No", "No", "No", "No", "No", "No" };
+
+		for (java.util.Iterator<IntakeMedicalCondition> iterator = intakeMedicalCondition
+				.iterator(); iterator.hasNext();) {
+			IntakeMedicalCondition obj = (IntakeMedicalCondition) iterator
+					.next();
+			medicalCondition[obj.getMedicalConditionId().intValue() - 1] = "Yes";
+		}
+
+		intakeForm.setMedicalCondition(medicalCondition);
+	}
+
+	private void setIntakeQuestionAnswer(
+			List<IntakeQuestionAnswer> intakeQuestionAnswer,
+			OnlineAppForm intakeForm) {
+
+		String healthAnswer[] = new String[] { "No", "No", "No", "No", "No",
+				"No", "No", "No", "No", "No", "No", "No", "No", "No", "No",
+				"No", "No", "No", "No", "No", "No", "No", "No", "No", "No",
+				"No", "No", "No", "No", "No", "No", "No", "No", "No" };
+
+		String emotionalAnswer[] = new String[] { "No", "No", "No", "No", "No",
+				"No", "No", "No", "No", "No", "No", "No", "No", "No", "No",
+				"No", "No", "No", "No", "No", "No", "No", "No", "No", "No",
+				"No", "No", "No", "No", "No", "No", "No", "No", "No" };
+
+		String physicalAnswer[] = new String[] { "No", "No", "No", "No", "No",
+				"No", "No", "No", "No", "No", "No", "No", "No", "No", "No",
+				"No", "No", "No", "No", "No", "No", "No", "No", "No", "No",
+				"No", "No", "No", "No", "No", "No", "No", "No", "No" };
+
+		String mentalAnswer[] = new String[] { "No", "No", "No", "No", "No",
+				"No", "No", "No", "No", "No", "No", "No", "No", "No", "No",
+				"No", "No", "No", "No", "No", "No", "No", "No", "No", "No",
+				"No", "No", "No", "No", "No", "No", "No", "No", "No" };
+
+		String emotionalAnswerDate[] = new String[] { "", "", "", "", "", "",
+				"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
+				"", "", "", "", "", "", "", "", "", "", "", "" };
+
+		String emotionalAnswerDetails[] = new String[] { "", "", "", "", "",
+				"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
+				"", "", "", "", "", "", "", "", "", "", "", "", "" };
+
+		String mentalAnswerDate[] = new String[] { "", "", "", "", "", "", "",
+				"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
+				"", "", "", "", "", "", "", "", "", "", "" };
+
+		String mentalAnswerDetails[] = new String[] { "", "", "", "", "", "",
+				"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
+				"", "", "", "", "", "", "", "", "", "", "", "" };
+
+		String physicalAnswerDetails[] = new String[] { "", "", "", "", "", "",
+				"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
+				"", "", "", "", "", "", "", "", "", "", "", "" };
+
+		String questionAnswerDates[] = new String[] { "", "", "", "", "", "",
+				"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
+				"", "", "", "", "", "", "", "", "", "", "", "" };
+
+		for (java.util.Iterator<IntakeQuestionAnswer> iterator = intakeQuestionAnswer
+				.iterator(); iterator.hasNext();) {
+			IntakeQuestionAnswer obj = (IntakeQuestionAnswer) iterator.next();
+			int id = (int) obj.getQuestionId() - 1;
+			if (id < 15)
+				healthAnswer[id] = "Yes";
+			else if (id > 14 && id < 21) {
+				emotionalAnswer[id - 15] = "Yes";
+				emotionalAnswerDate[id - 15] = obj.getDates();
+				emotionalAnswerDetails[id - 15] = obj.getDetail();
+			} else if (id > 20 && id < 26) {
+				physicalAnswer[id - 21] = "Yes";
+				physicalAnswerDetails[id - 21] = obj.getDetail();
+			} else if (id > 25 && id < 32) {
+				mentalAnswer[id - 26] = "Yes";
+				mentalAnswerDate[id - 26] = obj.getDates();
+				mentalAnswerDetails[id - 26] = obj.getDetail();
+			}
+
+		}
+
+		intakeForm.setHealthAnswer(healthAnswer);
+		intakeForm.setMentalAnswer(mentalAnswer);
+		intakeForm.setMentalAnswerDate(mentalAnswerDate);
+		intakeForm.setMentalAnswerDetails(mentalAnswerDetails);
+		intakeForm.setPhysicalAnswer(physicalAnswer);
+		intakeForm.setPhysicalAnswerDetails(physicalAnswerDetails);
+		intakeForm.setEmotionalAnswer(emotionalAnswer);
+		intakeForm.setEmotionalAnswerDate(emotionalAnswerDate);
+		intakeForm.setEmotionalAnswerDetails(emotionalAnswerDetails);
+	}
+
+	private void setIntakeJobSkills(List<IntakeJobSkill> intakeJobSkill,
+			OnlineAppForm intakeForm) {
+
+		String workExperience[] = new String[] { "", "", "", "", "", "", "",
+				"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
+				"", "", "", "", "", "", "", "", "", "", "", "" };
+
+		for (java.util.Iterator<IntakeJobSkill> iterator = intakeJobSkill
+				.iterator(); iterator.hasNext();) {
+			IntakeJobSkill obj = (IntakeJobSkill) iterator.next();
+			workExperience[obj.getJobSkillId().intValue() - 1] = "Yes";
+		} 
+
+		intakeForm.setWorkExperience(workExperience);
+	
+
+	}
+	
+	private void setPhysicalEffects(OnlineAppForm intakeForm) {
+		String physicalEffects = intakeForm.getIntake().getPhysicalEffects();
+
+		if (physicalEffects != null) {
+			if (physicalEffects.contains("motivational"))
+				intakeForm.setMotivationalLossFlag("Yes");
+			if (physicalEffects.contains("shakes"))
+				intakeForm.setShakesConvulsionsFlag("Yes");
+			if (physicalEffects.contains("memory"))
+				intakeForm.setMemoryLossFlag("Yes");
+			if (physicalEffects.contains("incoherent"))
+				intakeForm.setIncoherentThinkingFlag("Yes");
+			if (physicalEffects.contains("organ"))
+				intakeForm.setOrganProblemsFlag("Yes");
+		}
+	}
+
+	private void setUsagePatterns(OnlineAppForm intakeForm) {
+		String usagePattern = intakeForm.getIntake().getUsagePattern();
+
+		if (usagePattern != null) {
+			if (usagePattern.contains("Constantly"))
+				intakeForm.setUsagePattern1("Yes");
+			if (usagePattern.contains("Weekends"))
+				intakeForm.setUsagePattern2("Yes");
+			if (usagePattern.contains("Special Occasions"))
+				intakeForm.setUsagePattern3("Yes");
+			if (usagePattern.contains("Whenever available"))
+				intakeForm.setUsagePattern4("Yes");
+			if (usagePattern.contains("When Things Get Tough"))
+				intakeForm.setUsagePattern5("Yes");
+			if (usagePattern.contains("A Week/Off A Week"))
+				intakeForm.setUsagePattern6("Yes");
+		}
+	}
+
+
 	
 	
 
