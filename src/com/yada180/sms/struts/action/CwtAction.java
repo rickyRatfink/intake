@@ -30,17 +30,17 @@ import com.yada180.sms.domain.CwtProgramMetric;
 import com.yada180.sms.domain.CwtProgramMetricModules;
 import com.yada180.sms.domain.CwtSupervisor;
 import com.yada180.sms.domain.SystemUser;
-import com.yada180.sms.hibernate.dao.CwtDepartmentDao;
-import com.yada180.sms.hibernate.dao.CwtJobDao;
-import com.yada180.sms.hibernate.dao.CwtJobMetricDao;
-import com.yada180.sms.hibernate.dao.CwtMetricsDao;
-import com.yada180.sms.hibernate.dao.CwtModuleSectionDao;
-import com.yada180.sms.hibernate.dao.CwtModuleStudentDao;
-import com.yada180.sms.hibernate.dao.CwtModulesDao;
-import com.yada180.sms.hibernate.dao.CwtProgramDao;
-import com.yada180.sms.hibernate.dao.CwtProgramMetricDao;
-import com.yada180.sms.hibernate.dao.CwtProgramMetricModulesDao;
-import com.yada180.sms.hibernate.dao.CwtSupervisorDao;
+import com.yada180.sms.hibernate.data.CwtDepartmentDao;
+import com.yada180.sms.hibernate.data.CwtJobDao;
+import com.yada180.sms.hibernate.data.CwtJobMetricDao;
+import com.yada180.sms.hibernate.data.CwtMetricsDao;
+import com.yada180.sms.hibernate.data.CwtModuleSectionDao;
+import com.yada180.sms.hibernate.data.CwtModuleStudentDao;
+import com.yada180.sms.hibernate.data.CwtModulesDao;
+import com.yada180.sms.hibernate.data.CwtProgramDao;
+import com.yada180.sms.hibernate.data.CwtProgramMetricDao;
+import com.yada180.sms.hibernate.data.CwtProgramMetricModulesDao;
+import com.yada180.sms.hibernate.data.CwtSupervisorDao;
 import com.yada180.sms.struts.form.CwtForm;
 import com.yada180.sms.util.HtmlDropDownBuilder;
 import com.yada180.sms.util.Validator;
@@ -84,35 +84,35 @@ public class CwtAction extends Action {
 		 CwtJobMetricDao cwtJobMetricDao = new CwtJobMetricDao();
 		 
 		 if ("programs".equals(action)) {
-			 cwtForm.setProgramList(cwtProgramDao.listCwtPrograms());
+			 cwtForm.setProgramList(cwtProgramDao.findAll()); //listCwtPrograms());
 			 return mapping.findForward(Constants.PROGRAMS);
 		 }
 		 else if ("metrics".equals(action)) {
-			 cwtForm.setMetricList(cwtMetricsDao.listCwtMetricss());
-			 cwtForm.setProgramList(cwtProgramDao.listCwtPrograms());
+			 cwtForm.setMetricList(cwtMetricsDao.findAll());
+			 cwtForm.setProgramList(cwtProgramDao.findAll());
 			 return mapping.findForward(Constants.METRICS);
 		 }
 		 else if ("modules".equals(action)) {
-			 cwtForm.setModuleList(cwtModulesDao.listCwtModuless());
-			 cwtForm.setMetricList(cwtMetricsDao.listCwtMetricss());
+			 cwtForm.setModuleList(cwtModulesDao.findAll());
+			 cwtForm.setMetricList(cwtMetricsDao.findAll());
 			 return mapping.findForward(Constants.MODULES);
 		 }
 		 else if ("departments".equals(action)) {
-			 cwtForm.setDepartmentList(cwtDepartmentDao.listCwtDepartments());
+			 cwtForm.setDepartmentList(cwtDepartmentDao.findAll());
 			 return mapping.findForward(Constants.DEPARTMENTS);
 		 }
 		 else if ("jobs".equals(action)) {
-			 cwtForm.setJobList(cwtJobDao.listCwtJobs());
-			 cwtForm.setMetricList(cwtMetricsDao.listCwtMetricss());
+			 cwtForm.setJobList(cwtJobDao.findAll());
+			 cwtForm.setMetricList(cwtMetricsDao.findAll());
 			 return mapping.findForward(Constants.JOBS);
 		 }
 		 else if ("supervisors".equals(action)) {
-			 List<CwtSupervisor> list = cwtSupervisorDao.listCwtSupervisors();
+			 List<CwtSupervisor> list = cwtSupervisorDao.findAll();
 			 List<CwtMaster> masters = new ArrayList<CwtMaster>();
 			 for (Iterator iterator = list.iterator();iterator.hasNext();) {
 				 CwtSupervisor supervisor = (CwtSupervisor)iterator.next();
-				 CwtDepartment department = cwtDepartmentDao.findById(supervisor.getDepartmentId());
-				 CwtJob job = cwtJobDao.findById(supervisor.getJobId());
+				 CwtDepartment department = cwtDepartmentDao.find(supervisor.getDepartmentId());
+				 CwtJob job = cwtJobDao.find(supervisor.getJobId());
 				 
 				 CwtMaster master = new CwtMaster();
 				 master.setCwtDepartment(department);
@@ -135,32 +135,32 @@ public class CwtAction extends Action {
 			 String type=request.getParameter("type");
 			 
 			 if ("Job".equals(type)) {
-				 cwtForm.setCwtJob(cwtJobDao.findById(new Long(id)));
+				 cwtForm.setCwtJob(cwtJobDao.find(new Long(id)));
 				 return mapping.findForward("create_job");
 			 }
 			 if ("Department".equals(type)) {
-				 cwtForm.setCwtDepartment(cwtDepartmentDao.findById(new Long(id)));
+				 cwtForm.setCwtDepartment(cwtDepartmentDao.find(new Long(id)));
 				 return mapping.findForward("create_department");
 			 }
 			 if ("Supervisor".equals(type)) {
-				 cwtForm.setCwtSupervisor(cwtSupervisorDao.findById(new Long(id)));
+				 cwtForm.setCwtSupervisor(cwtSupervisorDao.find(new Long(id)));
 				 return mapping.findForward("create_supervisor");
 			 }
 			 if ("Metric".equals(type)) {
-				 cwtForm.setCwtMetric(cwtMetricsDao.findById(new Long(id)));
+				 cwtForm.setCwtMetric(cwtMetricsDao.find(new Long(id)));
 				 this.loadProgramMetrics(cwtForm);
 				 return mapping.findForward("create_"+Constants.METRICS);
 			 }
 			 if ("Module".equals(type)) {
-				 cwtForm.setCwtModule(cwtModulesDao.findById(new Long(id)));
+				 cwtForm.setCwtModule(cwtModulesDao.find(new Long(id)));
 				 return mapping.findForward("create_"+Constants.MODULES);
 			 }
 			 if ("Program".equals(type)) {
-				 cwtForm.setCwtProgram(cwtProgramDao.findById(new Long(id)));
+				 cwtForm.setCwtProgram(cwtProgramDao.find(new Long(id)));
 				 return mapping.findForward("create_"+Constants.PROGRAMS);
 			 }
 			 if ("Section".equals(type)) {
-				 cwtForm.setCwtModuleSection(cwtModuleSectionDao.findById(new Long(id)));
+				 cwtForm.setCwtModuleSection(cwtModuleSectionDao.find(new Long(id)));
 				 this.getMeetingDays(cwtForm);
 				 return mapping.findForward("create_"+Constants.SECTIONS);
 			 }
@@ -168,14 +168,20 @@ public class CwtAction extends Action {
 		 }
 		 else if ("Delete".equals(action)) {
 			 String id=request.getParameter("id");
-			 if ("metric".equals(cwtForm.getPageSource()))
-				 cwtMetricsDao.deleteCwtMetrics(new Long(id));
-			 if ("module".equals(cwtForm.getPageSource()))
-				 cwtModulesDao.deleteCwtModules(new Long(id));
-			 if ("program".equals(cwtForm.getPageSource()))
-				 cwtProgramDao.deleteCwtProgram(new Long(id));
+			 if ("metric".equals(cwtForm.getPageSource())) {
+				 CwtMetrics obj = cwtMetricsDao.find(new Long(id));
+				 cwtMetricsDao.delete(obj);
+			 }
+			 if ("module".equals(cwtForm.getPageSource())) {
+				 CwtModules obj = cwtModulesDao.find(new Long(id));
+				 cwtModulesDao.delete(obj);
+			 }
+			 if ("program".equals(cwtForm.getPageSource())) {
+				 CwtProgram obj = cwtProgramDao.find(new Long(id));
+				 cwtProgramDao.delete(obj);
+			 }
 			 if ("section".equals(cwtForm.getPageSource())) {
-				 cwtModuleSectionDao.deleteCwtModuleSection(cwtForm.getCwtModuleSection().getModuleOfferingId());
+				 cwtModuleSectionDao.delete(cwtForm.getCwtModuleSection());
 				 this.getSectionDetail(cwtForm);
 				 return mapping.findForward(Constants.SECTIONS);
 			 }
@@ -190,7 +196,7 @@ public class CwtAction extends Action {
 			 cwtForm.setCwtMetric(new CwtMetrics());
 			 cwtForm.setCwtModuleSection(new CwtModuleSection());
 			 
-			 cwtForm.setMetricList(cwtMetricsDao.listCwtMetricss());
+			 cwtForm.setMetricList(cwtMetricsDao.findAll());
 			 html.refresh(session);
 			 return mapping.findForward("create_"+cwtForm.getPageSource());
 		 }
@@ -199,34 +205,34 @@ public class CwtAction extends Action {
 				 if (cwtForm.getCwtMetric().getMetricId()==null) {
 					 cwtForm.getCwtProgram().setCreatedBy(user.getUsername());
 					 cwtForm.getCwtProgram().setCreationDate(validator.getEpoch()+"");
-					 cwtProgramDao.addCwtProgram(cwtForm.getCwtProgram());
+					 cwtProgramDao.save(cwtForm.getCwtProgram());
 				 } else
-					 cwtProgramDao.updateCwtProgram(cwtForm.getCwtProgram());
+					 cwtProgramDao.update(cwtForm.getCwtProgram());
 				 
-				 cwtForm.setProgramList(cwtProgramDao.listCwtPrograms());
+				 cwtForm.setProgramList(cwtProgramDao.findAll());
 				 return mapping.findForward(Constants.PROGRAMS);
 			 }
 			 if ("module".equals(cwtForm.getPageSource())) {
 				 if (cwtForm.getCwtModule().getModuleId()==null) {
 					 cwtForm.getCwtModule().setCreatedBy(user.getUsername());
 					 cwtForm.getCwtModule().setCreationDate(validator.getEpoch()+"");
-					 cwtModulesDao.addCwtModules(cwtForm.getCwtModule());
+					 cwtModulesDao.save(cwtForm.getCwtModule());
 				 } else
-					 cwtModulesDao.updateCwtModules(cwtForm.getCwtModule());
+					 cwtModulesDao.update(cwtForm.getCwtModule());
 				 this.saveModuleMetrics(cwtForm, request);
-				 cwtForm.setModuleList(cwtModulesDao.listCwtModuless());
+				 cwtForm.setModuleList(cwtModulesDao.findAll());
 				 return mapping.findForward(Constants.MODULES);
 			 }
 			 if ("metric".equals(cwtForm.getPageSource())) {
 				 if (cwtForm.getCwtMetric().getMetricId()==null) {
 					 cwtForm.getCwtMetric().setCreatedBy(user.getUsername());
 					 cwtForm.getCwtMetric().setCreationDate(validator.getEpoch()+"");
-					 long id = cwtMetricsDao.addCwtMetrics(cwtForm.getCwtMetric());
+					 long id = cwtMetricsDao.save(cwtForm.getCwtMetric());
 					 cwtForm.getCwtMetric().setMetricId(id);
 				 } else 
-					 cwtMetricsDao.updateCwtMetrics(cwtForm.getCwtMetric());
+					 cwtMetricsDao.update(cwtForm.getCwtMetric());
 				 
-				 cwtForm.setMetricList(cwtMetricsDao.listCwtMetricss());
+				 cwtForm.setMetricList(cwtMetricsDao.findAll());
 				 this.saveProgramMetrics(cwtForm,request);
 				 return mapping.findForward(Constants.METRICS);
 			 }
@@ -234,11 +240,11 @@ public class CwtAction extends Action {
 				 cwtForm.getCwtDepartment().setCreatedBy(user.getUsername());
 				 cwtForm.getCwtDepartment().setCreationDate(validator.getEpoch()+"");
 				 if (cwtForm.getCwtDepartment().getDepartmentId()==null)
-					 cwtDepartmentDao.addCwtDepartment(cwtForm.getCwtDepartment());
+					 cwtDepartmentDao.save(cwtForm.getCwtDepartment());
 				 else
-					 cwtDepartmentDao.updateCwtDepartment(cwtForm.getCwtDepartment());
+					 cwtDepartmentDao.update(cwtForm.getCwtDepartment());
 						 
-				 cwtForm.setDepartmentList(cwtDepartmentDao.listCwtDepartments());
+				 cwtForm.setDepartmentList(cwtDepartmentDao.findAll());
 				 return mapping.findForward(Constants.DEPARTMENTS);
 			 }
 
@@ -246,12 +252,12 @@ public class CwtAction extends Action {
 				 cwtForm.getCwtJob().setCreatedBy(user.getUsername());
 				 cwtForm.getCwtJob().setCreationDate(validator.getEpoch()+"");
 				 if (cwtForm.getCwtJob().getJobId()==null) {
-					 Long id = cwtJobDao.addCwtJob(cwtForm.getCwtJob());
+					 Long id = cwtJobDao.save(cwtForm.getCwtJob());
 					 cwtForm.getCwtJob().setJobId(id);
 				 } else
-					 cwtJobDao.updateCwtJob(cwtForm.getCwtJob());
+					 cwtJobDao.update(cwtForm.getCwtJob());
 				 this.saveJobMetrics(cwtForm);
-				 cwtForm.setJobList(cwtJobDao.listCwtJobs());
+				 cwtForm.setJobList(cwtJobDao.findAll());
 				 return mapping.findForward(Constants.JOBS);
 			 }
 			 
@@ -259,24 +265,24 @@ public class CwtAction extends Action {
 				 cwtForm.getCwtSupervisor().setCreatedBy(user.getUsername());
 				 cwtForm.getCwtSupervisor().setCreationDate(validator.getEpoch()+"");
 				 if (cwtForm.getCwtSupervisor().getSupervisorId()==null)
-					 cwtSupervisorDao.addCwtSupervisor(cwtForm.getCwtSupervisor());
+					 cwtSupervisorDao.save(cwtForm.getCwtSupervisor());
 				 else
-					 cwtSupervisorDao.updateCwtSupervisor(cwtForm.getCwtSupervisor());
+					 cwtSupervisorDao.update(cwtForm.getCwtSupervisor());
 				 
-				 cwtForm.setSupervisorList(cwtSupervisorDao.listCwtSupervisors());
+				 cwtForm.setSupervisorList(cwtSupervisorDao.findAll());
 				 return mapping.findForward(Constants.SUPERVISORS);
 			 }
 			 if ("section".equals(cwtForm.getPageSource())) {
 				 cwtForm.getCwtModuleSection().setMeetingDays(this.convertMeetingDays(cwtForm));
 				 if (cwtForm.getCwtModuleSection().getModuleOfferingId()==null) {
-					 Long id = cwtModuleSectionDao.addCwtModuleSection(cwtForm.getCwtModuleSection());
+					 Long id = cwtModuleSectionDao.save(cwtForm.getCwtModuleSection());
 					 cwtForm.getCwtModuleSection().setModuleOfferingId(id);
 				 }
 				 else
-					 cwtModuleSectionDao.updateCwtModuleSection(cwtForm.getCwtModuleSection());
+					 cwtModuleSectionDao.update(cwtForm.getCwtModuleSection());
 				 
 				 this.saveModuleMetrics(cwtForm, request);
-				 cwtForm.setModuleSectionList(cwtModuleSectionDao.listCwtModuleSections());
+				 cwtForm.setModuleSectionList(cwtModuleSectionDao.findAll());
 				 this.getSectionDetail(cwtForm);
 				 return mapping.findForward(Constants.SECTIONS);
 			 }
@@ -303,13 +309,12 @@ public class CwtAction extends Action {
 		 /*
 		  * First delete all medical conditions for given intake
 		  */
-		 List<CwtJobMetric> jobMetrics = dao.findByJobId(cwtForm.getCwtJob().getJobId());
-		 
+		 List<CwtJobMetric> jobMetrics = dao.findByObjectId(new CwtJobMetric().getClass(), "jobId", cwtForm.getCwtJob().getJobId());		 
 		 
 		 for (Iterator iterator =
 				 jobMetrics.iterator(); iterator.hasNext();){
 			 CwtJobMetric obj = (CwtJobMetric) iterator.next();
-			 dao.deleteCwtJobMetric(obj.getMetricJobId());
+			 dao.delete(obj);
 		 }
 		 
 		 String jobMetric[] = cwtForm.getJobMetric();
@@ -322,7 +327,7 @@ public class CwtAction extends Action {
 	    		   CwtJobMetric cjm = new CwtJobMetric();
 	    		   cjm.setJobId(cwtForm.getCwtJob().getJobId());
 	    		   cjm.setMetricId(obj.getMetricId());
-	    		   dao.addCwtJobMetric(cjm);
+	    		   dao.save(cjm);
 	    		 }
 	    index++;
 		}
@@ -336,11 +341,11 @@ private void saveProgramMetrics(CwtForm cwtForm, HttpServletRequest request) {
 		
 		
 		//delete all programMetrics by metricId before reinserting the updates
-		List<CwtProgramMetric> programMetrics = dao.findByMetricId(cwtForm.getCwtMetric().getMetricId());
+		List<CwtProgramMetric> programMetrics = dao.findByObjectId(new CwtProgramMetric().getClass(),"metricId", cwtForm.getCwtMetric().getMetricId());
 			 for (Iterator iterator2 =
 					 programMetrics.iterator(); iterator2.hasNext();) {
 				 CwtProgramMetric obj2 = (CwtProgramMetric) iterator2.next();
-			 	 dao.deleteCwtProgramMetric(obj2.getProgramMetricId());
+			 	 dao.delete(obj2);
 			 }
 			 
 		 int index=0;		 
@@ -351,7 +356,7 @@ private void saveProgramMetrics(CwtForm cwtForm, HttpServletRequest request) {
 	    		   CwtProgramMetric cpm = new CwtProgramMetric();
 	    		   cpm.setMetricId(cwtForm.getCwtMetric().getMetricId());
 	    		   cpm.setProgramId(obj.getProgramId());
-	    		   dao.addCwtProgramMetric(cpm);
+	    		   dao.save(cpm);
 	    		 }
 	    index++;
 			 
@@ -365,7 +370,7 @@ private void loadProgramMetrics(CwtForm cwtForm) {
 	CwtProgramMetricDao dao = new CwtProgramMetricDao();
 	String [] metricUbit = new String[200];
 	
-	List<CwtProgramMetric> programMetrics = dao.findByMetricId(cwtForm.getCwtMetric().getMetricId());
+	List<CwtProgramMetric> programMetrics = dao.findByObjectId(new CwtProgramMetric().getClass(), "metricId", cwtForm.getCwtMetric().getMetricId());
 	
 	 int index=0;		 
 	 for (Iterator iterator =
@@ -397,18 +402,18 @@ private List getSectionDetail(CwtForm cwtForm) {
 	List<CwtModuleSection> sections = new ArrayList<CwtModuleSection>();
 	List<CwtMaster> masters = new ArrayList<CwtMaster>();
 	 
-	sections = dao1.listCwtModuleSections();
+	sections = dao1.findAll();
 	
 	for (Iterator iterator =
 			 sections.iterator(); iterator.hasNext();){
 		 CwtModuleSection section = (CwtModuleSection)iterator.next();
-		 CwtModules module = cwtModulesDao.findById(section.getModuleId());
+		 CwtModules module = cwtModulesDao.find(section.getModuleId());
 		 if (module==null) module = new CwtModules();
 		 
-		 CwtProgram program = cwtProgramDao.findById(module.getProgramId());
+		 CwtProgram program = cwtProgramDao.find(module.getProgramId());
 		 if (program==null) program= new CwtProgram();
 		 
-		 CwtSupervisor supervisor = cwtSupervisorDao.findById(section.getInstructorId());
+		 CwtSupervisor supervisor = cwtSupervisorDao.find(section.getInstructorId());
 		 if (supervisor==null) supervisor = new CwtSupervisor();
 		 
 		 CwtMaster master = new CwtMaster();
@@ -430,11 +435,11 @@ private void saveModuleMetrics(CwtForm cwtForm, HttpServletRequest request) {
 	
 	
 	//delete all moduleMetrics by metricId before reinserting the updates
-	List<CwtProgramMetricModules> programModuleMetrics = dao.findByModuleId(cwtForm.getCwtModuleSection().getModuleId());
+	List<CwtProgramMetricModules> programModuleMetrics = dao.findByObjectId(new CwtProgramMetricModules().getClass(),"moduleId", cwtForm.getCwtModuleSection().getModuleId());
 		 for (Iterator iterator2 =
 				 programModuleMetrics.iterator(); iterator2.hasNext();) {
 			 CwtProgramMetricModules obj2 = (CwtProgramMetricModules) iterator2.next();
-		 	 dao.deleteCwtProgramMetricModules(obj2.getProgramMetricModuleId());
+		 	 dao.delete(obj2);
 		 }
 		 
 	 int index=0;		 
@@ -446,7 +451,7 @@ private void saveModuleMetrics(CwtForm cwtForm, HttpServletRequest request) {
     		   CwtProgramMetricModules cpm = new CwtProgramMetricModules();
     		   cpm.setMetricId(obj.getMetricId());
     		   cpm.setModuleId(cwtForm.getCwtModuleSection().getModuleId());
-    		   dao.addCwtProgramMetricModules(cpm);
+    		   dao.save(cpm);
     		 }
     index++;
 		 

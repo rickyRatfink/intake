@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.HibernateException;
 
+import com.yada180.sms.domain.CwtProgram;
 import com.yada180.sms.domain.CwtProgramMetric;
 
 public class CwtProgramMetricDao extends GenericDao {
@@ -14,6 +15,9 @@ public class CwtProgramMetricDao extends GenericDao {
 	
     public CwtProgramMetric find(Long id) throws HibernateException {
     	return (CwtProgramMetric) super.findById(CwtProgramMetric.class, id);
+    }
+    public List<CwtProgramMetric> findAll() throws HibernateException {
+    	return (List<CwtProgramMetric>) super.findAll(CwtProgramMetric.class);
     }
     public Long save(CwtProgramMetric intake) throws HibernateException {
     	return (Long) super.save(intake);

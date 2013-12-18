@@ -25,11 +25,11 @@ import com.yada180.sms.domain.CwtSupervisor;
 import com.yada180.sms.domain.Intake;
 import com.yada180.sms.domain.StudentHistory;
 import com.yada180.sms.domain.SystemUser;
-import com.yada180.sms.hibernate.dao.CourseRotationHistoryDao;
-import com.yada180.sms.hibernate.dao.CwtJobDao;
-import com.yada180.sms.hibernate.dao.CwtSupervisorDao;
-import com.yada180.sms.hibernate.dao.IntakeDao;
-import com.yada180.sms.hibernate.dao.StudentHistoryDao;
+import com.yada180.sms.hibernate.data.CourseRotationHistoryDao;
+import com.yada180.sms.hibernate.data.CwtJobDao;
+import com.yada180.sms.hibernate.data.CwtSupervisorDao;
+import com.yada180.sms.hibernate.data.IntakeDao;
+import com.yada180.sms.hibernate.data.StudentHistoryDao;
 import com.yada180.sms.struts.form.ReportForm;
 import com.yada180.sms.util.HtmlDropDownBuilder;
 import com.yada180.sms.util.Validator;
@@ -86,7 +86,7 @@ public class ReportAction extends Action {
 			 return mapping.findForward(Constants.FAST_FIND); 
 		 }
 		 if ("Rotate".equals(action)) {
-			 List<CourseRotationHistory> list=historyDao.listCourseRotationHistoryByFarm(farm);
+			 List<CourseRotationHistory> list=historyDao.findAllByFarm(farm);
 			 for (Iterator iterator=list.iterator();iterator.hasNext();) {
 				 	CourseRotationHistory obj = (CourseRotationHistory)iterator.next();
 				 	reportForm.setLastRotatedBy(obj.getCreatedBy());
@@ -131,7 +131,7 @@ public class ReportAction extends Action {
 			 obj.setCreatedBy(user.getUsername());
 			 obj.setRotationDate(Validator.getEpoch()+"");
 			 obj.setFarmBase(user.getFarmBase());
-			 historyDao.addCourseRotationHistory(obj);
+			 historyDao.save(obj);
 			 return mapping.findForward("rotatesuccess");
 		 }
 		 else if ("JobList".equals(report)) {
@@ -439,7 +439,7 @@ public class ReportAction extends Action {
 			 Intake intake = (Intake)iterator.next();
 			 if ("Yes".equals(flag6[i])) { 
 				 intake.setClass_("");
-				 dao.updateIntake(intake);
+				 dao.update(intake);
 			 }
 		 i++;
 		 }
@@ -454,7 +454,7 @@ public class ReportAction extends Action {
 			 Intake intake = (Intake)iterator.next();
 			 if ("Yes".equals(flag5[i])) { 
 				 intake.setClass_("6");
-				 dao.updateIntake(intake);
+				 dao.update(intake);
 			 }
 		 i++;
 		 }
@@ -469,7 +469,7 @@ public class ReportAction extends Action {
 			 Intake intake = (Intake)iterator.next();
 			 if ("Yes".equals(flag4[i])) { 
 				 intake.setClass_("5");
-				 dao.updateIntake(intake);
+				 dao.update(intake);
 			 }
 		 i++;
 		 }
@@ -483,7 +483,7 @@ public class ReportAction extends Action {
 			 Intake intake = (Intake)iterator.next();
 			 if ("Yes".equals(flag3[i])) { 
 				 intake.setClass_("4");
-				 dao.updateIntake(intake);
+				 dao.update(intake);
 			 }
 		 i++;
 		 }
@@ -498,7 +498,7 @@ public class ReportAction extends Action {
 			 Intake intake = (Intake)iterator.next();
 			 if ("Yes".equals(flag2[i])) { 
 				 intake.setClass_("3");
-				 dao.updateIntake(intake);
+				 dao.update(intake);
 			 }
 		 i++;
 		 }
@@ -513,7 +513,7 @@ public class ReportAction extends Action {
 			 Intake intake = (Intake)iterator.next();
 			 if ("Yes".equals(flag1[i])) { 
 				 intake.setClass_("2");
-				 dao.updateIntake(intake);
+				 dao.update(intake);
 			 }
 		 i++;
 		 }
@@ -528,7 +528,7 @@ public class ReportAction extends Action {
 			 Intake intake = (Intake)iterator.next();
 			 if ("Yes".equals(flag0[i])) { 
 				 intake.setClass_("1");
-				 dao.updateIntake(intake);
+				 dao.update(intake);
 			 }
 		 i++;
 		 }
@@ -559,17 +559,17 @@ public class ReportAction extends Action {
 			 
 			 CwtSupervisor supervisor = new CwtSupervisor();
 			 if (intake.getSupervisorId()!=null) {
-				 supervisor = sDao.findById(intake.getSupervisorId());
+				 supervisor = sDao.find(intake.getSupervisorId());
 				 if (supervisor==null)
 					 supervisor=new CwtSupervisor();
 			 }
 			 CwtJob job =new CwtJob();
 			 if (intake.getJobId()!=null) {
-				  job = jDao.findById(intake.getJobId());
+				  job = jDao.find(intake.getJobId());
 				  if (job==null)
 					  job=new CwtJob();
 			 }
-			 List<StudentHistory> history = hDao.findByIntakeId(intake.getIntakeId());
+			 List<StudentHistory> history = hDao.findByIntakeId(new StudentHistory().getClass(), intake.getIntakeId());
 			 	StudentHistory studentHistory = null;
 			 	for (Iterator iterator2=history.iterator();iterator2.hasNext();)
 			 		 studentHistory = (StudentHistory)iterator2.next();
@@ -602,19 +602,19 @@ public class ReportAction extends Action {
 			 Intake intake = (Intake)iterator.next();
 			 CwtSupervisor supervisor = new CwtSupervisor();
 			 if (intake.getSupervisorId()!=null) {
-				 supervisor = sDao.findById(intake.getSupervisorId());
+				 supervisor = sDao.find(intake.getSupervisorId());
 				 if (supervisor==null)
 					 supervisor=new CwtSupervisor();
 			 }
 			 
 			 CwtJob job = new CwtJob();
 			 if (intake.getJobId()!=null) {
-				 job = jDao.findById(intake.getJobId());
+				 job = jDao.find(intake.getJobId());
 				 if (job==null)
 					 job=new CwtJob();
 		 	 }
 		 
-			 List<StudentHistory> history = hDao.findByIntakeId(intake.getIntakeId());
+			 List<StudentHistory> history = hDao.findByIntakeId(new StudentHistory().getClass(), intake.getIntakeId());
 			 	StudentHistory studentHistory = null;
 			 	for (Iterator iterator2=history.iterator();iterator2.hasNext();)
 			 		 studentHistory = (StudentHistory)iterator2.next();
@@ -647,19 +647,19 @@ public class ReportAction extends Action {
 			 Intake intake = (Intake)iterator.next();
 			 CwtSupervisor supervisor = new CwtSupervisor();
 			 if (intake.getSupervisorId()!=null) {
-				 supervisor = sDao.findById(intake.getSupervisorId());
+				 supervisor = sDao.find(intake.getSupervisorId());
 				 if (supervisor==null)
 					 supervisor=new CwtSupervisor();
 			 }
 			 
 			 CwtJob job = new CwtJob();
 			 if (intake.getJobId()!=null) {
-				 job = jDao.findById(intake.getJobId());
+				 job = jDao.find(intake.getJobId());
 				 if (job==null)
 					 job=new CwtJob();
 		 	 }
 			 
-			 List<StudentHistory> history = hDao.findByIntakeId(intake.getIntakeId());
+			 List<StudentHistory> history = hDao.findByIntakeId(new StudentHistory().getClass(),intake.getIntakeId());
 			 	StudentHistory studentHistory = null;
 			 	for (Iterator iterator2=history.iterator();iterator2.hasNext();)
 			 		 studentHistory = (StudentHistory)iterator2.next();
@@ -691,18 +691,18 @@ public class ReportAction extends Action {
 			 Intake intake = (Intake)iterator.next();
 			 CwtSupervisor supervisor = new CwtSupervisor();
 			 if (intake.getSupervisorId()!=null) {
-				 supervisor = sDao.findById(intake.getSupervisorId());
+				 supervisor = sDao.find(intake.getSupervisorId());
 				 if (supervisor==null)
 					 supervisor=new CwtSupervisor();
 			 }
 			 
 			 CwtJob job = new CwtJob();
 			 if (intake.getJobId()!=null) {
-				 job = jDao.findById(intake.getJobId());
+				 job = jDao.find(intake.getJobId());
 				 if (job==null)
 					 job=new CwtJob();
 		 	 }
-			 List<StudentHistory> history = hDao.findByIntakeId(intake.getIntakeId());
+			 List<StudentHistory> history = hDao.findByIntakeId(new StudentHistory().getClass(),intake.getIntakeId());
 			 	StudentHistory studentHistory = null;
 			 	for (Iterator iterator2=history.iterator();iterator2.hasNext();)
 			 		 studentHistory = (StudentHistory)iterator2.next();
@@ -735,18 +735,18 @@ public class ReportAction extends Action {
 		 Intake intake = (Intake)iterator.next();
 		 CwtSupervisor supervisor = new CwtSupervisor();
 		 if (intake.getSupervisorId()!=null) {
-			 supervisor = sDao.findById(intake.getSupervisorId());
+			 supervisor = sDao.find(intake.getSupervisorId());
 			 if (supervisor==null)
 				 supervisor=new CwtSupervisor();
 		 }
 		 
 		 CwtJob job = new CwtJob();
 		 if (intake.getJobId()!=null) {
-			 job = jDao.findById(intake.getJobId());
+			 job = jDao.find(intake.getJobId());
 			 if (job==null)
 				 job=new CwtJob();
 	 	 }
-		 List<StudentHistory> history = hDao.findByIntakeId(intake.getIntakeId());
+		 List<StudentHistory> history = hDao.findByIntakeId(new StudentHistory().getClass(),intake.getIntakeId());
 		 	StudentHistory studentHistory = null;
 		 	for (Iterator iterator2=history.iterator();iterator2.hasNext();)
 		 		 studentHistory = (StudentHistory)iterator2.next();
@@ -779,19 +779,19 @@ public class ReportAction extends Action {
 		 Intake intake = (Intake)iterator.next();
 		 CwtSupervisor supervisor = new CwtSupervisor();
 		 if (intake.getSupervisorId()!=null) {
-			 supervisor = sDao.findById(intake.getSupervisorId());
+			 supervisor = sDao.find(intake.getSupervisorId());
 			 if (supervisor==null)
 				 supervisor=new CwtSupervisor();
 		 }
 		 
 		 CwtJob job = new CwtJob();
 		 if (intake.getJobId()!=null) {
-			 job = jDao.findById(intake.getJobId());
+			 job = jDao.find(intake.getJobId());
 			 if (job==null)
 				 job=new CwtJob();
 	 	 }
 		 
-		 List<StudentHistory> history = hDao.findByIntakeId(intake.getIntakeId());
+		 List<StudentHistory> history = hDao.findByIntakeId(new StudentHistory().getClass(),intake.getIntakeId());
 		 	StudentHistory studentHistory = null;
 		 	for (Iterator iterator2=history.iterator();iterator2.hasNext();)
 		 		 studentHistory = (StudentHistory)iterator2.next();
@@ -823,19 +823,19 @@ public class ReportAction extends Action {
 		 Intake intake = (Intake)iterator.next();
 		 CwtSupervisor supervisor = new CwtSupervisor();
 		 if (intake.getSupervisorId()!=null) {
-			 supervisor = sDao.findById(intake.getSupervisorId());
+			 supervisor = sDao.find(intake.getSupervisorId());
 			 if (supervisor==null)
 				 supervisor=new CwtSupervisor();
 		 }
 		 
 		 CwtJob job = new CwtJob();
 		 if (intake.getJobId()!=null) {
-			 job = jDao.findById(intake.getJobId());
+			 job = jDao.find(intake.getJobId());
 			 if (job==null)
 				 job=new CwtJob();
 	 	 }
 		 
-		 List<StudentHistory> history = hDao.findByIntakeId(intake.getIntakeId());
+		 List<StudentHistory> history = hDao.findByIntakeId(new StudentHistory().getClass(),intake.getIntakeId());
 		 	StudentHistory studentHistory = null;
 		 	for (Iterator iterator2=history.iterator();iterator2.hasNext();)
 		 		 studentHistory = (StudentHistory)iterator2.next();
@@ -867,19 +867,19 @@ public class ReportAction extends Action {
 		 Intake intake = (Intake)iterator.next();
 		 CwtSupervisor supervisor = new CwtSupervisor();
 		 if (intake.getSupervisorId()!=null) {
-			 supervisor = sDao.findById(intake.getSupervisorId());
+			 supervisor = sDao.find(intake.getSupervisorId());
 			 if (supervisor==null)
 				 supervisor=new CwtSupervisor();
 		 }
 		 
 		 CwtJob job = new CwtJob();
 		 if (intake.getJobId()!=null) {
-			 job = jDao.findById(intake.getJobId());
+			 job = jDao.find(intake.getJobId());
 			 if (job==null)
 				 job=new CwtJob();
 	 	 }
 		 
-		 List<StudentHistory> history = hDao.findByIntakeId(intake.getIntakeId());
+		 List<StudentHistory> history = hDao.findByIntakeId(new StudentHistory().getClass(),intake.getIntakeId());
 		 	StudentHistory studentHistory = null;
 		 	for (Iterator iterator2=history.iterator();iterator2.hasNext();)
 		 		 studentHistory = (StudentHistory)iterator2.next();
@@ -912,19 +912,19 @@ public class ReportAction extends Action {
 		 Intake intake = (Intake)iterator.next();
 		 CwtSupervisor supervisor = new CwtSupervisor();
 		 if (intake.getSupervisorId()!=null) {
-			 supervisor = sDao.findById(intake.getSupervisorId());
+			 supervisor = sDao.find(intake.getSupervisorId());
 			 if (supervisor==null)
 				 supervisor=new CwtSupervisor();
 		 }
 		 
 		 CwtJob job = new CwtJob();
 		 if (intake.getJobId()!=null) {
-			 job = jDao.findById(intake.getJobId());
+			 job = jDao.find(intake.getJobId());
 			 if (job==null)
 				 job=new CwtJob();
 	 	 }
 		 
-		 List<StudentHistory> history = hDao.findByIntakeId(intake.getIntakeId());
+		 List<StudentHistory> history = hDao.findByIntakeId(new StudentHistory().getClass(),intake.getIntakeId());
 		 	StudentHistory studentHistory = null;
 		 	for (Iterator iterator2=history.iterator();iterator2.hasNext();)
 		 		 studentHistory = (StudentHistory)iterator2.next();
@@ -957,19 +957,19 @@ public class ReportAction extends Action {
 		 Intake intake = (Intake)iterator.next();
 		 CwtSupervisor supervisor = new CwtSupervisor();
 		 if (intake.getSupervisorId()!=null) {
-			 supervisor = sDao.findById(intake.getSupervisorId());
+			 supervisor = sDao.find(intake.getSupervisorId());
 			 if (supervisor==null)
 				 supervisor=new CwtSupervisor();
 		 }
 		 
 		 CwtJob job = new CwtJob();
 		 if (intake.getJobId()!=null) {
-			 job = jDao.findById(intake.getJobId());
+			 job = jDao.find(intake.getJobId());
 			 if (job==null)
 				 job=new CwtJob();
 	 	 }
 		 
-		 List<StudentHistory> history = hDao.findByIntakeId(intake.getIntakeId());
+		 List<StudentHistory> history = hDao.findByIntakeId(new StudentHistory().getClass(),intake.getIntakeId());
 		 	StudentHistory studentHistory = null;
 		 	for (Iterator iterator2=history.iterator();iterator2.hasNext();)
 		 		 studentHistory = (StudentHistory)iterator2.next();
@@ -1002,19 +1002,19 @@ public class ReportAction extends Action {
 		 Intake intake = (Intake)iterator.next();
 		 CwtSupervisor supervisor = new CwtSupervisor();
 		 if (intake.getSupervisorId()!=null) {
-			 supervisor = sDao.findById(intake.getSupervisorId());
+			 supervisor = sDao.find(intake.getSupervisorId());
 			 if (supervisor==null)
 				 supervisor=new CwtSupervisor();
 		 }
 		 
 		 CwtJob job = new CwtJob();
 		 if (intake.getJobId()!=null) {
-			 job = jDao.findById(intake.getJobId());
+			 job = jDao.find(intake.getJobId());
 			 if (job==null)
 				 job=new CwtJob();
 	 	 }
 		 
-		 List<StudentHistory> history = hDao.findByIntakeId(intake.getIntakeId());
+		 List<StudentHistory> history = hDao.findByIntakeId(new StudentHistory().getClass(),intake.getIntakeId());
 		 	StudentHistory studentHistory = null;
 		 	for (Iterator iterator2=history.iterator();iterator2.hasNext();)
 		 		 studentHistory = (StudentHistory)iterator2.next();

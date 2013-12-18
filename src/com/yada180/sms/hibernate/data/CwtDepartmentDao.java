@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.HibernateException;
 
 import com.yada180.sms.domain.CwtDepartment;
+import com.yada180.sms.domain.CwtJob;
 
 public class CwtDepartmentDao extends GenericDao {
 	
@@ -14,7 +15,10 @@ public class CwtDepartmentDao extends GenericDao {
 	
     public CwtDepartment find(Long id) throws HibernateException {
     	return (CwtDepartment) super.findById(CwtDepartment.class, id);
-    }
+    } 
+    public List<CwtDepartment> findAll() throws HibernateException {
+    	return (List<CwtDepartment>) super.findAll(CwtDepartment.class);
+    }  
     public Long save(CwtDepartment intake) throws HibernateException {
     	return (Long) super.save(intake);
     }

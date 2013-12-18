@@ -30,18 +30,18 @@ import com.yada180.sms.domain.CwtSupervisor;
 import com.yada180.sms.domain.Intake;
 import com.yada180.sms.domain.StudentHistory;
 import com.yada180.sms.domain.SystemUser;
-import com.yada180.sms.hibernate.dao.CwtDepartmentDao;
-import com.yada180.sms.hibernate.dao.CwtJobDao;
-import com.yada180.sms.hibernate.dao.CwtMetricsDao;
-import com.yada180.sms.hibernate.dao.CwtModuleSectionDao;
-import com.yada180.sms.hibernate.dao.CwtModulesDao;
-import com.yada180.sms.hibernate.dao.CwtProgramDao;
-import com.yada180.sms.hibernate.dao.CwtProgramMetricDao;
-import com.yada180.sms.hibernate.dao.CwtProgramMetricModulesDao;
-import com.yada180.sms.hibernate.dao.CwtRosterDao;
-import com.yada180.sms.hibernate.dao.CwtSupervisorDao;
-import com.yada180.sms.hibernate.dao.IntakeDao;
-import com.yada180.sms.hibernate.dao.StudentHistoryDao;
+import com.yada180.sms.hibernate.data.CwtDepartmentDao;
+import com.yada180.sms.hibernate.data.CwtJobDao;
+import com.yada180.sms.hibernate.data.CwtMetricsDao;
+import com.yada180.sms.hibernate.data.CwtModuleSectionDao;
+import com.yada180.sms.hibernate.data.CwtModulesDao;
+import com.yada180.sms.hibernate.data.CwtProgramDao;
+import com.yada180.sms.hibernate.data.CwtProgramMetricDao;
+import com.yada180.sms.hibernate.data.CwtProgramMetricModulesDao;
+import com.yada180.sms.hibernate.data.CwtRosterDao;
+import com.yada180.sms.hibernate.data.CwtSupervisorDao;
+import com.yada180.sms.hibernate.data.IntakeDao;
+import com.yada180.sms.hibernate.data.StudentHistoryDao;
 import com.yada180.sms.struts.form.CwtRosterForm;
 import com.yada180.sms.util.HtmlDropDownBuilder;
 import com.yada180.sms.util.Validator;
@@ -112,10 +112,10 @@ public class CwtRosterAction extends Action {
 			 cwtRosterForm.setEnrollFlag(flags);
 			 
 			 String id=request.getParameter("id");
-			 cwtRosterForm.setCwtModuleSection(cwtModuleSectionDao.findById(new Long(id)));
-			 cwtRosterForm.setCwtModule(cwtModulesDao.findById(cwtRosterForm.getCwtModuleSection().getModuleId()));
+			 cwtRosterForm.setCwtModuleSection(cwtModuleSectionDao.find(new Long(id)));
+			 cwtRosterForm.setCwtModule(cwtModulesDao.find(cwtRosterForm.getCwtModuleSection().getModuleId()));
 			 
-			 List<CwtRoster> rosterList = rosterDao.listRosterBySection(new Long(id));
+			 List<CwtRoster> rosterList = rosterDao.findByObjectId(new CwtRoster().getClass(),  "sectionId", new Long(id));  //.listRosterBySection(new Long(id));
 			 
 			 /*
 			  * If roster currently exists then set it up 
@@ -132,19 +132,19 @@ public class CwtRosterAction extends Action {
 					 
 					 CwtDepartment department=new CwtDepartment();
 					 if (roster.getDepartmentId()!=null)
-						 department = departmentDao.findById(roster.getDepartmentId()); 
+						 department = departmentDao.find(roster.getDepartmentId()); 
 					 
 					 CwtSupervisor supervisor = new CwtSupervisor();
 					 if (roster.getSupervisorId()!=null)
-						supervisor=supervisorDao.findById(roster.getSupervisorId());
+						supervisor=supervisorDao.find(roster.getSupervisorId());
 					 
 					 CwtJob job = new CwtJob();
 					 if (roster.getJobId()!=null)
-						 job=jobDao.findById(roster.getJobId());
+						 job=jobDao.find(roster.getJobId());
 					 
 					 Intake intake = new Intake();
 					 if (roster.getIntakeId()!=null)
-						 intake=intakeDao.findById(roster.getIntakeId());	
+						 intake=intakeDao.find(roster.getIntakeId());	
 					 
 					 attend[index]=roster.getAttendFlag();
 					 score[index]=roster.getExamScore();
@@ -170,7 +170,7 @@ public class CwtRosterAction extends Action {
 						 Intake intake = (Intake)iterator.next();
 						 
 						 //check current Program Status for each intake
-						 List<StudentHistory> history = studentHistoryDao.findByIntakeId(intake.getIntakeId());
+						 List<StudentHistory> history = studentHistoryDao.findByIntakeId(new StudentHistory().getClass(), intake.getIntakeId());
 						 String status="";
 						 for (Iterator iterator2 = history.iterator(); iterator2.hasNext();) {
 							 StudentHistory studentHistory = (StudentHistory)iterator2.next();
@@ -180,15 +180,15 @@ public class CwtRosterAction extends Action {
 						 if ("In Program".equals(status)) {
 							 CwtDepartment department = new CwtDepartment();
 							 if (intake.getDepartmentId()!=null)
-								 department=departmentDao.findById(intake.getDepartmentId());
+								 department=departmentDao.find(intake.getDepartmentId());
 							 
 							 CwtSupervisor supervisor = new CwtSupervisor();
 							 if (intake.getSupervisorId()!=null)
-								 supervisor=supervisorDao.findById(intake.getSupervisorId());
+								 supervisor=supervisorDao.find(intake.getSupervisorId());
 							 
 							 CwtJob job = new CwtJob();
 							 if (intake.getJobId()!=null)
-								 job=jobDao.findById(intake.getJobId());
+								 job=jobDao.find(intake.getJobId());
 							 if (job==null)
 								 job = new CwtJob();
 							 
@@ -232,7 +232,7 @@ public class CwtRosterAction extends Action {
 					 roster.setExamDate(obj.getSection().getEffectiveDate());
 					 rosterList.add(roster);
 					 
-					 Long rosterId =rosterDao.addCwtRoster(roster);
+					 Long rosterId =rosterDao.save(roster);
 					 roster.setRosterId(rosterId);
 					 
 					 //add roster entry to existing master list
@@ -271,7 +271,7 @@ public class CwtRosterAction extends Action {
 				 roster.setExamScore(request.getParameter("examScore["+index+"]"));
 				 roster.setStatus(request.getParameter("status["+index+"]"));
 				 
-				 rosterDao.updateCwtRoster(roster);
+				 rosterDao.update(roster);
 			 index++;
 			 }
 			 

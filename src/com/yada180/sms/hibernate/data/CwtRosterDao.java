@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.HibernateException;
 
+import com.yada180.sms.domain.CwtModules;
 import com.yada180.sms.domain.CwtRoster;
 
 public class CwtRosterDao extends GenericDao {
@@ -14,6 +15,9 @@ public class CwtRosterDao extends GenericDao {
 	
     public CwtRoster find(Long id) throws HibernateException {
     	return (CwtRoster) super.findById(CwtRoster.class, id);
+    }
+    public List<CwtRoster> findAll() throws HibernateException {
+    	return (List<CwtRoster>) super.findAll(CwtRoster.class);
     }
     public Long save(CwtRoster intake) throws HibernateException {
     	return (Long) super.save(intake);

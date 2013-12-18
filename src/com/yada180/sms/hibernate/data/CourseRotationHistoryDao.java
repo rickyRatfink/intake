@@ -15,6 +15,9 @@ public class CourseRotationHistoryDao extends GenericDao {
     public CourseRotationHistory find(Long id) throws HibernateException {
     	return (CourseRotationHistory) super.findById(CourseRotationHistory.class, id);
     }
+    public List<CourseRotationHistory> findAllByFarm(String farm) throws HibernateException {
+    	return (List<CourseRotationHistory>) super.findAllByFarm(CourseRotationHistory.class, farm);
+    }
     public Long save(CourseRotationHistory intake) throws HibernateException {
     	return (Long) super.save(intake);
     }

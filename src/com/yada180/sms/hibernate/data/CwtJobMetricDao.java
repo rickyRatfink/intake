@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.HibernateException;
 
 import com.yada180.sms.domain.CwtJobMetric;
+import com.yada180.sms.domain.CwtProgram;
 
 public class CwtJobMetricDao extends GenericDao {
 	
@@ -15,6 +16,10 @@ public class CwtJobMetricDao extends GenericDao {
     public CwtJobMetric find(Long id) throws HibernateException {
     	return (CwtJobMetric) super.findById(CwtJobMetric.class, id);
     }
+    public List<CwtJobMetric> findAll() throws HibernateException {
+    	return (List<CwtJobMetric>) super.findAll(CwtJobMetric.class);
+    }
+
     public Long save(CwtJobMetric intake) throws HibernateException {
     	return (Long) super.save(intake);
     }

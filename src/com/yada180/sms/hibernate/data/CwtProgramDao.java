@@ -15,6 +15,9 @@ public class CwtProgramDao extends GenericDao {
     public CwtProgram find(Long id) throws HibernateException {
     	return (CwtProgram) super.findById(CwtProgram.class, id);
     }
+    public List<CwtProgram> findAll() throws HibernateException {
+    	return (List<CwtProgram>) super.findAll(CwtProgram.class);
+    }
     public Long save(CwtProgram intake) throws HibernateException {
     	return (Long) super.save(intake);
     }

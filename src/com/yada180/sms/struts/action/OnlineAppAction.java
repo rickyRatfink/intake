@@ -37,8 +37,8 @@ import com.yada180.sms.domain.IntakeMedicalCondition;
 import com.yada180.sms.domain.IntakeQuestionAnswer;
 import com.yada180.sms.domain.JobSkill;
 import com.yada180.sms.domain.MedicalCondition;
-import com.yada180.sms.hibernate.dao.IntakeMedicalConditionDao;
-import com.yada180.sms.hibernate.dao.IntakeQuestionAnswerDao;
+import com.yada180.sms.hibernate.data.IntakeMedicalConditionDao;
+import com.yada180.sms.hibernate.data.IntakeQuestionAnswerDao;
 import com.yada180.sms.hibernate.data.IntakeDao;
 import com.yada180.sms.hibernate.data.IntakeJobSkillDao;
 import com.yada180.sms.struts.form.OnlineAppForm;
@@ -273,11 +273,11 @@ public class OnlineAppAction extends Action {
 		 /*
 		  * First delete all medical conditions for given intake
 		  */
-		 List<IntakeQuestionAnswer> intakeQuestionAnswers = dao.findById(intakeForm.getIntake().getIntakeId());
+		 List<IntakeQuestionAnswer> intakeQuestionAnswers = dao.findByIntakeId(new IntakeQuestionAnswer().getClass(), intakeForm.getIntake().getIntakeId());
 		 for (Iterator iterator =
 				 intakeQuestionAnswers.iterator(); iterator.hasNext();){
 			 IntakeQuestionAnswer obj = (IntakeQuestionAnswer) iterator.next();
-			 dao.deleteIntakeQuestionAnswer(obj.getIntakeQuestionAnswerId());
+			 dao.delete(obj);
 		 }
 		 
 		 String healthAnswer[] = intakeForm.getHealthAnswer();
@@ -296,7 +296,7 @@ public class OnlineAppAction extends Action {
 	    		   iqa.setIntakeId(intakeForm.getIntake().getIntakeId());
 	    		   iqa.setAnswer("Yes");	 
 	    		   iqa.setQuestionId(new Long(index+1));
-	    		   dao.addIntakeQuestionAnswer(iqa);
+	    		   dao.save(iqa);
 	    		 }
 	    	   
 	    	   if ("Yes".equals(emotionalAnswer[index])) {
@@ -306,7 +306,7 @@ public class OnlineAppAction extends Action {
 	    		   iqa.setDates(emotionalAnswerDate[index]);
 	    		   iqa.setDetail(emotionalAnswerDetails[index]);
 	    		   iqa.setQuestionId(new Long(index+16));
-	    		   dao.addIntakeQuestionAnswer(iqa);
+	    		   dao.save(iqa);
 	    		 }
 	    	   
 	    	   if ("Yes".equals(physicalAnswer[index])) {
@@ -315,7 +315,7 @@ public class OnlineAppAction extends Action {
 	    		   iqa.setAnswer("Yes");	
 	    		   iqa.setDetail(physicalAnswerDetails[index]);
 	    		   iqa.setQuestionId(new Long(index+22));
-	    		   dao.addIntakeQuestionAnswer(iqa);
+	    		   dao.save(iqa);
 	    		 }
 	    	   
 	    	   if ("Yes".equals(mentalAnswer[index])) {
@@ -325,7 +325,7 @@ public class OnlineAppAction extends Action {
 	    		   iqa.setDates(mentalAnswerDate[index]);
 	    		   iqa.setDetail(mentalAnswerDetails[index]);
 	    		   iqa.setQuestionId(new Long(index+27));
-	    		   dao.addIntakeQuestionAnswer(iqa);
+	    		   dao.save(iqa);
 	    		 }
 	    }
 		} catch (Exception e) {
@@ -344,11 +344,11 @@ public class OnlineAppAction extends Action {
 		 /*
 		  * First delete all medical conditions for given intake
 		  */
-		 List<IntakeMedicalCondition> intakeMedicalConditions = dao.findById(intakeForm.getIntake().getIntakeId());
+		 List<IntakeMedicalCondition> intakeMedicalConditions = dao.findByIntakeId(new IntakeMedicalCondition().getClass(), intakeForm.getIntake().getIntakeId());
 		 for (Iterator iterator =
 				 intakeMedicalConditions.iterator(); iterator.hasNext();){
 			 IntakeMedicalCondition obj = (IntakeMedicalCondition) iterator.next();
-			 dao.deleteIntakeMedicalCondition(obj.getIntakeMedicalConditionId());
+			 dao.delete(obj);
 		 }
 		 
 		 /*
@@ -366,7 +366,7 @@ public class OnlineAppAction extends Action {
 	    		   imc.setIntakeId(intakeForm.getIntake().getIntakeId());
 	    		   imc.setMedicalConditionId(obj.getMedicalConditionId());
 	    		   imc.setAnswer("Yes");
-	    		   dao.addIntakeMedicalCondition(imc);
+	    		   dao.save(imc);
 	    		 }
 	    	   
 	    	   

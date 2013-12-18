@@ -116,6 +116,26 @@ public class GenericDao {
 			}
 	        return objects;
 	    }
+	 
+	 protected List findAllByFarm(Class clazz, String farm) {
+	        List objects = null;
+	        try {
+	        	session = HibernateFactory.openSession();
+				session.beginTransaction();
+	            Query query = session.createQuery("from " + clazz.getName() + " where farmBase = :farmBase ");
+	            query.setString("farmBase", farm);
+	            objects = query.list();
+	            session.getTransaction().commit();
+	            session.flush();
+	        } catch (HibernateException e) {
+	        	session.getTransaction().rollback();
+				e.printStackTrace();
+				throw new HibernateException(e);
+			} finally {
+				session.close();
+			}
+	        return objects;
+	    }
 	
 		public List search(String entryDate, String exitDate, String lastname,
 				String firstname, String ssn, String dob, String farm, String ged, String archived, String status) {
@@ -267,7 +287,30 @@ public class GenericDao {
 			}
 			return list;
 		}
-		
+
+		public List findByObjectId(Class c, String objectIdName, Long id) {
+
+			LOGGER.setLevel(Level.INFO);
+			List<Object> list = new ArrayList<Object>();
+			try {
+				session = HibernateFactory.openSession();
+				session.beginTransaction();
+				StringBuffer query = new StringBuffer(
+						"from "+c.getName()+" where "+objectIdName+" = :"+objectIdName);
+				Query q = session.createQuery(query.toString());
+				q.setLong(objectIdName, id);
+				list = q.list();
+				session.getTransaction().commit();
+				session.flush();
+			} catch (Exception e) {
+				session.getTransaction().rollback();
+				e.printStackTrace();
+				throw new HibernateException(e);
+			} finally {
+				session.close();
+			}
+			return list;
+		}
 		
 		public List findByIntakeId(Class c, Long id) {
 

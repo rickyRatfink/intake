@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.HibernateException;
 
+import com.yada180.sms.domain.CwtModules;
 import com.yada180.sms.domain.CwtSupervisor;
 
 public class CwtSupervisorDao extends GenericDao {
@@ -14,6 +15,9 @@ public class CwtSupervisorDao extends GenericDao {
 	
     public CwtSupervisor find(Long id) throws HibernateException {
     	return (CwtSupervisor) super.findById(CwtSupervisor.class, id);
+    }
+    public List<CwtSupervisor> findAll() throws HibernateException {
+    	return (List<CwtSupervisor>) super.findAll(CwtSupervisor.class);
     }
     public Long save(CwtSupervisor intake) throws HibernateException {
     	return (Long) super.save(intake);
