@@ -5,6 +5,24 @@
 
 <jsp:include page="../../../includes/header.jsp" flush="true"/>
 
+<script language="javascript">
+
+function checkAll(bx)
+{
+
+ var cbs = document.getElementsByTagName('input');
+ for(var i=0; i < cbs.length; i++)
+ {
+    if(cbs[i].type == 'checkbox')
+    {
+        cbs[i].checked = bx.checked;
+     }
+ }
+}
+
+</script>
+
+
 <h2>
       Course Rotation 
 </h2>
@@ -20,6 +38,10 @@
 	
 	<tr>
 		<td><b>Last Rotated on <bean:write name="reportForm" property="lastRotationDate"/> by <bean:write name="reportForm" property="lastRotatedBy"/></b></td>
+	</tr>
+	
+	<tr>
+		<td><input type="checkbox" name="checkall" onclick="checkAll(this);" style="height:10px;">Check All</td>
 	</tr>
 </table>
 
