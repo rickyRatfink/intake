@@ -41,6 +41,7 @@ import com.yada180.sms.hibernate.data.IntakeMedicalConditionDao;
 import com.yada180.sms.hibernate.data.IntakeQuestionAnswerDao;
 import com.yada180.sms.hibernate.data.IntakeDao;
 import com.yada180.sms.hibernate.data.IntakeJobSkillDao;
+import com.yada180.sms.struts.form.IntakeForm;
 import com.yada180.sms.struts.form.OnlineAppForm;
 import com.yada180.sms.util.HtmlDropDownBuilder;
 import com.yada180.sms.util.Validator;
@@ -146,13 +147,13 @@ public class OnlineAppAction extends Action {
 				//temp log all data before attempted save
 				this.logApplicationDataOnException(onlineAppForm);
 				
+				saveUsagePatternAndLosses(onlineAppForm);
 				Long id = intakeDao.save(onlineAppForm.getIntake());
 				onlineAppForm.getIntake().setIntakeId(id);
 				System.out.println ("---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" saved application with id "+id+" @ "+(new java.util.Date()));
 				
 				if (id!=null) {
 					saveMedicalConditions(onlineAppForm);
-					saveUsagePatternAndLosses(onlineAppForm);
 					saveIntakeQuestionAnswer(onlineAppForm);
 					saveJobSkills(onlineAppForm,request);
 					
@@ -420,27 +421,40 @@ public class OnlineAppAction extends Action {
 
 	
 	private void saveUsagePatternAndLosses(OnlineAppForm intakeForm) {
-		intakeForm.getIntake().setUsageLosses(intakeForm.getUsageLosses1()+","+
-				intakeForm.getUsageLosses2()+","+
-				intakeForm.getUsageLosses3()+","+
-				intakeForm.getUsageLosses4()+","+
-				intakeForm.getUsageLosses5()+","+
-				intakeForm.getUsageLosses6()+","+
-				intakeForm.getUsageLosses7()+","+
-				intakeForm.getUsageLosses8()+","+
-				intakeForm.getUsageLosses9()				
-				);
-		
-		intakeForm.getIntake().setUsagePattern(intakeForm.getUsagePattern1()+","+ 
-				intakeForm.getUsagePattern2()+","+ 
-				intakeForm.getUsagePattern3()+","+ 
-				intakeForm.getUsagePattern4()+","+ 
-				intakeForm.getUsagePattern5()+","+ 
-				intakeForm.getUsagePattern6() 
-				);
-		
+		intakeForm.getIntake().setUsageLosses(
+				intakeForm.getUsageLosses1() + intakeForm.getUsageLosses2()
+						+ intakeForm.getUsageLosses3()
+						+ intakeForm.getUsageLosses4()
+						+ intakeForm.getUsageLosses5()
+						+ intakeForm.getUsageLosses6()
+						+ intakeForm.getUsageLosses7()
+						+ intakeForm.getUsageLosses8()
+						+ intakeForm.getUsageLosses9());
+
+		intakeForm.getIntake().setUsagePattern(
+				intakeForm.getUsagePattern1() + intakeForm.getUsagePattern2()
+						+ intakeForm.getUsagePattern3()
+						+ intakeForm.getUsagePattern4()
+						+ intakeForm.getUsagePattern5()
+						+ intakeForm.getUsagePattern6());
+
 		this.convertPhysicalEffects(intakeForm);
-		
+	}
+
+	private void convertPhysicalEffects(OnlineAppForm intakeForm) {
+		String physicalEffects = "";
+		if ("Yes".equals(intakeForm.getMotivationalLossFlag()))
+			physicalEffects += "motivational loss,";
+		if ("Yes".equals(intakeForm.getShakesConvulsionsFlag()))
+			physicalEffects += "shakes-convulsions,";
+		if ("Yes".equals(intakeForm.getMemoryLossFlag()))
+			physicalEffects += "memory loss,";
+		if ("Yes".equals(intakeForm.getIncoherentThinkingFlag()))
+			physicalEffects += "incoherent thinking,";
+		if ("Yes".equals(intakeForm.getOrganProblemsFlag()))
+			physicalEffects += "organ problems,";
+
+		intakeForm.getIntake().setPhysicalEffects(physicalEffects);
 	}
 	
 	private void logApplicationDataOnException (ActionForm form) {
@@ -460,20 +474,7 @@ public class OnlineAppAction extends Action {
 			PrintWriter pw = new PrintWriter(sw);
 	}
 	
-	private void convertPhysicalEffects(OnlineAppForm intakeForm) {
-		String physicalEffects="";
-		if ("Yes".equals(intakeForm.getMotivationalLossFlag()))
-				physicalEffects+="motivational loss,";
-		if ("Yes".equals(intakeForm.getShakesConvulsionsFlag()))
-			physicalEffects+="shakes-convulsions,";
-		if ("Yes".equals(intakeForm.getMemoryLossFlag()))
-			physicalEffects+="memory loss,";
-		if ("Yes".equals(intakeForm.getIncoherentThinkingFlag()))
-			physicalEffects+="incoherent thinking,";
-		if ("Yes".equals(intakeForm.getOrganProblemsFlag()))
-			physicalEffects+="organ problems,";
-		
-		intakeForm.getIntake().setPhysicalEffects(physicalEffects);		
-	}
+	
+
 
 }
