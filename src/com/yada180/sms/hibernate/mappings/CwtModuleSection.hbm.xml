@@ -38,5 +38,8 @@
         <property name="farmBase" type="string">
             <column name="farm_base" length="50" />
         </property>
+        <property name="instructorNotes" type="string">
+            <column name="instructor_notes" length="2147483647" />
+        </property>
     </class>
 </hibernate-mapping>

@@ -25,13 +25,13 @@
             <br /><br />            
             
             <b>Meeting Days</b><br />
-            	<html:checkbox property="monday" value="M" />
-            	<html:checkbox property="tuesday" value="TU" />
-            	<html:checkbox property="wednesday" value="W" />
-            	<html:checkbox property="thursday" value="TH" />
-            	<html:checkbox property="friday" value="F" />
-            	<html:checkbox property="saturday" value="SA" />
-            	<html:checkbox property="sunday" value="SU" />            
+            	<html:checkbox property="monday" value="M" />Monday
+            	<html:checkbox property="tuesday" value="TU" />Tuesday
+            	<html:checkbox property="wednesday" value="W" />Wednesday
+            	<html:checkbox property="thursday" value="TH" />Thursday
+            	<html:checkbox property="friday" value="F" />Friday
+            	<html:checkbox property="saturday" value="SA" />Saturday
+            	<html:checkbox property="sunday" value="SU" />Sunday  
                 <br /><br />
             <b>Meeting Times</b><br />
             	<html:text property="cwtModuleSection.meetingTimes" size="10" maxlength="10" />

@@ -50,7 +50,7 @@ import com.yada180.sms.validator.IntakeValidator;
 
 public class OnlineAppAction extends Action {
 
-	private final static Logger LOGGER = Logger.getLogger(LoginAction.class
+	private final static Logger LOGGER = Logger.getLogger(OnlineAppAction.class
 			.getName());
 	private final static HtmlDropDownBuilder html = new HtmlDropDownBuilder();
 	private final static Validator validator = new Validator();
@@ -84,7 +84,7 @@ public class OnlineAppAction extends Action {
 
 		if ("Next".equals(action)) {
 			session.removeAttribute("session_expired");
-			System.out.println ("!!!!---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" click Next on "+onlineAppForm.getPageSource()+" @ "+(new java.util.Date()));
+			//System.out.println ("!!!!---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" click Next on "+onlineAppForm.getPageSource()+" @ "+(new java.util.Date()));
 			boolean valid=false;
 			
 			valid = intakeValidator.validate(onlineAppForm);
@@ -112,6 +112,11 @@ public class OnlineAppAction extends Action {
 					
 					if (list.size()!=0) {
 						Intake intake = (Intake)list.get(0);
+						
+						//check existing status so they can apply to different farms
+						if ("Pending".equals(intake.getApplicationStatus()))
+							return mapping.findForward(Constants.RELIGIOUS);
+						
 						intake.setReapplyFlag("Yes");
 						intake.setFarmBase(appFarm);
 						onlineAppForm.setIntake(intake);
@@ -178,7 +183,7 @@ public class OnlineAppAction extends Action {
 				return mapping.findForward(Constants.PROCESS);
 
 		} else if ("Back".equals(action)) {
-			System.out.println ("---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" click Next on "+onlineAppForm.getPageSource()+" @ "+(new java.util.Date()));
+			//System.out.println ("---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" click Next on "+onlineAppForm.getPageSource()+" @ "+(new java.util.Date()));
 			
 			if ("personal".equals(onlineAppForm.getPreviousStep()))
 				return mapping.findForward(Constants.PERSONAL);
@@ -194,7 +199,7 @@ public class OnlineAppAction extends Action {
 				return mapping.findForward(Constants.EMPLOYMENT);
 
 		} else if ("Submit".equals(action)) {
-			System.out.println ("---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" click Next on "+onlineAppForm.getPageSource()+" @ "+(new java.util.Date()));
+			//System.out.println ("---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" click Next on "+onlineAppForm.getPageSource()+" @ "+(new java.util.Date()));
 			
 			
 			/*
@@ -233,7 +238,7 @@ public class OnlineAppAction extends Action {
 					intakeDao.update(onlineAppForm.getIntake());
 				
 				
-				System.out.println ("---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" saved application with id "+onlineAppForm.getIntake().getIntakeId()+" @ "+(new java.util.Date()));
+				//System.out.println ("---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" saved application with id "+onlineAppForm.getIntake().getIntakeId()+" @ "+(new java.util.Date()));
 				session.removeAttribute("previous_intake");
 				
 				if (onlineAppForm.getIntake().getIntakeId()!=null) {
@@ -305,7 +310,7 @@ public class OnlineAppAction extends Action {
 				     		String ipAddy=InetAddress.getLocalHost().getHostAddress();
 				     		if ("50.63.180.165".equals(ipAddy)) {
 				     				Transport.send(message);
-				     				System.out.println ("----> email sent for "+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" @ "+(new java.util.Date()));
+				     				//System.out.println ("----> email sent for "+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" @ "+(new java.util.Date()));
 				     			}
 				     		} catch (Exception e) {
 				     			LOGGER.log(Level.SEVERE,"Error occurred in getting IP when trying to send email: "+e.getMessage());
@@ -553,7 +558,7 @@ public class OnlineAppAction extends Action {
 			PropertyDescriptor[] props = info.getPropertyDescriptors();  
 			for (int i=0;i<props.length;i++) {  
 				PropertyDescriptor descriptor = props [i];
-				System.out.println(props[i].getDisplayName()+"="+descriptor.getReadMethod().invoke(intake, null));
+				//System.out.println(props[i].getDisplayName()+"="+descriptor.getReadMethod().invoke(intake, null));
 				}			    
 			}
 			catch (Exception ex) { LOGGER.log(Level.INFO,"Error in logApplicationDataOnException:"+ex.getMessage()); }

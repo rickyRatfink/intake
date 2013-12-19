@@ -29,6 +29,7 @@ public class CwtRosterForm extends ActionForm {
 	private String examScore[] = new String[200];
 	private String status[] = new String[200];
 	private String pageSource;
+	private String notes;
 	
 	
 	public String[] getStatus() {
@@ -108,6 +109,12 @@ public class CwtRosterForm extends ActionForm {
 	}
 	public void setPageSource(String pageSource) {
 		this.pageSource = pageSource;
+	}
+	public String getNotes() {
+		return notes;
+	}
+	public void setNotes(String notes) {
+		this.notes = notes;
 	}
 	
 	

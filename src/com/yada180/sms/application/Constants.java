@@ -40,7 +40,7 @@ public final class Constants {
 	public static final String CLASS_REPORT="class_report";
 	public static final String BED_REPORT="bed_report";
 	public static final String JOB_REPORT="job_report";
-	
+	public static final String MAIN="main";
 	public static final String PROCESS="process";
 	
 	public static final String MANAGE_USERS="manageusers";

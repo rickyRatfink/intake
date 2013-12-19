@@ -6,9 +6,10 @@
 
 
     <h2>
-        Course Work Therapy
+        Course Work Therapy <logic:equal name="loginForm" property="systemUser.userRole" value="CwtInstructor" > - My Rosters</logic:equal>
     </h2>
-    
+    		<logic:equal name="loginForm" property="systemUser.userRole" value="Administrator" >
+            
             <p>
             Now you can manage programs, metrics, modules, exams, and certifications for Faith Farm students enrolled in the CWT Program.
             <br />
@@ -19,6 +20,7 @@
                 <li><a href="<%=request.getContextPath()%>/Cwt.do?action=modules">Class Modules</a></li>
                 <li><a href="<%=request.getContextPath()%>/Cwt.do?action=sections">Module Sections</a></li>
             </ul>
+            
             <ul style="color: Blue">
                 <li><a href="<%=request.getContextPath()%>/Cwt.do?action=departments">Departments</a></li>
                 <li><a href="<%=request.getContextPath()%>/Cwt.do?action=jobs">Jobs</a></li>
@@ -26,6 +28,7 @@
              </ul>
         
 			<br/><br/>
+			
 	        <p>
             Rotation <i>(Applies only to Orientation to Class 5)</i>
             <ul style="color: Blue">
@@ -33,6 +36,14 @@
                 <li><a href="<%=request.getContextPath()%>/Report.do?action=Rotate&farm=Fort Lauderdale">Course Rotation for Fort Lauderdale</a></i>
                 <li><a href="<%=request.getContextPath()%>/Report.do?action=Rotate&farm=Okeechobee">Course Rotation for Okeechobee</a></i>
             </ul>
+            </logic:equal>
+            <logic:equal name="loginForm" property="systemUser.userRole" value="CwtInstructor" >
+            </br></br> 
+            	<logic:iterate id="loop" name="cwtForm" property="instructorList" indexId="i">
+            	   <a href="<%=request.getContextPath()%>/CwtRoster.do?action=Roster&type=Section&id=<bean:write name="loop" property="section.moduleOfferingId" />"><img src="<%=request.getContextPath()%>/images/local/roster.png" border="0" alt="Manage Roster" title="Manage Roster"/></a>
+            	   <b><bean:write name="loop" property="program.programName" /></b>&nbsp;-&nbsp;<bean:write name="loop" property="module.moduleName" />&nbsp;&nbsp;<i>(&nbsp;<bean:write name="loop" property="section.effectiveDate" /> @ <bean:write name="loop" property="section.meetingTimes" /> - <bean:write name="loop" property="section.meetingDays" /> at <bean:write name="loop" property="section.location" />&nbsp;)</i></br>
+            	</logic:iterate>
+            </logic:equal>
  		
 			
         </div>

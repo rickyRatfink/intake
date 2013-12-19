@@ -59,7 +59,6 @@ function checkAll(bx)
                 </tr> 
                 </logic:iterate>
                
-
                 </table>
                 </td>
             </tr>

@@ -58,7 +58,7 @@ import com.yada180.sms.validator.IntakeValidator;
 
 public class IntakeAction extends Action {
 
-	private final static Logger LOGGER = Logger.getLogger(LoginAction.class
+	private final static Logger LOGGER = Logger.getLogger(IntakeAction.class
 			.getName());
 	private final static HtmlDropDownBuilder html = new HtmlDropDownBuilder();
 	private final static IntakeValidator inakeValidator = new IntakeValidator();
@@ -66,7 +66,7 @@ public class IntakeAction extends Action {
 
 	public ActionForward execute(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
-		LOGGER.setLevel(Level.INFO);
+		LOGGER.setLevel(Level.SEVERE);
 
 		HttpSession session = request.getSession(false);
 		SystemUser user = (SystemUser) session.getAttribute("system_user");

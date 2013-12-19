@@ -36,12 +36,12 @@ import com.yada180.sms.util.Validator;
 
 public class ReportAction extends Action {
 	
-	private final static Logger LOGGER = Logger.getLogger(LoginAction.class.getName());
+	private final static Logger LOGGER = Logger.getLogger(ReportAction.class.getName());
 	private final static HtmlDropDownBuilder html = new HtmlDropDownBuilder();
 	private final static Validator v8r = new Validator();
 	
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {		
-		LOGGER.setLevel(Level.INFO);
+		LOGGER.setLevel(Level.SEVERE);
 
 		 HttpSession session = request.getSession(false);
 		 

@@ -48,13 +48,13 @@ import com.yada180.sms.validator.IntakeValidator;
 
 public class CwtAction extends Action {
 	
-	private final static Logger LOGGER = Logger.getLogger(LoginAction.class.getName());
+	private final static Logger LOGGER = Logger.getLogger(CwtAction.class.getName());
 	private final static HtmlDropDownBuilder html = new HtmlDropDownBuilder();
 	private final static IntakeValidator inakeValidator = new IntakeValidator();
 	private final static Validator validator = new Validator();
 	
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {		
-		LOGGER.setLevel(Level.INFO);
+		LOGGER.setLevel(Level.SEVERE);
 
 		 HttpSession session = request.getSession(false);
 		 SystemUser user = (SystemUser) session.getAttribute("system_user");
@@ -83,6 +83,21 @@ public class CwtAction extends Action {
 		 CwtModuleStudentDao cwtModuleStudentDao = new CwtModuleStudentDao();
 		 CwtJobMetricDao cwtJobMetricDao = new CwtJobMetricDao();
 		 
+		 if ("CwtInstructor".equals(user.getUserRole())) {
+			 List<CwtMaster> masters = new ArrayList<CwtMaster>();
+			 List<CwtModuleSection> list = cwtModuleSectionDao.findByInstructorId(user.getUserId());
+			 for (Iterator iterator = list.iterator();iterator.hasNext();) {
+				 CwtModuleSection obj1 = (CwtModuleSection)iterator.next();
+				 CwtModules obj2 = (CwtModules)cwtModulesDao.find(obj1.getModuleId());
+				 CwtProgram obj3 = (CwtProgram)cwtProgramDao.find(obj2.getProgramId());
+				 CwtMaster master = new CwtMaster();
+				 master.setSection(obj1);
+				 master.setModule(obj2);
+				 master.setProgram(obj3);
+				 masters.add(master);
+			 }			 
+			 cwtForm.setInstructorList(masters);
+		 }
 		 if ("programs".equals(action)) {
 			 cwtForm.setProgramList(cwtProgramDao.findAll()); //listCwtPrograms());
 			 return mapping.findForward(Constants.PROGRAMS);
@@ -435,7 +450,7 @@ private void saveModuleMetrics(CwtForm cwtForm, HttpServletRequest request) {
 	
 	
 	//delete all moduleMetrics by metricId before reinserting the updates
-	List<CwtProgramMetricModules> programModuleMetrics = dao.findByObjectId(new CwtProgramMetricModules().getClass(),"moduleId", cwtForm.getCwtModuleSection().getModuleId());
+	List<CwtProgramMetricModules> programModuleMetrics = dao.findByObjectId(new CwtProgramMetricModules().getClass(),"moduleId", cwtForm.getCwtProgramMetricModule().getModuleId());
 		 for (Iterator iterator2 =
 				 programModuleMetrics.iterator(); iterator2.hasNext();) {
 			 CwtProgramMetricModules obj2 = (CwtProgramMetricModules) iterator2.next();
@@ -446,7 +461,7 @@ private void saveModuleMetrics(CwtForm cwtForm, HttpServletRequest request) {
 	 for (Iterator iterator =
 			 cwtForm.getMetricList().iterator(); iterator.hasNext();){
 		 CwtMetrics obj = (CwtMetrics) iterator.next();
-		 System.out.println (index+"="+request.getParameter("moduleMetric["+index+"]"));
+		 //System.out.println (index+"="+request.getParameter("moduleMetric["+index+"]"));
 		 if ("YES".equals(request.getParameter("moduleMetric["+index+"]"))) {
     		   CwtProgramMetricModules cpm = new CwtProgramMetricModules();
     		   cpm.setMetricId(obj.getMetricId());

@@ -652,7 +652,19 @@ td {
 	border-left:1px solid #3a4f63;
 	border-top:1px solid #768ca5;	
 }
-
+.searchRowHighlight {
+	height:15px;
+	background:#aaf8aa;
+	border-top:0px solid #e4e4e4;
+	border-bottom:1px solid #e4e4e4;
+	border-left:1px solid #e4e4e4;
+	padding-top: 3px;
+	padding-bottom: 0px;
+	padding-left: 10px;
+	font: .90em Arial;
+	color: #000000;
+	text-align:left; 
+}
 .searchRowOdd2 {
 	height:15px;
 	background:#f3f4fa;

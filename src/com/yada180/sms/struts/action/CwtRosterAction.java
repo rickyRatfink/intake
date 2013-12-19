@@ -49,13 +49,13 @@ import com.yada180.sms.validator.IntakeValidator;
 
 public class CwtRosterAction extends Action {
 	
-	private final static Logger LOGGER = Logger.getLogger(LoginAction.class.getName());
+	private final static Logger LOGGER = Logger.getLogger(CwtRosterAction.class.getName());
 	private final static HtmlDropDownBuilder html = new HtmlDropDownBuilder();
 	private final static IntakeValidator inakeValidator = new IntakeValidator();
 	private final static Validator validator = new Validator();
 	
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {		
-		LOGGER.setLevel(Level.INFO);
+		LOGGER.setLevel(Level.SEVERE);
 
 		 HttpSession session = request.getSession(false);
 		 SystemUser user = (SystemUser) session.getAttribute("system_user");
@@ -260,6 +260,8 @@ public class CwtRosterAction extends Action {
 			 String enroll[]=cwtRosterForm.getEnrollFlag();
 			 String attend[]=cwtRosterForm.getAttendFlag();
 			 
+			 Long sectionId=null;
+			 
 			 for (Iterator iterator = mlist.iterator(); iterator.hasNext();) {
 				 CwtMaster obj = (CwtMaster)iterator.next();
 				 CwtRoster roster = obj.getRoster();
@@ -272,11 +274,16 @@ public class CwtRosterAction extends Action {
 				 roster.setStatus(request.getParameter("status["+index+"]"));
 				 
 				 rosterDao.update(roster);
+				 sectionId=roster.getSectionId();
 			 index++;
 			 }
 			 
+			 //CwtModuleSection section = cwtModuleSectionDao.find(sectionId);
+			 //section.setInstructorNotes(cwtRosterForm.getNotes());
+			 cwtModuleSectionDao.update(cwtRosterForm.getCwtModuleSection());
+			 
 			 //cwtRosterForm.setMasterList(newMasterList);
-			 return mapping.findForward(Constants.ROSTER);
+			 return mapping.findForward(Constants.MAIN);
 		 }		 
 		 return mapping.findForward(Constants.SUCCESS);
 			}

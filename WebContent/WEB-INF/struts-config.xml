@@ -100,6 +100,7 @@
                  <forward name="createroster" path="/pages/cwt/rosters/create.jsp" redirect="true"/>  
                  <forward name="roster" path="/pages/cwt/rosters/index.jsp" redirect="true"/> 
                  <forward name="login" path="/pages/security/index.jsp" redirect="true"/>
+                 <forward name="main" path="/pages/cwt/index.jsp" redirect="true"/>
          </action>
      
          <action name="intakeForm" path="/Intake" type="com.yada180.sms.struts.action.IntakeAction" scope="session"  

@@ -19,15 +19,15 @@ import com.yada180.sms.domain.JobSkill;
 import com.yada180.sms.domain.MedicalCondition;
 import com.yada180.sms.domain.Question;
 import com.yada180.sms.domain.State;
-import com.yada180.sms.hibernate.dao.CwtDepartmentDao;
-import com.yada180.sms.hibernate.dao.CwtJobDao;
-import com.yada180.sms.hibernate.dao.CwtModulesDao;
-import com.yada180.sms.hibernate.dao.CwtProgramDao;
-import com.yada180.sms.hibernate.dao.CwtSupervisorDao;
-import com.yada180.sms.hibernate.dao.JobSkillDao;
-import com.yada180.sms.hibernate.dao.MedicalConditionDao;
-import com.yada180.sms.hibernate.dao.QuestionDao;
-import com.yada180.sms.hibernate.dao.StateDao;
+import com.yada180.sms.hibernate.data.CwtDepartmentDao;
+import com.yada180.sms.hibernate.data.CwtJobDao;
+import com.yada180.sms.hibernate.data.CwtModulesDao;
+import com.yada180.sms.hibernate.data.CwtProgramDao;
+import com.yada180.sms.hibernate.data.CwtSupervisorDao;
+import com.yada180.sms.hibernate.data.JobSkillDao;
+import com.yada180.sms.hibernate.data.MedicalConditionDao;
+import com.yada180.sms.hibernate.data.QuestionDao;
+import com.yada180.sms.hibernate.data.StateDao;
 import com.yada180.sms.struts.form.IntakeForm;
 import com.yada180.sms.struts.form.OnlineAppForm;
 
@@ -44,7 +44,7 @@ public class HtmlDropDownBuilder {
 	        IntakeForm intakeForm = (IntakeForm)form;
 	        
 	        int count=0;
-	        questions=dao4.listQuestions();
+	        questions=dao4.list();
 	        for (Iterator iterator =
 	    			questions.iterator(); iterator.hasNext();){
 	    			Question obj = (Question) iterator.next();
@@ -67,7 +67,7 @@ public class HtmlDropDownBuilder {
 	       
 	       MedicalConditionDao dao5 = new MedicalConditionDao();
 	       List<MedicalCondition> medicalConditions = new ArrayList<MedicalCondition>();
-	       medicalConditions = dao5.listMedicalConditions();
+	       medicalConditions = dao5.list();
 	       for (Iterator iterator =
 	    		   medicalConditions.iterator(); iterator.hasNext();){
 	    	   MedicalCondition obj = (MedicalCondition) iterator.next();	    			
@@ -76,7 +76,7 @@ public class HtmlDropDownBuilder {
 	       
 	       JobSkillDao dao6 = new JobSkillDao();
 	       List<JobSkill> jobSkills = new ArrayList<JobSkill>();
-	       jobSkills = dao6.listJobSkills();
+	       jobSkills = dao6.list();
 	       for (Iterator iterator =
 	    		   jobSkills.iterator(); iterator.hasNext();){
 	    	   JobSkill obj = (JobSkill) iterator.next();	    			
@@ -98,12 +98,12 @@ public class HtmlDropDownBuilder {
     	
         StateDao dao3 = new StateDao();
         List<State> list3 = new ArrayList<State>();
-        list3=dao3.listStates();
+        list3=dao3.list();
         session.setAttribute("ddl_state", list3);
 
         CwtSupervisorDao dao4 = new CwtSupervisorDao();
         List<CwtSupervisor> list4 = new ArrayList<CwtSupervisor>();
-        list4=dao4.listCwtSupervisors();
+        list4=dao4.list();
         List<DropDownItem> temp = new ArrayList<DropDownItem>();
         for (Iterator iterator =
         		list4.iterator(); iterator.hasNext();){
@@ -116,7 +116,7 @@ public class HtmlDropDownBuilder {
         
         CwtModulesDao moduleDao = new CwtModulesDao();
         List<CwtModules> modules = new ArrayList<CwtModules>();
-        modules=moduleDao.listCwtModuless();
+        modules=moduleDao.list();
         List<DropDownItem> tempModule = new ArrayList<DropDownItem>();
         for (Iterator iterator =
         		modules.iterator(); iterator.hasNext();){
@@ -128,7 +128,7 @@ public class HtmlDropDownBuilder {
 
         CwtProgramDao programDao = new CwtProgramDao();
         List<CwtProgram> programs = new ArrayList<CwtProgram>();
-        programs=programDao.listCwtPrograms();
+        programs=programDao.list();
         List<DropDownItem> tempProgram = new ArrayList<DropDownItem>();
         for (Iterator iterator =
         		programs.iterator(); iterator.hasNext();){
@@ -141,12 +141,12 @@ public class HtmlDropDownBuilder {
         
         CwtJobDao dao5 = new CwtJobDao();
         List<CwtJob> list5 = new ArrayList<CwtJob>();
-        list5=dao5.listCwtJobs();
+        list5=dao5.list();
         session.setAttribute("ddl_job", list5);
 
         CwtDepartmentDao dao6 = new CwtDepartmentDao();
         List<CwtDepartment> list6 = new ArrayList<CwtDepartment>();
-        list6=dao6.listCwtDepartments();
+        list6=dao6.list();
         session.setAttribute("ddl_department", list6);
 
 		   List<DropDownItem> rosterStatus = new ArrayList<DropDownItem>();
@@ -463,7 +463,7 @@ public class HtmlDropDownBuilder {
 	        OnlineAppForm onlineAppForm = (OnlineAppForm)form;
 	        
 	        int count=0;
-	        questions=dao4.listQuestions();
+	        questions=dao4.list();
 	        for (Iterator iterator =
 	    			questions.iterator(); iterator.hasNext();){
 	    			Question obj = (Question) iterator.next();
@@ -486,7 +486,7 @@ public class HtmlDropDownBuilder {
 	       
 	       MedicalConditionDao dao5 = new MedicalConditionDao();
 	       List<MedicalCondition> medicalConditions = new ArrayList<MedicalCondition>();
-	       medicalConditions = dao5.listMedicalConditions();
+	       medicalConditions = dao5.list();
 	       for (Iterator iterator =
 	    		   medicalConditions.iterator(); iterator.hasNext();){
 	    	   MedicalCondition obj = (MedicalCondition) iterator.next();	    			
@@ -495,7 +495,7 @@ public class HtmlDropDownBuilder {
 	       
 	       JobSkillDao dao6 = new JobSkillDao();
 	       List<JobSkill> jobSkills = new ArrayList<JobSkill>();
-	       jobSkills = dao6.listJobSkills();
+	       jobSkills = dao6.list();
 	       for (Iterator iterator =
 	    		   jobSkills.iterator(); iterator.hasNext();){
 	    	   JobSkill obj = (JobSkill) iterator.next();	    			

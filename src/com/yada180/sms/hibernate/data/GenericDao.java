@@ -103,7 +103,12 @@ public class GenericDao {
 	        try {
 	        	session = HibernateFactory.openSession();
 				session.beginTransaction();
-	            Query query = session.createQuery("from " + clazz.getName());
+				Query query = session.createQuery("from " + clazz.getName());
+	            if ("com.yada180.sms.domain.CwtJob".equals(clazz.getName().toString()))
+	            	query = session.createQuery("from " + clazz.getName()+" order by title");
+	            if ("com.yada180.sms.domain.CwtSupervisor".equals(clazz.getName().toString()))
+	            	query = session.createQuery("from " + clazz.getName()+" order by firstname");
+	            		
 	            objects = query.list();
 	            session.getTransaction().commit();
 	            session.flush();

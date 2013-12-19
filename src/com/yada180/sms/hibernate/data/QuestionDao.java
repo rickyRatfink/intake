@@ -15,6 +15,12 @@ public class QuestionDao extends GenericDao {
     public Question find(Long id) throws HibernateException {
     	return (Question) super.findById(Question.class, id);
     }
+    public List<Question> findAll(Question question) throws HibernateException {
+    	return (List<Question>) super.findAll(Question.class);
+    }
+    public List<Question> findAllByFarm(String farm) throws HibernateException {
+    	return (List<Question>) super.findAllByFarm(Question.class,farm);
+    }
     public Long save(Question intake) throws HibernateException {
     	return (Long) super.save(intake);
     }

@@ -19,6 +19,9 @@ public class CwtModuleSectionDao extends GenericDao {
     public List<CwtModuleSection> findAll() throws HibernateException {
     	return (List<CwtModuleSection>) super.findAll(CwtModuleSection.class);
     }
+    public List<CwtModuleSection> findByInstructorId(Long id) throws HibernateException {
+    	return (List<CwtModuleSection>) super.findByObjectId(CwtModuleSection.class,"instructorId",id);
+    }
     public Long save(CwtModuleSection intake) throws HibernateException {
     	return (Long) super.save(intake);
     }

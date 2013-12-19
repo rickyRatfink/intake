@@ -64,7 +64,14 @@ function checkAll(bx)
                     </td>
                 </tr> 
                 </logic:iterate>
-               
+               </table>
+               </br></br>
+                <table width="100%" cellpadding="0" cellspacing="0" border="0">
+               <tr>
+                	<td>
+                	   <html:textarea name="cwtRoster" property="cwtModuleSection.instructorNotes" rows="10" cols="120"/>
+                	</td>
+                </tr>
 
                 </table>
                 </td>

@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.HibernateException;
 
 import com.yada180.sms.domain.MedicalCondition;
+import com.yada180.sms.domain.Question;
 
 public class MedicalConditionDao extends GenericDao {
 	

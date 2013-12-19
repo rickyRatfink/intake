@@ -188,6 +188,10 @@
              <li><a href="<%=request.getContextPath()%>/Report.do?action=FastFind">Fast Find</a></li>
              <!-- <li><a href="<%=request.getContextPath()%>/Login.do?action=ManageUsers">Manage Users</a></li> -->
        </logic:equal>
+       <logic:equal name="loginForm" property="systemUser.userRole" value="CwtInstructor" >
+       		<li><a href="<%=request.getContextPath()%>/Cwt.do">CWT</a></li>
+       		<li><a href="<%=request.getContextPath()%>/Cwt.do">Reports</a></li>
+       </logic:equal>
      </ul>
 </div>
                      

@@ -59,13 +59,13 @@ function whichKey(e) {
 
 
 <html:form action="/OnlineApp">
-<% 
+<% /*
 System.out.println("");
 System.out.println("");
 System.out.println("");
 System.out.println("");
 System.out.println("*****START OF NEW APPLICATION*******"); 
-%>
+*/ %>
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>

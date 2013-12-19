@@ -26,6 +26,7 @@ public class CwtForm extends ActionForm {
 	private List<CwtProgramMetricModules> programMetricModulesList = new ArrayList<CwtProgramMetricModules>();
 	private List<CwtModules> moduleList = new ArrayList<CwtModules>();
 	private List<CwtModuleSection> moduleSectionList = new ArrayList<CwtModuleSection>();
+	private List<CwtMaster> instructorList = new ArrayList<CwtMaster>();
 	private List<CwtMaster> masterList = new ArrayList<CwtMaster>();
 	private List<ErrorMessage> messages = new ArrayList<ErrorMessage>();
 	private String messageType;
@@ -241,6 +242,12 @@ public class CwtForm extends ActionForm {
 	}
 	public void setMessages(List<ErrorMessage> messages) {
 		this.messages = messages;
+	}
+	public List<CwtMaster> getInstructorList() {
+		return instructorList;
+	}
+	public void setInstructorList(List<CwtMaster> instructorList) {
+		this.instructorList = instructorList;
 	}
 	
 	
