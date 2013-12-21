@@ -214,8 +214,11 @@ public class HtmlDropDownBuilder {
 	        programStatus.add(new DropDownItem("Dismissed","Dismissed"));
 	        programStatus.add(new DropDownItem("Left Prop./Did Not Graduate","Left Prop./Did Not Graduate"));
 	        programStatus.add(new DropDownItem("Left Prop./Graduated","Left Prop./Graduated"));
+	        programStatus.add(new DropDownItem("Left Prop./Graduated to SLS","Left Prop./Graduated to Fresh Start"));
 	        programStatus.add(new DropDownItem("Left Prop./Graduated to SLS","Left Prop./Graduated to SLS"));
-	        programStatus.add(new DropDownItem("Left Prop./Graduated to Omega","Left Prop./Graduated to Omega"));
+	        programStatus.add(new DropDownItem("Left Prop./Graduated to Omega","Left Prop./Graduated to Omega Work"));
+	        programStatus.add(new DropDownItem("Left Prop./Graduated to Omega","Left Prop./Graduated to Omega School"));
+	        programStatus.add(new DropDownItem("Left Prop./Graduated to Intern","Left Prop./Graduated to Intern"));
 	        programStatus.add(new DropDownItem("Dismissed - Banned 30 days","Dismissed - Banned 30 days"));
 	        programStatus.add(new DropDownItem("Dismissed - Banned 60 days","Dismissed - Banned 60 days"));
 	        programStatus.add(new DropDownItem("Dismissed - Banned 90 days","Dismissed - Banned 90 days"));
@@ -273,6 +276,7 @@ public class HtmlDropDownBuilder {
 	        classList.add(new DropDownItem("Fresh Start","Fresh Start"));
 	        classList.add(new DropDownItem("SLS","SLS"));
 	        classList.add(new DropDownItem("Intern","Intern"));
+	        classList.add(new DropDownItem("Omega","Omega"));
 	        classList.add(new DropDownItem("Student Teacher","Student Teacher"));
 	        session.setAttribute("ddl_classList", classList);
 	        
