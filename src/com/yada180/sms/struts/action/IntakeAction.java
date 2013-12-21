@@ -224,6 +224,7 @@ public class IntakeAction extends Action {
 				intakeForm.getIntake().setLastUpdatedBy(user.getUsername());
 				intakeForm.getIntake().setFarmBase(user.getFarmBase());
 				intakeForm.getIntake().setEntryDate(entryDate);
+				intakeForm.getIntake().setArchivedFlag("No");
 				intakeDao.update(intakeForm.getIntake());
 
 				// create history record
@@ -315,6 +316,7 @@ public class IntakeAction extends Action {
 			} else if ("Create".equals(action)) {
 				this.clearForm(intakeForm);
 				intakeForm.getIntake().setFarmBase(user.getFarmBase());
+				intakeForm.getIntake().setArchivedFlag("No");
 				return mapping.findForward(Constants.PERSONAL);
 			} else if ("Home".equals(action))
 				return mapping.findForward(Constants.HOME);

@@ -292,6 +292,38 @@ public class GenericDao {
 			}
 			return list;
 		}
+		
+		public List listByStatus(String status, String farm) {
+
+			List<Intake> list = new ArrayList<Intake>();
+			Transaction tx = null;
+			try {
+
+				session = HibernateFactory.openSession();
+				session.beginTransaction();
+
+				StringBuffer query = new StringBuffer("from Intake where ");
+				query.append(" intakeStatus = :intakeStatus ");
+				query.append(" and farmBase = :farmBase ");
+				query.append(" and archivedFlag = :archivedFlag ");
+				Query q = session.createQuery(query.toString());
+				
+				q.setString("farmBase", farm);
+				q.setString("archivedFlag", "No");
+				q.setString("intakeStatus", status);
+				list = q.list();
+				
+				session.getTransaction().commit();
+				session.flush();
+			} catch (HibernateException e) {
+				session.getTransaction().rollback();
+				e.printStackTrace();
+				throw new HibernateException(e);
+			} finally {
+				session.close();
+			}
+			return list;
+		}
 
 		public List findByObjectId(Class c, String objectIdName, Long id) {
 

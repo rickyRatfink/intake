@@ -60,6 +60,15 @@
             		<li><a href="javascript:window.open('<%=request.getContextPath()%>/pdfapp.do?action=waitlist&farm=Women's Home');">Women's Home</a></li>
             	</ul>
             	</br></br>
+            	
+            	
+            	<b>Other Reports</b>
+            	<ul>
+            		<li><a href="javascript:window.open('<%=request.getContextPath()%>/pdfapp.do?action=occupancy');">Occupancy Report</a></li>
+            		<li><a href="javascript:window.open('<%=request.getContextPath()%>/pdfapp.do?action=completion');">Resident Status Report</a></li>
+            	</ul>
+            	</br></br>
+            	
  
             </div>
             

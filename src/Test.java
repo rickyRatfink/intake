@@ -1,4 +1,7 @@
-import java.net.InetAddress;
+import java.util.List;
+
+import com.yada180.sms.domain.Intake;
+import com.yada180.sms.hibernate.data.IntakeDao;
 
 
 public class Test {
@@ -48,9 +51,22 @@ public class Test {
 		List<IntakeMedicalCondition> list = dao.findByIntakeId(obj, new Long(4116097));
 		System.out.println(list.size());
 		*/
-		try {
-		System.out.println(InetAddress.getLocalHost().getHostAddress());
-		} catch (Exception e) {}
+	
+			IntakeDao dao = new IntakeDao();
+			double bynBeds=139.0;
+			int okeBeds=78;
+			int ftlBeds=0;
+			double byn=0.0;
+			try {
+				int t1=2;
+				double t2=0.0;
+				t2=t1;
+				byn=(new Double(2)/3.0)*100.0;
+				System.out.println (byn);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
 	}
 	
 	

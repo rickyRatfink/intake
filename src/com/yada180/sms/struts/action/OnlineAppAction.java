@@ -7,6 +7,8 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.InetAddress;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
@@ -84,7 +86,7 @@ public class OnlineAppAction extends Action {
 
 		if ("Next".equals(action)) {
 			session.removeAttribute("session_expired");
-			//System.out.println ("!!!!---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" click Next on "+onlineAppForm.getPageSource()+" @ "+(new java.util.Date()));
+			System.out.println ("!!!!---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" click Next on "+onlineAppForm.getPageSource()+" @ "+(new java.util.Date()));
 			boolean valid=false;
 			
 			valid = intakeValidator.validate(onlineAppForm);
@@ -95,6 +97,13 @@ public class OnlineAppAction extends Action {
 			
 			if ("personal".equals(onlineAppForm.getPageSource())) {
 				
+					// auto calculate Age
+					
+				if (onlineAppForm.getIntake().getDob().length()==10) 
+					onlineAppForm.getIntake().setAge(
+							validator.calculateAge(onlineAppForm.getIntake()
+									.getDob()) + "");
+					
 				if (!"true".equals((String)session.getAttribute("previous_intake"))) {
 					//First check to see if ssn/name has already been to Faith Farm
 					String ssn = onlineAppForm.getIntake().getSsn().replace("-", "");
@@ -183,7 +192,7 @@ public class OnlineAppAction extends Action {
 				return mapping.findForward(Constants.PROCESS);
 
 		} else if ("Back".equals(action)) {
-			//System.out.println ("---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" click Next on "+onlineAppForm.getPageSource()+" @ "+(new java.util.Date()));
+			System.out.println ("---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" click Next on "+onlineAppForm.getPageSource()+" @ "+(new java.util.Date()));
 			
 			if ("personal".equals(onlineAppForm.getPreviousStep()))
 				return mapping.findForward(Constants.PERSONAL);
@@ -199,7 +208,7 @@ public class OnlineAppAction extends Action {
 				return mapping.findForward(Constants.EMPLOYMENT);
 
 		} else if ("Submit".equals(action)) {
-			//System.out.println ("---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" click Next on "+onlineAppForm.getPageSource()+" @ "+(new java.util.Date()));
+			System.out.println ("---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" click Next on "+onlineAppForm.getPageSource()+" @ "+(new java.util.Date()));
 			
 			
 			/*
@@ -224,6 +233,7 @@ public class OnlineAppAction extends Action {
 				onlineAppForm.getIntake().setCreatedBy("online application");
 				onlineAppForm.getIntake().setApplicationStatus("Pending");
 				onlineAppForm.getIntake().setIntakeStatus("Pending");
+				onlineAppForm.getIntake().setArchivedFlag("No");
 				
 				//temp log all data before attempted save
 				this.logApplicationDataOnException(onlineAppForm);
@@ -304,7 +314,7 @@ public class OnlineAppAction extends Action {
 
 				         // Now set the actual message
 				         message.setText("This is an automated response sent to notify you of an application submitted online. Please log into http://apps.faithfarm.org/intake to view the application.  Do not reply to this message.");
-				         Transport.send(message);
+				        // Transport.send(message);
 				         // Send message
 				         try {
 				     		String ipAddy=InetAddress.getLocalHost().getHostAddress();
@@ -719,7 +729,26 @@ public class OnlineAppAction extends Action {
 		}
 	}
 
-
+	public int calculateAge(String dateOfBirth) {
+		int age=0;
+		
+		try {
+		Calendar dob = Calendar.getInstance();  
+		dob.setTime(new Date(dateOfBirth));
+		Calendar today = Calendar.getInstance();  
+		age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);  
+		if (today.get(Calendar.MONTH) < dob.get(Calendar.MONTH)) {
+		  age--;  
+		} else if (today.get(Calendar.MONTH) == dob.get(Calendar.MONTH)
+		    && today.get(Calendar.DAY_OF_MONTH) < dob.get(Calendar.DAY_OF_MONTH)) {
+		  age--;  
+		}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	return age;
+	}
 	
 	
 

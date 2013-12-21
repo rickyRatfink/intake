@@ -2,6 +2,7 @@ package com.yada180.sms.util;
 
 import java.awt.Color;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -27,26 +28,28 @@ import com.yada180.sms.domain.Intake;
 import com.yada180.sms.domain.JobSkill;
 import com.yada180.sms.domain.MedicalCondition;
 import com.yada180.sms.domain.SystemUser;
-import com.yada180.sms.hibernate.dao.IntakeDao;
+import com.yada180.sms.hibernate.data.IntakeDao;
 import com.yada180.sms.struts.form.IntakeForm;
 
 public class PDFBuilder {
 
-	public void waitlistPdf(SystemUser user, String farm, HttpServletResponse response) {
+	public void waitlistPdf(SystemUser user, String farm,
+			HttpServletResponse response) {
 		List<Intake> appList = new ArrayList<Intake>();
-		
+
 		response.setContentType("application/pdf");
 		Document document = new Document();
 		try {
 			PdfWriter writer = PdfWriter.getInstance(document,
-					response.getOutputStream()); 
-			
+					response.getOutputStream());
+
 			document.setMargins(10, 10, 10, 10);
 			document.open();
-			String currentDate = Validator.convertDate(new java.util.Date()+ "");
-			
-			//Create a table to server as a spacer
-			PdfPTable spacerTbl = new PdfPTable(1); 
+			String currentDate = Validator.convertDate(new java.util.Date()
+					+ "");
+
+			// Create a table to server as a spacer
+			PdfPTable spacerTbl = new PdfPTable(1);
 			PdfPCell spacerCell = new PdfPCell(new Paragraph(""));
 			spacerCell.setColspan(1);
 			spacerTbl.getDefaultCell().setBorder(Rectangle.NO_BORDER);
@@ -54,78 +57,79 @@ public class PDFBuilder {
 			spacerCell.setFixedHeight(20);
 			spacerTbl.addCell(spacerCell);
 
-			Font cellFont = FontFactory.getFont(FontFactory.COURIER,8);	
-			Font headerFont = FontFactory.getFont(FontFactory.HELVETICA,10);
-			Font titleFont = FontFactory.getFont(FontFactory.HELVETICA,14);
-			Font dateFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD,6);
-			Font colHeaderFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD,8);
+			Font cellFont = FontFactory.getFont(FontFactory.COURIER, 8);
+			Font headerFont = FontFactory.getFont(FontFactory.HELVETICA, 10);
+			Font titleFont = FontFactory.getFont(FontFactory.HELVETICA, 14);
+			Font dateFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 6);
+			Font colHeaderFont = FontFactory.getFont(
+					FontFactory.HELVETICA_BOLD, 8);
 			colHeaderFont.setStyle(Font.UNDERLINE);
 			headerFont.setStyle(Font.BOLD);
 
-			 Image img = Image.getInstance(
-		                String.format("c:\\pdfFiles\\logo_wordpress_2.png", ""));
-		        img.scaleToFit(150, 94);
-		    document.add(new Chunk(img, 0, -90, true));
-		     
-		    //spacer
-		    document.add(spacerTbl);
-		    document.add(spacerTbl);
-		    document.add(spacerTbl);
-		    document.add(spacerTbl);
-		    document.add(spacerTbl);
-		    document.add(spacerTbl);
-			
-			Chunk titleChunk = new Chunk("Waiting List for "+farm);
+			Image img = Image.getInstance(String.format(
+					"c:\\pdfFiles\\logo_wordpress_2.png", ""));
+			img.scaleToFit(150, 94);
+			document.add(new Chunk(img, 0, -90, true));
+
+			// spacer
+			document.add(spacerTbl);
+			document.add(spacerTbl);
+			document.add(spacerTbl);
+			document.add(spacerTbl);
+			document.add(spacerTbl);
+			document.add(spacerTbl);
+
+			Chunk titleChunk = new Chunk("Waiting List for " + farm);
 			titleFont.setStyle(Font.BOLD);
 			titleChunk.setFont(titleFont);
 			document.add(titleChunk);
 			document.add(spacerTbl);
-			
-			Chunk dateChunk = new Chunk("Run on "+currentDate);
+
+			Chunk dateChunk = new Chunk("Run on " + currentDate);
 			dateFont.setStyle(Font.ITALIC);
 			dateChunk.setFont(dateFont);
 			document.add(dateChunk);
-			
-			//spacer
+
+			// spacer
 			document.add(spacerTbl);
-			
+
 			IntakeDao dao = new IntakeDao();
-			
-			appList=dao.searchApplications(null, null, null, null, null, null, "Waitlist",farm);
-					
+
+			appList = dao.searchApplications(null, null, null, null, null,
+					null, "Waitlist", farm);
+
 			// Table of Applicants
-			PdfPTable table0 = new PdfPTable(4); 
+			PdfPTable table0 = new PdfPTable(4);
 			PdfPCell cell0 = new PdfPCell(new Paragraph("column span 3"));
 			cell0.setColspan(4);
 			table0.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-			cell0.setBorder(Rectangle.NO_BORDER);	
-			table0.setWidthPercentage(100); 
+			cell0.setBorder(Rectangle.NO_BORDER);
+			table0.setWidthPercentage(100);
 			table0.setHorizontalAlignment(Element.ALIGN_LEFT);
-			
-			table0.addCell(new Phrase("APPLICANT NAME",colHeaderFont));
-			table0.addCell(new Phrase("CONTACT PHONE",colHeaderFont));
-			table0.addCell(new Phrase("EMAIL ADDRESS",colHeaderFont));
-			table0.addCell(new Phrase("SUBMISSION DATE",colHeaderFont));
-			for (Iterator iterator =
-					appList.iterator(); iterator.hasNext();){
-				Intake intake = (Intake)iterator.next();
-				table0.addCell(new Phrase(intake.getFirstname().toUpperCase()+" "+intake.getLastname().toUpperCase(),cellFont));
-				table0.addCell(new Phrase(intake.getReferredByPhone(),cellFont));
-				table0.addCell(new Phrase(intake.getEmailAddress(),cellFont));
-				table0.addCell(new Phrase(intake.getCreationDate(),cellFont));
+
+			table0.addCell(new Phrase("APPLICANT NAME", colHeaderFont));
+			table0.addCell(new Phrase("CONTACT PHONE", colHeaderFont));
+			table0.addCell(new Phrase("EMAIL ADDRESS", colHeaderFont));
+			table0.addCell(new Phrase("SUBMISSION DATE", colHeaderFont));
+			for (Iterator iterator = appList.iterator(); iterator.hasNext();) {
+				Intake intake = (Intake) iterator.next();
+				table0.addCell(new Phrase(intake.getFirstname().toUpperCase()
+						+ " " + intake.getLastname().toUpperCase(), cellFont));
+				table0.addCell(new Phrase(intake.getReferredByPhone(), cellFont));
+				table0.addCell(new Phrase(intake.getEmailAddress(), cellFont));
+				table0.addCell(new Phrase(intake.getCreationDate(), cellFont));
 			}
-			
+
 			document.add(table0);
 			document.close();
-		
+
 		} catch (DocumentException e) {
 			e.printStackTrace();
 		} catch (IOException io) {
 			io.printStackTrace();
 		}
 	}
-	
-	
+
 	public void applicationPdf(IntakeForm form, HttpServletResponse response) {
 
 		Intake intake = form.getIntake();
@@ -196,8 +200,10 @@ public class PDFBuilder {
 			stamper.getAcroFields().setField("dlFlag", intake.getDlFlag());
 			stamper.getAcroFields().setField("dlState", intake.getDlState());
 			stamper.getAcroFields().setField("dlNumber", intake.getDlNumber());
-			stamper.getAcroFields().setField("stateIdFlag", intake.getStateIdFlag());
-			stamper.getAcroFields().setField("stateIdType", intake.getStateIdType());
+			stamper.getAcroFields().setField("stateIdFlag",
+					intake.getStateIdFlag());
+			stamper.getAcroFields().setField("stateIdType",
+					intake.getStateIdType());
 			stamper.getAcroFields().setField("motherLiving",
 					intake.getMotherLivingFlag());
 			stamper.getAcroFields().setField("fatherLiving",
@@ -776,35 +782,37 @@ public class PDFBuilder {
 			HttpServletResponse response) {
 
 		List<Intake> class0List = new ArrayList<Intake>();
-		
+
 		response.setContentType("application/pdf");
 		Document document = new Document();
 		try {
 			PdfWriter writer = PdfWriter.getInstance(document,
-					response.getOutputStream()); 
-			
+					response.getOutputStream());
+
 			document.setMargins(10, 10, 10, 10);
 			document.open();
-			String currentDate = Validator.convertDate(new java.util.Date()+ "");
-			
-			Font cellFont = FontFactory.getFont(FontFactory.HELVETICA,8);	
-			Font headerFont = FontFactory.getFont(FontFactory.HELVETICA,10);
-			Font titleFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD,14);
-			Font dateFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD,6);
-			
+			String currentDate = Validator.convertDate(new java.util.Date()
+					+ "");
+
+			Font cellFont = FontFactory.getFont(FontFactory.HELVETICA, 8);
+			Font headerFont = FontFactory.getFont(FontFactory.HELVETICA, 10);
+			Font titleFont = FontFactory
+					.getFont(FontFactory.HELVETICA_BOLD, 14);
+			Font dateFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 6);
+
 			headerFont.setStyle(Font.BOLD);
 
-			Chunk titleChunk = new Chunk("Class List for "+farm);
+			Chunk titleChunk = new Chunk("Class List for " + farm);
 			titleFont.setStyle(Font.BOLD);
 			titleChunk.setFont(titleFont);
 			document.add(titleChunk);
-			
-			Chunk dateChunk = new Chunk("Run on "+currentDate);
+
+			Chunk dateChunk = new Chunk("Run on " + currentDate);
 			dateFont.setStyle(Font.ITALIC);
 			dateChunk.setFont(dateFont);
 			document.add(dateChunk);
-			
-			PdfPTable spacerTbl = new PdfPTable(1); 
+
+			PdfPTable spacerTbl = new PdfPTable(1);
 			PdfPCell spacerCell = new PdfPCell(new Paragraph(""));
 			spacerCell.setColspan(1);
 			spacerTbl.getDefaultCell().setBorder(Rectangle.NO_BORDER);
@@ -812,61 +820,586 @@ public class PDFBuilder {
 			spacerCell.setFixedHeight(20);
 			spacerTbl.addCell(spacerCell);
 			document.add(spacerTbl);
-			
+
 			IntakeDao dao = new IntakeDao();
-			String sClass="Orientation";
-			
-			for (int cls=0;cls<11;cls++) {
-					if (cls>0)sClass=cls+"";
-					if (cls==7) sClass="Fresh Start";
-					if (cls==8) sClass="Intern";
-					if (cls==9) sClass="SLS";
-					if (cls==10) sClass="Student Teacher";
-					class0List=dao.listClass(sClass, farm);
-		
-					PdfPTable htable0 = new PdfPTable(1); 
-					PdfPCell hcell0 = new PdfPCell(new Paragraph(""));
-					hcell0.setColspan(1);
-					htable0.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-					htable0.getDefaultCell().setBackgroundColor(Color.cyan);
-					htable0.setWidthPercentage(100);  
-					htable0.setHorizontalAlignment(Element.ALIGN_LEFT);
-					htable0.addCell(new Phrase("Class: "+sClass+"  ("+class0List.size()+" enrolled)",cellFont));
-					document.add(htable0);
-					
-					// Table of Students
-					PdfPTable table0 = new PdfPTable(8); 
-					PdfPCell cell0 = new PdfPCell(new Paragraph("column span 4"));
-					cell0.setColspan(8);
-					table0.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-					cell0.setBorder(Rectangle.NO_BORDER);	
-					table0.setWidthPercentage(100); 
-					table0.setHorizontalAlignment(Element.ALIGN_LEFT);
-					
-					for (Iterator iterator =
-							class0List.iterator(); iterator.hasNext();){
-						Intake intake = (Intake)iterator.next();
-						table0.addCell(new Phrase(intake.getFirstname()+" "+intake.getLastname(),cellFont));
-						table0.addCell(new Phrase(intake.getEntryDate(),cellFont));
-					}
-					
-					int filler = (class0List.size())%4;
-					for (int i=0;i<(8-filler);i++) {
-						table0.addCell("");
-						table0.addCell("");
-					}
-						
-				
-					
-					
-					document.add(table0);
+			String sClass = "Orientation";
+
+			for (int cls = 0; cls < 11; cls++) {
+				if (cls > 0)
+					sClass = cls + "";
+				if (cls == 7)
+					sClass = "Fresh Start";
+				if (cls == 8)
+					sClass = "Intern";
+				if (cls == 9)
+					sClass = "SLS";
+				if (cls == 10)
+					sClass = "Student Teacher";
+				class0List = dao.listClass(sClass, farm);
+
+				PdfPTable htable0 = new PdfPTable(1);
+				PdfPCell hcell0 = new PdfPCell(new Paragraph(""));
+				hcell0.setColspan(1);
+				htable0.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+				htable0.getDefaultCell().setBackgroundColor(Color.cyan);
+				htable0.setWidthPercentage(100);
+				htable0.setHorizontalAlignment(Element.ALIGN_LEFT);
+				htable0.addCell(new Phrase("Class: " + sClass + "  ("
+						+ class0List.size() + " enrolled)", cellFont));
+				document.add(htable0);
+
+				// Table of Students
+				PdfPTable table0 = new PdfPTable(8);
+				PdfPCell cell0 = new PdfPCell(new Paragraph("column span 4"));
+				cell0.setColspan(8);
+				table0.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+				cell0.setBorder(Rectangle.NO_BORDER);
+				table0.setWidthPercentage(100);
+				table0.setHorizontalAlignment(Element.ALIGN_LEFT);
+
+				for (Iterator iterator = class0List.iterator(); iterator
+						.hasNext();) {
+					Intake intake = (Intake) iterator.next();
+					table0.addCell(new Phrase(intake.getFirstname() + " "
+							+ intake.getLastname(), cellFont));
+					table0.addCell(new Phrase(intake.getEntryDate(), cellFont));
+				}
+
+				int filler = (class0List.size()) % 4;
+				for (int i = 0; i < (8 - filler); i++) {
+					table0.addCell("");
+					table0.addCell("");
+				}
+
+				document.add(table0);
 			} // for loop for class
 			document.close();
-		
+
 		} catch (DocumentException e) {
 			e.printStackTrace();
 		} catch (IOException io) {
 			io.printStackTrace();
 		}
+	}
+
+	public void generateOccupancyReport(SystemUser user, HttpServletResponse response) {
+		response.setContentType("application/pdf");
+		
+		PdfWriter writer = null;
+		Document document = new Document();
+		document.setMargins(10, 10, 10, 10);
+		
+		IntakeDao dao = new IntakeDao();
+		
+		List<Intake> listBYN1=null;
+		List<Intake> listBYN2=null;
+		List<Intake> listBYN3=null;
+		List<Intake> listBYN4=null;
+		List<Intake> listBYN5=null;
+		List<Intake> listBYN6=null;
+		List<Intake> listFTL1=null;
+		List<Intake> listFTL2=null;
+		List<Intake> listFTL3=null;
+		List<Intake> listFTL4=null;
+		List<Intake> listFTL5=null;
+		List<Intake> listFTL6=null;
+		List<Intake> listOKE1=null;
+		List<Intake> listOKE2=null;
+		List<Intake> listOKE3=null;
+		List<Intake> listOKE4=null;
+		List<Intake> listOKE5=null;
+		List<Intake> listOKE6=null;
+		
+		double bynBeds=139;
+		double okeBeds=108;
+		double ftlBeds=135;
+		double byn=0.0,ftl=0.0,oke=0.0,tot=0.0;
+		try {
+			listBYN1 =  dao.listByStatus("In Program", "Boynton Beach");
+			listBYN2 =  dao.listByStatus("Left Prop./Graduated to Fresh Start", "Boynton Beach");
+			listBYN3 =  dao.listByStatus("Left Prop./Graduated to SLS", "Boynton Beach");
+			listBYN4 =  dao.listByStatus("Left Prop./Graduated to Intern", "Boynton Beach");
+			listBYN5 =  dao.listByStatus("Left Prop./Graduated to Omega Work", "Boynton Beach");
+			listBYN6 =  dao.listByStatus("Left Prop./Graduated to Omega School", "Boynton Beach");
+			
+			listFTL1 =  dao.listByStatus("In Program", "Fort Lauderdale");
+			listFTL2 =  dao.listByStatus("Left Prop./Graduated to Fresh Start", "Fort Lauderdale");
+			listFTL3 =  dao.listByStatus("Left Prop./Graduated to SLS", "Fort Lauderdale");
+			listFTL4 =  dao.listByStatus("Left Prop./Graduated to Intern", "Fort Lauderdale");
+			listFTL5 =  dao.listByStatus("Left Prop./Graduated to Omega Work", "Fort Lauderdale");
+			listFTL6 =  dao.listByStatus("Left Prop./Graduated to Omega School", "Fort Lauderdale");
+
+			listOKE1 =  dao.listByStatus("In Program", "Okeechobee");
+			listOKE2 =  dao.listByStatus("Left Prop./Graduated to Fresh Start", "Okeechobee");
+			listOKE3 =  dao.listByStatus("Left Prop./Graduated to SLS", "Okeechobee");
+			listOKE4 =  dao.listByStatus("Left Prop./Graduated to Intern", "Okeechobee");
+			listOKE5 =  dao.listByStatus("Left Prop./Graduated to Omega Work", "Okeechobee");
+			listOKE6 =  dao.listByStatus("Left Prop./Graduated to Omega School", "Okeechobee");
+
+			byn=((listBYN1.size()+listBYN2.size()+listBYN3.size()+listBYN4.size()+listBYN5.size()+listBYN6.size())/bynBeds)*100.0;
+			ftl=((listFTL1.size()+listFTL2.size()+listFTL3.size()+listFTL4.size()+listFTL5.size()+listFTL6.size())/ftlBeds)*100.0;
+			oke=((listOKE1.size()+listOKE2.size()+listOKE3.size()+listOKE4.size()+listOKE5.size()+listOKE6.size())/okeBeds)*100.0;
+			tot=((listBYN1.size()+listBYN2.size()+listBYN3.size()+listBYN4.size()+listBYN5.size()+listBYN6.size())+
+					(listFTL1.size()+listFTL2.size()+listFTL3.size()+listFTL4.size()+listFTL5.size()+listFTL6.size())+
+					(listOKE1.size()+listOKE2.size()+listOKE3.size()+listOKE4.size()+listOKE5.size()+listOKE6.size()) )/(bynBeds+ftlBeds+okeBeds)*100.0;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		response.setContentType("application/pdf");
+		try {
+			writer = PdfWriter.getInstance(document,
+					response.getOutputStream());
+
+			document.setMargins(10, 10, 10, 10);
+			document.open();
+			String currentDate = Validator.convertDate(new java.util.Date()
+					+ "");
+
+			// Create a table to server as a spacer
+			PdfPTable spacerTbl = new PdfPTable(1);
+			PdfPCell spacerCell = new PdfPCell(new Paragraph(""));
+			spacerCell.setColspan(1);
+			spacerTbl.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+			spacerCell.setBorder(Rectangle.NO_BORDER);
+			spacerCell.setFixedHeight(20);
+			spacerTbl.addCell(spacerCell);
+
+			Font cellFont = FontFactory.getFont(FontFactory.COURIER, 8);
+			Font summaryFont = FontFactory.getFont(FontFactory.COURIER, 8);
+			Font headerFont = FontFactory.getFont(FontFactory.HELVETICA, 10);
+			Font titleFont = FontFactory.getFont(FontFactory.HELVETICA, 14);
+			Font dateFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 6);
+			Font colHeaderFont = FontFactory.getFont(
+					FontFactory.HELVETICA_BOLD, 8);
+			colHeaderFont.setStyle(Font.UNDERLINE);
+			headerFont.setStyle(Font.BOLD);
+
+			Image img = Image.getInstance(String.format(
+					"c:\\pdfFiles\\logo_wordpress_2.png", ""));
+			img.scaleToFit(150, 94);
+			document.add(new Chunk(img, 0, -90, true));
+
+			// spacer
+			document.add(spacerTbl);
+			document.add(spacerTbl);
+			document.add(spacerTbl);
+			document.add(spacerTbl);
+			document.add(spacerTbl);
+			document.add(spacerTbl);
+
+			Chunk titleChunk = new Chunk("Occupancy Report");
+			titleFont.setStyle(Font.BOLD);
+			titleChunk.setFont(titleFont);
+			document.add(titleChunk);
+			document.add(spacerTbl);
+
+			Chunk dateChunk = new Chunk("Run on " + currentDate);
+			dateFont.setStyle(Font.ITALIC);
+			dateChunk.setFont(dateFont);
+			document.add(dateChunk);
+
+			// spacer
+			document.add(spacerTbl);
+
+			
+			// Table of Applicants
+			PdfPTable table0 = new PdfPTable(new float[] { 1 ,1, 1, 1, 1, 1, 1, 1, 1 });
+			PdfPCell cell0 = new PdfPCell(new Paragraph("column span 3"));
+			cell0.setColspan(9);
+			table0.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+			cell0.setBorder(Rectangle.NO_BORDER);
+			table0.setWidthPercentage(100f);
+			table0.setHorizontalAlignment(Element.ALIGN_LEFT);
+			
+			table0.addCell(new Phrase("Farm", colHeaderFont));
+			table0.addCell(new Phrase("In Program", colHeaderFont));
+			table0.addCell(new Phrase("Fresh Start", colHeaderFont));
+			table0.addCell(new Phrase("SLS", colHeaderFont));
+			table0.addCell(new Phrase("Intern", colHeaderFont));
+			table0.addCell(new Phrase("Omega Work", colHeaderFont));
+			table0.addCell(new Phrase("Omega School", colHeaderFont));
+			table0.addCell(new Phrase("Total Beds", colHeaderFont));
+			table0.addCell(new Phrase("%", colHeaderFont));
+			
+			DecimalFormat df = new DecimalFormat("###.##");
+			
+			table0.addCell(new Phrase("BYN", cellFont));
+			table0.addCell(new Phrase(listBYN1.size()+"", cellFont));
+			table0.addCell(new Phrase(listBYN2.size()+"", cellFont));
+			table0.addCell(new Phrase(listBYN3.size()+"", cellFont));
+			table0.addCell(new Phrase(listBYN4.size()+"", cellFont));
+			table0.addCell(new Phrase(listBYN5.size()+"", cellFont));
+			table0.addCell(new Phrase(listBYN6.size()+"", cellFont));
+			table0.addCell(new Phrase("139", cellFont));
+			table0.addCell(new Phrase(df.format(byn)+"%", cellFont));
+
+			table0.addCell(new Phrase("FTL", cellFont));
+			table0.addCell(new Phrase(listFTL1.size()+"", cellFont));
+			table0.addCell(new Phrase(listFTL2.size()+"", cellFont));
+			table0.addCell(new Phrase(listFTL3.size()+"", cellFont));
+			table0.addCell(new Phrase(listFTL4.size()+"", cellFont));
+			table0.addCell(new Phrase(listFTL5.size()+"", cellFont));
+			table0.addCell(new Phrase(listFTL6.size()+"", cellFont));
+			table0.addCell(new Phrase("135", cellFont));
+			table0.addCell(new Phrase(df.format(ftl)+"%", cellFont));
+
+			table0.addCell(new Phrase("OKE", cellFont));
+			table0.addCell(new Phrase(listOKE1.size()+"", cellFont));
+			table0.addCell(new Phrase(listOKE2.size()+"", cellFont));
+			table0.addCell(new Phrase(listOKE3.size()+"", cellFont));
+			table0.addCell(new Phrase(listOKE4.size()+"", cellFont));
+			table0.addCell(new Phrase(listOKE5.size()+"", cellFont));
+			table0.addCell(new Phrase(listOKE6.size()+"", cellFont));
+			table0.addCell(new Phrase("108", cellFont));
+			table0.addCell(new Phrase(df.format(oke)+"%", cellFont));
+
+			summaryFont.setStyle(Font.BOLD);
+			table0.addCell(new Phrase("TOTAL", summaryFont));
+			table0.addCell(new Phrase(listBYN1.size()+listFTL1.size()+listOKE1.size()+"", summaryFont));
+			table0.addCell(new Phrase(listBYN2.size()+listFTL2.size()+listOKE2.size()+"", summaryFont));
+			table0.addCell(new Phrase(listBYN3.size()+listFTL3.size()+listOKE3.size()+"", summaryFont));
+			table0.addCell(new Phrase(listBYN4.size()+listFTL4.size()+listOKE4.size()+"", summaryFont));
+			table0.addCell(new Phrase(listBYN5.size()+listFTL5.size()+listOKE5.size()+"", summaryFont));
+			table0.addCell(new Phrase(listBYN6.size()+listFTL6.size()+listOKE6.size()+"", summaryFont));
+			table0.addCell(new Phrase("352", summaryFont));
+			table0.addCell(new Phrase(df.format(tot)+"%", summaryFont));
+
+			
+			document.add(table0);
+			document.close();
+		} catch (DocumentException e) {
+			e.printStackTrace();
+		} catch (IOException io) {
+			io.printStackTrace();
+		}
+
+	}
+	
+	public void generateCompletionReport(SystemUser user, HttpServletResponse response) {
+		response.setContentType("application/pdf");
+		
+		PdfWriter writer = null;
+		Document document = new Document();
+		document.setMargins(10, 10, 10, 10);
+		
+		IntakeDao dao = new IntakeDao();
+		
+		List<Intake> listBYN1=null;
+		List<Intake> listBYN2=null;
+		List<Intake> listBYN3=null;
+		List<Intake> listBYN4=null;
+		List<Intake> listBYN5=null;
+		List<Intake> listBYN6=null;
+		List<Intake> listBYN7=null;
+		List<Intake> listBYN8=null;
+		List<Intake> listBYN9=null;
+		List<Intake> listBYN10=null;
+		List<Intake> listBYN11=null;
+		List<Intake> listBYN12=null;
+		List<Intake> listBYN13=null;
+		List<Intake> listFTL1=null;
+		List<Intake> listFTL2=null;
+		List<Intake> listFTL3=null;
+		List<Intake> listFTL4=null;
+		List<Intake> listFTL5=null;
+		List<Intake> listFTL6=null;
+		List<Intake> listFTL7=null;
+		List<Intake> listFTL8=null;
+		List<Intake> listFTL9=null;
+		List<Intake> listFTL10=null;
+		List<Intake> listFTL11=null;
+		List<Intake> listFTL12=null;
+		List<Intake> listFTL13=null;
+		List<Intake> listOKE1=null;
+		List<Intake> listOKE2=null;
+		List<Intake> listOKE3=null;
+		List<Intake> listOKE4=null;
+		List<Intake> listOKE5=null;
+		List<Intake> listOKE6=null;
+		List<Intake> listOKE7=null;
+		List<Intake> listOKE8=null;
+		List<Intake> listOKE9=null;
+		List<Intake> listOKE10=null;
+		List<Intake> listOKE11=null;
+		List<Intake> listOKE12=null;
+		List<Intake> listOKE13=null;
+		
+			
+		int bynFailure=0,bynSuccess=0, ftlFailure=0, ftlSuccess=0, okeFailure=0, okeSuccess=0;
+		double okeBeds=108;
+		double ftlBeds=135;
+		double byn=0.0,ftl=0.0,oke=0.0,tot=0.0;
+		
+		response.setContentType("application/pdf");
+		try {
+			writer = PdfWriter.getInstance(document,
+					response.getOutputStream());
+
+			document.setMargins(10, 10, 10, 10);
+			document.open();
+			String currentDate = Validator.convertDate(new java.util.Date()
+					+ "");
+
+			// Create a table to server as a spacer
+			PdfPTable spacerTbl = new PdfPTable(1);
+			PdfPCell spacerCell = new PdfPCell(new Paragraph(""));
+			spacerCell.setColspan(1);
+			spacerTbl.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+			spacerCell.setBorder(Rectangle.NO_BORDER);
+			spacerCell.setFixedHeight(20);
+			spacerTbl.addCell(spacerCell);
+
+			Font cellFont = FontFactory.getFont(FontFactory.COURIER, 10);
+			Font summaryFont = FontFactory.getFont(FontFactory.COURIER, 10);
+			Font headerFont = FontFactory.getFont(FontFactory.HELVETICA, 10);
+			Font titleFont = FontFactory.getFont(FontFactory.HELVETICA, 14);
+			Font dateFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 6);
+			Font colHeaderFont = FontFactory.getFont(
+					FontFactory.HELVETICA_BOLD, 8);
+			colHeaderFont.setStyle(Font.UNDERLINE);
+			headerFont.setStyle(Font.BOLD);
+
+			Image img = Image.getInstance(String.format(
+					"c:\\pdfFiles\\logo_wordpress_2.png", ""));
+			img.scaleToFit(150, 94);
+			document.add(new Chunk(img, 0, -90, true));
+
+			// spacer
+			document.add(spacerTbl);
+			document.add(spacerTbl);
+			document.add(spacerTbl);
+			document.add(spacerTbl);
+			document.add(spacerTbl);
+			document.add(spacerTbl);
+
+			Chunk titleChunk = new Chunk("Resident Status Report");
+			titleFont.setStyle(Font.BOLD);
+			titleChunk.setFont(titleFont);
+			document.add(titleChunk);
+			document.add(spacerTbl);
+
+			Chunk dateChunk = new Chunk("Run on " + currentDate);
+			dateFont.setStyle(Font.ITALIC);
+			dateChunk.setFont(dateFont);
+			document.add(dateChunk);
+
+			// spacer
+			document.add(spacerTbl);
+
+			
+			String farm="";
+					
+				farm="Boynton Beach";
+				listBYN1 =  dao.search(null, null,null, null, null, null, farm, null, null,"Walked Off");
+				listBYN2 =  dao.search(null, null,null, null, null, null, farm, null, null,"Dismissed");
+				listBYN3 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Did Not Graduate");
+				listBYN4 =  dao.search(null, null,null, null, null, null, farm, null, null,"Dissmissed - Banned 30 Days");
+				listBYN5 =  dao.search(null, null,null, null, null, null, farm, null, null,"Dissmissed - Banned 60 Days");
+				listBYN6 =  dao.search(null, null,null, null, null, null, farm, null, null,"Dissmissed - Banned 90 Days");
+				listBYN7 =  dao.search(null, null,null, null, null, null, farm, null, null,"Dissmissed - Banned Perm.");
+				bynFailure = listBYN1.size()+listBYN2.size()+listBYN3.size()+listBYN4.size()+listBYN5.size()+listBYN6.size()+listBYN7.size();
+				
+				listBYN8 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated");
+				listBYN9 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated to Fresh Start");
+				listBYN10 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated to SLS");
+				listBYN11 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated to Intern");
+				listBYN12 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated to Omega Work");
+				listBYN13 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated to Omega School");
+				bynSuccess = listBYN8.size()+listBYN9.size()+listBYN10.size()+listBYN11.size()+listBYN12.size()+listBYN13.size();
+				
+				farm="Fort Lauderdale";
+				listFTL1 =  dao.search(null, null,null, null, null, null, farm, null, null,"Walked Off");
+				listFTL2 =  dao.search(null, null,null, null, null, null, farm, null, null,"Dismissed");
+				listFTL3 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Did Not Graduate");
+				listFTL4 =  dao.search(null, null,null, null, null, null, farm, null, null,"Dissmissed - Banned 30 Days");
+				listFTL5 =  dao.search(null, null,null, null, null, null, farm, null, null,"Dissmissed - Banned 60 Days");
+				listFTL6 =  dao.search(null, null,null, null, null, null, farm, null, null,"Dissmissed - Banned 90 Days");
+				listFTL7 =  dao.search(null, null,null, null, null, null, farm, null, null,"Dissmissed - Banned Perm.");
+				ftlFailure = listFTL1.size()+listFTL2.size()+listFTL3.size()+listFTL4.size()+listFTL5.size()+listFTL6.size()+listFTL7.size();
+
+				listFTL8 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated");
+				listFTL9 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated to Fresh Start");
+				listFTL10 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated to SLS");
+				listFTL11 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated to Intern");
+				listFTL12 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated to Omega Work");
+				listFTL13 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated to Omega School");
+				ftlSuccess = listFTL8.size()+listFTL9.size()+listFTL10.size()+listFTL11.size()+listFTL12.size()+listFTL13.size();
+
+				farm="Okeechobee";
+				listOKE1 =  dao.search(null, null,null, null, null, null, farm, null, null,"Walked Off");
+				listOKE2 =  dao.search(null, null,null, null, null, null, farm, null, null,"Dismissed");
+				listOKE3 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Did Not Graduate");
+				listOKE4 =  dao.search(null, null,null, null, null, null, farm, null, null,"Dissmissed - Banned 30 Days");
+				listOKE5 =  dao.search(null, null,null, null, null, null, farm, null, null,"Dissmissed - Banned 60 Days");
+				listOKE6 =  dao.search(null, null,null, null, null, null, farm, null, null,"Dissmissed - Banned 90 Days");
+				listOKE7 =  dao.search(null, null,null, null, null, null, farm, null, null,"Dissmissed - Banned Perm.");
+				okeFailure = listOKE1.size()+listOKE2.size()+listOKE3.size()+listOKE4.size()+listOKE5.size()+listOKE6.size()+listOKE7.size();
+
+				listOKE8 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated");
+				listOKE9 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated to Fresh Start");
+				listOKE10 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated to SLS");
+				listOKE11 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated to Intern");
+				listOKE12 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated to Omega Work");
+				listOKE13 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated to Omega School");
+				okeSuccess = listOKE8.size()+listOKE9.size()+listOKE10.size()+listOKE11.size()+listOKE12.size()+listOKE13.size();
+
+				PdfPTable table0 = new PdfPTable(new float[] { 2 ,1, 1, 1, 1  });
+				table0.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+				table0.setWidthPercentage(100f);
+				table0.setHorizontalAlignment(Element.ALIGN_LEFT);
+
+				table0.addCell(new Phrase("STATUS", colHeaderFont));
+				table0.addCell(new Phrase("BYN", colHeaderFont));
+				table0.addCell(new Phrase("FTL", colHeaderFont));
+				table0.addCell(new Phrase("OKE", colHeaderFont));
+				table0.addCell(new Phrase("TOTAL", colHeaderFont));
+				
+				DecimalFormat df = new DecimalFormat("###.##");
+				
+				table0.addCell(new Phrase("Walked Off", cellFont));
+				table0.addCell(new Phrase(listBYN1.size()+"", cellFont));
+				table0.addCell(new Phrase(listFTL1.size()+"", cellFont));
+				table0.addCell(new Phrase(listOKE1.size()+"", cellFont));
+				table0.addCell(new Phrase(listBYN1.size()+listFTL1.size()+listOKE1.size()+"", summaryFont));
+				table0.addCell(new Phrase("Dismissed", cellFont));
+				table0.addCell(new Phrase(listBYN2.size()+"", cellFont));
+				table0.addCell(new Phrase(listFTL2.size()+"", cellFont));
+				table0.addCell(new Phrase(listOKE2.size()+"", cellFont));
+				table0.addCell(new Phrase(listBYN2.size()+listFTL2.size()+listOKE2.size()+"", summaryFont));
+				table0.addCell(new Phrase("Left Prop./Did Not Graduate", cellFont));
+				table0.addCell(new Phrase(listBYN3.size()+"", cellFont));
+				table0.addCell(new Phrase(listFTL3.size()+"", cellFont));
+				table0.addCell(new Phrase(listOKE3.size()+"", cellFont));
+				table0.addCell(new Phrase(listBYN3.size()+listFTL3.size()+listOKE3.size()+"", summaryFont));
+				table0.addCell(new Phrase("Dissmissed - Banned 30 Days", cellFont));
+				table0.addCell(new Phrase(listBYN4.size()+"", cellFont));
+				table0.addCell(new Phrase(listFTL4.size()+"", cellFont));
+				table0.addCell(new Phrase(listOKE4.size()+"", cellFont));
+				table0.addCell(new Phrase(listBYN4.size()+listFTL4.size()+listOKE4.size()+"", summaryFont));
+				table0.addCell(new Phrase("Dissmissed - Banned 60 Days", cellFont));
+				table0.addCell(new Phrase(listBYN5.size()+"", cellFont));
+				table0.addCell(new Phrase(listFTL5.size()+"", cellFont));
+				table0.addCell(new Phrase(listOKE5.size()+"", cellFont));
+				table0.addCell(new Phrase(listBYN5.size()+listFTL5.size()+listOKE5.size()+"", summaryFont));
+				table0.addCell(new Phrase("Dissmissed - Banned 90 Days", cellFont));
+				table0.addCell(new Phrase(listBYN6.size()+"", cellFont));
+				table0.addCell(new Phrase(listFTL6.size()+"", cellFont));
+				table0.addCell(new Phrase(listOKE6.size()+"", cellFont));
+				table0.addCell(new Phrase(listBYN6.size()+listFTL6.size()+listOKE6.size()+"", summaryFont));
+				table0.addCell(new Phrase("Dissmissed - Banned Perm.", cellFont));
+				table0.addCell(new Phrase(listBYN7.size()+"", cellFont));
+				table0.addCell(new Phrase(listFTL7.size()+"", cellFont));
+				table0.addCell(new Phrase(listOKE7.size()+"", cellFont));
+				table0.addCell(new Phrase(listBYN7.size()+listFTL7.size()+listOKE7.size()+"", summaryFont));
+				summaryFont.setStyle(Font.BOLD);
+				table0.addCell(new Phrase("Total Not Completed", summaryFont));
+				table0.addCell(new Phrase(bynFailure+"", summaryFont));
+				table0.addCell(new Phrase(ftlFailure+"", summaryFont));
+				table0.addCell(new Phrase(okeFailure+"", summaryFont));
+				table0.addCell(new Phrase(bynFailure+ftlFailure+okeFailure+"", summaryFont));
+				
+				double dByn=0.0, dFtl=0.0, dOke=0.0,dAll=0.0;
+				dByn=(new Double(bynFailure)/(bynFailure+bynSuccess))*100.00;
+				dFtl=(new Double(ftlFailure)/(ftlFailure+ftlSuccess))*100.00;
+				dOke=(new Double(okeFailure)/(okeFailure+okeSuccess))*100.00;				
+				dAll=(new Double(bynFailure+ftlFailure+okeFailure)/( (bynFailure+bynSuccess)+(ftlFailure+ftlSuccess)+(okeFailure+okeSuccess) ))*100.00;				
+				
+				table0.addCell(new Phrase("%", summaryFont));
+				table0.addCell(new Phrase( df.format(dByn)+"%", summaryFont));
+				table0.addCell(new Phrase( df.format(dFtl)+"%", summaryFont));
+				table0.addCell(new Phrase( df.format(dOke)+"%", summaryFont));
+				table0.addCell(new Phrase( df.format(dAll)+"%", summaryFont));
+				
+
+				PdfPTable table1 = new PdfPTable(new float[] { 2 ,1, 1, 1, 1  });
+				table1.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+				table1.setWidthPercentage(100f);
+				table1.setHorizontalAlignment(Element.ALIGN_LEFT);
+				
+				table1.addCell(new Phrase("Graduated", cellFont));
+				table1.addCell(new Phrase(listBYN8.size()+"", cellFont));
+				table1.addCell(new Phrase(listFTL8.size()+"", cellFont));
+				table1.addCell(new Phrase(listOKE8.size()+"", cellFont));
+				table1.addCell(new Phrase(listBYN8.size()+listFTL8.size()+listOKE8.size()+"", summaryFont));
+				table1.addCell(new Phrase("Graduated to Fresh Start", cellFont));
+				table1.addCell(new Phrase(listBYN9.size()+"", cellFont));
+				table1.addCell(new Phrase(listFTL9.size()+"", cellFont));
+				table1.addCell(new Phrase(listOKE9.size()+"", cellFont));
+				table1.addCell(new Phrase(listBYN9.size()+listFTL9.size()+listOKE9.size()+"", summaryFont));
+				table1.addCell(new Phrase("Graduated to SLS", cellFont));
+				table1.addCell(new Phrase(listBYN10.size()+"", cellFont));
+				table1.addCell(new Phrase(listFTL10.size()+"", cellFont));
+				table1.addCell(new Phrase(listOKE10.size()+"", cellFont));
+				table1.addCell(new Phrase(listBYN10.size()+listFTL10.size()+listOKE10.size()+"", summaryFont));
+				table1.addCell(new Phrase("Graduated to Intern", cellFont));
+				table1.addCell(new Phrase(listBYN11.size()+"", cellFont));
+				table1.addCell(new Phrase(listFTL11.size()+"", cellFont));
+				table1.addCell(new Phrase(listOKE11.size()+"", cellFont));
+				table1.addCell(new Phrase(listBYN11.size()+listFTL11.size()+listOKE11.size()+"", summaryFont));
+				table1.addCell(new Phrase("Graduated to Omega Work", cellFont));
+				table1.addCell(new Phrase(listBYN12.size()+"", cellFont));
+				table1.addCell(new Phrase(listFTL12.size()+"", cellFont));
+				table1.addCell(new Phrase(listOKE12.size()+"", cellFont));
+				table1.addCell(new Phrase(listBYN12.size()+listFTL12.size()+listOKE12.size()+"", summaryFont));
+				table1.addCell(new Phrase("Graduated to Omega School", cellFont));
+				table1.addCell(new Phrase(listBYN13.size()+"", cellFont));
+				table1.addCell(new Phrase(listFTL13.size()+"", cellFont));
+				table1.addCell(new Phrase(listOKE13.size()+"", cellFont));
+				table1.addCell(new Phrase(listBYN13.size()+listFTL13.size()+listOKE13.size()+"", summaryFont));
+				table1.addCell(new Phrase("Total Completed", summaryFont));
+				table1.addCell(new Phrase(bynSuccess+"", summaryFont));
+				table1.addCell(new Phrase(ftlSuccess+"", summaryFont));
+				table1.addCell(new Phrase(okeSuccess+"", summaryFont));
+				table1.addCell(new Phrase(bynSuccess+ftlSuccess+okeSuccess+"", summaryFont));
+
+				dByn=(new Double(bynSuccess)/(bynFailure+bynSuccess))*100.00;
+				dFtl=(new Double(ftlSuccess)/(ftlFailure+ftlSuccess))*100.00;
+				dOke=(new Double(okeSuccess)/(okeFailure+okeSuccess))*100.00;				
+				dAll=(new Double(bynSuccess+ftlSuccess+okeSuccess)/( (bynFailure+bynSuccess)+(ftlFailure+ftlSuccess)+(okeFailure+okeSuccess) ))*100.00;				
+				
+				table1.addCell(new Phrase("%", summaryFont));
+				table1.addCell(new Phrase( df.format(dByn)+"%", summaryFont));
+				table1.addCell(new Phrase( df.format(dFtl)+"%", summaryFont));
+				table1.addCell(new Phrase( df.format(dOke)+"%", summaryFont));
+				table1.addCell(new Phrase( df.format(dAll)+"%", summaryFont));
+
+				PdfPTable table2 = new PdfPTable(new float[] { 2 ,1, 1, 1, 1  });
+				table2.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+				table2.setWidthPercentage(100f);
+				table2.setHorizontalAlignment(Element.ALIGN_LEFT);
+
+				table2.addCell(new Phrase("Total Residents", summaryFont));
+				table2.addCell(new Phrase((bynFailure+bynSuccess)+"", summaryFont));
+				table2.addCell(new Phrase((ftlFailure+ftlSuccess)+"", summaryFont));
+				table2.addCell(new Phrase((okeFailure+okeSuccess)+"", summaryFont));
+				table2.addCell(new Phrase(((bynFailure+bynSuccess)+(ftlFailure+ftlSuccess)+(okeFailure+okeSuccess))+"", summaryFont));
+
+				PdfPTable table3 = new PdfPTable(1);
+				table3.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+				table3.setWidthPercentage(100f);
+				table3.setHorizontalAlignment(Element.ALIGN_LEFT);
+				table3.addCell(new Phrase("Calculations do not include student's with a status 'In Program'", dateFont));
+				
+			document.add(table0);
+			document.add(spacerTbl);
+			document.add(table1);
+			document.add(spacerTbl);
+			document.add(table2);
+			document.add(spacerTbl);
+			document.add(spacerTbl);
+			document.add(spacerTbl);
+			document.add(spacerTbl);
+			document.add(table3);
+			
+			document.close();
+			
+		} catch (DocumentException e) {
+			e.printStackTrace();
+		} catch (IOException io) {
+			io.printStackTrace();
+		}
+
 	}
 }

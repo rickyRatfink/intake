@@ -2,6 +2,7 @@ package com.yada180.sms.struts.action;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,7 +16,9 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 import com.yada180.sms.application.Constants;
+import com.yada180.sms.domain.Intake;
 import com.yada180.sms.domain.SystemUser;
+import com.yada180.sms.hibernate.data.IntakeDao;
 import com.yada180.sms.struts.form.IntakeForm;
 import com.yada180.sms.util.PDFBuilder;
 import com.yada180.sms.util.Validator;
@@ -36,12 +39,17 @@ public class PdfAppAction extends Action {
 		IntakeForm intakeForm = (IntakeForm)form;
 		PDFBuilder pdf = new PDFBuilder();
 		
+		IntakeDao dao = new IntakeDao();
 		if ("application".equals(action))
 			pdf.applicationPdf(intakeForm, response);
 		if ("classlist".equals(action))
 			pdf.classListPdf(user, farm, response);
 		if ("waitlist".equals(action))
 			pdf.waitlistPdf(user, farm, response);
+		if ("occupancy".equals(action)) 
+			pdf.generateOccupancyReport(user, response);
+		if ("completion".equals(action)) 
+				pdf.generateCompletionReport(user, response);
 		
 		} catch(Exception e) {
 			StringWriter sw = new StringWriter();

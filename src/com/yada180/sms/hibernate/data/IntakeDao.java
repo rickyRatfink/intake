@@ -38,6 +38,9 @@ public class IntakeDao extends GenericDao {
     public List listClass(String classNumber, String farm) throws HibernateException {
     	return super.listClass(classNumber,farm);
     }
+    public List listByStatus(String status, String farm) throws HibernateException {
+    	return super.listByStatus(status,farm);
+    }
     
     
 }
