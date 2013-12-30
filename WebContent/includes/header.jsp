@@ -190,7 +190,7 @@
        </logic:equal>
        <logic:equal name="loginForm" property="systemUser.userRole" value="CwtInstructor" >
        		<li><a href="<%=request.getContextPath()%>/Cwt.do">CWT</a></li>
-       		<li><a href="<%=request.getContextPath()%>/Cwt.do">Reports</a></li>
+       		<!-- <li><a href="<%=request.getContextPath()%>/Cwt.do">Reports</a></li> -->
        </logic:equal>
      </ul>
 </div>

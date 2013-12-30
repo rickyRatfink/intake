@@ -2111,6 +2111,8 @@ public class Intake implements java.io.Serializable {
 	public void setReapplyFlag(String reapplyFlag) {
 		this.reapplyFlag = reapplyFlag;
 	}
+
+
 	
 
 }

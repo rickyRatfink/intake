@@ -40,8 +40,10 @@ public class LoginAction extends Action {
 		LOGGER.setLevel(Level.SEVERE);
 
 		String ip=request.getRemoteAddr().toString();
-		if (!"75.147.217.62".equals(ip) && //Boynton Beach Farm
+		if (!"174.141.99.194".equals(ip) && !"75.147.217.62".equals(ip) && //Boynton Beach Farm
 				!"70.89.102.41".equals(ip) && //FTL Farm
+				!"67.238.59.138".equals(ip) && //OKE Farm
+				!"76.109.62.180".equals(ip) && //EHW Farm
 				!"127.0.0.1".equals(ip)  ) { //Local Development Box
 			LOGGER.log(Level.SEVERE,"INVALID IP ADDRESS TRIED TO ACCESS THE SYSTEM: "+request.getRemoteAddr().toString());
 			return mapping.findForward(Constants.ACCESS_DENIED);
@@ -79,7 +81,11 @@ public class LoginAction extends Action {
 					 html.refresh(session);
 					 loginForm.setSystemUser(user);
 					 session.setAttribute("system_user", user);
-					 return mapping.findForward(Constants.SUCCESS);
+					 
+					 if (user.getLoginCount()==0)
+						 return mapping.findForward(Constants.PASSWORD_RESET);
+					 else
+						 return mapping.findForward(Constants.SUCCESS);
 				 } else {
 					 List<ErrorMessage> messages = new ArrayList<ErrorMessage>();
 					 ActionErrors errors = new ActionErrors();
@@ -105,6 +111,8 @@ public class LoginAction extends Action {
 			 if (success) {
 				 SystemUser user1 = (SystemUser)session.getAttribute("system_user");
 				 user1.setPassword(loginForm.getPassword1());
+				 Long count=user1.getLoginCount();
+				 user1.setLoginCount(++count);
 				 userDao.update(user1);
 				 return mapping.findForward(Constants.LOGIN);
 			 }

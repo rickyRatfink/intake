@@ -66,7 +66,7 @@ function isNumberKey(evt)
 	             </logic:equal>
 		</td>
 		<td align="right">
-	        		<a href="<%=request.getContextPath()%>/Intake.do?action=PrintFull" style="text-decoration:none;"><img src="<%=request.getContextPath()%>/images/local/print.jpg"/></a>
+	        		<a href="<%=request.getContextPath()%>/Intake.do?action=PrintFull" style="text-decoration:none;"><img src="<%=request.getContextPath()%>/images/local/print.jpg" border="0"/></a>
 	    </td>       
 	</tr>
 	</table>

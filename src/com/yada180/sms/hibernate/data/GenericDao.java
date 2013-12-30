@@ -42,6 +42,7 @@ public class GenericDao {
 			e.printStackTrace();
 			throw new HibernateException(e);
 		} finally {
+			if (session.isOpen())
 			session.close();
 		}
 		return obj;
@@ -61,6 +62,7 @@ public class GenericDao {
 			e.printStackTrace();
 			throw new HibernateException(e);
 		} finally {
+			if (session.isOpen())
 			session.close();
 		}
 		return key;
@@ -78,6 +80,7 @@ public class GenericDao {
 			e.printStackTrace();
 			throw new HibernateException(e);
 		} finally {
+			if (session.isOpen())
 			session.close();
 		}
 	}
@@ -94,6 +97,7 @@ public class GenericDao {
 			e.printStackTrace();
 			throw new HibernateException(e);
 		} finally {
+			if (session.isOpen())
 			session.close();
 		}
 	}
@@ -117,6 +121,7 @@ public class GenericDao {
 				e.printStackTrace();
 				throw new HibernateException(e);
 			} finally {
+				if (session.isOpen())
 				session.close();
 			}
 	        return objects;
@@ -137,6 +142,7 @@ public class GenericDao {
 				e.printStackTrace();
 				throw new HibernateException(e);
 			} finally {
+				if (session.isOpen())
 				session.close();
 			}
 	        return objects;
@@ -198,6 +204,7 @@ public class GenericDao {
 				e.printStackTrace();
 				throw new HibernateException(e);
 			} finally {
+				if (session.isOpen())
 				session.close();			
 			}
 			return list;
@@ -255,6 +262,7 @@ public class GenericDao {
 				e.printStackTrace();
 				throw new HibernateException(e);
 			} finally {
+				if (session.isOpen())
 				session.close();
 			}
 			return list;
@@ -288,6 +296,7 @@ public class GenericDao {
 				e.printStackTrace();
 				throw new HibernateException(e);
 			} finally {
+				if (session.isOpen())
 				session.close();
 			}
 			return list;
@@ -320,6 +329,7 @@ public class GenericDao {
 				e.printStackTrace();
 				throw new HibernateException(e);
 			} finally {
+				if (session.isOpen())
 				session.close();
 			}
 			return list;
@@ -344,9 +354,35 @@ public class GenericDao {
 				e.printStackTrace();
 				throw new HibernateException(e);
 			} finally {
+				if (session.isOpen())
 				session.close();
 			}
 			return list;
+		}
+		
+		public Object findByObjectIdOnLikeClause(Class c, String objectName, String value) {
+
+			LOGGER.setLevel(Level.INFO);
+			List<Object> list = new ArrayList<Object>();
+			try {
+				session = HibernateFactory.openSession();
+				session.beginTransaction();
+				StringBuffer query = new StringBuffer(
+						"from "+c.getName()+" where "+objectName+" LIKE :"+objectName);
+				Query q = session.createQuery(query.toString());
+				q.setParameter(objectName, "%"+value+"%");
+				list = q.list();
+				session.getTransaction().commit();
+				session.flush();
+			} catch (Exception e) {
+				session.getTransaction().rollback();
+				e.printStackTrace();
+				throw new HibernateException(e);
+			} finally {
+				if (session.isOpen())
+				session.close();
+			}
+			return list.get(0);
 		}
 		
 		public List findByIntakeId(Class c, Long id) {
@@ -368,6 +404,7 @@ public class GenericDao {
 				e.printStackTrace();
 				throw new HibernateException(e);
 			} finally {
+				if (session.isOpen())
 				session.close();
 			}
 			return list;
@@ -394,6 +431,7 @@ public class GenericDao {
 				e.printStackTrace();
 				throw new HibernateException(e);
 			} finally {
+				if (session.isOpen())
 				session.close();
 			}
 

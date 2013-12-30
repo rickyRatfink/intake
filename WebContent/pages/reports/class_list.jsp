@@ -48,7 +48,7 @@
 	<% if (count==0) {  %>
 	<tr>
 	<% } count++; %>
-		<td class="reportStudentNameRow"><bean:write name="loop0" property="firstname"/>&nbsp;<bean:write name="loop0" property="lastname"/></td>
+		<td class="reportStudentNameRow"><bean:write name="loop0" property="firstname" />&nbsp;<bean:write name="loop0" property="lastname"/></td>
     	<td class="reportRow"><bean:write name="loop0" property="entryDate"/></td>
     	<td width="30" class="reportRow"></td>
 	<% if (count==4) { count=0; %>
@@ -212,8 +212,8 @@
 	<% if (count==0) { %>
 	<tr>
 	<% } count++; %>
-		<td class="reportStudentNameRow"><bean:write name="loop6" property="firstname"/>&nbsp;<bean:write name="loop6" property="lastname"/></td>
-    	<td class="reportRow"><bean:write name="loop6" property="entryDate"/></td>
+		<td class="reportStudentNameRow"><bean:write name="loop6" property="firstname" />&nbsp;<bean:write name="loop6" property="lastname"/></td>
+    	<td class="reportRow"><bean:write name="loop6" property="entryDate" /></td>
     	<td width="30" class="reportRow"></td>
 	<% if (count==4) { count=0; %>
 	</tr>

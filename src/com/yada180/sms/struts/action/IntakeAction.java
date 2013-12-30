@@ -231,7 +231,7 @@ public class IntakeAction extends Action {
 				StudentHistory history = new StudentHistory();
 				history.setBeginDate(entryDate);
 				history.setFarm(user.getFarmBase());
-				history.setPhase("Phase I");
+				history.setPhase("Phase One");
 				history.setProgramStatus("In Program");
 				history.setCreatedBy(user.getUsername());
 				history.setCreationDate(validator.getEpoch() + "");

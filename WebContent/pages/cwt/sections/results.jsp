@@ -36,10 +36,10 @@
                 <logic:iterate id="loop" name="cwtForm" property="masterList">
                 <tr>
                     <td class="searchRowOdd2">
-                    	 <a style="text-decoration:none;" href="<%=request.getContextPath()%>/Cwt.do?action=Edit&type=Section&id=<bean:write name="loop" property="section.moduleOfferingId" />" alt="Edit Section" title="Edit Section">
+                    	 <a style="text-decoration:none;" href="<%=request.getContextPath()%>/Cwt.do?action=Edit&type=Section&id=<bean:write name="loop" property="section.moduleOfferingId" />&farm=<bean:write name="loop" property="section.farmBase" />" alt="Edit Section" title="Edit Section">
                     		 <img src="<%=request.getContextPath()%>/images/local/Edit.gif" width="16" height="14"/>
 						 </a>	
-						 <a style="text-decoration:none;" href="<%=request.getContextPath()%>/CwtRoster.do?action=Roster&type=Section&id=<bean:write name="loop" property="section.moduleOfferingId" />" alt="Section Roster" title="Section Roster">
+						 <a style="text-decoration:none;" href="<%=request.getContextPath()%>/CwtRoster.do?action=Roster&type=Section&id=<bean:write name="loop" property="section.moduleOfferingId" />&farm=<bean:write name="loop" property="section.farmBase" />" alt="Section Roster" title="Section Roster">
                     		 <img src="<%=request.getContextPath()%>/images/local/roster.png" width="16" height="16"/>
 						 </a>						 
 					</td>

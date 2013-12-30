@@ -40,7 +40,6 @@ function checkAll(bx)
                 <table width="100%" cellpadding="0" cellspacing="0" border="0">
                 <tr>
                     <td class="colHeading2" width="150">Student</td>
-                    <td class="colHeading2" width="100">Department</td>
                     <td class="colHeading2" width="100">Job</td>
                     <td class="colHeading2" width="100">Supervisor</td>
                     <td class="colHeading2" width="100"><input type="checkbox" name="checkall" onclick="checkAll(this);" style="height:10px;" >Attended</td>
@@ -52,7 +51,6 @@ function checkAll(bx)
                 <tr>
                    	<td class="searchRowOdd2" ><bean:write name="loop" property="intake.firstname"/>&nbsp;<bean:write name="loop" property="intake.lastname"/></td>
                     <td class="searchRowOdd2" ><bean:write name="loop" property="cwtDepartment.title"/></td>
-                    <td class="searchRowOdd2" ><bean:write name="loop" property="cwtJob.title"/></td>
                     <td class="searchRowOdd2" ><bean:write name="loop" property="cwtSupervisor.firstname"/>&nbsp;<bean:write name="loop" property="cwtSupervisor.lastname"/></td>
                     <td class="searchRowOdd2" ><html:checkbox name="cwtRoster" property="attendFlag[${i}]" value="Yes" /></td>
                     <td class="searchRowOdd2" ><html:text name="cwtRoster" property="examScore[${i}]" size="5" maxlength="5" /></td>

@@ -16,9 +16,21 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 import com.yada180.sms.application.Constants;
+import com.yada180.sms.domain.CwtModuleSection;
+import com.yada180.sms.domain.CwtModules;
+import com.yada180.sms.domain.CwtRoster;
 import com.yada180.sms.domain.Intake;
 import com.yada180.sms.domain.SystemUser;
+import com.yada180.sms.hibernate.data.CwtDepartmentDao;
+import com.yada180.sms.hibernate.data.CwtJobDao;
+import com.yada180.sms.hibernate.data.CwtModuleSectionDao;
+import com.yada180.sms.hibernate.data.CwtModulesDao;
+import com.yada180.sms.hibernate.data.CwtProgramMetricDao;
+import com.yada180.sms.hibernate.data.CwtProgramMetricModulesDao;
+import com.yada180.sms.hibernate.data.CwtRosterDao;
+import com.yada180.sms.hibernate.data.CwtSupervisorDao;
 import com.yada180.sms.hibernate.data.IntakeDao;
+import com.yada180.sms.hibernate.data.StudentHistoryDao;
 import com.yada180.sms.struts.form.IntakeForm;
 import com.yada180.sms.util.PDFBuilder;
 import com.yada180.sms.util.Validator;
@@ -35,22 +47,34 @@ public class PdfAppAction extends Action {
 		String farm=request.getParameter("farm");
 		SystemUser user = (SystemUser)session.getAttribute("system_user");
 		try {
-		LOGGER.setLevel(Level.SEVERE);
-		IntakeForm intakeForm = (IntakeForm)form;
-		PDFBuilder pdf = new PDFBuilder();
-		
-		IntakeDao dao = new IntakeDao();
-		if ("application".equals(action))
-			pdf.applicationPdf(intakeForm, response);
-		if ("classlist".equals(action))
-			pdf.classListPdf(user, farm, response);
-		if ("waitlist".equals(action))
-			pdf.waitlistPdf(user, farm, response);
-		if ("occupancy".equals(action)) 
-			pdf.generateOccupancyReport(user, response);
-		if ("completion".equals(action)) 
-				pdf.generateCompletionReport(user, response);
-		
+			LOGGER.setLevel(Level.SEVERE);
+			IntakeForm intakeForm = (IntakeForm)form;
+			PDFBuilder pdf = new PDFBuilder();
+					
+			IntakeDao dao = new IntakeDao();
+			if ("application".equals(action))
+				pdf.applicationPdf(intakeForm, response);
+			if ("classlist".equals(action))
+				pdf.classListPdf(user, farm, response);
+			if ("waitlist".equals(action))
+				pdf.waitlistPdf(user, farm, response);
+			if ("occupancy".equals(action)) 
+				pdf.generateOccupancyReport(user, response);
+			if ("completion".equals(action)) 
+					pdf.generateCompletionReport(user, response);
+			if ("Print".equals(action)) {
+				CwtModuleSectionDao cwtModuleSectionDao = new CwtModuleSectionDao();
+				CwtRosterDao rosterDao = new CwtRosterDao();
+				CwtModulesDao cwtModulesDao = new CwtModulesDao();
+				
+				String sId = request.getParameter("id");
+				Long sectionId = new Long(sId);
+				CwtModuleSection section = cwtModuleSectionDao.find(sectionId);
+				CwtModules module = cwtModulesDao.find(section.getModuleId());
+				List<CwtRoster> list = rosterDao.findByObjectId(
+						CwtRoster.class, "sectionId", sectionId);
+				pdf.generateCwtRoster(user, module, section, list, response);
+			}
 		} catch(Exception e) {
 			StringWriter sw = new StringWriter();
 			PrintWriter pw = new PrintWriter(sw);

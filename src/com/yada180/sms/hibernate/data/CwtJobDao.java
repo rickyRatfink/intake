@@ -31,4 +31,8 @@ public class CwtJobDao extends GenericDao {
     public List list() throws HibernateException {
     	return super.findAll(CwtJob.class);
     }
+    public CwtJob findJobOnLikeClause(String param, String value) throws HibernateException {
+    	return (CwtJob) super.findByObjectIdOnLikeClause(CwtJob.class, param, value);
+    }
+    
 }

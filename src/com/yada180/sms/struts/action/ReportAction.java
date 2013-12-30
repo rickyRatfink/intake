@@ -82,7 +82,7 @@ public class ReportAction extends Action {
 			 
 			 this.buildFastFindList(reportForm, farm);
 			 reportForm.setAction("");
-			 reportForm.setFarmBase(user.getFarmBase());
+			 reportForm.setFarmBase(farm);
 			 return mapping.findForward(Constants.FAST_FIND); 
 		 }
 		 if ("Rotate".equals(action)) {

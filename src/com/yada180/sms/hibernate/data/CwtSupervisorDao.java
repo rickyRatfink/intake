@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.HibernateException;
 
+import com.yada180.sms.domain.CwtJob;
 import com.yada180.sms.domain.CwtModules;
 import com.yada180.sms.domain.CwtSupervisor;
 
@@ -30,5 +31,8 @@ public class CwtSupervisorDao extends GenericDao {
     }
     public List list() throws HibernateException {
     	return super.findAll(CwtSupervisor.class);
+    }
+    public CwtSupervisor findSupervisorOnLikeClause(String param, String value) throws HibernateException {
+    	return (CwtSupervisor) super.findByObjectIdOnLikeClause(CwtSupervisor.class, param, value);
     }
 }

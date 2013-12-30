@@ -1,1 +1,3 @@
-<% response.sendRedirect("/intake/Login.do"); %>
+<% 
+//response.sendRedirect("dbmaintenance.html");
+response.sendRedirect("/intake/Login.do"); %>

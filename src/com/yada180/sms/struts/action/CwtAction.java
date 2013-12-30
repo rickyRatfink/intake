@@ -85,7 +85,7 @@ public class CwtAction extends Action {
 		 
 		 if ("CwtInstructor".equals(user.getUserRole())) {
 			 List<CwtMaster> masters = new ArrayList<CwtMaster>();
-			 List<CwtModuleSection> list = cwtModuleSectionDao.findByInstructorId(user.getUserId());
+			 List<CwtModuleSection> list = cwtModuleSectionDao.findByInstructorId(user.getInstructorId());
 			 for (Iterator iterator = list.iterator();iterator.hasNext();) {
 				 CwtModuleSection obj1 = (CwtModuleSection)iterator.next();
 				 CwtModules obj2 = (CwtModules)cwtModulesDao.find(obj1.getModuleId());
@@ -98,6 +98,7 @@ public class CwtAction extends Action {
 			 }			 
 			 cwtForm.setInstructorList(masters);
 		 }
+		
 		 if ("programs".equals(action)) {
 			 cwtForm.setProgramList(cwtProgramDao.findAll()); //listCwtPrograms());
 			 return mapping.findForward(Constants.PROGRAMS);

@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.text.WordUtils;
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -38,13 +39,10 @@ import com.yada180.sms.domain.IntakeMedicalCondition;
 import com.yada180.sms.domain.IntakeQuestionAnswer;
 import com.yada180.sms.domain.JobSkill;
 import com.yada180.sms.domain.MedicalCondition;
-import com.yada180.sms.domain.StudentHistory;
-import com.yada180.sms.domain.StudentPassHistory;
 import com.yada180.sms.hibernate.data.IntakeDao;
 import com.yada180.sms.hibernate.data.IntakeJobSkillDao;
 import com.yada180.sms.hibernate.data.IntakeMedicalConditionDao;
 import com.yada180.sms.hibernate.data.IntakeQuestionAnswerDao;
-import com.yada180.sms.struts.form.IntakeForm;
 import com.yada180.sms.struts.form.OnlineAppForm;
 import com.yada180.sms.util.HtmlDropDownBuilder;
 import com.yada180.sms.util.Validator;
@@ -86,7 +84,7 @@ public class OnlineAppAction extends Action {
 
 		if ("Next".equals(action)) {
 			session.removeAttribute("session_expired");
-			System.out.println ("!!!!---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" click Next on "+onlineAppForm.getPageSource()+" @ "+(new java.util.Date()));
+			//System.out.println ("!!!!---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" click Next on "+onlineAppForm.getPageSource()+" @ "+(new java.util.Date()));
 			boolean valid=false;
 			
 			valid = intakeValidator.validate(onlineAppForm);
@@ -97,13 +95,15 @@ public class OnlineAppAction extends Action {
 			
 			if ("personal".equals(onlineAppForm.getPageSource())) {
 				
-					// auto calculate Age
+
+				// auto calculate Age
 					
 				if (onlineAppForm.getIntake().getDob().length()==10) 
 					onlineAppForm.getIntake().setAge(
 							validator.calculateAge(onlineAppForm.getIntake()
 									.getDob()) + "");
-					
+				
+				
 				if (!"true".equals((String)session.getAttribute("previous_intake"))) {
 					//First check to see if ssn/name has already been to Faith Farm
 					String ssn = onlineAppForm.getIntake().getSsn().replace("-", "");
@@ -112,6 +112,10 @@ public class OnlineAppAction extends Action {
 					String lname = onlineAppForm.getIntake().getLastname();
 					String appFarm=onlineAppForm.getIntake().getFarmBase();
 					
+					WordUtils wd = new WordUtils();
+					onlineAppForm.getIntake().setFirstname(wd.capitalize(fname));
+					onlineAppForm.getIntake().setLastname(wd.capitalize(lname));
+
 					//First check SSN in Format xxxxxxxxx ( Intake 1.0)
 					List<Intake> list = intakeDao.search(null, null, null, null, ssn, dob, null, null, null, null);
 					
@@ -192,7 +196,7 @@ public class OnlineAppAction extends Action {
 				return mapping.findForward(Constants.PROCESS);
 
 		} else if ("Back".equals(action)) {
-			System.out.println ("---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" click Next on "+onlineAppForm.getPageSource()+" @ "+(new java.util.Date()));
+			//System.out.println ("---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" click Next on "+onlineAppForm.getPageSource()+" @ "+(new java.util.Date()));
 			
 			if ("personal".equals(onlineAppForm.getPreviousStep()))
 				return mapping.findForward(Constants.PERSONAL);
@@ -208,7 +212,7 @@ public class OnlineAppAction extends Action {
 				return mapping.findForward(Constants.EMPLOYMENT);
 
 		} else if ("Submit".equals(action)) {
-			System.out.println ("---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" click Next on "+onlineAppForm.getPageSource()+" @ "+(new java.util.Date()));
+			//System.out.println ("---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" click Next on "+onlineAppForm.getPageSource()+" @ "+(new java.util.Date()));
 			
 			
 			/*
@@ -225,8 +229,10 @@ public class OnlineAppAction extends Action {
 			onlineAppForm.setMessageType("");
 			String submitDate = Validator.convertEpoch(Validator.getEpoch());
 			onlineAppForm.getIntake().setApplicationSubmissionDate(submitDate);
+			String fname=onlineAppForm.getIntake().getFirstname();
+			String lname=onlineAppForm.getIntake().getLastname();
 			
-			// boolean valid = inakeValidator.validate(intakeForm);
+			
 			if (true) {
 				onlineAppForm.getIntake().setCreationDate(
 						validator.getEpoch() + "");
@@ -248,7 +254,7 @@ public class OnlineAppAction extends Action {
 					intakeDao.update(onlineAppForm.getIntake());
 				
 				
-				//System.out.println ("---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" saved application with id "+onlineAppForm.getIntake().getIntakeId()+" @ "+(new java.util.Date()));
+				////System.out.println ("---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" saved application with id "+onlineAppForm.getIntake().getIntakeId()+" @ "+(new java.util.Date()));
 				session.removeAttribute("previous_intake");
 				
 				if (onlineAppForm.getIntake().getIntakeId()!=null) {
@@ -320,7 +326,7 @@ public class OnlineAppAction extends Action {
 				     		String ipAddy=InetAddress.getLocalHost().getHostAddress();
 				     		if ("50.63.180.165".equals(ipAddy)) {
 				     				Transport.send(message);
-				     				//System.out.println ("----> email sent for "+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" @ "+(new java.util.Date()));
+				     				////System.out.println ("----> email sent for "+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" @ "+(new java.util.Date()));
 				     			}
 				     		} catch (Exception e) {
 				     			LOGGER.log(Level.SEVERE,"Error occurred in getting IP when trying to send email: "+e.getMessage());
@@ -358,7 +364,7 @@ public class OnlineAppAction extends Action {
 					LOGGER.log(Level.SEVERE,props[i].getDisplayName()+"="+descriptor.getReadMethod().invoke(intake, null));
 					}			    
 				}
-				catch (Exception ex) { System.out.println(""); }
+				catch (Exception ex) { //System.out.println(""); }
 				*/
 				StringWriter sw = new StringWriter();
 				PrintWriter pw = new PrintWriter(sw);
@@ -568,7 +574,7 @@ public class OnlineAppAction extends Action {
 			PropertyDescriptor[] props = info.getPropertyDescriptors();  
 			for (int i=0;i<props.length;i++) {  
 				PropertyDescriptor descriptor = props [i];
-				//System.out.println(props[i].getDisplayName()+"="+descriptor.getReadMethod().invoke(intake, null));
+				////System.out.println(props[i].getDisplayName()+"="+descriptor.getReadMethod().invoke(intake, null));
 				}			    
 			}
 			catch (Exception ex) { LOGGER.log(Level.INFO,"Error in logApplicationDataOnException:"+ex.getMessage()); }

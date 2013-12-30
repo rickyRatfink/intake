@@ -273,6 +273,7 @@ public class HtmlDropDownBuilder {
 	        classList.add(new DropDownItem("4","4"));
 	        classList.add(new DropDownItem("5","5"));
 	        classList.add(new DropDownItem("6","6"));
+	        classList.add(new DropDownItem("Graduated","Graduated"));
 	        classList.add(new DropDownItem("Fresh Start","Fresh Start"));
 	        classList.add(new DropDownItem("SLS","SLS"));
 	        classList.add(new DropDownItem("Intern","Intern"));

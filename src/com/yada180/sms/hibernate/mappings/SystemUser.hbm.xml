@@ -50,6 +50,9 @@
         <property name="firstName" type="string">
             <column name="FIRST_NAME" length="20" />
         </property>
+        <property name="instructorId" type="java.lang.Long">
+            <column name="INSTRUCTOR_ID"  />
+        </property>
         
     </class>
 </hibernate-mapping>

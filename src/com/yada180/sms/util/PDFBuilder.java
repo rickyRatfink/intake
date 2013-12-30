@@ -9,6 +9,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.text.WordUtils;
+
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
@@ -24,11 +26,15 @@ import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfReader;
 import com.lowagie.text.pdf.PdfStamper;
 import com.lowagie.text.pdf.PdfWriter;
+import com.yada180.sms.domain.CwtModuleSection;
+import com.yada180.sms.domain.CwtModules;
+import com.yada180.sms.domain.CwtRoster;
 import com.yada180.sms.domain.Intake;
 import com.yada180.sms.domain.JobSkill;
 import com.yada180.sms.domain.MedicalCondition;
 import com.yada180.sms.domain.SystemUser;
 import com.yada180.sms.hibernate.data.IntakeDao;
+import com.yada180.sms.hibernate.data.StudentHistoryDao;
 import com.yada180.sms.struts.form.IntakeForm;
 
 public class PDFBuilder {
@@ -822,6 +828,8 @@ public class PDFBuilder {
 			document.add(spacerTbl);
 
 			IntakeDao dao = new IntakeDao();
+			StudentHistoryDao studentHistoryDao=new StudentHistoryDao();
+			
 			String sClass = "Orientation";
 
 			for (int cls = 0; cls < 11; cls++) {
@@ -860,8 +868,13 @@ public class PDFBuilder {
 				for (Iterator iterator = class0List.iterator(); iterator
 						.hasNext();) {
 					Intake intake = (Intake) iterator.next();
-					table0.addCell(new Phrase(intake.getFirstname() + " "
-							+ intake.getLastname(), cellFont));
+					
+					String fname = intake.getFirstname();
+					String lname = intake.getLastname();
+					fname = WordUtils.capitalize(fname);
+					lname = WordUtils.capitalize(lname);
+					table0.addCell(new Phrase(fname + " "
+							+ lname, cellFont));
 					table0.addCell(new Phrase(intake.getEntryDate(), cellFont));
 				}
 
@@ -912,7 +925,7 @@ public class PDFBuilder {
 		
 		double bynBeds=139;
 		double okeBeds=108;
-		double ftlBeds=135;
+		double ftlBeds=130;
 		double byn=0.0,ftl=0.0,oke=0.0,tot=0.0;
 		try {
 			listBYN1 =  dao.listByStatus("In Program", "Boynton Beach");
@@ -1395,6 +1408,131 @@ public class PDFBuilder {
 			
 			document.close();
 			
+		} catch (DocumentException e) {
+			e.printStackTrace();
+		} catch (IOException io) {
+			io.printStackTrace();
+		}
+
+	}
+	
+	
+	public void generateCwtRoster(SystemUser user, CwtModules module, CwtModuleSection section, List<CwtRoster>list, HttpServletResponse response) {
+		response.setContentType("application/pdf");
+		
+		PdfWriter writer = null;
+		Document document = new Document();
+		document.setMargins(10, 10, 10, 10);
+		
+		
+		response.setContentType("application/pdf");
+		try {
+			writer = PdfWriter.getInstance(document,
+					response.getOutputStream());
+
+			document.setMargins(10, 10, 10, 10);
+			document.open();
+			String currentDate = Validator.convertDate(new java.util.Date()
+					+ "");
+
+			// Create a table to server as a spacer
+			PdfPTable spacerTbl = new PdfPTable(1);
+			PdfPCell spacerCell = new PdfPCell(new Paragraph(""));
+			spacerCell.setColspan(1);
+			spacerTbl.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+			spacerCell.setBorder(Rectangle.NO_BORDER);
+			spacerCell.setFixedHeight(20);
+			spacerTbl.addCell(spacerCell);
+
+			Font cellFont = FontFactory.getFont(FontFactory.COURIER, 8);
+			Font summaryFont = FontFactory.getFont(FontFactory.COURIER, 8);
+			Font headerFont = FontFactory.getFont(FontFactory.HELVETICA, 10);
+			Font titleFont = FontFactory.getFont(FontFactory.HELVETICA, 14);
+			Font dateFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 6);
+			Font colHeaderFont = FontFactory.getFont(
+					FontFactory.HELVETICA_BOLD, 8);
+			colHeaderFont.setStyle(Font.UNDERLINE);
+			headerFont.setStyle(Font.BOLD);
+
+			Image img = Image.getInstance(String.format(
+					"c:\\pdfFiles\\logo_wordpress_2.png", ""));
+			img.scaleToFit(150, 94);
+			document.add(new Chunk(img, 0, -90, true));
+
+			// spacer
+			document.add(spacerTbl);
+			document.add(spacerTbl);
+			document.add(spacerTbl);
+			document.add(spacerTbl);
+			document.add(spacerTbl);
+			document.add(spacerTbl);
+
+			Chunk titleChunk = new Chunk("CWT: "+module.getModuleName());
+			titleFont.setStyle(Font.BOLD);
+			titleChunk.setFont(titleFont);
+			document.add(titleChunk);
+			document.add(spacerTbl);
+
+			Chunk details1Chunk = new Chunk("Farm: "+section.getFarmBase());
+			details1Chunk.setFont(headerFont);
+			document.add(details1Chunk);
+			document.add(spacerTbl);
+			
+			Chunk details5Chunk = new Chunk("Instructor: "+user.getFirstName()+" "+user.getLastName());
+			details5Chunk.setFont(headerFont);
+			document.add(details5Chunk);
+			document.add(spacerTbl);
+			
+			Chunk details2Chunk = new Chunk("Meeting Days: "+section.getMeetingDays());
+			details2Chunk.setFont(headerFont);
+			document.add(details2Chunk);
+			document.add(spacerTbl);
+			Chunk details3Chunk = new Chunk("Meeting Times: "+section.getMeetingTimes());
+			details3Chunk.setFont(headerFont);
+			document.add(details3Chunk);
+			document.add(spacerTbl);
+			Chunk details4Chunk = new Chunk("Location: "+section.getLocation());
+			details4Chunk.setFont(headerFont);
+			document.add(details4Chunk);
+
+			// spacer
+			document.add(spacerTbl);
+
+			
+			// Table of Applicants
+			PdfPTable table0 = new PdfPTable(new float[] { 1 ,1, 1, 1 });
+			PdfPCell cell0 = new PdfPCell(new Paragraph("column span 3"));
+			cell0.setColspan(5);
+			table0.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+			cell0.setBorder(Rectangle.NO_BORDER);
+			table0.setWidthPercentage(100f);
+			table0.setHorizontalAlignment(Element.ALIGN_LEFT);
+			
+			table0.addCell(new Phrase("Student", colHeaderFont));
+			table0.addCell(new Phrase("Exam Score", colHeaderFont));
+			table0.addCell(new Phrase("Attended", colHeaderFont));
+			table0.addCell(new Phrase("Status", colHeaderFont));
+			
+			IntakeDao dao = new IntakeDao();
+			
+			for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+				 CwtRoster roster = (CwtRoster)iterator.next();
+				 Intake intake = dao.find(roster.getIntakeId());
+				 String attendFlag = roster.getAttendFlag();
+				 String examScore = roster.getExamScore();
+				 if(attendFlag==null)
+					 attendFlag="";
+				 if (examScore==null)
+					 examScore="";
+				table0.addCell(new Phrase(intake.getFirstname()+" "+intake.getLastname(), cellFont));
+				table0.addCell(new Phrase(examScore, cellFont));
+				table0.addCell(new Phrase(attendFlag, cellFont));
+				table0.addCell(new Phrase(roster.getStatus()+"", cellFont));				
+			}
+		
+			
+			document.add(table0);			
+			document.close();
 		} catch (DocumentException e) {
 			e.printStackTrace();
 		} catch (IOException io) {

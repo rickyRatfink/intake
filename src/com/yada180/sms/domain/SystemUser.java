@@ -8,6 +8,7 @@ package com.yada180.sms.domain;
 public class SystemUser implements java.io.Serializable {
 
 	private Long userId;
+	private Long instructorId;
 	private String username;
 	private String password;
 	private String creationDate;
@@ -171,6 +172,14 @@ public class SystemUser implements java.io.Serializable {
 
 	public void setGroup_(String group_) {
 		this.group_ = group_;
+	}
+
+	public Long getInstructorId() {
+		return instructorId;
+	}
+
+	public void setInstructorId(Long instructorId) {
+		this.instructorId = instructorId;
 	}
 
 	
