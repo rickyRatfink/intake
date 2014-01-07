@@ -12,6 +12,12 @@
             <div align="left">
             
             
+            <b>Pass Report</b>
+            	<ul>
+            		<li><a href="javascript:window.open('<%=request.getContextPath()%>/pages/reports/passdate.jsp');">Pass Report By Date</a></li>
+            	</ul>
+            	<br/><br/>
+            
            	<b>Class List</b>
             	<ul>
             		<li><a href="javascript:window.open('<%=request.getContextPath()%>/pdfapp.do?action=classlist&farm=Boynton Beach');">Boynton Beach</a></li>

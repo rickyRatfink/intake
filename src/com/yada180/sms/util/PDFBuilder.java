@@ -32,12 +32,114 @@ import com.yada180.sms.domain.CwtRoster;
 import com.yada180.sms.domain.Intake;
 import com.yada180.sms.domain.JobSkill;
 import com.yada180.sms.domain.MedicalCondition;
+import com.yada180.sms.domain.StudentPassHistory;
 import com.yada180.sms.domain.SystemUser;
 import com.yada180.sms.hibernate.data.IntakeDao;
 import com.yada180.sms.hibernate.data.StudentHistoryDao;
+import com.yada180.sms.hibernate.data.StudentPassHistoryDao;
 import com.yada180.sms.struts.form.IntakeForm;
 
 public class PDFBuilder {
+
+	public void passlistPdf(SystemUser user, String passDate, HttpServletResponse response) {
+		List<Intake> passList = new ArrayList<Intake>();
+		String farm=user.getFarmBase();
+		response.setContentType("application/pdf");
+		Document document = new Document();
+		try {
+			PdfWriter writer = PdfWriter.getInstance(document,
+					response.getOutputStream());
+
+			document.setMargins(10, 10, 10, 10);
+			document.open();
+			String currentDate = Validator.convertDate(new java.util.Date()
+					+ "");
+
+			// Create a table to server as a spacer
+			PdfPTable spacerTbl = new PdfPTable(1);
+			PdfPCell spacerCell = new PdfPCell(new Paragraph(""));
+			spacerCell.setColspan(1);
+			spacerTbl.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+			spacerCell.setBorder(Rectangle.NO_BORDER);
+			spacerCell.setFixedHeight(20);
+			spacerTbl.addCell(spacerCell);
+
+			Font cellFont = FontFactory.getFont(FontFactory.COURIER, 8);
+			Font headerFont = FontFactory.getFont(FontFactory.HELVETICA, 10);
+			Font titleFont = FontFactory.getFont(FontFactory.HELVETICA, 14);
+			Font dateFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 6);
+			Font colHeaderFont = FontFactory.getFont(
+					FontFactory.HELVETICA_BOLD, 8);
+			colHeaderFont.setStyle(Font.UNDERLINE);
+			headerFont.setStyle(Font.BOLD);
+
+			Image img = Image.getInstance(String.format(
+					"c:\\pdfFiles\\logo_wordpress_2.png", ""));
+			img.scaleToFit(150, 94);
+			document.add(new Chunk(img, 0, -90, true));
+
+			// spacer
+			document.add(spacerTbl);
+			document.add(spacerTbl);
+			document.add(spacerTbl);
+			document.add(spacerTbl);
+			document.add(spacerTbl);
+			document.add(spacerTbl);
+
+			Chunk titleChunk = new Chunk("Passes for " + passDate + " @ "+ farm);
+			titleFont.setStyle(Font.BOLD);
+			titleChunk.setFont(titleFont);
+			document.add(titleChunk);
+			document.add(spacerTbl);
+
+			Chunk dateChunk = new Chunk("Run on " + currentDate);
+			dateFont.setStyle(Font.ITALIC);
+			dateChunk.setFont(dateFont);
+			document.add(dateChunk);
+
+			// spacer
+			document.add(spacerTbl);
+
+			StudentPassHistoryDao dao = new StudentPassHistoryDao();
+			IntakeDao intakeDao = new IntakeDao();
+			
+			passList = dao.search(passDate);
+
+			// Table of Applicants
+			PdfPTable table0 = new PdfPTable(4);
+			PdfPCell cell0 = new PdfPCell(new Paragraph("column span 3"));
+			cell0.setColspan(4);
+			table0.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+			cell0.setBorder(Rectangle.NO_BORDER);
+			table0.setWidthPercentage(100);
+			table0.setHorizontalAlignment(Element.ALIGN_LEFT);
+
+			table0.addCell(new Phrase("STUDENT NAME", colHeaderFont));
+			table0.addCell(new Phrase("HOURS", colHeaderFont));
+			table0.addCell(new Phrase("TYPE", colHeaderFont));
+			table0.addCell(new Phrase("COMMENTS", colHeaderFont));
+			for (Iterator iterator = passList.iterator(); iterator.hasNext();) {
+				StudentPassHistory pass = (StudentPassHistory)iterator.next();
+				Intake intake = intakeDao.find(pass.getIntakeId());
+				
+				if (intake.getFarmBase().equals(farm)) {
+					table0.addCell(new Phrase(intake.getFirstname().toUpperCase()
+							+ " " + intake.getLastname().toUpperCase(), cellFont));
+					table0.addCell(new Phrase(pass.getHours(), cellFont));
+					table0.addCell(new Phrase(pass.getPassType(), cellFont));
+					table0.addCell(new Phrase(pass.getComments(), cellFont));
+				}
+			}
+
+			document.add(table0);
+			document.close();
+
+		} catch (DocumentException e) {
+			e.printStackTrace();
+		} catch (IOException io) {
+			io.printStackTrace();
+		}
+	}
 
 	public void waitlistPdf(SystemUser user, String farm,
 			HttpServletResponse response) {

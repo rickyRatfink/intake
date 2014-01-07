@@ -39,6 +39,7 @@ public class ReportForm extends ActionForm {
 	private String reportTitle = "";
 	private String runDate = "";
 	private String action = "";
+	private String passDate = "";
 	
 	private List<Intake> computerList = new ArrayList<Intake>();
 	private List<Intake> truckDriverList = new ArrayList<Intake>();
@@ -1252,6 +1253,14 @@ public class ReportForm extends ActionForm {
 
 	public void setAction(String action) {
 		this.action = action;
+	}
+
+	public String getPassDate() {
+		return passDate;
+	}
+
+	public void setPassDate(String passDate) {
+		this.passDate = passDate;
 	}
 
 	

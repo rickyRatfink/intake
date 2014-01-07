@@ -451,4 +451,37 @@ public class GenericDao {
 
 			return user;
 		}
+		
+		public List searchPass(String passDate) {
+
+			StringBuffer query = new StringBuffer("from StudentPassHistory where 1=1 ");
+			
+			if (passDate != null && passDate.length() > 0)
+				query.append(" and passDate = :passDate ");
+			
+			List list = null;
+			try {
+
+				session = HibernateFactory.openSession();
+				session.beginTransaction();
+				Query q = session.createQuery(query.toString());
+				q.setMaxResults(200);
+				if (passDate != null && passDate.length() > 0)
+					q.setString("passDate", passDate);
+				
+				list = q.list();
+				session.getTransaction().commit();
+				session.flush();
+			} catch (HibernateException e) {
+				if (session.isOpen())
+				session.getTransaction().rollback();
+				e.printStackTrace();
+				throw new HibernateException(e);
+			} finally {
+				if (session.isOpen())
+				session.close();			
+			}
+			return list;
+		}
+
 }

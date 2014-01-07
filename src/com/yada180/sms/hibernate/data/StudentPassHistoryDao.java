@@ -27,4 +27,7 @@ public class StudentPassHistoryDao extends GenericDao {
     public List list() throws HibernateException {
     	return super.findAll(StudentPassHistory.class);
     }
+	public List search(String passDate) throws HibernateException {
+		return super.searchPass(passDate);
+	}
 }

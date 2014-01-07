@@ -32,6 +32,7 @@ import com.yada180.sms.hibernate.data.IntakeDao;
 import com.yada180.sms.hibernate.data.StudentHistoryDao;
 import com.yada180.sms.struts.form.ReportForm;
 import com.yada180.sms.util.HtmlDropDownBuilder;
+import com.yada180.sms.util.PDFBuilder;
 import com.yada180.sms.util.Validator;
 
 public class ReportAction extends Action {
@@ -69,8 +70,11 @@ public class ReportAction extends Action {
 		 
 		 String report=request.getParameter("rpt");
 		 String farm=request.getParameter("farm");
+		 String passDate = request.getParameter("passDate");
 		 
-		 
+		 PDFBuilder pdf = new PDFBuilder();
+			
+			
 		 if ("FastFind".equals(action)||"FastFind".equals(reportForm.getAction())) {
 			 reportForm.setReportTitle("Class List");
 			 if (reportForm.getFarmBase()==null||reportForm.getFarmBase().length()==0) {
@@ -143,6 +147,10 @@ public class ReportAction extends Action {
 			 else
 				 return mapping.findForward("joblist_oke");
 				
+		 }
+		 else  if ("passList".equals(action)) {
+				pdf.passlistPdf(user, passDate, response);
+				return null;
 		 }
 		 else
 			 return mapping.findForward(Constants.SUCCESS);
