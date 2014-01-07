@@ -38,6 +38,7 @@ public class GenericDao {
 			session.getTransaction().commit();
 			session.flush();
 		} catch (Exception e) {
+			if (session.isOpen())
 			session.getTransaction().rollback();
 			e.printStackTrace();
 			throw new HibernateException(e);
@@ -58,6 +59,7 @@ public class GenericDao {
 			session.getTransaction().commit();
 			session.flush();
 		} catch (HibernateException e) {
+			if (session.isOpen())
 			session.getTransaction().rollback();
 			e.printStackTrace();
 			throw new HibernateException(e);
@@ -76,6 +78,7 @@ public class GenericDao {
 			session.getTransaction().commit();
 			session.flush();
 		} catch (HibernateException e) {
+			if (session.isOpen())
 			session.getTransaction().rollback();
 			e.printStackTrace();
 			throw new HibernateException(e);
@@ -93,6 +96,7 @@ public class GenericDao {
 			session.getTransaction().commit();
 			session.flush();
 		} catch (HibernateException e) {
+			if (session.isOpen())
 			session.getTransaction().rollback();
 			e.printStackTrace();
 			throw new HibernateException(e);
@@ -117,6 +121,7 @@ public class GenericDao {
 	            session.getTransaction().commit();
 	            session.flush();
 	        } catch (HibernateException e) {
+	        	if (session.isOpen())
 	        	session.getTransaction().rollback();
 				e.printStackTrace();
 				throw new HibernateException(e);
@@ -138,6 +143,7 @@ public class GenericDao {
 	            session.getTransaction().commit();
 	            session.flush();
 	        } catch (HibernateException e) {
+	        	if (session.isOpen())
 	        	session.getTransaction().rollback();
 				e.printStackTrace();
 				throw new HibernateException(e);
@@ -200,6 +206,7 @@ public class GenericDao {
 				session.getTransaction().commit();
 				session.flush();
 			} catch (HibernateException e) {
+				if (session.isOpen())
 				session.getTransaction().rollback();
 				e.printStackTrace();
 				throw new HibernateException(e);
@@ -258,6 +265,7 @@ public class GenericDao {
 				session.getTransaction().commit();
 				session.flush();
 			} catch (HibernateException e) {
+				if (session.isOpen())
 				session.getTransaction().rollback();
 				e.printStackTrace();
 				throw new HibernateException(e);
@@ -281,7 +289,7 @@ public class GenericDao {
 				query.append(" and class_ = :class_ ");
 				query.append(" and farmBase = :farmBase ");
 				query.append(" and archivedFlag = :archivedFlag ");
-				query.append(" and intakeStatus = :intakeStatus order by entryDate asc ");
+				query.append(" and intakeStatus = :intakeStatus order by date_format(str_to_date(entry_date,'%m/%d/%Y'),'%Y%m') ASC ");
 				Query q = session.createQuery(query.toString());
 				q.setString("class_", classNumber);
 				q.setString("farmBase", farm);
@@ -292,6 +300,7 @@ public class GenericDao {
 				session.getTransaction().commit();
 				session.flush();
 			} catch (HibernateException e) {
+				if (session.isOpen())
 				session.getTransaction().rollback();
 				e.printStackTrace();
 				throw new HibernateException(e);
@@ -325,6 +334,7 @@ public class GenericDao {
 				session.getTransaction().commit();
 				session.flush();
 			} catch (HibernateException e) {
+				if (session.isOpen())
 				session.getTransaction().rollback();
 				e.printStackTrace();
 				throw new HibernateException(e);
@@ -350,6 +360,7 @@ public class GenericDao {
 				session.getTransaction().commit();
 				session.flush();
 			} catch (Exception e) {
+				if (session.isOpen())
 				session.getTransaction().rollback();
 				e.printStackTrace();
 				throw new HibernateException(e);
@@ -375,6 +386,7 @@ public class GenericDao {
 				session.getTransaction().commit();
 				session.flush();
 			} catch (Exception e) {
+				if (session.isOpen())
 				session.getTransaction().rollback();
 				e.printStackTrace();
 				throw new HibernateException(e);
@@ -400,6 +412,7 @@ public class GenericDao {
 				session.getTransaction().commit();
 				session.flush();
 			} catch (Exception e) {
+				if (session.isOpen())
 				session.getTransaction().rollback();
 				e.printStackTrace();
 				throw new HibernateException(e);
@@ -427,6 +440,7 @@ public class GenericDao {
 				session.getTransaction().commit();
 				session.flush();
 			} catch (Exception e) {
+				if (session.isOpen())
 				session.getTransaction().rollback();
 				e.printStackTrace();
 				throw new HibernateException(e);

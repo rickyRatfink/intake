@@ -253,6 +253,7 @@ public class HtmlDropDownBuilder {
 	        
 	        List<DropDownItem> passType = new ArrayList<DropDownItem>();
 	        passType.add(new DropDownItem("Medical","Medical"));
+	        passType.add(new DropDownItem("Overnight","Overnight"));
 	        passType.add(new DropDownItem("Probation/Court","Probation/Court"));
 	        passType.add(new DropDownItem("7.5 Hours","7.5 Hours"));
 	        passType.add(new DropDownItem("3 Days","3 Days"));

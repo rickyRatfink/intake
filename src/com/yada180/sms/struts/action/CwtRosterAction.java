@@ -196,7 +196,12 @@ public class CwtRosterAction extends Action {
 					List<CwtMaster> masters = new ArrayList<CwtMaster>();
 					List<Intake> intakes = intakeDao.search(null, null, null,
 							null, null, null, farm, null, null, "In Program");
+					List<Intake> intakes2 = intakeDao.search(null, null, null,
+							null, null, null, farm, null, null, "SLS");
+					List<Intake> intakes3 = intakeDao.search(null, null, null,
+							null, null, null, farm, null, null, "Intern");
 
+					
 					for (Iterator iterator = intakes.iterator(); iterator
 							.hasNext();) {
 						Intake intake = (Intake) iterator.next();

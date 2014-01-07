@@ -26,5 +26,8 @@
         <property name="createdBy" type="string">
             <column name="created_by" length="45" />
         </property>
+        <property name="comments" type="string">
+            <column name="comments" length="60" />
+        </property>
     </class>
 </hibernate-mapping>

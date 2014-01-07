@@ -14,18 +14,20 @@ public class StudentPassHistory implements java.io.Serializable {
 	private String passType;
 	private String creationDate;
 	private String createdBy;
+	private String comments;
 
 	public StudentPassHistory() {
 	}
 
 	public StudentPassHistory(Long intakeId, String hours, String passDate,
-			String passType, String creationDate, String createdBy) {
+			String passType, String creationDate, String createdBy,String comments) {
 		this.intakeId = intakeId;
 		this.hours = hours;
 		this.passDate = passDate;
 		this.passType = passType;
 		this.creationDate = creationDate;
 		this.createdBy = createdBy;
+		this.comments = comments;
 	}
 
 	public Long getStudentPassHistoryId() {
@@ -83,5 +85,14 @@ public class StudentPassHistory implements java.io.Serializable {
 	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
 	}
+
+	public String getComments() {
+		return comments;
+	}
+
+	public void setComments(String comments) {
+		this.comments = comments;
+	}
+	
 
 }

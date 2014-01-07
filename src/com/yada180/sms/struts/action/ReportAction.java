@@ -438,7 +438,9 @@ public class ReportAction extends Action {
 				 reportForm.getClass6List().iterator(); iterator.hasNext();){
 			 Intake intake = (Intake)iterator.next();
 			 if ("Yes".equals(flag6[i])) { 
-				 intake.setClass_("");
+				 intake.setClass_("Graduated");
+				 intake.setIntakeStatus("Graduated");
+				 intake.setApplicationStatus("Graduated");
 				 dao.update(intake);
 			 }
 		 i++;
