@@ -1,72 +1,26 @@
-import java.util.List;
-
-import com.yada180.sms.domain.Intake;
-import com.yada180.sms.hibernate.data.IntakeDao;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class Test {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		
-		/*
-		 * String dateOfBirth="06/12/1970";
-		 	
-		Calendar dob = Calendar.getInstance();  
-		dob.setTime(new Date(dateOfBirth));
-		Calendar today = Calendar.getInstance();  
-		int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);  
-		if (today.get(Calendar.MONTH) < dob.get(Calendar.MONTH)) {
-		  age--;  
-		} else if (today.get(Calendar.MONTH) == dob.get(Calendar.MONTH)
-		    && today.get(Calendar.DAY_OF_MONTH) < dob.get(Calendar.DAY_OF_MONTH)) {
-		  age--;  
-		}
-		System.out.println("age="+age);
+		String dates[] = new String [] { "12/23/2013 12:00","01/03/2014","01/06/2014","12/12/2013","12/16/2013" };
+		String sorted[] = new String [70];
 		
-		Intake intake = new Intake();
 		try {
-		BeanInfo info = Introspector.getBeanInfo(intake.getClass());
-		PropertyDescriptor[] props = info.getPropertyDescriptors();  
-	    for (int i=0;i<props.length;i++) {  
-	        /*String name = pd.getName();  
-	        Method getter = pd.getReadMethod();  
-	        Class<?> type = pd.getPropertyType();  
-	        Object value = getter.invoke(info);  
-	        System.out.println(name + " = " + value + "; type = " + type);  
-	        
-	        System.out.println (">"+props[i].getDisplayName()+"="+props[i].getValue(props[i].getDisplayName()));
-			}
-	    
+		DateFormat dF = new SimpleDateFormat("MM/dd/yy"); 
+			for (int i=0;i<dates.length;i++) {
+			Date date = dF.parse(dates[i]);
+			System.out.println("epoch="+date.getTime());
 		}
-		catch (Exception e) {
-			
-		}*/
-		//Pattern p = Pattern.compile("[A-Z]",Pattern.UNICODE_CHARACTER_CLASS);
-	    //String msg="BuLL";	    
-	    //System.out.println(msg.matches("[A-Z]+$"));
-		/*
-		IntakeMedicalConditionDao dao = new IntakeMedicalConditionDao();
-		IntakeMedicalCondition obj = new IntakeMedicalCondition();
-		List<IntakeMedicalCondition> list = dao.findByIntakeId(obj, new Long(4116097));
-		System.out.println(list.size());
-		*/
+		} catch (Exception e) {
+			System.out.println(">"+e.getMessage());
+		}
+		
 	
-			IntakeDao dao = new IntakeDao();
-			double bynBeds=139.0;
-			int okeBeds=78;
-			int ftlBeds=0;
-			double byn=0.0;
-			try {
-				int t1=2;
-				double t2=0.0;
-				t2=t1;
-				byn=(new Double(2)/3.0)*100.0;
-				System.out.println (byn);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
 	}
 	
 	

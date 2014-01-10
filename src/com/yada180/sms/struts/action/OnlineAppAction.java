@@ -84,7 +84,7 @@ public class OnlineAppAction extends Action {
 
 		if ("Next".equals(action)) {
 			session.removeAttribute("session_expired");
-			//System.out.println ("!!!!---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" click Next on "+onlineAppForm.getPageSource()+" @ "+(new java.util.Date()));
+			System.out.println ("!!!!---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" click Next on "+onlineAppForm.getPageSource()+" @ "+(new java.util.Date()));
 			boolean valid=false;
 			
 			valid = intakeValidator.validate(onlineAppForm);
@@ -117,11 +117,11 @@ public class OnlineAppAction extends Action {
 					onlineAppForm.getIntake().setLastname(wd.capitalize(lname));
 
 					//First check SSN in Format xxxxxxxxx ( Intake 1.0)
-					List<Intake> list = intakeDao.search(null, null, null, null, ssn, dob, null, null, null, null);
+					List<Intake> list = intakeDao.search(null, null, null, null, ssn, dob, null, null, null, null,null,null,null,null);
 					
 					//if list=0 check SSN in Format xxx-xx-xxxx ( Intake 2.0)
 					if (list.size()==0)
-						list = intakeDao.search(null, null, null, null, onlineAppForm.getIntake().getSsn(), dob, null, null, null, null);
+						list = intakeDao.search(null, null, null, null, onlineAppForm.getIntake().getSsn(), dob, null, null, null, null,null,null,null,null);
 					
 					if (list.size()!=0) {
 						Intake intake = (Intake)list.get(0);
@@ -196,7 +196,7 @@ public class OnlineAppAction extends Action {
 				return mapping.findForward(Constants.PROCESS);
 
 		} else if ("Back".equals(action)) {
-			//System.out.println ("---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" click Next on "+onlineAppForm.getPageSource()+" @ "+(new java.util.Date()));
+			System.out.println ("---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" click Next on "+onlineAppForm.getPageSource()+" @ "+(new java.util.Date()));
 			
 			if ("personal".equals(onlineAppForm.getPreviousStep()))
 				return mapping.findForward(Constants.PERSONAL);
@@ -212,7 +212,7 @@ public class OnlineAppAction extends Action {
 				return mapping.findForward(Constants.EMPLOYMENT);
 
 		} else if ("Submit".equals(action)) {
-			//System.out.println ("---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" click Next on "+onlineAppForm.getPageSource()+" @ "+(new java.util.Date()));
+			System.out.println ("---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" click Next on "+onlineAppForm.getPageSource()+" @ "+(new java.util.Date()));
 			
 			
 			/*
@@ -254,7 +254,7 @@ public class OnlineAppAction extends Action {
 					intakeDao.update(onlineAppForm.getIntake());
 				
 				
-				////System.out.println ("---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" saved application with id "+onlineAppForm.getIntake().getIntakeId()+" @ "+(new java.util.Date()));
+				System.out.println ("---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" saved application with id "+onlineAppForm.getIntake().getIntakeId()+" @ "+(new java.util.Date()));
 				session.removeAttribute("previous_intake");
 				
 				if (onlineAppForm.getIntake().getIntakeId()!=null) {
@@ -353,7 +353,7 @@ public class OnlineAppAction extends Action {
 		}
 		catch (Exception e) {
 				LOGGER.log(Level.INFO,"Error occurred in online application:  Data displayed below");
-				/*
+				
 				OnlineAppForm onlineAppForm = (OnlineAppForm) form;
 				Intake intake =  onlineAppForm.getIntake();
 				try {
@@ -364,8 +364,8 @@ public class OnlineAppAction extends Action {
 					LOGGER.log(Level.SEVERE,props[i].getDisplayName()+"="+descriptor.getReadMethod().invoke(intake, null));
 					}			    
 				}
-				catch (Exception ex) { //System.out.println(""); }
-				*/
+				catch (Exception ex) { System.out.println(""); }
+				
 				StringWriter sw = new StringWriter();
 				PrintWriter pw = new PrintWriter(sw);
 				e.printStackTrace(pw);			

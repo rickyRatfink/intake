@@ -204,6 +204,11 @@ public class CwtAction extends Action {
 			 return mapping.findForward("create_"+cwtForm.getPageSource());
 		 }
 		 else if ("Create".equals(action)) {
+			 
+			 cwtForm.setModuleMetric(new String[200]);
+			 cwtForm.setMetricUbit(new String[200]);
+			 cwtForm.setJobMetric(new String[200]);
+				
 			 cwtForm.setCwtDepartment(new CwtDepartment());
 			 cwtForm.setCwtJob(new CwtJob());
 			 cwtForm.setCwtSupervisor(new CwtSupervisor());

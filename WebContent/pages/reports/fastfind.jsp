@@ -124,7 +124,7 @@ CLASS 2
 	</tr>
 	<% count++; %>
     </logic:iterate>
-     <logic:empty name="reportForm" property="class1CwtMasterList">
+     <logic:empty name="reportForm" property="class2CwtMasterList">
     	<tr>
     		<td colspan="7">No students</td>
     	</tr>
@@ -158,7 +158,7 @@ CLASS 3
 	</tr>
 	<% count++; %>
     </logic:iterate>
-     <logic:empty name="reportForm" property="class1CwtMasterList">
+     <logic:empty name="reportForm" property="class3CwtMasterList">
     	<tr>
     		<td colspan="7">No students</td>
     	</tr>
@@ -190,7 +190,7 @@ CLASS 4
 	</tr>
 	<% count++; %>
     </logic:iterate>
-      <logic:empty name="reportForm" property="class1CwtMasterList">
+      <logic:empty name="reportForm" property="class4CwtMasterList">
     	<tr>
     		<td colspan="7">No students</td>
     	</tr>
@@ -222,7 +222,7 @@ CLASS 5
 	</tr>
 	<% count++; %>
     </logic:iterate>
-      <logic:empty name="reportForm" property="class1CwtMasterList">
+      <logic:empty name="reportForm" property="class5CwtMasterList">
     	<tr>
     		<td colspan="7">No students</td>
     	</tr>
@@ -255,7 +255,7 @@ CLASS 6
 	</tr>
 	<% count++; %>
     </logic:iterate>
-        <logic:empty name="reportForm" property="class1CwtMasterList">
+        <logic:empty name="reportForm" property="class6CwtMasterList">
     	<tr>
     		<td colspan="7">No students</td>
     	</tr>
@@ -288,7 +288,7 @@ CLASS 7
 	</tr>
 	<% count++; %>
     </logic:iterate>
-     <logic:empty name="reportForm" property="class1CwtMasterList">
+     <logic:empty name="reportForm" property="class7CwtMasterList">
     	<tr>
     		<td colspan="7">No students</td>
     	</tr>
@@ -320,7 +320,7 @@ CLASS 8
 	</tr>
 	<% count++; %>
     </logic:iterate>
-      <logic:empty name="reportForm" property="class1CwtMasterList">
+      <logic:empty name="reportForm" property="class8CwtMasterList">
     	<tr>
     		<td colspan="7">No students</td>
     	</tr>
@@ -353,7 +353,7 @@ CLASS 9
 	</tr>
 	<% count++; %>
     </logic:iterate>
-      <logic:empty name="reportForm" property="class1CwtMasterList">
+      <logic:empty name="reportForm" property="class9CwtMasterList">
     	<tr>
     		<td colspan="7">No students</td>
     	</tr>
@@ -362,7 +362,7 @@ CLASS 9
     
     <!-- 
 
-CLASS 6
+CLASS 10
 
  -->
 
@@ -385,13 +385,44 @@ CLASS 6
 	</tr>
 	<% count++; %>
     </logic:iterate>
-       <logic:empty name="reportForm" property="class1CwtMasterList">
+       <logic:empty name="reportForm" property="class10CwtMasterList">
     	<tr>
     		<td colspan="7">No students</td>
     	</tr>
     </logic:empty>
     
-    
+
+   <!-- 
+
+CLASS 11
+
+ -->
+
+	<tr>
+		<td  height="30" colspan="7" bgcolor="#8ea3b9"><font size="1" color="#FFFFFF"><b>Omega</b></font></td>
+	</tr>
+
+	<% count=1; %>
+	<logic:iterate id="loop11" name="reportForm" property="class11CwtMasterList" indexId="i">
+	<% if (count%2==0) color="#dae2e8"; else color="#ffffff"; %>
+	<tr>	
+		<td bgcolor="<%=color%>"><a style="text-decoration: none;" href="<%=request.getContextPath()%>/Intake.do?action=Edit&key=<bean:write name="loop11" property="intake.intakeId"/>"><bean:write name="loop11" property="intake.intakeId"/></a></td>
+		<td bgcolor="<%=color%>"><bean:write name="loop11" property="intake.firstname"/></td>
+		<td bgcolor="<%=color%>"><bean:write name="loop11" property="intake.lastname"/></td> 
+    	<td bgcolor="<%=color%>"><bean:write name="loop11" property="intake.entryDate"/></td>
+    	<td bgcolor="<%=color%>"><bean:write name="loop11" property="cwtSupervisor.firstname"/>&nbsp;<bean:write name="loop11" property="cwtSupervisor.lastname"/></td>
+    	<td bgcolor="<%=color%>"><bean:write name="loop11" property="cwtJob.title"/></td>
+    	<td bgcolor="<%=color%>"><bean:write name="reportForm" property="program11[${i}]"/></td>
+    	<td width="30"></td>
+	</tr>
+	<% count++; %>
+    </logic:iterate>
+       <logic:empty name="reportForm" property="class11CwtMasterList">
+    	<tr>
+    		<td colspan="7">No students</td>
+    	</tr>
+    </logic:empty>
+        
 </table>
 
 <br/><br/><br/>

@@ -143,7 +143,15 @@ public class HtmlDropDownBuilder {
         List<CwtJob> list5 = new ArrayList<CwtJob>();
         list5=dao5.list();
         session.setAttribute("ddl_job", list5);
-
+        List<DropDownItem> temp1 = new ArrayList<DropDownItem>();
+        for (Iterator iterator =
+        		list5.iterator(); iterator.hasNext();){
+	    	   CwtJob obj = (CwtJob) iterator.next();
+	    	   DropDownItem item = new DropDownItem(obj.getJobId()+"",obj.getTitle());
+	    	   temp1.add(item);
+	       }
+        session.setAttribute("ddl_jobList", temp1);
+        
         CwtDepartmentDao dao6 = new CwtDepartmentDao();
         List<CwtDepartment> list6 = new ArrayList<CwtDepartment>();
         list6=dao6.list();
@@ -214,10 +222,10 @@ public class HtmlDropDownBuilder {
 	        programStatus.add(new DropDownItem("Dismissed","Dismissed"));
 	        programStatus.add(new DropDownItem("Left Prop./Did Not Graduate","Left Prop./Did Not Graduate"));
 	        programStatus.add(new DropDownItem("Left Prop./Graduated","Left Prop./Graduated"));
-	        programStatus.add(new DropDownItem("Left Prop./Graduated to SLS","Left Prop./Graduated to Fresh Start"));
+	        programStatus.add(new DropDownItem("Left Prop./Graduated to Fresh Start","Left Prop./Graduated to Fresh Start"));
 	        programStatus.add(new DropDownItem("Left Prop./Graduated to SLS","Left Prop./Graduated to SLS"));
-	        programStatus.add(new DropDownItem("Left Prop./Graduated to Omega","Left Prop./Graduated to Omega Work"));
-	        programStatus.add(new DropDownItem("Left Prop./Graduated to Omega","Left Prop./Graduated to Omega School"));
+	        programStatus.add(new DropDownItem("Left Prop./Graduated to Omega Work","Left Prop./Graduated to Omega Work"));
+	        programStatus.add(new DropDownItem("Left Prop./Graduated to Omega School","Left Prop./Graduated to Omega School"));
 	        programStatus.add(new DropDownItem("Left Prop./Graduated to Intern","Left Prop./Graduated to Intern"));
 	        programStatus.add(new DropDownItem("Dismissed - Banned 30 days","Dismissed - Banned 30 days"));
 	        programStatus.add(new DropDownItem("Dismissed - Banned 60 days","Dismissed - Banned 60 days"));

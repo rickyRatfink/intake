@@ -103,7 +103,9 @@ function whichKey(e) {
 						{
 						   if(e && e.keyCode == 13)
 						   {
-						      document.forms[0].submit();
+							  document.getElementById('action').value='Save';
+							  alert('action='+document.getElementById('action').value);
+							  document.forms[0].submit();
 						   }
 						}
 				   </script>

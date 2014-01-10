@@ -29,7 +29,7 @@ function isNumberKey(evt)
 </script>
 
 <html:form action="/Intake" enctype="multipart/form-data" styleId="intake">
-<div onKeyPress="return checkSubmit(event)">
+<div onKeyPress="return checkSubmit(event);">
 	<% String sTitle="Student Electronic File"; %>
 	<table width="100%">
 	<tr>
@@ -52,6 +52,7 @@ function isNumberKey(evt)
 		<td valign="top">
 				<font size="5"><b><bean:write name="intakeForm" property="intake.farmBase" /> <%=sTitle %></b></font>
 				</br>
+				
 				<logic:equal name="intakeForm" property="intake.applicationStatus" value="Pending">
 				 <table width="100%" border="0">
 	             <tr>
@@ -64,6 +65,59 @@ function isNumberKey(evt)
 	               </tr>
 	             </table>
 	             </logic:equal>
+	             
+	             <logic:equal name="intakeForm" property="intake.applicationStatus" value="Denied">
+				 <table width="100%" border="0">
+	             <tr>
+	                 <td width="250">Application Response Status&nbsp;
+	                 	<html:select property="intake.responseStatus" styleClass="select" >
+							<html:option value="">Select</html:option>
+							<html:optionsCollection name="ddl_responseStatus" value="value" label="label" />
+						</html:select>
+	                 </td>
+	               </tr>
+	             </table>
+	             </logic:equal>
+	             
+	             <logic:equal name="intakeForm" property="intake.applicationStatus" value="Waitlist">
+				 <table width="100%" border="0">
+	             <tr>
+	                 <td width="250">Application Response Status&nbsp;
+	                 	<html:select property="intake.responseStatus" styleClass="select" >
+							<html:option value="">Select</html:option>
+							<html:optionsCollection name="ddl_responseStatus" value="value" label="label" />
+						</html:select>
+	                 </td>
+	               </tr>
+	             </table>
+	             </logic:equal>
+	             
+	             <logic:equal name="intakeForm" property="intake.applicationStatus" value="Accepted">
+				 <table width="100%" border="0">
+	             <tr>
+	                 <td width="250">Application Response Status&nbsp;
+	                 	<html:select property="intake.responseStatus" styleClass="select" >
+							<html:option value="">Select</html:option>
+							<html:optionsCollection name="ddl_responseStatus" value="value" label="label" />
+						</html:select>
+	                 </td>
+	               </tr>
+	             </table>
+	             </logic:equal>
+	             
+	             <logic:equal name="intakeForm" property="intake.applicationStatus" value="Withdrawn">
+				 <table width="100%" border="0">
+	             <tr>
+	                 <td width="250">Application Response Status&nbsp;
+	                 	<html:select property="intake.responseStatus" styleClass="select" >
+							<html:option value="">Select</html:option>
+							<html:optionsCollection name="ddl_responseStatus" value="value" label="label" />
+						</html:select>
+	                 </td>
+	               </tr>
+	             </table>
+	             </logic:equal>
+	            
 		</td>
 		<td align="right">
 	        		<a href="<%=request.getContextPath()%>/Intake.do?action=PrintFull" style="text-decoration:none;"><img src="<%=request.getContextPath()%>/images/local/print.jpg" border="0"/></a>

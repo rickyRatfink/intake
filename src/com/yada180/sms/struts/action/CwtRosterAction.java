@@ -194,19 +194,15 @@ public class CwtRosterAction extends Action {
 				} else {
 
 					List<CwtMaster> masters = new ArrayList<CwtMaster>();
-					List<Intake> intakes = intakeDao.search(null, null, null,
-							null, null, null, farm, null, null, "In Program");
-					List<Intake> intakes2 = intakeDao.search(null, null, null,
-							null, null, null, farm, null, null, "SLS");
-					List<Intake> intakes3 = intakeDao.search(null, null, null,
-							null, null, null, farm, null, null, "Intern");
-
+					//List<Intake> intakes = intakeDao.search(null, null, null,
+					//		null, null, null, farm, null, "No", "In Program",null,null,null,null);
+					List<Intake> intakes = intakeDao.searchRosterList(farm);					
 					
 					for (Iterator iterator = intakes.iterator(); iterator
 							.hasNext();) {
 						Intake intake = (Intake) iterator.next();
 
-						// check current Program Status for each intake
+						/* check current Program Status for each intake
 						List<StudentHistory> history = studentHistoryDao
 								.findByIntakeId(
 										new StudentHistory().getClass(),
@@ -219,7 +215,10 @@ public class CwtRosterAction extends Action {
 							status = studentHistory.getProgramStatus();
 						}
 
-						// if ("In Program".equals(status)) {
+						if ("In Program".equals(status) ||
+								"Graduated to Fresh Start".equals(status) ||
+								"Graduated to SLS".equals(status) ||
+								"Graduated to Intern".equals(status) ) {*/
 						CwtDepartment department = new CwtDepartment();
 						if (intake.getDepartmentId() != null)
 							department = departmentDao.find(intake
@@ -247,7 +246,7 @@ public class CwtRosterAction extends Action {
 						master.setIntake(intake);
 						masters.add(master);
 
-						// }
+						//}
 					}
 					cwtRosterForm.setMasterList(masters);
 					return mapping.findForward(Constants.CREATE_ROSTER);

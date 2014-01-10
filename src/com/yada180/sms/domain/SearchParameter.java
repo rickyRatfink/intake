@@ -11,6 +11,10 @@ public class SearchParameter implements java.io.Serializable {
 	private String isArchived;
 	private String farmBase;
 	private String applicationStatus;
+	private Long jobSkillId;
+	private String driverFlag;
+	private String gedFlag;
+	
 	public String getFirstname() {
 		return firstname;
 	}
@@ -64,6 +68,24 @@ public class SearchParameter implements java.io.Serializable {
 	}
 	public void setApplicationStatus(String applicationStatus) {
 		this.applicationStatus = applicationStatus;
+	}
+	public Long getJobSkillId() {
+		return jobSkillId;
+	}
+	public void setJobSkillId(Long jobSkillId) {
+		this.jobSkillId = jobSkillId;
+	}
+	public String getDriverFlag() {
+		return driverFlag;
+	}
+	public void setDriverFlag(String driverFlag) {
+		this.driverFlag = driverFlag;
+	}
+	public String getGedFlag() {
+		return gedFlag;
+	}
+	public void setGedFlag(String gedFlag) {
+		this.gedFlag = gedFlag;
 	}
 	
 	

@@ -48,6 +48,7 @@ import com.yada180.sms.hibernate.data.IntakeDao;
 import com.yada180.sms.hibernate.data.IntakeJobSkillDao;
 import com.yada180.sms.hibernate.data.IntakeMedicalConditionDao;
 import com.yada180.sms.hibernate.data.IntakeQuestionAnswerDao;
+import com.yada180.sms.hibernate.data.JobSkillDao;
 import com.yada180.sms.hibernate.data.StudentDisciplineHistoryDao;
 import com.yada180.sms.hibernate.data.StudentHistoryDao;
 import com.yada180.sms.hibernate.data.StudentPassHistoryDao;
@@ -181,10 +182,30 @@ public class IntakeAction extends Action {
 				String ged = intakeForm.getGedFlag();
 				String archived = intakeForm.getArchivedFlag();
 				String status = intakeForm.getProgramStatus();
-
+				String currentClass = intakeForm.getCurrentClass();
+				Long jobId = intakeForm.getJobId();
+				Long jobSkillId = intakeForm.getJobSkillId();
+				Long supervisorId = intakeForm.getSupervisorId();
+				String driverFlag = intakeForm.getDriverFlag();
+				
 				List intakeList = intakeDao.search(entryDate, exitDate,
 						lastname, firstname, ssn, dob, farm, ged, archived,
-						status);
+						status, currentClass, jobId, supervisorId, driverFlag);
+				
+				if (jobSkillId!=null && jobSkillId>0) {
+					
+					IntakeJobSkillDao dao = new IntakeJobSkillDao();
+					List<Intake> newList = new ArrayList<Intake>();
+			        for (Iterator iterator =
+			        		intakeList.iterator(); iterator.hasNext();){
+			    			Intake obj = (Intake) iterator.next();
+			    			boolean match = dao.findByIntakeIdAndObjectId(IntakeJobSkill.class, "jobSkillId", obj.getIntakeId(), jobSkillId);
+			    			if (match)
+			    				newList.add(obj);			    	
+			        }
+			        intakeList=newList;		
+				}
+				
 				intakeForm.setIntakeList(intakeList);
 
 				if (intakeList.size() > 199)
@@ -204,8 +225,24 @@ public class IntakeAction extends Action {
 						.getSearchParameter().getSsn(), intakeForm
 						.getSearchParameter().getDob(), intakeForm
 						.getSearchParameter().getApplicationStatus(),
+						intakeForm.getSearchParameter().getDriverFlag(),
+						intakeForm.getSearchParameter().getGedFlag(),
 						intakeForm.getSearchParameter().getFarmBase());
 
+				Long jobSkillId = intakeForm.getSearchParameter().getJobSkillId();
+				if (jobSkillId!=null && jobSkillId>0) {
+					
+					IntakeJobSkillDao dao = new IntakeJobSkillDao();
+					List<Intake> newList = new ArrayList<Intake>();
+			        for (Iterator iterator =
+			        		intakeList.iterator(); iterator.hasNext();){
+			    			Intake obj = (Intake) iterator.next();
+			    			boolean match = dao.findByIntakeIdAndObjectId(IntakeJobSkill.class, "jobSkillId", obj.getIntakeId(), jobSkillId);
+			    			if (match)
+			    				newList.add(obj);			    	
+			        }
+			        intakeList=newList;		
+				}
 				intakeForm.setApplicantList(intakeList);
 
 				if (intakeList != null && intakeList.size() > 199)
@@ -259,9 +296,25 @@ public class IntakeAction extends Action {
 						.getSearchParameter().getSsn(), intakeForm
 						.getSearchParameter().getDob(), intakeForm
 						.getSearchParameter().getApplicationStatus(),
+						intakeForm.getSearchParameter().getDriverFlag(),
+						intakeForm.getSearchParameter().getGedFlag(),
 						intakeForm.getSearchParameter().getFarmBase());
-				intakeForm.setApplicantList(intakeList);
 
+				Long jobSkillId = intakeForm.getSearchParameter().getJobSkillId();
+				if (jobSkillId!=null && jobSkillId>0) {
+					
+					IntakeJobSkillDao dao = new IntakeJobSkillDao();
+					List<Intake> newList = new ArrayList<Intake>();
+			        for (Iterator iterator =
+			        		intakeList.iterator(); iterator.hasNext();){
+			    			Intake obj = (Intake) iterator.next();
+			    			boolean match = dao.findByIntakeIdAndObjectId(IntakeJobSkill.class, "jobSkillId", obj.getIntakeId(), jobSkillId);
+			    			if (match)
+			    				newList.add(obj);			    	
+			        }
+			        intakeList=newList;		
+				}
+				intakeForm.setApplicantList(intakeList);
 				if (intakeList.size() > 199)
 					intakeForm
 							.setMessage("More than 200 results were returned. Please narrow your search.");

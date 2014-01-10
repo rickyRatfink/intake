@@ -204,7 +204,7 @@ public class PDFBuilder {
 			IntakeDao dao = new IntakeDao();
 
 			appList = dao.searchApplications(null, null, null, null, null,
-					null, "Waitlist", farm);
+					null, "Waitlist", null,null,farm);
 
 			// Table of Applicants
 			PdfPTable table0 = new PdfPTable(4);
@@ -1307,57 +1307,57 @@ public class PDFBuilder {
 			String farm="";
 					
 				farm="Boynton Beach";
-				listBYN1 =  dao.search(null, null,null, null, null, null, farm, null, null,"Walked Off");
-				listBYN2 =  dao.search(null, null,null, null, null, null, farm, null, null,"Dismissed");
-				listBYN3 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Did Not Graduate");
-				listBYN4 =  dao.search(null, null,null, null, null, null, farm, null, null,"Dissmissed - Banned 30 Days");
-				listBYN5 =  dao.search(null, null,null, null, null, null, farm, null, null,"Dissmissed - Banned 60 Days");
-				listBYN6 =  dao.search(null, null,null, null, null, null, farm, null, null,"Dissmissed - Banned 90 Days");
-				listBYN7 =  dao.search(null, null,null, null, null, null, farm, null, null,"Dissmissed - Banned Perm.");
+				listBYN1 =  dao.search(null, null,null, null, null, null, farm, null, null,"Walked Off",null,null,null,null);
+				listBYN2 =  dao.search(null, null,null, null, null, null, farm, null, null,"Dismissed",null,null,null,null);
+				listBYN3 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Did Not Graduate",null,null,null,null);
+				listBYN4 =  dao.search(null, null,null, null, null, null, farm, null, null,"Dissmissed - Banned 30 Days",null,null,null,null);
+				listBYN5 =  dao.search(null, null,null, null, null, null, farm, null, null,"Dissmissed - Banned 60 Days",null,null,null,null);
+				listBYN6 =  dao.search(null, null,null, null, null, null, farm, null, null,"Dissmissed - Banned 90 Days",null,null,null,null);
+				listBYN7 =  dao.search(null, null,null, null, null, null, farm, null, null,"Dissmissed - Banned Perm.",null,null,null,null);
 				bynFailure = listBYN1.size()+listBYN2.size()+listBYN3.size()+listBYN4.size()+listBYN5.size()+listBYN6.size()+listBYN7.size();
 				
-				listBYN8 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated");
-				listBYN9 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated to Fresh Start");
-				listBYN10 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated to SLS");
-				listBYN11 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated to Intern");
-				listBYN12 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated to Omega Work");
-				listBYN13 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated to Omega School");
+				listBYN8 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated",null,null,null,null);
+				listBYN9 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated to Fresh Start",null,null,null,null);
+				listBYN10 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated to SLS",null,null,null,null);
+				listBYN11 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated to Intern",null,null,null,null);
+				listBYN12 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated to Omega Work",null,null,null,null);
+				listBYN13 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated to Omega School",null,null,null,null);
 				bynSuccess = listBYN8.size()+listBYN9.size()+listBYN10.size()+listBYN11.size()+listBYN12.size()+listBYN13.size();
 				
 				farm="Fort Lauderdale";
-				listFTL1 =  dao.search(null, null,null, null, null, null, farm, null, null,"Walked Off");
-				listFTL2 =  dao.search(null, null,null, null, null, null, farm, null, null,"Dismissed");
-				listFTL3 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Did Not Graduate");
-				listFTL4 =  dao.search(null, null,null, null, null, null, farm, null, null,"Dissmissed - Banned 30 Days");
-				listFTL5 =  dao.search(null, null,null, null, null, null, farm, null, null,"Dissmissed - Banned 60 Days");
-				listFTL6 =  dao.search(null, null,null, null, null, null, farm, null, null,"Dissmissed - Banned 90 Days");
-				listFTL7 =  dao.search(null, null,null, null, null, null, farm, null, null,"Dissmissed - Banned Perm.");
+				listFTL1 =  dao.search(null, null,null, null, null, null, farm, null, null,"Walked Off",null,null,null,null);
+				listFTL2 =  dao.search(null, null,null, null, null, null, farm, null, null,"Dismissed",null,null,null,null);
+				listFTL3 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Did Not Graduate",null,null,null,null);
+				listFTL4 =  dao.search(null, null,null, null, null, null, farm, null, null,"Dissmissed - Banned 30 Days",null,null,null,null);
+				listFTL5 =  dao.search(null, null,null, null, null, null, farm, null, null,"Dissmissed - Banned 60 Days",null,null,null,null);
+				listFTL6 =  dao.search(null, null,null, null, null, null, farm, null, null,"Dissmissed - Banned 90 Days",null,null,null,null);
+				listFTL7 =  dao.search(null, null,null, null, null, null, farm, null, null,"Dissmissed - Banned Perm.",null,null,null,null);
 				ftlFailure = listFTL1.size()+listFTL2.size()+listFTL3.size()+listFTL4.size()+listFTL5.size()+listFTL6.size()+listFTL7.size();
 
-				listFTL8 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated");
-				listFTL9 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated to Fresh Start");
-				listFTL10 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated to SLS");
-				listFTL11 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated to Intern");
-				listFTL12 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated to Omega Work");
-				listFTL13 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated to Omega School");
+				listFTL8 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated",null,null,null,null);
+				listFTL9 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated to Fresh Start",null,null,null,null);
+				listFTL10 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated to SLS",null,null,null,null);
+				listFTL11 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated to Intern",null,null,null,null);
+				listFTL12 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated to Omega Work",null,null,null,null);
+				listFTL13 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated to Omega School",null,null,null,null);
 				ftlSuccess = listFTL8.size()+listFTL9.size()+listFTL10.size()+listFTL11.size()+listFTL12.size()+listFTL13.size();
 
 				farm="Okeechobee";
-				listOKE1 =  dao.search(null, null,null, null, null, null, farm, null, null,"Walked Off");
-				listOKE2 =  dao.search(null, null,null, null, null, null, farm, null, null,"Dismissed");
-				listOKE3 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Did Not Graduate");
-				listOKE4 =  dao.search(null, null,null, null, null, null, farm, null, null,"Dissmissed - Banned 30 Days");
-				listOKE5 =  dao.search(null, null,null, null, null, null, farm, null, null,"Dissmissed - Banned 60 Days");
-				listOKE6 =  dao.search(null, null,null, null, null, null, farm, null, null,"Dissmissed - Banned 90 Days");
-				listOKE7 =  dao.search(null, null,null, null, null, null, farm, null, null,"Dissmissed - Banned Perm.");
+				listOKE1 =  dao.search(null, null,null, null, null, null, farm, null, null,"Walked Off",null,null,null,null);
+				listOKE2 =  dao.search(null, null,null, null, null, null, farm, null, null,"Dismissed",null,null,null,null);
+				listOKE3 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Did Not Graduate",null,null,null,null);
+				listOKE4 =  dao.search(null, null,null, null, null, null, farm, null, null,"Dissmissed - Banned 30 Days",null,null,null,null);
+				listOKE5 =  dao.search(null, null,null, null, null, null, farm, null, null,"Dissmissed - Banned 60 Days",null,null,null,null);
+				listOKE6 =  dao.search(null, null,null, null, null, null, farm, null, null,"Dissmissed - Banned 90 Days",null,null,null,null);
+				listOKE7 =  dao.search(null, null,null, null, null, null, farm, null, null,"Dissmissed - Banned Perm.",null,null,null,null);
 				okeFailure = listOKE1.size()+listOKE2.size()+listOKE3.size()+listOKE4.size()+listOKE5.size()+listOKE6.size()+listOKE7.size();
 
-				listOKE8 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated");
-				listOKE9 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated to Fresh Start");
-				listOKE10 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated to SLS");
-				listOKE11 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated to Intern");
-				listOKE12 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated to Omega Work");
-				listOKE13 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated to Omega School");
+				listOKE8 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated",null,null,null,null);
+				listOKE9 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated to Fresh Start",null,null,null,null);
+				listOKE10 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated to SLS",null,null,null,null);
+				listOKE11 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated to Intern",null,null,null,null);
+				listOKE12 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated to Omega Work",null,null,null,null);
+				listOKE13 =  dao.search(null, null,null, null, null, null, farm, null, null,"Left Prop./Graduated to Omega School",null,null,null,null);
 				okeSuccess = listOKE8.size()+listOKE9.size()+listOKE10.size()+listOKE11.size()+listOKE12.size()+listOKE13.size();
 
 				PdfPTable table0 = new PdfPTable(new float[] { 2 ,1, 1, 1, 1  });
@@ -1596,6 +1596,10 @@ public class PDFBuilder {
 			Chunk details4Chunk = new Chunk("Location: "+section.getLocation());
 			details4Chunk.setFont(headerFont);
 			document.add(details4Chunk);
+			document.add(spacerTbl);
+			Chunk details6Chunk = new Chunk("Class Size: "+list.size());
+			details6Chunk.setFont(headerFont);
+			document.add(details6Chunk);
 
 			// spacer
 			document.add(spacerTbl);

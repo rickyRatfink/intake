@@ -9,7 +9,7 @@
     <h2> 
         Log In
     </h2>
-    
+    <!-- 
     <p>
     	<img src="<%=request.getContextPath()%>/images/local/message.png"/><b>System notices:</b>&nbsp;&nbsp;
     	<ul>
@@ -18,6 +18,7 @@
     		<li>Returning students applying online are now flagged</li>
     	</ul>
     </p>
+     -->
     
             <span class="failureNotification">
             			<logic:iterate id="messages" name="loginForm" property="messages">

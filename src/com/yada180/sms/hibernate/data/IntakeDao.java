@@ -28,18 +28,22 @@ public class IntakeDao extends GenericDao {
     	return super.findAll(Intake.class);
     }
     public List search(String entryDate, String exitDate, String lastname,
-			String firstname, String ssn, String dob, String farm, String ged, String archived, String status) throws HibernateException {
-    	return super.search( entryDate,  exitDate,  lastname,firstname,  ssn,  dob,  farm,  ged,  archived,  status);
+			String firstname, String ssn, String dob, String farm, String ged, String archived, String status,
+			String currentClass, Long jobId, Long supervisorId, String driverFlag) throws HibernateException {
+    	return super.search( entryDate,  exitDate,  lastname,firstname,  ssn,  dob,  farm,  ged,  archived,  status, currentClass, jobId, supervisorId, driverFlag);
     }
     public List searchApplications(String entryDate, String exitDate,
-			String lastname, String firstname, String ssn, String dob,String status, String farm) throws HibernateException {
-    	return super.searchApplications( entryDate,  exitDate,  lastname,firstname,  ssn,  dob,  status, farm);
+			String lastname, String firstname, String ssn, String dob,String status, String driverFlag, String gedFlag, String farm ) throws HibernateException {
+    	return super.searchApplications( entryDate,  exitDate,  lastname,firstname,  ssn,  dob,  status, driverFlag, gedFlag, farm);
     }
     public List listClass(String classNumber, String farm) throws HibernateException {
     	return super.listClass(classNumber,farm);
     }
     public List listByStatus(String status, String farm) throws HibernateException {
     	return super.listByStatus(status,farm);
+    }
+    public List searchRosterList(String farm) throws HibernateException {
+    	return super.searchRosterList(farm);
     }
     
     

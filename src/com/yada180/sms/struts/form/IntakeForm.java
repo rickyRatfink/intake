@@ -68,7 +68,11 @@ public class IntakeForm extends ActionForm {
 	private String gedFlag = "";
 	private String pictureFlag = "";
 	private String programStatus = "";
-	
+	private String currentClass = "";
+	private Long jobId;
+	private Long supervisorId;
+	private String driverFlag = "";
+	private Long jobSkillId;
 	private String motivationalLossFlag;
 	private String shakesConvulsionsFlag;
 	private String memoryLossFlag;
@@ -579,6 +583,36 @@ public class IntakeForm extends ActionForm {
 	}
 	public void setUploadFileFlag(String uploadFileFlag) {
 		this.uploadFileFlag = uploadFileFlag;
+	}
+	public String getDriverFlag() {
+		return driverFlag;
+	}
+	public void setDriverFlag(String driverFlag) {
+		this.driverFlag = driverFlag;
+	}
+	public Long getJobSkillId() {
+		return jobSkillId;
+	}
+	public void setJobSkillId(Long jobSkillId) {
+		this.jobSkillId = jobSkillId;
+	}
+	public String getCurrentClass() {
+		return currentClass;
+	}
+	public void setCurrentClass(String currentClass) {
+		this.currentClass = currentClass;
+	}
+	public Long getJobId() {
+		return jobId;
+	}
+	public void setJobId(Long jobId) {
+		this.jobId = jobId;
+	}
+	public Long getSupervisorId() {
+		return supervisorId;
+	}
+	public void setSupervisorId(Long supervisorId) {
+		this.supervisorId = supervisorId;
 	}
 	
 	

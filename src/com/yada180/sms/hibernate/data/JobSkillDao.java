@@ -27,4 +27,7 @@ public class JobSkillDao extends GenericDao {
     public List list() throws HibernateException {
     	return super.findAll(JobSkill.class);
     }
+    public boolean findByObjectIdAndIntakeId(Long jobSkillId, Long intakeId) throws HibernateException {
+    	return super.findByIntakeIdAndObjectId(JobSkill.class,"jobSkillId",jobSkillId, intakeId);
+    }
 }

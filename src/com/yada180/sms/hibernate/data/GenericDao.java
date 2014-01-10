@@ -35,8 +35,10 @@ public class GenericDao {
 			session = HibernateFactory.openSession();
 			session.beginTransaction();
 			obj = session.get(c, id);
-			session.getTransaction().commit();
-			session.flush();
+			if (session.isOpen()) {
+				session.flush();
+				session.getTransaction().commit();	
+			}
 		} catch (Exception e) {
 			if (session.isOpen())
 			session.getTransaction().rollback();
@@ -56,8 +58,11 @@ public class GenericDao {
 			session = HibernateFactory.openSession();
 			session.beginTransaction();
 			key = (Long) session.save(obj);
-			session.getTransaction().commit();
-			session.flush();
+			if (session.isOpen()) {
+				session.flush();
+				session.getTransaction().commit();	
+			}
+			
 		} catch (HibernateException e) {
 			if (session.isOpen())
 			session.getTransaction().rollback();
@@ -75,8 +80,10 @@ public class GenericDao {
 			session = HibernateFactory.openSession();
 			session.beginTransaction();
 			session.update(obj);
-			session.getTransaction().commit();
-			session.flush();
+			if (session.isOpen()) {
+				session.flush();
+				session.getTransaction().commit();	
+			}
 		} catch (HibernateException e) {
 			if (session.isOpen())
 			session.getTransaction().rollback();
@@ -93,8 +100,10 @@ public class GenericDao {
 			session = HibernateFactory.openSession();
 			session.beginTransaction();
 			session.delete(obj);
-			session.getTransaction().commit();
-			session.flush();
+			if (session.isOpen()) {
+				session.flush();
+				session.getTransaction().commit();	
+			}
 		} catch (HibernateException e) {
 			if (session.isOpen())
 			session.getTransaction().rollback();
@@ -116,10 +125,15 @@ public class GenericDao {
 	            	query = session.createQuery("from " + clazz.getName()+" order by title");
 	            if ("com.yada180.sms.domain.CwtSupervisor".equals(clazz.getName().toString()))
 	            	query = session.createQuery("from " + clazz.getName()+" order by firstname");
-	            		
+	            if ("com.yada180.sms.domain.CwtModuleSection".equals(clazz.getName().toString()))
+	            	query = session.createQuery("from " + clazz.getName()+" order by farmBase, moduleOfferingId ");
+	            
+	            
 	            objects = query.list();
-	            session.getTransaction().commit();
-	            session.flush();
+				if (session.isOpen()) {
+					session.flush();
+					session.getTransaction().commit();	
+				}
 	        } catch (HibernateException e) {
 	        	if (session.isOpen())
 	        	session.getTransaction().rollback();
@@ -140,8 +154,10 @@ public class GenericDao {
 	            Query query = session.createQuery("from " + clazz.getName() + " where farmBase = :farmBase ");
 	            query.setString("farmBase", farm);
 	            objects = query.list();
-	            session.getTransaction().commit();
-	            session.flush();
+				if (session.isOpen()) {
+					session.flush();
+					session.getTransaction().commit();	
+				}
 	        } catch (HibernateException e) {
 	        	if (session.isOpen())
 	        	session.getTransaction().rollback();
@@ -155,7 +171,8 @@ public class GenericDao {
 	    }
 	
 		public List search(String entryDate, String exitDate, String lastname,
-				String firstname, String ssn, String dob, String farm, String ged, String archived, String status) {
+				String firstname, String ssn, String dob, String farm, String ged, String archived, String status, 
+				String currentClass, Long jobId, Long supervisorId, String driverFlag) {
 
 			StringBuffer query = new StringBuffer("from Intake where 1=1 ");
 			
@@ -175,6 +192,14 @@ public class GenericDao {
 				query.append(" and archivedFlag = :archivedFlag ");
 			if (status != null && status.length() > 0)
 				query.append(" and intakeStatus = :intakeStatus ");
+			if (currentClass != null && currentClass.length() > 0)
+				query.append(" and class_ = :class_ ");
+			if (jobId != null && jobId!=0 )
+				query.append(" and jobId = :jobId ");
+			if (supervisorId != null && supervisorId != 0)
+				query.append(" and supervisorId = :supervisorId ");
+			if (driverFlag != null && driverFlag.length() > 0)
+				query.append(" and dlFlag = :dlFlag ");
 			query.append(" Order by lastname, firstname");
 			
 			
@@ -201,10 +226,20 @@ public class GenericDao {
 					q.setString("archivedFlag", archived);
 				if (status != null && status.length() > 0)
 					q.setString("intakeStatus", status);
+				if (currentClass != null && currentClass.length() > 0)
+					q.setString("class_", currentClass);
+				if (jobId != null && jobId != 0)
+					q.setLong("jobId", jobId);
+				if (supervisorId != null && supervisorId != 0)
+					q.setLong("supervisorId", supervisorId);
+				if (driverFlag != null && driverFlag.length() > 0)
+					q.setString("dlFlag", driverFlag);				
 				
 				list = q.list();
-				session.getTransaction().commit();
-				session.flush();
+				if (session.isOpen()) {
+					session.flush();
+					session.getTransaction().commit();	
+				}
 			} catch (HibernateException e) {
 				if (session.isOpen())
 				session.getTransaction().rollback();
@@ -220,7 +255,7 @@ public class GenericDao {
 		
 		public List searchApplications(String entryDate, String exitDate,
 				String lastname, String firstname, String ssn, String dob,
-				String status, String farm) {
+				String status, String driverFlag, String gedFlag, String farm) {
 
 			StringBuffer query = new StringBuffer("from Intake where 1=1 ");
 			if (lastname != null && lastname.length() > 0)
@@ -233,6 +268,10 @@ public class GenericDao {
 				query.append(" and dob = :dob ");
 			if (farm != null && farm.length() > 0 && !farm.equals("ALL"))
 				query.append(" and farmBase = :farmBase ");
+			if (driverFlag != null && driverFlag.length() > 0)
+				query.append(" and dlFlag = :dlFlag ");
+			if (gedFlag != null && gedFlag.length() > 0)
+				query.append(" and needGed = :needGed ");
 
 			query.append(" and applicationStatus = :applicationStatus order by creation_date desc ");
 
@@ -259,11 +298,16 @@ public class GenericDao {
 
 				if (farm != null && farm.length() > 0 && !farm.equals("ALL"))
 					q.setString("farmBase", farm);
+				if (driverFlag != null && driverFlag.length() > 0)
+					q.setString("dlFlag",driverFlag);
+				if (gedFlag != null && gedFlag.length() > 0)
+					q.setString("needGed",gedFlag);
 
 				list = q.list();
-				
-				session.getTransaction().commit();
-				session.flush();
+				if (session.isOpen()) {
+					session.flush();
+					session.getTransaction().commit();	
+				}
 			} catch (HibernateException e) {
 				if (session.isOpen())
 				session.getTransaction().rollback();
@@ -289,16 +333,17 @@ public class GenericDao {
 				query.append(" and class_ = :class_ ");
 				query.append(" and farmBase = :farmBase ");
 				query.append(" and archivedFlag = :archivedFlag ");
-				query.append(" and intakeStatus = :intakeStatus order by date_format(str_to_date(entry_date,'%m/%d/%Y'),'%Y%m') ASC ");
+				query.append(" and intakeStatus = :intakeStatus ORDER BY STR_TO_DATE(entry_date, '%m/%d/%Y') asc ");
 				Query q = session.createQuery(query.toString());
 				q.setString("class_", classNumber);
 				q.setString("farmBase", farm);
 				q.setString("archivedFlag", "No");
 				q.setString("intakeStatus", "In Program");
 				list = q.list();
-				
-				session.getTransaction().commit();
-				session.flush();
+				if (session.isOpen()) {
+					session.flush();
+					session.getTransaction().commit();	
+				}
 			} catch (HibernateException e) {
 				if (session.isOpen())
 				session.getTransaction().rollback();
@@ -330,9 +375,10 @@ public class GenericDao {
 				q.setString("archivedFlag", "No");
 				q.setString("intakeStatus", status);
 				list = q.list();
-				
-				session.getTransaction().commit();
-				session.flush();
+				if (session.isOpen()) {
+					session.flush();
+					session.getTransaction().commit();	
+				}
 			} catch (HibernateException e) {
 				if (session.isOpen())
 				session.getTransaction().rollback();
@@ -357,8 +403,10 @@ public class GenericDao {
 				Query q = session.createQuery(query.toString());
 				q.setLong(objectIdName, id);
 				list = q.list();
-				session.getTransaction().commit();
-				session.flush();
+				if (session.isOpen()) {
+					session.flush();
+					session.getTransaction().commit();	
+				}
 			} catch (Exception e) {
 				if (session.isOpen())
 				session.getTransaction().rollback();
@@ -369,6 +417,39 @@ public class GenericDao {
 				session.close();
 			}
 			return list;
+		}
+		
+		public boolean findByIntakeIdAndObjectId(Class c, String objectIdName, Long intakeId, Long id) {
+
+			LOGGER.setLevel(Level.INFO);
+			List<Object> list = new ArrayList<Object>();
+			boolean match=false;
+			try {
+				session = HibernateFactory.openSession();
+				session.beginTransaction();
+				StringBuffer query = new StringBuffer(
+						"from "+c.getName()+" where "+objectIdName+" = :"+objectIdName+" and intakeId = :intakeId");
+				Query q = session.createQuery(query.toString());
+				
+				q.setLong(objectIdName, id);
+				q.setLong("intakeId", intakeId);
+				list = q.list();
+				if (list.size()>0)
+					match=true;
+				if (session.isOpen()) {
+					session.flush();
+					session.getTransaction().commit();	
+				}
+			} catch (Exception e) {
+				if (session.isOpen())
+				session.getTransaction().rollback();
+				e.printStackTrace();
+				throw new HibernateException(e);
+			} finally {
+				if (session.isOpen())
+				session.close();
+			}
+			return match;
 		}
 		
 		public Object findByObjectIdOnLikeClause(Class c, String objectName, String value) {
@@ -383,8 +464,10 @@ public class GenericDao {
 				Query q = session.createQuery(query.toString());
 				q.setParameter(objectName, "%"+value+"%");
 				list = q.list();
-				session.getTransaction().commit();
-				session.flush();
+				if (session.isOpen()) {
+					session.flush();
+					session.getTransaction().commit();	
+				}
 			} catch (Exception e) {
 				if (session.isOpen())
 				session.getTransaction().rollback();
@@ -409,8 +492,10 @@ public class GenericDao {
 				Query q = session.createQuery(query.toString());
 				q.setLong("intakeId", id);
 				list = q.list();
-				session.getTransaction().commit();
-				session.flush();
+				if (session.isOpen()) {
+					session.flush();
+					session.getTransaction().commit();	
+				}
 			} catch (Exception e) {
 				if (session.isOpen())
 				session.getTransaction().rollback();
@@ -436,9 +521,10 @@ public class GenericDao {
 				List result = q.list();
 				if (result.size() > 0)
 					user = (SystemUser) result.get(0);
-
-				session.getTransaction().commit();
-				session.flush();
+				if (session.isOpen()) {
+					session.flush();
+					session.getTransaction().commit();	
+				}
 			} catch (Exception e) {
 				if (session.isOpen())
 				session.getTransaction().rollback();
@@ -470,8 +556,46 @@ public class GenericDao {
 					q.setString("passDate", passDate);
 				
 				list = q.list();
-				session.getTransaction().commit();
-				session.flush();
+				if (session.isOpen()) {
+					session.flush();
+					session.getTransaction().commit();	
+				}
+			} catch (HibernateException e) {
+				if (session.isOpen())
+				session.getTransaction().rollback();
+				e.printStackTrace();
+				throw new HibernateException(e);
+			} finally {
+				if (session.isOpen())
+				session.close();			
+			}
+			return list;
+		}
+		
+		public List searchRosterList(String farm) {
+
+			StringBuffer query = new StringBuffer("from Intake where 1=1 ");
+			query.append(" and intakeStatus = :intakeStatus ");
+			if (farm != null && farm.length() > 0 && !farm.equals("ALL"))
+				query.append(" and farmBase = :farmBase ");
+			query.append(" and class_ in ('Orientation','1','2','3','4','5','6','Fresh Start','SLS','Intern') order by firstname, lastname ");
+			
+			List list = null;
+			try {
+
+				session = HibernateFactory.openSession();
+				session.beginTransaction();
+				Query q = session.createQuery(query.toString());
+				q.setMaxResults(200);
+				if (farm != null && farm.length() > 0 && !farm.equals("ALL"))
+					q.setString("farmBase", farm);	
+				q.setString("intakeStatus", "In Program");
+				
+				list = q.list();
+				if (session.isOpen()) {
+					session.flush();
+					session.getTransaction().commit();	
+				}
 			} catch (HibernateException e) {
 				if (session.isOpen())
 				session.getTransaction().rollback();

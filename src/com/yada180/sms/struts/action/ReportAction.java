@@ -170,7 +170,7 @@ public class ReportAction extends Action {
 		
 		IntakeDao dao = new IntakeDao();
 		
-		List<Intake> list = dao.search(null, null, null, null, null, null, farmBase, null, null, "In Program");
+		List<Intake> list = dao.search(null, null, null, null, null, null, farmBase, null, null, "In Program",null,null,null,null);
 		
 		List<Intake>list0 = new ArrayList<Intake>();
 		List<Intake>list1 = new ArrayList<Intake>();
@@ -1042,6 +1042,52 @@ public class ReportAction extends Action {
 	 }
 	 reportForm.setClass10CwtMasterList(masterList10);
 	 reportForm.setProgram10(program10);
+	 
+	 
+	 /*
+	  * 
+	  * Class 11
+	  */
+	 List<Intake> list11 = intakeDao.listClass("Omega", farm);
+	 List<CwtMaster> masterList11 = new ArrayList<CwtMaster>();
+	 String program11[] = new String[200];
+	 
+	 index=0;
+	 for (Iterator iterator=list11.iterator();iterator.hasNext();) {
+		 Intake intake = (Intake)iterator.next();
+		 CwtSupervisor supervisor = new CwtSupervisor();
+		 if (intake.getSupervisorId()!=null) {
+			 supervisor = sDao.find(intake.getSupervisorId());
+			 if (supervisor==null)
+				 supervisor=new CwtSupervisor();
+		 }
+		 
+		 CwtJob job = new CwtJob();
+		 if (intake.getJobId()!=null) {
+			 job = jDao.find(intake.getJobId());
+			 if (job==null)
+				 job=new CwtJob();
+	 	 }
+		 
+		 List<StudentHistory> history = hDao.findByIntakeId(new StudentHistory().getClass(),intake.getIntakeId());
+		 	StudentHistory studentHistory = null;
+		 	for (Iterator iterator2=history.iterator();iterator2.hasNext();)
+		 		 studentHistory = (StudentHistory)iterator2.next();
+		 	if (studentHistory!=null)
+		 		program11[index]=studentHistory.getPhase();
+		 	else
+		 		program11[index]="";
+	 index++;
+	 
+	 CwtMaster master11 = new CwtMaster();
+	 master11.setIntake(intake);
+	 master11.setCwtJob(job);
+	 master11.setCwtSupervisor(supervisor);
+	 masterList11.add(master11);
+	 }
+	 reportForm.setClass11CwtMasterList(masterList11);
+	 reportForm.setProgram11(program11);
+
 
 	}
 	

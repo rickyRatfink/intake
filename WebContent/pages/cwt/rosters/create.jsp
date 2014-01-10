@@ -42,9 +42,9 @@ function checkAll(bx)
                 <tr>
                     <td class="colHeading2" width="100"><input type="checkbox" name="checkall" onclick="checkAll(this);" style="height:10px;" checked>Enroll</td>
                     <td class="colHeading2" width="150">Student</td>
-                    <td class="colHeading2" width="100">Department</td>
                     <td class="colHeading2" width="100">Job</td>
                     <td class="colHeading2" width="100">Supervisor</td>
+                    <td class="colHeading2" width="100">Class</td>
                     <td class="colHeading2" width="100">Farm</td>
                 </tr>
                
@@ -52,9 +52,9 @@ function checkAll(bx)
                 <tr>
                    	<td class="searchRowOdd2" width="50" ><html:checkbox name="cwtRoster" property="enrollFlag[${i}]" value="Yes" styleId="chkbx" /></td>
                     <td class="searchRowOdd2" ><bean:write name="loop" property="intake.firstname"/>&nbsp;<bean:write name="loop" property="intake.lastname"/></td>
-                    <td class="searchRowOdd2" ><bean:write name="loop" property="cwtDepartment.title"/></td>
                     <td class="searchRowOdd2" ><bean:write name="loop" property="cwtJob.title"/></td>
                     <td class="searchRowOdd2" ><bean:write name="loop" property="cwtSupervisor.firstname"/>&nbsp;<bean:write name="loop" property="cwtSupervisor.lastname"/></td>
+                    <td class="searchRowOdd2"><bean:write name="loop" property="intake.class_"/></td>
                     <td class="searchRowOdd2"><bean:write name="loop" property="intake.farmBase"/></td>
                 </tr> 
                 </logic:iterate>

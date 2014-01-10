@@ -22,6 +22,7 @@ public class ReportForm extends ActionForm {
 	private List<Intake> class8List = new ArrayList<Intake>();
 	private List<Intake> class9List = new ArrayList<Intake>();
 	private List<Intake> class10List = new ArrayList<Intake>();
+	private List<Intake> class11List = new ArrayList<Intake>();
 
 	private List<CwtMaster> class0CwtMasterList = new ArrayList<CwtMaster>();
 	private List<CwtMaster> class1CwtMasterList = new ArrayList<CwtMaster>();
@@ -34,6 +35,7 @@ public class ReportForm extends ActionForm {
 	private List<CwtMaster> class8CwtMasterList = new ArrayList<CwtMaster>();
 	private List<CwtMaster> class9CwtMasterList = new ArrayList<CwtMaster>();
 	private List<CwtMaster> class10CwtMasterList = new ArrayList<CwtMaster>();
+	private List<CwtMaster> class11CwtMasterList = new ArrayList<CwtMaster>();
 
 	private String farmBase = "";
 	private String reportTitle = "";
@@ -135,6 +137,7 @@ public class ReportForm extends ActionForm {
 	private String classTitle8 = "Interns";
 	private String classTitle9 = "SLS";
 	private String classTitle10 = "Student Teacher";
+	private String classTitle11 = "Omega";
 
 	private String[] class0flag = new String[100];
 	private String[] class1flag = new String[100];
@@ -155,6 +158,7 @@ public class ReportForm extends ActionForm {
 	String program8[] = new String[200];
 	String program9[] = new String[200];
 	String program10[] = new String[200];
+	String program11[] = new String[200];
 
 	private String lastRotationDate = "";
 	private String lastRotatedBy = "";
@@ -1261,6 +1265,38 @@ public class ReportForm extends ActionForm {
 
 	public void setPassDate(String passDate) {
 		this.passDate = passDate;
+	}
+
+	public List<Intake> getClass11List() {
+		return class11List;
+	}
+
+	public void setClass11List(List<Intake> class11List) {
+		this.class11List = class11List;
+	}
+
+	public List<CwtMaster> getClass11CwtMasterList() {
+		return class11CwtMasterList;
+	}
+
+	public void setClass11CwtMasterList(List<CwtMaster> class11CwtMasterList) {
+		this.class11CwtMasterList = class11CwtMasterList;
+	}
+
+	public String getClassTitle11() {
+		return classTitle11;
+	}
+
+	public void setClassTitle11(String classTitle11) {
+		this.classTitle11 = classTitle11;
+	}
+
+	public String[] getProgram11() {
+		return program11;
+	}
+
+	public void setProgram11(String[] program11) {
+		this.program11 = program11;
 	}
 
 	
