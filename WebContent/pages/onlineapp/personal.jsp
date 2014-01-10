@@ -212,7 +212,7 @@ System.out.println("*****START OF NEW APPLICATION*******");
   <table width="100%">
 	            <tr>
                 <td width="200">Date of Birth&nbsp;<i>(mm/dd/yyyy)</i>&nbsp;
-                	<html:text property="intake.dob" size="10" maxlength="10"  />
+                	<html:text property="intake.dob" size="20" maxlength="10"  styleClass="tcal"  />
                 </td>
                 </tr>                
     </table>
