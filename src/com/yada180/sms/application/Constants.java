@@ -42,6 +42,7 @@ public final class Constants {
 	public static final String JOB_REPORT="job_report";
 	public static final String MAIN="main";
 	public static final String PROCESS="process";
+	public static final String STUDENT_CWT="studentcwt";
 	
 	public static final String MANAGE_USERS="manageusers";
 	public static final String CREATE_USER="createuser";

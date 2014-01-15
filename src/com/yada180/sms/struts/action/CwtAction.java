@@ -85,7 +85,7 @@ public class CwtAction extends Action {
 		 
 		 if ("CwtInstructor".equals(user.getUserRole())) {
 			 List<CwtMaster> masters = new ArrayList<CwtMaster>();
-			 List<CwtModuleSection> list = cwtModuleSectionDao.findByInstructorId(user.getInstructorId());
+			 List<CwtModuleSection> list = cwtModuleSectionDao.findByAdministratorId(user.getUserId());
 			 for (Iterator iterator = list.iterator();iterator.hasNext();) {
 				 CwtModuleSection obj1 = (CwtModuleSection)iterator.next();
 				 CwtModules obj2 = (CwtModules)cwtModulesDao.find(obj1.getModuleId());
@@ -98,8 +98,11 @@ public class CwtAction extends Action {
 			 }			 
 			 cwtForm.setInstructorList(masters);
 		 }
-		
-		 if ("programs".equals(action)) {
+		 
+		 if ("Filter".equals(action)) {
+			 this.getSectionDetail(cwtForm);
+			 return mapping.findForward(Constants.SECTIONS); 
+		 } else if ("programs".equals(action)) {
 			 cwtForm.setProgramList(cwtProgramDao.findAll()); //listCwtPrograms());
 			 return mapping.findForward(Constants.PROGRAMS);
 		 }
@@ -422,9 +425,18 @@ private List getSectionDetail(CwtForm cwtForm) {
 
 	List<CwtModuleSection> sections = new ArrayList<CwtModuleSection>();
 	List<CwtMaster> masters = new ArrayList<CwtMaster>();
-	 
-	sections = dao1.findAll();
 	
+	
+	String farm = cwtForm.getFarmBase();
+	Long moduleId=null;
+	if (cwtForm.getCwtModule()!=null)
+		moduleId = cwtForm.getCwtModule().getModuleId();
+	
+	if ((farm!=null&&farm.length()>0)||moduleId!=null)
+		sections = dao1.filter(farm, moduleId);
+	else
+		sections = dao1.findAll();
+
 	for (Iterator iterator =
 			 sections.iterator(); iterator.hasNext();){
 		 CwtModuleSection section = (CwtModuleSection)iterator.next();

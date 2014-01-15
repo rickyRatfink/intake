@@ -84,7 +84,7 @@ public class OnlineAppAction extends Action {
 
 		if ("Next".equals(action)) {
 			session.removeAttribute("session_expired");
-			System.out.println ("!!!!---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" click Next on "+onlineAppForm.getPageSource()+" @ "+(new java.util.Date()));
+			//System.out.println ("!!!!---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" click Next on "+onlineAppForm.getPageSource()+" @ "+(new java.util.Date()));
 			boolean valid=false;
 			
 			valid = intakeValidator.validate(onlineAppForm);
@@ -196,7 +196,7 @@ public class OnlineAppAction extends Action {
 				return mapping.findForward(Constants.PROCESS);
 
 		} else if ("Back".equals(action)) {
-			System.out.println ("---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" click Next on "+onlineAppForm.getPageSource()+" @ "+(new java.util.Date()));
+			//System.out.println ("---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" click Next on "+onlineAppForm.getPageSource()+" @ "+(new java.util.Date()));
 			
 			if ("personal".equals(onlineAppForm.getPreviousStep()))
 				return mapping.findForward(Constants.PERSONAL);
@@ -212,7 +212,7 @@ public class OnlineAppAction extends Action {
 				return mapping.findForward(Constants.EMPLOYMENT);
 
 		} else if ("Submit".equals(action)) {
-			System.out.println ("---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" click Next on "+onlineAppForm.getPageSource()+" @ "+(new java.util.Date()));
+			//System.out.println ("---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" click Next on "+onlineAppForm.getPageSource()+" @ "+(new java.util.Date()));
 			
 			
 			/*
@@ -254,7 +254,7 @@ public class OnlineAppAction extends Action {
 					intakeDao.update(onlineAppForm.getIntake());
 				
 				
-				System.out.println ("---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" saved application with id "+onlineAppForm.getIntake().getIntakeId()+" @ "+(new java.util.Date()));
+				//System.out.println ("---->"+onlineAppForm.getIntake().getFirstname()+" "+onlineAppForm.getIntake().getLastname()+" saved application with id "+onlineAppForm.getIntake().getIntakeId()+" @ "+(new java.util.Date()));
 				session.removeAttribute("previous_intake");
 				
 				if (onlineAppForm.getIntake().getIntakeId()!=null) {
@@ -353,7 +353,12 @@ public class OnlineAppAction extends Action {
 		}
 		catch (Exception e) {
 				LOGGER.log(Level.INFO,"Error occurred in online application:  Data displayed below");
-				
+				StringWriter sw = new StringWriter();
+				PrintWriter pw = new PrintWriter(sw);
+				e.printStackTrace(pw);			
+				session.setAttribute("SYSTEM_ERROR", sw.toString());
+				e.printStackTrace();
+				/*
 				OnlineAppForm onlineAppForm = (OnlineAppForm) form;
 				Intake intake =  onlineAppForm.getIntake();
 				try {
@@ -362,17 +367,14 @@ public class OnlineAppAction extends Action {
 				for (int i=0;i<props.length;i++) {  
 					PropertyDescriptor descriptor = props [i];
 					LOGGER.log(Level.SEVERE,props[i].getDisplayName()+"="+descriptor.getReadMethod().invoke(intake, null));
-					}			    
+					}	
+			    
 				}
 				catch (Exception ex) { System.out.println(""); }
-				
-				StringWriter sw = new StringWriter();
-				PrintWriter pw = new PrintWriter(sw);
-				e.printStackTrace(pw);			
-				session.setAttribute("SYSTEM_ERROR", sw.toString());
-				e.printStackTrace();
+				*/
 				return mapping.findForward(Constants.ERROR);
 			}
+				
 	}
 
 	private void saveIntakeQuestionAnswer(OnlineAppForm intakeForm) {

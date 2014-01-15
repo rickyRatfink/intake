@@ -90,7 +90,7 @@ first child of the left and right table columns */
 
 .page
 {
-    width: 1060px;
+    width: 1160px;
     background-color: #fff;
     margin: 20px auto 0px auto;
     border: 1px solid #496077;
@@ -597,7 +597,13 @@ table {
 
 td {
 }
-
+.searchMenuHeader {
+	font: bold 10px Arial;
+	background-color:#bec0bf;	
+	color: #000000;
+	padding-left: 3px;
+	padding-top: 2px;	
+}
 .colHeading2 {
 	height:18px;
 	font: .95em Arial bold;
@@ -741,6 +747,14 @@ td {
 
 
 #input {}
+.ddlSearch {
+	border:1px solid #898989;
+	border-radius:2px;
+	height: 17px;
+	background-color:#e0e9f6;
+	font: italic 10px Arial;
+	color: #7e93b0;
+}
 .select {
 	font: 1.10em Arial;
 	color : #000000;
@@ -834,6 +848,14 @@ td {
 	vertical-align:top;
 	color:#FFFFFF;
 	visibility:hidden;
+}
+.imageButtonSearch{
+    background: url('../images/local/search2.png');
+	width: 17px;
+	height: 17px;
+	border : none;
+	color : transparent;
+	font-size : 0em; 	
 }
 
 

@@ -33,6 +33,10 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 
 import com.yada180.sms.application.Constants;
+import com.yada180.sms.domain.CwtMaster;
+import com.yada180.sms.domain.CwtModules;
+import com.yada180.sms.domain.CwtProgram;
+import com.yada180.sms.domain.CwtRoster;
 import com.yada180.sms.domain.Intake;
 import com.yada180.sms.domain.IntakeJobSkill;
 import com.yada180.sms.domain.IntakeMedicalCondition;
@@ -44,11 +48,13 @@ import com.yada180.sms.domain.StudentDisciplineHistory;
 import com.yada180.sms.domain.StudentHistory;
 import com.yada180.sms.domain.StudentPassHistory;
 import com.yada180.sms.domain.SystemUser;
+import com.yada180.sms.hibernate.data.CwtModulesDao;
+import com.yada180.sms.hibernate.data.CwtProgramDao;
+import com.yada180.sms.hibernate.data.CwtRosterDao;
 import com.yada180.sms.hibernate.data.IntakeDao;
 import com.yada180.sms.hibernate.data.IntakeJobSkillDao;
 import com.yada180.sms.hibernate.data.IntakeMedicalConditionDao;
 import com.yada180.sms.hibernate.data.IntakeQuestionAnswerDao;
-import com.yada180.sms.hibernate.data.JobSkillDao;
 import com.yada180.sms.hibernate.data.StudentDisciplineHistoryDao;
 import com.yada180.sms.hibernate.data.StudentHistoryDao;
 import com.yada180.sms.hibernate.data.StudentPassHistoryDao;
@@ -140,6 +146,9 @@ public class IntakeAction extends Action {
 			else if ("status".equals(action)) {
 				intakeForm.setEditIndex(new Integer(-1));
 				return mapping.findForward(Constants.STATUS);
+			} else if ("cwt".equals(action)) {
+				this.trackCwt(intakeForm,session);
+				return mapping.findForward(Constants.STUDENT_CWT);
 			} else if ("PrintFull".equals(action)) {
 				session.setAttribute("PRINT_INTAKE", intakeForm.getIntake());
 				session.setAttribute("PRINT_INTAKE_NAME", intakeForm
@@ -1210,6 +1219,60 @@ public class IntakeAction extends Action {
 		} catch (Exception e) {
 			LOGGER.log(Level.SEVERE, e.getMessage());
 		}
+	}
+	
+	
+	private void trackCwt(IntakeForm form, HttpSession session) {
+		CwtProgramDao cwtProgramDao = new CwtProgramDao();
+		CwtModulesDao cwtModulesDao = new CwtModulesDao();
+		CwtRosterDao cwtRosterDao = new CwtRosterDao();
+		
+		
+		/*
+		 * Get students' module attendance and build list for it.
+		 *   Associates roster to Module and Program
+		 * 
+		 * 
+		 */
+		List<CwtMaster> masters = new ArrayList<CwtMaster>();
+		List<CwtRoster> roster = cwtRosterDao.findByObjectId(CwtRoster.class, "intakeId", form.getIntake().getIntakeId());
+		 for (Iterator iterator =
+				 roster.iterator(); iterator.hasNext();){
+			 	CwtRoster obj = (CwtRoster) iterator.next();
+			 	CwtModules module = new CwtModules();
+			 	CwtProgram program = new CwtProgram();
+			 	List<CwtModules> modules = cwtModulesDao.findByObjectId(CwtModules.class, "moduleId", obj.getModuleId());
+			 	if (modules!=null && modules.size()>0) {
+			 		module = modules.get(0);
+			 		List<CwtProgram> programs = cwtProgramDao.findByObjectId(CwtProgram.class, "programId", module.getProgramId());
+			 		
+			 		if (programs!=null && programs.size()>0)
+			 			program = programs.get(0);
+			 	}
+			 	
+			 	CwtMaster master = new CwtMaster();
+			 	master.setModule(module);
+			 	master.setProgram(program);
+			 	master.setRoster(obj);
+			 	masters.add(master);
+		 	
+			 	
+	     }
+		 session.setAttribute("cwtmasters", masters);
+
+		 	
+			 /*
+			  * A:Determine the program the student is in and the number of modules in that particular program.
+			  *   B:Find number of completed modules
+			  * 	  if A=B then they have completed all modules for that program, therefore they receive certification
+			  *
+			  *   1. Find distinct Programs student is inpub
+			  *   2. See how many modules are in program
+			  *   3. see how many modules intake has completed
+			  *   4. if #3=#2 they completed the program
+			  */
+		
+		 
 	}
 
 }

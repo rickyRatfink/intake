@@ -41,5 +41,9 @@
         <property name="instructorNotes" type="string">
             <column name="instructor_notes" length="2147483647" />
         </property>
+        <property name="administratorId" type="java.lang.Long">
+            <column name="administrator_id" />
+        </property>
+ 
     </class>
 </hibernate-mapping>

@@ -188,6 +188,14 @@
              <li><a href="<%=request.getContextPath()%>/Report.do?action=FastFind">Fast Find</a></li>
              <!-- <li><a href="<%=request.getContextPath()%>/Login.do?action=ManageUsers">Manage Users</a></li> -->
        </logic:equal>
+ 		<logic:equal name="loginForm" property="systemUser.userRole" value="StudentAssistant" >
+			 <li><a href="<%=request.getContextPath()%>/Intake.do?action=Home" >Home</a></li>
+             <li><a href="<%=request.getContextPath()%>/Intake.do?action=Search">Search</a></li>
+             <li><a href="<%=request.getContextPath()%>/pages/student/results.jsp">Search Result</a></li>
+             <li><a href="<%=request.getContextPath()%>/Report.do">Reports for Printing</a></li>
+             <li><a href="<%=request.getContextPath()%>/Report.do?action=FastFind">Fast Find</a></li>
+             <!-- <li><a href="<%=request.getContextPath()%>/Login.do?action=ManageUsers">Manage Users</a></li> -->
+       </logic:equal>
        <logic:equal name="loginForm" property="systemUser.userRole" value="CwtInstructor" >
        		<li><a href="<%=request.getContextPath()%>/Cwt.do">CWT</a></li>
        		<!-- <li><a href="<%=request.getContextPath()%>/Cwt.do">Reports</a></li> -->

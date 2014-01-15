@@ -18,7 +18,36 @@
             <br/>
             
             <div align="left">
-            <table width="90%" cellpadding="0" cellspacing="0" >
+            
+            <html:form method="POST" action="/Cwt.do">
+            <table width="90%" cellpadding="0" cellspacing="0" border="0">
+            				<tr>
+            					<td background="images/local/searchGroupBk.png" class="searchMenuHeader"><b>Farm</b>
+            					<td background="images/local/searchGroupBk.png" class="searchMenuHeader"><b>Module</b></td>
+            					<td background="images/local/searchGroupBk.png" class="searchMenuHeader"></td>
+            				</tr>
+                            <tr>
+                            	<td width="150" height="23" valign="top" background="images/local/searchGroupBk.png" class="searchMenuHeader">
+                                  <html:select name="cwtForm" property="farmBase" styleClass="ddlSearch" >
+										<html:option value="">select</html:option>
+										<html:optionsCollection name="ddl_farm" value="name" label="name" />
+								   </html:select>
+								 </td>
+                             	 <td width="150" height="23" valign="top" background="images/local/searchGroupBk.png" class="searchMenuHeader">
+                                  <html:select name="cwtForm" property="moduleId" styleClass="ddlSearch" >
+										<html:option value="">select</html:option>
+											<html:optionsCollection name="ddl_module" value="value" label="label" />					
+								   </html:select>
+								 </td>
+                                
+                                <td align="left" valign="top" background="images/local/searchGroupBk.png" class="searchMenuHeader">
+                                	<html:submit property="action" value="Filter" styleClass="imageButtonSearch" title="Filter" />
+                                </td>
+                            </tr>
+           </table>
+           </html:form>
+           
+           <table width="90%" cellpadding="0" cellspacing="0" >
             <tr>
             	<td>
                 <table width="100%" cellpadding="0" cellspacing="0" border="0">

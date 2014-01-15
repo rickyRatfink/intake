@@ -6,6 +6,9 @@ import java.util.List;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.upload.FormFile;
 
+import com.yada180.sms.domain.CwtModules;
+import com.yada180.sms.domain.CwtProgram;
+import com.yada180.sms.domain.CwtRoster;
 import com.yada180.sms.domain.ErrorMessage;
 import com.yada180.sms.domain.Intake;
 import com.yada180.sms.domain.JobSkill;
@@ -38,7 +41,9 @@ public class IntakeForm extends ActionForm {
     private StudentHistory editStatus = new StudentHistory();
     private StudentDisciplineHistory disciplineHistory = new StudentDisciplineHistory();
     private SearchParameter searchParameter = new SearchParameter();
-    
+    private List<CwtProgram> programs = new ArrayList<CwtProgram>();
+    private List<CwtModules> modules = new ArrayList<CwtModules>();
+    private List<CwtRoster> rosters = new ArrayList<CwtRoster>();
     private Long deleteId;
     private Long editId;
     private Integer editIndex;
@@ -613,6 +618,24 @@ public class IntakeForm extends ActionForm {
 	}
 	public void setSupervisorId(Long supervisorId) {
 		this.supervisorId = supervisorId;
+	}
+	public List<CwtProgram> getPrograms() {
+		return programs;
+	}
+	public void setPrograms(List<CwtProgram> programs) {
+		this.programs = programs;
+	}
+	public List<CwtModules> getModules() {
+		return modules;
+	}
+	public void setModules(List<CwtModules> modules) {
+		this.modules = modules;
+	}
+	public List<CwtRoster> getRosters() {
+		return rosters;
+	}
+	public void setRosters(List<CwtRoster> rosters) {
+		this.rosters = rosters;
 	}
 	
 	

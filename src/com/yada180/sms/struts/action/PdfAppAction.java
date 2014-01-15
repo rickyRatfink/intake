@@ -54,7 +54,7 @@ public class PdfAppAction extends Action {
 			IntakeDao dao = new IntakeDao();
 			if ("application".equals(action))
 				pdf.applicationPdf(intakeForm, response);
-			if ("classlist".equals(action))
+			if ("classlist".equals(action))	
 				pdf.classListPdf(user, farm, response);
 			if ("waitlist".equals(action))
 				pdf.waitlistPdf(user, farm, response);

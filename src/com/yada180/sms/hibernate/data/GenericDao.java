@@ -5,17 +5,16 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Projections;
 
 import com.yada180.sms.domain.Intake;
-import com.yada180.sms.domain.IntakeMedicalCondition;
 import com.yada180.sms.domain.SystemUser;
-import com.yada180.sms.hibernate.HibernateUtil;
-import com.yada180.sms.hibernate.data.HibernateFactory;
 
 public class GenericDao {
 
@@ -126,9 +125,43 @@ public class GenericDao {
 	            if ("com.yada180.sms.domain.CwtSupervisor".equals(clazz.getName().toString()))
 	            	query = session.createQuery("from " + clazz.getName()+" order by firstname");
 	            if ("com.yada180.sms.domain.CwtModuleSection".equals(clazz.getName().toString()))
-	            	query = session.createQuery("from " + clazz.getName()+" order by farmBase, moduleOfferingId ");
+	            	query = session.createQuery("from " + clazz.getName()+" where status='Active' order by farmBase, moduleOfferingId ");
 	            
 	            
+	            objects = query.list();
+				if (session.isOpen()) {
+					session.flush();
+					session.getTransaction().commit();	
+				}
+	        } catch (HibernateException e) {
+	        	if (session.isOpen())
+	        	session.getTransaction().rollback();
+				e.printStackTrace();
+				throw new HibernateException(e);
+			} finally {
+				if (session.isOpen())
+				session.close();
+			}
+	        return objects;
+	    }
+	 
+	 protected List filterSection(Class clazz, String farm, Long moduleId) {
+	        List objects = null;
+	        try {
+	        	session = HibernateFactory.openSession();
+				session.beginTransaction();
+				StringBuffer q = new StringBuffer(" from "+ clazz.getName()+" where 1=1 ");
+				if (farm!=null&&farm.length()>0)
+					q.append(" and farmBase = :farmBase");
+				if (moduleId!=null&&moduleId>0)
+					q.append(" and moduleId = :moduleId");
+				Query query = session.createQuery(q.toString());
+				
+				if (farm!=null&&farm.length()>0)
+					query.setString("farmBase", farm);
+				if (moduleId!=null&&moduleId>0)
+					query.setLong("moduleId", moduleId);
+				
 	            objects = query.list();
 				if (session.isOpen()) {
 					session.flush();
@@ -202,7 +235,7 @@ public class GenericDao {
 				query.append(" and dlFlag = :dlFlag ");
 			query.append(" Order by lastname, firstname");
 			
-			
+		
 			List list = null;
 			try {
 
@@ -400,6 +433,10 @@ public class GenericDao {
 				session.beginTransaction();
 				StringBuffer query = new StringBuffer(
 						"from "+c.getName()+" where "+objectIdName+" = :"+objectIdName);
+				
+				 if ("com.yada180.sms.domain.CwtRoster".equals(c.getName().toString()))
+		            	query.append(" and archivedFlag='No' ");		           
+				
 				Query q = session.createQuery(query.toString());
 				q.setLong(objectIdName, id);
 				list = q.list();
@@ -576,6 +613,7 @@ public class GenericDao {
 
 			StringBuffer query = new StringBuffer("from Intake where 1=1 ");
 			query.append(" and intakeStatus = :intakeStatus ");
+			query.append(" and archivedFlag = :archivedFlag ");
 			if (farm != null && farm.length() > 0 && !farm.equals("ALL"))
 				query.append(" and farmBase = :farmBase ");
 			query.append(" and class_ in ('Orientation','1','2','3','4','5','6','Fresh Start','SLS','Intern') order by firstname, lastname ");
@@ -590,6 +628,7 @@ public class GenericDao {
 				if (farm != null && farm.length() > 0 && !farm.equals("ALL"))
 					q.setString("farmBase", farm);	
 				q.setString("intakeStatus", "In Program");
+				q.setString("archivedFlag", "No");
 				
 				list = q.list();
 				if (session.isOpen()) {

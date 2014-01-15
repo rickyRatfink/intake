@@ -21,7 +21,8 @@ public class CwtRoster implements java.io.Serializable {
 	private Long jobId;
 	private Long departmentId;
 	private Long supervisorId;
-
+    private String archivedFlag;
+    
 	public CwtRoster() {
 	}
 
@@ -34,7 +35,7 @@ public class CwtRoster implements java.io.Serializable {
 	public CwtRoster(Long moduleId, Long sectionId, Long intakeId,
 			String attendFlag, String examScore, String lastUpdatedBy,
 			String lastUpdatedDate, String attendDate, String examDate,
-			String status, Long jobId, Long departmentId, Long supervisorId) {
+			String status, Long jobId, Long departmentId, Long supervisorId, String archivedFlag) {
 		this.moduleId = moduleId;
 		this.sectionId = sectionId;
 		this.intakeId = intakeId;
@@ -48,6 +49,7 @@ public class CwtRoster implements java.io.Serializable {
 		this.jobId = jobId;
 		this.departmentId = departmentId;
 		this.supervisorId = supervisorId;
+		this.archivedFlag = archivedFlag;
 	}
 
 	public Long getRosterId() {
@@ -160,6 +162,14 @@ public class CwtRoster implements java.io.Serializable {
 
 	public void setSupervisorId(Long supervisorId) {
 		this.supervisorId = supervisorId;
+	}
+
+	public String getArchivedFlag() {
+		return archivedFlag;
+	}
+
+	public void setArchivedFlag(String archivedFlag) {
+		this.archivedFlag = archivedFlag;
 	}
 
 }

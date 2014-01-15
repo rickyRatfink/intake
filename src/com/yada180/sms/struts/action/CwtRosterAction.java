@@ -98,10 +98,22 @@ public class CwtRosterAction extends Action {
 				cwtRosterForm.setCwtModuleSection(new CwtModuleSection());
 				cwtRosterForm.setCwtProgram(new CwtProgram());
 
-				cwtRosterForm.setExamScore(new String[200]);
-				cwtRosterForm.setAttendFlag(new String[200]);
+				cwtRosterForm.setExamScore(new String[300]);
+				cwtRosterForm.setAttendFlag(new String[300]);
 
 				String[] flags = new String[] { "Yes", "Yes", "Yes", "Yes",
+						"Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes",
+						"Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes",
+						"Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes",
+						"Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes",
+						"Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes",
+						"Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes",
+						"Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes",
+						"Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes",
+						"Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes",
+						"Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes",
+						"Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes",
+						"Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes",
 						"Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes",
 						"Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes",
 						"Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes",
@@ -280,6 +292,7 @@ public class CwtRosterAction extends Action {
 						roster.setLastUpdatedDate(validator.getEpoch() + "");
 						roster.setStatus("Enrolled");
 						roster.setExamDate(obj.getSection().getEffectiveDate());
+						roster.setArchivedFlag("No");
 						rosterList.add(roster);
 
 						Long rosterId = rosterDao.save(roster);

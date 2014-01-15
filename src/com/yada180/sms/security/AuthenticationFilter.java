@@ -35,6 +35,7 @@ public class AuthenticationFilter implements Filter {
 				!"70.89.102.41".equals(ip) && //FTL Farm
 				!"67.238.59.138".equals(ip) && //OKE Farm
 				!"76.109.62.180".equals(ip) && //EHW Farm
+				!"75.149.244.9".equals(ip) && //BYN CORP
 				!"127.0.0.1".equals(ip)  ) {
 			LOGGER.log(Level.SEVERE,"INVALID IP ADDRESS TRIED TO ACCESS THE SYSTEM: "+request.getRemoteAddr().toString());
 			response.sendRedirect(contextPath + "/denied.html");

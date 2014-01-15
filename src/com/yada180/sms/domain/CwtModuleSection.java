@@ -19,6 +19,7 @@ public class CwtModuleSection implements java.io.Serializable {
 	private String location;
 	private String farmBase;
 	private String instructorNotes;
+	private Long administratorId;
 	
 	public CwtModuleSection() {
 	}
@@ -26,7 +27,7 @@ public class CwtModuleSection implements java.io.Serializable {
 	public CwtModuleSection(Long moduleId, String meetingDays,
 			String meetingTimes, String creditHours, Long instructorId,
 			String status, String effectiveDate, String expirationDate,
-			String location, String farmBase, String instructorNotes) {
+			String location, String farmBase, String instructorNotes, Long administratorId) {
 		this.moduleId = moduleId;
 		this.meetingDays = meetingDays;
 		this.meetingTimes = meetingTimes;
@@ -38,6 +39,7 @@ public class CwtModuleSection implements java.io.Serializable {
 		this.location = location;
 		this.farmBase = farmBase;
 		this.instructorNotes = instructorNotes;
+		this.administratorId = administratorId;
 	}
 
 	public Long getModuleOfferingId() {
@@ -134,6 +136,14 @@ public class CwtModuleSection implements java.io.Serializable {
 
 	public void setInstructorNotes(String instructorNotes) {
 		this.instructorNotes = instructorNotes;
+	}
+
+	public Long getAdministratorId() {
+		return administratorId;
+	}
+
+	public void setAdministratorId(Long administratorId) {
+		this.administratorId = administratorId;
 	}
 	
 

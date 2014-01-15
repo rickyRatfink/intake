@@ -45,6 +45,7 @@ public class CwtForm extends ActionForm {
 	private String metricUbit[] = new String[200];
 	private String moduleMetric[] = new String[200];
 	
+	
 	private String monday="";
 	private String tuesday="";
 	private String wednesday="";
@@ -53,7 +54,8 @@ public class CwtForm extends ActionForm {
 	private String saturday="";
 	private String sunday="";
 	
-	
+	private String farmBase="";
+	private Long moduleId;
 	
 	public CwtProgramMetricModules getCwtProgramMetricModule() {
 		return cwtProgramMetricModule;
@@ -248,6 +250,18 @@ public class CwtForm extends ActionForm {
 	}
 	public void setInstructorList(List<CwtMaster> instructorList) {
 		this.instructorList = instructorList;
+	}
+	public String getFarmBase() {
+		return farmBase;
+	}
+	public void setFarmBase(String farmBase) {
+		this.farmBase = farmBase;
+	}
+	public Long getModuleId() {
+		return moduleId;
+	}
+	public void setModuleId(Long moduleId) {
+		this.moduleId = moduleId;
 	}
 	
 	

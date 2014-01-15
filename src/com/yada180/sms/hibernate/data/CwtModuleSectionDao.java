@@ -22,6 +22,12 @@ public class CwtModuleSectionDao extends GenericDao {
     public List<CwtModuleSection> findByInstructorId(Long id) throws HibernateException {
     	return (List<CwtModuleSection>) super.findByObjectId(CwtModuleSection.class,"instructorId",id);
     }
+    public List<CwtModuleSection> findByAdministratorId(Long id) throws HibernateException {
+    	return (List<CwtModuleSection>) super.findByObjectId(CwtModuleSection.class,"administratorId",id);
+    }
+    public List<CwtModuleSection> filter(String farm, Long moduleId) throws HibernateException {
+    	return (List<CwtModuleSection>) super.filterSection(CwtModuleSection.class,farm,moduleId);
+    }
     public Long save(CwtModuleSection intake) throws HibernateException {
     	return (Long) super.save(intake);
     }
