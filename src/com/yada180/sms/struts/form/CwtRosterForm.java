@@ -30,7 +30,7 @@ public class CwtRosterForm extends ActionForm {
 	private String status[] = new String[200];
 	private String pageSource;
 	private String notes;
-	
+	private String archiveFlag;
 	
 	public String[] getStatus() {
 		return status;
@@ -115,6 +115,12 @@ public class CwtRosterForm extends ActionForm {
 	}
 	public void setNotes(String notes) {
 		this.notes = notes;
+	}
+	public String getArchiveFlag() {
+		return archiveFlag;
+	}
+	public void setArchiveFlag(String archiveFlag) {
+		this.archiveFlag = archiveFlag;
 	}
 	
 	

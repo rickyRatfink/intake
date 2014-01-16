@@ -21,8 +21,7 @@ public class GenericDao {
 	private static SessionFactory factory;
 	private final static Logger LOGGER = Logger.getLogger(IntakeDao.class
 			.getName());
-	private static Session session;
-
+	
 	public GenericDao() {
 		LOGGER.setLevel(Level.SEVERE);		
 	}
@@ -30,6 +29,7 @@ public class GenericDao {
 	
 	public Object findById(Class c,Long id) {
 		Object obj=null;
+		Session session=null;
 		try {
 			session = HibernateFactory.openSession();
 			session.beginTransaction();
@@ -53,6 +53,7 @@ public class GenericDao {
 	
 	public Long save(Object obj) {
 		Long key = null;
+		Session session=null;
 		try {
 			session = HibernateFactory.openSession();
 			session.beginTransaction();
@@ -75,6 +76,7 @@ public class GenericDao {
 	}
 	
 	public void update(Object obj) {
+		Session session=null;
 		try {
 			session = HibernateFactory.openSession();
 			session.beginTransaction();
@@ -95,6 +97,7 @@ public class GenericDao {
 	}
 	
 	public void delete(Object obj) {
+		Session session=null;
 		try {
 			session = HibernateFactory.openSession();
 			session.beginTransaction();
@@ -116,6 +119,7 @@ public class GenericDao {
 	
 	 protected List findAll(Class clazz) {
 	        List objects = null;
+	        Session session=null;
 	        try {
 	        	session = HibernateFactory.openSession();
 				session.beginTransaction();
@@ -147,6 +151,7 @@ public class GenericDao {
 	 
 	 protected List filterSection(Class clazz, String farm, Long moduleId) {
 	        List objects = null;
+	        Session session=null;
 	        try {
 	        	session = HibernateFactory.openSession();
 				session.beginTransaction();
@@ -181,6 +186,7 @@ public class GenericDao {
 	 
 	 protected List findAllByFarm(Class clazz, String farm) {
 	        List objects = null;
+	        Session session=null;
 	        try {
 	        	session = HibernateFactory.openSession();
 				session.beginTransaction();
@@ -237,6 +243,7 @@ public class GenericDao {
 			
 		
 			List list = null;
+			Session session=null;
 			try {
 
 				session = HibernateFactory.openSession();
@@ -309,6 +316,7 @@ public class GenericDao {
 			query.append(" and applicationStatus = :applicationStatus order by creation_date desc ");
 
 			List list = null;
+			Session session=null;
 			try {
 
 				session = HibernateFactory.openSession();
@@ -357,6 +365,7 @@ public class GenericDao {
 
 			List<Intake> list = new ArrayList<Intake>();
 			Transaction tx = null;
+			Session session=null;
 			try {
 
 				session = HibernateFactory.openSession();
@@ -393,6 +402,7 @@ public class GenericDao {
 
 			List<Intake> list = new ArrayList<Intake>();
 			Transaction tx = null;
+			Session session=null;
 			try {
 
 				session = HibernateFactory.openSession();
@@ -428,6 +438,7 @@ public class GenericDao {
 
 			LOGGER.setLevel(Level.INFO);
 			List<Object> list = new ArrayList<Object>();
+			Session session=null;
 			try {
 				session = HibernateFactory.openSession();
 				session.beginTransaction();
@@ -461,6 +472,7 @@ public class GenericDao {
 			LOGGER.setLevel(Level.INFO);
 			List<Object> list = new ArrayList<Object>();
 			boolean match=false;
+			Session session=null;
 			try {
 				session = HibernateFactory.openSession();
 				session.beginTransaction();
@@ -492,6 +504,7 @@ public class GenericDao {
 		public Object findByObjectIdOnLikeClause(Class c, String objectName, String value) {
 
 			LOGGER.setLevel(Level.INFO);
+			Session session=null;
 			List<Object> list = new ArrayList<Object>();
 			try {
 				session = HibernateFactory.openSession();
@@ -520,6 +533,7 @@ public class GenericDao {
 		public List findByIntakeId(Class c, Long id) {
 
 			LOGGER.setLevel(Level.INFO);
+			Session session=null;
 			List<Object> list = new ArrayList<Object>();
 			try {
 				session = HibernateFactory.openSession();
@@ -547,6 +561,7 @@ public class GenericDao {
 		
 		public SystemUser authenticate(String username, String password) {
 			SystemUser user=null;
+			Session session=null;
 			try {
 				session = HibernateFactory.openSession();
 				session.beginTransaction();
@@ -578,7 +593,7 @@ public class GenericDao {
 		public List searchPass(String passDate) {
 
 			StringBuffer query = new StringBuffer("from StudentPassHistory where 1=1 ");
-			
+			Session session=null;
 			if (passDate != null && passDate.length() > 0)
 				query.append(" and passDate = :passDate ");
 			
@@ -610,7 +625,7 @@ public class GenericDao {
 		}
 		
 		public List searchRosterList(String farm) {
-
+			Session session=null;
 			StringBuffer query = new StringBuffer("from Intake where 1=1 ");
 			query.append(" and intakeStatus = :intakeStatus ");
 			query.append(" and archivedFlag = :archivedFlag ");

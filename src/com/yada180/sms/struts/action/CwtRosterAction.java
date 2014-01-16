@@ -337,6 +337,11 @@ public class CwtRosterAction extends Action {
 							+ index + "]"));
 					roster.setStatus(request.getParameter("status[" + index
 							+ "]"));
+					
+					if ("Yes".equals(cwtRosterForm.getArchiveFlag()))
+						roster.setArchivedFlag("Yes");
+					else
+						roster.setArchivedFlag("No");
 
 					rosterDao.update(roster);
 					sectionId = roster.getSectionId();
@@ -347,7 +352,7 @@ public class CwtRosterAction extends Action {
 				// cwtModuleSectionDao.find(sectionId);
 				// section.setInstructorNotes(cwtRosterForm.getNotes());
 				cwtModuleSectionDao.update(cwtRosterForm.getCwtModuleSection());
-
+				cwtRosterForm.setArchiveFlag("No");
 				// cwtRosterForm.setMasterList(newMasterList);
 				return mapping.findForward(Constants.MAIN);
 			}

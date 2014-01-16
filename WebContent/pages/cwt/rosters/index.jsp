@@ -70,7 +70,10 @@ function checkAll(bx)
                 	   <html:textarea name="cwtRoster" property="cwtModuleSection.instructorNotes" rows="10" cols="120"/>
                 	</td>
                 </tr>
-
+                <tr>
+                	<td><html:checkbox name="cwtRoster" property="archiveFlag" value="Yes"/>Archive Roster</td>
+                
+                </tr>
                 </table>
                 </td>
             </tr>

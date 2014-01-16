@@ -53,15 +53,31 @@ public class LoginAction extends Action {
 		 HttpSession session = request.getSession(true);
 		 
 		 try {
-			 
-		 String action = request.getParameter("action");
-		 LoginForm loginForm = (LoginForm)form;
-		 
-		 if ("logout".equals(action)) {
-			 loginForm.setSystemUser(null);
-			 session.invalidate();
-			 return mapping.findForward(Constants.LOGOUT);
+		
+			 String action = request.getParameter("action");
+			 LoginForm loginForm = (LoginForm)form;
+
+			 if ("logout".equals(action)) {
+				 loginForm.setSystemUser(null);
+				 session.invalidate();
+				 return mapping.findForward(Constants.LOGOUT);
+			 }
+
+		 //first check to see if an existing login session is still valid
+		 SystemUser user=(SystemUser)session.getAttribute("system_user");
+		 if (user!=null) {
+			 if ("Intake".equals(user.getGroup_()))
+				 return mapping.findForward(Constants.SUCCESS);
+			 else{
+				 List<ErrorMessage> messages = new ArrayList<ErrorMessage>();
+				 ActionErrors errors = new ActionErrors();
+				 messages.add(new ErrorMessage("Access denied. This user is not authorized to view this application.",""));
+				 loginForm.setMessages(messages); 	 
+				return mapping.findForward(Constants.LOGIN);
+			 }
 		 }
+		 
+		 
 		 //SystemUserHome userDao = new SystemUserHome();
 		 SystemUserDao userDao = new SystemUserDao();
 		 UserAuthorizedSessionDao sessionDao = new UserAuthorizedSessionDao();
@@ -70,7 +86,7 @@ public class LoginAction extends Action {
 		 ActionRedirect redirect = null;
 		 
 		 LOGGER.log(Level.INFO, "In login action..."+loginForm.getSystemUser().getUsername());
-		 SystemUser user=null;
+		 
 		 if ("Login".equals(action)) {
 			 boolean valid = this.validate(loginForm);
 			 if (!valid)
