@@ -157,7 +157,7 @@
             <div class="loginDisplay">
                     
                     <logic:notEmpty name="loginForm" property="systemUser.username">
-                    <table width="680" cellpadding="0" cellspacing="0" border="0">
+                    <table width="780" cellpadding="0" cellspacing="0" border="0">
                 	<tr>
                 		<td align="right" valign="center">
 	                	    <bean:write name="loginForm" property="systemUser.username" />@<bean:write name="loginForm" property="systemUser.farmBase" /> </b>

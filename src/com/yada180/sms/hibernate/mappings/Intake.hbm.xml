@@ -611,6 +611,9 @@
         <property name="reapplyFlag" type="string">
             <column name="REAPPLY_FLAG" length="20" />
         </property>
+        <property name="gender" type="string">
+            <column name="GENDER" length="20" />
+        </property>
         
     </class>
 </hibernate-mapping>

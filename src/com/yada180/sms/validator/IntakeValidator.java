@@ -57,7 +57,7 @@ public class IntakeValidator {
 			form.setMessages(messages);
 			valid=false;
 		}
-		System.out.println("farm="+intake.getFarmBase());
+	
 	return valid;
 	}
 	
