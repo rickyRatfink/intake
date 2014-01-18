@@ -57,14 +57,20 @@ public class IntakeValidator {
 			form.setMessages(messages);
 			valid=false;
 		}
-		
+		System.out.println("farm="+intake.getFarmBase());
 	return valid;
 	}
 	
 	
 	private List<ErrorMessage> validatePersonal(Intake intake, List<ErrorMessage> messages) {		
 	
-		if (intake.getFarmBase()==null||intake.getFarmBase().length()==0)
+		if (intake.getGender()==null||intake.getGender().length()==0)
+			messages.add(new ErrorMessage("gender","is required"));
+		
+		if ("female".equals(intake.getGender()))
+			intake.setFarmBase("Women's Home");
+		
+		if ("male".equals(intake.getGender()) && (intake.getFarmBase()==null||intake.getFarmBase().length()==0))
 			messages.add(new ErrorMessage("farm preference","is required"));
 		
 		if (intake.getLastname()==null||intake.getLastname().length()==0)
