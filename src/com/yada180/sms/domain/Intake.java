@@ -209,6 +209,7 @@ public class Intake implements java.io.Serializable {
 	private String emailAddress;
 	private String applicationSubmissionDate;
 	private String reapplyFlag;
+	private String gender;
 	
 	public Intake() {
 	}
@@ -292,7 +293,7 @@ public class Intake implements java.io.Serializable {
 			String employer3Job, String employer4Job, String employer4Name,
 			String ssFlag, String vaFlag, String wcFlag, String needGed, 
 			String spiritualExperience, String caseNotes, String responseStatus,
-			String emailAddress, String applicationSubmissionDate, String reapplyFlag ) {
+			String emailAddress, String applicationSubmissionDate, String reapplyFlag, String gender ) {
 		this.lastname = lastname;
 		this.firstname = firstname;
 		this.mi = mi;
@@ -493,6 +494,7 @@ public class Intake implements java.io.Serializable {
 		this.emailAddress = emailAddress;
 		this.applicationSubmissionDate = applicationSubmissionDate;
 		this.reapplyFlag=reapplyFlag;
+		this.gender=gender;
 	}
 
 	public Long getIntakeId() {
@@ -2111,6 +2113,15 @@ public class Intake implements java.io.Serializable {
 	public void setReapplyFlag(String reapplyFlag) {
 		this.reapplyFlag = reapplyFlag;
 	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+	
 
 
 	
