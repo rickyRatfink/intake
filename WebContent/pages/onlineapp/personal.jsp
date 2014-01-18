@@ -4,7 +4,8 @@
 <jsp:include page="student_header.jsp" flush="true"/>
 
 <script language="javascript" type="text/javascript">
-  
+
+
    function moveOnMax(field,nextFieldID){
 	  if(field.value.length >= field.maxLength){
 	    document.getElementById(nextFieldID).focus();
@@ -53,6 +54,13 @@ function whichKey(e) {
 	else if (e.which) code = e.which;
 	return code
 //	return String.fromCharCode(code);
+}
+
+function toggle_visibility(value) {
+	
+    var e = document.getElementById('farmLocation');    
+    e.style.display = value;
+    
 }
  
 </script>
@@ -119,16 +127,31 @@ System.out.println("*****START OF NEW APPLICATION*******");
 	<table width="100%">
 		<tr>
 		<td>
-		<b>Farm Location:</b>
-		<html:select property="intake.farmBase" styleClass="select" >
-							<html:option value="">Select</html:option>
-							<html:optionsCollection name="ddl_farm" value="name" label="name" />
-		</html:select>
+		<b>Gender:</b>
+		<html:radio property="intake.gender" styleClass="select" value="male" onclick="toggle_visibility('block');" />Male&nbsp;&nbsp;&nbsp;
+		<html:radio property="intake.gender" styleClass="select" value="female" onclick="toggle_visibility('none');"/>Female
 		<br/><br/>
 		</td>	
 	</tr>
 	</table>
 	
+	<div id="farmLocation">
+		<table width="100%">
+			<tr>
+			<td>
+			<b>Farm Location:</b>
+			<html:select property="intake.farmBase" styleClass="select" >
+								<html:option value="">Select</html:option>
+								<html:option value="Boynton Beach">Boynton Beach</html:option>
+								<html:option value="Fort Lauderdale">Fort Lauderdale</html:option>
+								<html:option value="Okeechobee">Okeechobee</html:option>
+			</html:select>
+			<br/><br/>
+			</td>	
+		</tr>
+		</table>
+	</div>
+		
     <table width="100%">
 	<tr>
 		<td><b>Personal Information: </b></td>
