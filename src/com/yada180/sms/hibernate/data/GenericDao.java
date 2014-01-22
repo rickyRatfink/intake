@@ -5,14 +5,14 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Projections;
 
+import com.yada180.sms.domain.CwtModules;
 import com.yada180.sms.domain.Intake;
 import com.yada180.sms.domain.SystemUser;
 
@@ -312,9 +312,10 @@ public class GenericDao {
 				query.append(" and dlFlag = :dlFlag ");
 			if (gedFlag != null && gedFlag.length() > 0)
 				query.append(" and needGed = :needGed ");
+			if (status != null && status.length() > 0 && !status.equals("ALL"))
+				query.append(" and applicationStatus = :applicationStatus");
 
-			query.append(" and applicationStatus = :applicationStatus order by creation_date desc ");
-
+			query.append(" order by creation_date desc");
 			List list = null;
 			Session session=null;
 			try {
@@ -332,11 +333,8 @@ public class GenericDao {
 					q.setString("ssn", ssn);
 				if (dob != null && dob.length() > 0)
 					q.setString("dob", dob);
-				if (status != null && status.length() > 0)
+				if (status != null && status.length() > 0 && !status.equals("ALL"))
 					q.setString("applicationStatus", status);
-				else
-					q.setString("applicationStatus", "Pending");
-
 				if (farm != null && farm.length() > 0 && !farm.equals("ALL"))
 					q.setString("farmBase", farm);
 				if (driverFlag != null && driverFlag.length() > 0)
@@ -435,7 +433,7 @@ public class GenericDao {
 		}
 
 		public List findByObjectId(Class c, String objectIdName, Long id) {
-
+			
 			LOGGER.setLevel(Level.INFO);
 			List<Object> list = new ArrayList<Object>();
 			Session session=null;
@@ -445,9 +443,9 @@ public class GenericDao {
 				StringBuffer query = new StringBuffer(
 						"from "+c.getName()+" where "+objectIdName+" = :"+objectIdName);
 				
-				 if ("com.yada180.sms.domain.CwtRoster".equals(c.getName().toString()))
-		            	query.append(" and archivedFlag='No' ");		           
-				
+				 if ("com.yada180.sms.domain.CwtRoster".equals(c.getName().toString())) 
+		            query.append(" and archivedFlag='No' ");		           
+				 
 				Query q = session.createQuery(query.toString());
 				q.setLong(objectIdName, id);
 				list = q.list();
@@ -466,6 +464,37 @@ public class GenericDao {
 			}
 			return list;
 		}
+		
+		public List findRosterHistoryByIntakeId(Long id) {
+			
+			LOGGER.setLevel(Level.INFO);
+			List<Object> list = new ArrayList<Object>();
+			Session session=null;
+			try {
+				session = HibernateFactory.openSession();
+				session.beginTransaction();
+				StringBuffer query = new StringBuffer(
+						"from CwtRoster where intakeId = :intakeId");
+				Query q = session.createQuery(query.toString());
+				q.setLong("intakeId", id);
+				list = q.list();
+				if (session.isOpen()) {
+					session.flush();
+					session.getTransaction().commit();	
+				}
+			} catch (Exception e) {
+				if (session.isOpen())
+				session.getTransaction().rollback();
+				e.printStackTrace();
+				throw new HibernateException(e);
+			} finally {
+				if (session.isOpen())
+				session.close();
+			}
+			return list;
+		}
+		
+
 		
 		public boolean findByIntakeIdAndObjectId(Class c, String objectIdName, Long intakeId, Long id) {
 
@@ -657,6 +686,58 @@ public class GenericDao {
 				throw new HibernateException(e);
 			} finally {
 				if (session.isOpen())
+				session.close();			
+			}
+			return list;
+		}
+		
+		
+		public List findIntakeModules(Long id) {
+			Session session=null;
+			StringBuffer query = new StringBuffer(" select distinct module_id from cwt_roster where intake_id= :intakeId ");
+			
+			List list = null;
+			try {
+				session = HibernateFactory.openSession();
+				session.beginTransaction();
+				SQLQuery q = session.createSQLQuery(query.toString());
+				q.setParameter("intakeId", id);
+				list = q.list();				
+				session.flush();
+				session.getTransaction().commit();	
+			} catch (HibernateException e) {
+				session.getTransaction().rollback();
+				e.printStackTrace();
+				throw new HibernateException(e);
+			} finally {
+				session.close();			
+			}
+			return list;
+		}
+		
+		public List findIntakePrograms(Long id) {
+			Session session=null;
+			StringBuffer query = new StringBuffer(" select distinct(cwt_program.program_id) from  ");
+				query.append("cwt_roster inner join cwt_modules ");
+				query.append("on cwt_roster.module_id=cwt_modules.module_id ");
+				query.append("inner join cwt_program ");
+				query.append("on cwt_program.program_id=cwt_modules.program_id  ");
+				query.append("where cwt_roster.intake_id= :intakeId ");
+			
+			List list = null;
+			try {
+				session = HibernateFactory.openSession();
+				session.beginTransaction();
+				SQLQuery q = session.createSQLQuery(query.toString());
+				q.setParameter("intakeId", id);
+				list = q.list();				
+				session.flush();
+				session.getTransaction().commit();	
+			} catch (HibernateException e) {
+				session.getTransaction().rollback();
+				e.printStackTrace();
+				throw new HibernateException(e);
+			} finally {
 				session.close();			
 			}
 			return list;

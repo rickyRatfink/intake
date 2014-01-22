@@ -62,11 +62,8 @@
 								</html:select>
                     	</td>
                         <td style="background: silver;height:20px;border: 1px solid #666;color:#000000;font-weight:bold;padding-left:5px;">
-                                <html:select property="disciplineHistory.fines" styleClass="status"> 
-									<html:option value="">Select</html:option>
-								<html:optionsCollection name="ddl_fines" value="value" label="label" />
-								</html:select>
-                		</td>
+                                <html:text property="disciplineHistory.fines" size="20" maxlength="20"/> 
+						</td>
                         <td colspan="2" style="background: silver;height:20px;border: 1px solid #666;color:#000000;font-weight:bold;padding-left:5px;">
                                 <html:select property="disciplineHistory.additionalConsquences" styleClass="status"> 
 									<html:option value="">Select</html:option>

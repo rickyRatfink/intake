@@ -43,6 +43,17 @@
 
             	</td>
             </tr>
+           <tr>
+            	<td>CWT</td>
+            </tr>
+            <tr>
+            	<td>
+                    <html:select property="intake.cwtProgramId" styleClass="status"> 
+                    	<html:option value="0">Select</html:option>
+						<html:optionsCollection name="ddl_program" value="value" label="label" />
+					</html:select>
+            	</td>
+            </tr>
             <tr>
             	<td>Class</td>
             </tr>

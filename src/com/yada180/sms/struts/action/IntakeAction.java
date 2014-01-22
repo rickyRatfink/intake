@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -51,6 +52,7 @@ import com.yada180.sms.domain.SystemUser;
 import com.yada180.sms.hibernate.data.CwtModulesDao;
 import com.yada180.sms.hibernate.data.CwtProgramDao;
 import com.yada180.sms.hibernate.data.CwtRosterDao;
+import com.yada180.sms.hibernate.data.GenericDao;
 import com.yada180.sms.hibernate.data.IntakeDao;
 import com.yada180.sms.hibernate.data.IntakeJobSkillDao;
 import com.yada180.sms.hibernate.data.IntakeMedicalConditionDao;
@@ -1223,55 +1225,47 @@ public class IntakeAction extends Action {
 	
 	
 	private void trackCwt(IntakeForm form, HttpSession session) {
+	
+		GenericDao  dao = new GenericDao();
 		CwtProgramDao cwtProgramDao = new CwtProgramDao();
-		CwtModulesDao cwtModulesDao = new CwtModulesDao();
-		CwtRosterDao cwtRosterDao = new CwtRosterDao();
 		
-		
-		/*
-		 * Get students' module attendance and build list for it.
-		 *   Associates roster to Module and Program
-		 * 
-		 * 
-		 */
+		List programs = dao.findIntakePrograms(new Long(7121));
+		List<CwtModules> modules = new ArrayList<CwtModules>();
 		List<CwtMaster> masters = new ArrayList<CwtMaster>();
-		List<CwtRoster> roster = cwtRosterDao.findByObjectId(CwtRoster.class, "intakeId", form.getIntake().getIntakeId());
-		 for (Iterator iterator =
-				 roster.iterator(); iterator.hasNext();){
-			 	CwtRoster obj = (CwtRoster) iterator.next();
-			 	CwtModules module = new CwtModules();
-			 	CwtProgram program = new CwtProgram();
-			 	List<CwtModules> modules = cwtModulesDao.findByObjectId(CwtModules.class, "moduleId", obj.getModuleId());
-			 	if (modules!=null && modules.size()>0) {
-			 		module = modules.get(0);
-			 		List<CwtProgram> programs = cwtProgramDao.findByObjectId(CwtProgram.class, "programId", module.getProgramId());
-			 		
-			 		if (programs!=null && programs.size()>0)
-			 			program = programs.get(0);
-			 	}
+		List<CwtRoster> rosters = dao.findRosterHistoryByIntakeId(new Long(7121));
+	 	
+		for (Iterator iterator =
+				 programs.iterator(); iterator.hasNext();){
+			 
+				CwtMaster master = new CwtMaster();
 			 	
-			 	CwtMaster master = new CwtMaster();
-			 	master.setModule(module);
-			 	master.setProgram(program);
-			 	master.setRoster(obj);
-			 	masters.add(master);
-		 	
+			 	BigInteger id = (BigInteger) iterator.next();
+			 	CwtProgram program = cwtProgramDao.find(id.longValue());
 			 	
-	     }
-		 session.setAttribute("cwtmasters", masters);
+			 	modules = dao.findByObjectId(CwtModules.class, "programId", id.longValue());
+			 	
+			 	for (Iterator iterator1 =
+						 modules.iterator(); iterator1.hasNext();){
+					 	CwtModules module = (CwtModules) iterator1.next();
+					 	for (int i=0;i<rosters.size();i++) {
+					 		CwtRoster roster = (CwtRoster)rosters.get(i);
+					 			if (roster.getModuleId().equals(module.getModuleId())) {
+					 				String sdate = Validator.convertEpoch(new Long(roster.getLastUpdatedDate()));
+					 				roster.setAttendDate(sdate);
+					 			 	master.setRoster(roster);
+					 			} else {
+					 		       master.setProgram(program);
+					 		       master.setModule(module);
+					 		       CwtRoster blank = new CwtRoster();
+					 			   blank.setAttendDate("");
+					 			   blank.setStatus("not completed");
+					 			  masters.add(master);
+					 			}
+						 }
+				 }
+	   }
+		session.setAttribute("cwtmasters", masters);
 
-		 	
-			 /*
-			  * A:Determine the program the student is in and the number of modules in that particular program.
-			  *   B:Find number of completed modules
-			  * 	  if A=B then they have completed all modules for that program, therefore they receive certification
-			  *
-			  *   1. Find distinct Programs student is inpub
-			  *   2. See how many modules are in program
-			  *   3. see how many modules intake has completed
-			  *   4. if #3=#2 they completed the program
-			  */
-		
 		 
 	}
 

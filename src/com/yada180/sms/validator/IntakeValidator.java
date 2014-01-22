@@ -223,7 +223,9 @@ public class IntakeValidator {
 			 messages.add(new ErrorMessage("supervisor","is required"));
 		if (intake.getJobId()==null ||intake.getJobId().equals(new Long(0)) )
 			 messages.add(new ErrorMessage("job","is required"));
-		
+		if (intake.getCwtProgramId()==null||intake.getCwtProgramId().equals(new Long(0)) )
+			 messages.add(new ErrorMessage("cwt","is required"));
+
 		if (intake.getEntryDate()==null ||intake.getEntryDate().length()==0 )
 			 messages.add(new ErrorMessage("date last entered","is required"));
 		else if (intake.getEntryDate().length()!=10) 		

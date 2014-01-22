@@ -52,7 +52,8 @@
             </tr>
             <tr>
             	<td>
-                	<html:select property="searchParameter.applicationStatus"  > 
+                	<html:select property="searchParameter.applicationStatus"  >
+                		<html:option value="ALL">ALL</html:option> 
 						<html:optionsCollection name="ddl_applicationStatus" value="value" label="label" />
 					</html:select>
                 </td>

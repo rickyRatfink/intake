@@ -614,6 +614,9 @@
         <property name="gender" type="string">
             <column name="GENDER" length="20" />
         </property>
+        <property name="cwtProgramId" not-null="true" >
+            <column name="cwt_program_id"  />
+        </property>
         
     </class>
 </hibernate-mapping>

@@ -21,12 +21,14 @@ import com.yada180.sms.application.Constants;
 import com.yada180.sms.domain.CourseRotationHistory;
 import com.yada180.sms.domain.CwtJob;
 import com.yada180.sms.domain.CwtMaster;
+import com.yada180.sms.domain.CwtProgram;
 import com.yada180.sms.domain.CwtSupervisor;
 import com.yada180.sms.domain.Intake;
 import com.yada180.sms.domain.StudentHistory;
 import com.yada180.sms.domain.SystemUser;
 import com.yada180.sms.hibernate.data.CourseRotationHistoryDao;
 import com.yada180.sms.hibernate.data.CwtJobDao;
+import com.yada180.sms.hibernate.data.CwtProgramDao;
 import com.yada180.sms.hibernate.data.CwtSupervisorDao;
 import com.yada180.sms.hibernate.data.IntakeDao;
 import com.yada180.sms.hibernate.data.StudentHistoryDao;
@@ -552,7 +554,7 @@ public class ReportAction extends Action {
 		 CwtSupervisorDao sDao = new CwtSupervisorDao();
 		 CwtJobDao jDao = new CwtJobDao();
 		 StudentHistoryDao hDao = new StudentHistoryDao();
-		
+		 CwtProgramDao cwtDao = new CwtProgramDao();
 		 CourseRotationHistoryDao historyDao = new CourseRotationHistoryDao();
 
 		 /*
@@ -567,6 +569,13 @@ public class ReportAction extends Action {
 		 for (Iterator iterator=list.iterator();iterator.hasNext();) {
 			 Intake intake = (Intake)iterator.next();
 			 
+			 
+			 CwtProgram program = new CwtProgram();
+			 if (intake.getCwtProgramId()!=null) {
+				 program = cwtDao.find(intake.getCwtProgramId());
+				 if (program==null)
+					 program=new CwtProgram();
+			 }
 			 CwtSupervisor supervisor = new CwtSupervisor();
 			 if (intake.getSupervisorId()!=null) {
 				 supervisor = sDao.find(intake.getSupervisorId());
@@ -594,6 +603,7 @@ public class ReportAction extends Action {
 		 master.setIntake(intake);
 		 master.setCwtJob(job);
 		 master.setCwtSupervisor(supervisor);
+		 master.setProgram(program);
 		 masterList.add(master);
 		 }
 		 reportForm.setClass0CwtMasterList(masterList);
@@ -610,6 +620,14 @@ public class ReportAction extends Action {
 		 index=0;
 		 for (Iterator iterator=list1.iterator();iterator.hasNext();) {
 			 Intake intake = (Intake)iterator.next();
+			 
+			 CwtProgram program = new CwtProgram();
+			 if (intake.getCwtProgramId()!=null) {
+				 program = cwtDao.find(intake.getCwtProgramId());
+				 if (program==null)
+					 program=new CwtProgram();
+			 }
+			 
 			 CwtSupervisor supervisor = new CwtSupervisor();
 			 if (intake.getSupervisorId()!=null) {
 				 supervisor = sDao.find(intake.getSupervisorId());
@@ -638,6 +656,7 @@ public class ReportAction extends Action {
 		 master1.setIntake(intake);
 		 master1.setCwtJob(job);
 		 master1.setCwtSupervisor(supervisor);
+		 master1.setProgram(program);
 		 masterList1.add(master1);
 		 }
 		 reportForm.setClass1CwtMasterList(masterList1);
@@ -655,6 +674,15 @@ public class ReportAction extends Action {
 		 index=0;
 		 for (Iterator iterator=list2.iterator();iterator.hasNext();) {
 			 Intake intake = (Intake)iterator.next();
+			 
+			 
+			 CwtProgram program = new CwtProgram();
+			 if (intake.getCwtProgramId()!=null) {
+				 program = cwtDao.find(intake.getCwtProgramId());
+				 if (program==null)
+					 program=new CwtProgram();
+			 }
+			 
 			 CwtSupervisor supervisor = new CwtSupervisor();
 			 if (intake.getSupervisorId()!=null) {
 				 supervisor = sDao.find(intake.getSupervisorId());
@@ -683,6 +711,7 @@ public class ReportAction extends Action {
 		 master2.setIntake(intake);
 		 master2.setCwtJob(job);
 		 master2.setCwtSupervisor(supervisor);
+		 master2.setProgram(program);
 		 masterList2.add(master2);
 		 }
 		 reportForm.setClass2CwtMasterList(masterList2);
@@ -699,6 +728,14 @@ public class ReportAction extends Action {
 		 index=0;
 		 for (Iterator iterator=list3.iterator();iterator.hasNext();) {
 			 Intake intake = (Intake)iterator.next();
+			 
+			 CwtProgram program = new CwtProgram();
+			 if (intake.getCwtProgramId()!=null) {
+				 program = cwtDao.find(intake.getCwtProgramId());
+				 if (program==null)
+					 program=new CwtProgram();
+			 }
+			 
 			 CwtSupervisor supervisor = new CwtSupervisor();
 			 if (intake.getSupervisorId()!=null) {
 				 supervisor = sDao.find(intake.getSupervisorId());
@@ -726,6 +763,7 @@ public class ReportAction extends Action {
 		 master3.setIntake(intake);
 		 master3.setCwtJob(job);
 		 master3.setCwtSupervisor(supervisor);
+		 master3.setProgram(program);
 		 masterList3.add(master3);
 		 }
 		 reportForm.setClass3CwtMasterList(masterList3);
@@ -743,6 +781,14 @@ public class ReportAction extends Action {
 	 index=0;
 	 for (Iterator iterator=list4.iterator();iterator.hasNext();) {
 		 Intake intake = (Intake)iterator.next();
+		 
+		 CwtProgram program = new CwtProgram();
+		 if (intake.getCwtProgramId()!=null) {
+			 program = cwtDao.find(intake.getCwtProgramId());
+			 if (program==null)
+				 program=new CwtProgram();
+		 }
+		 
 		 CwtSupervisor supervisor = new CwtSupervisor();
 		 if (intake.getSupervisorId()!=null) {
 			 supervisor = sDao.find(intake.getSupervisorId());
@@ -770,6 +816,7 @@ public class ReportAction extends Action {
 	 master4.setIntake(intake);
 	 master4.setCwtJob(job);
 	 master4.setCwtSupervisor(supervisor);
+	 master4.setProgram(program);
 	 masterList4.add(master4);
 	 }
 	 reportForm.setClass4CwtMasterList(masterList4);
@@ -787,6 +834,14 @@ public class ReportAction extends Action {
 	 index=0;
 	 for (Iterator iterator=list5.iterator();iterator.hasNext();) {
 		 Intake intake = (Intake)iterator.next();
+		 
+		 CwtProgram program = new CwtProgram();
+		 if (intake.getCwtProgramId()!=null) {
+			 program = cwtDao.find(intake.getCwtProgramId());
+			 if (program==null)
+				 program=new CwtProgram();
+		 }
+		 
 		 CwtSupervisor supervisor = new CwtSupervisor();
 		 if (intake.getSupervisorId()!=null) {
 			 supervisor = sDao.find(intake.getSupervisorId());
@@ -815,6 +870,7 @@ public class ReportAction extends Action {
 	 master5.setIntake(intake);
 	 master5.setCwtJob(job);
 	 master5.setCwtSupervisor(supervisor);
+	 master5.setProgram(program);
 	 masterList5.add(master5);
 	 }
 	 reportForm.setClass5CwtMasterList(masterList5);
@@ -831,6 +887,15 @@ public class ReportAction extends Action {
 	 index=0;
 	 for (Iterator iterator=list6.iterator();iterator.hasNext();) {
 		 Intake intake = (Intake)iterator.next();
+		 
+		 
+		 CwtProgram program = new CwtProgram();
+		 if (intake.getCwtProgramId()!=null) {
+			 program = cwtDao.find(intake.getCwtProgramId());
+			 if (program==null)
+				 program=new CwtProgram();
+		 }
+		 
 		 CwtSupervisor supervisor = new CwtSupervisor();
 		 if (intake.getSupervisorId()!=null) {
 			 supervisor = sDao.find(intake.getSupervisorId());
@@ -859,6 +924,7 @@ public class ReportAction extends Action {
 	 master6.setIntake(intake);
 	 master6.setCwtJob(job);
 	 master6.setCwtSupervisor(supervisor);
+	 master6.setProgram(program);
 	 masterList6.add(master6);
 	 }
 	 reportForm.setClass6CwtMasterList(masterList6);
@@ -875,6 +941,16 @@ public class ReportAction extends Action {
 	 index=0;
 	 for (Iterator iterator=list7.iterator();iterator.hasNext();) {
 		 Intake intake = (Intake)iterator.next();
+		 
+		 
+		 CwtProgram program = new CwtProgram();
+		 if (intake.getCwtProgramId()!=null) {
+			 program = cwtDao.find(intake.getCwtProgramId());
+			 if (program==null)
+				 program=new CwtProgram();
+		 }
+		 
+		 
 		 CwtSupervisor supervisor = new CwtSupervisor();
 		 if (intake.getSupervisorId()!=null) {
 			 supervisor = sDao.find(intake.getSupervisorId());
@@ -903,6 +979,7 @@ public class ReportAction extends Action {
 	 master7.setIntake(intake);
 	 master7.setCwtJob(job);
 	 master7.setCwtSupervisor(supervisor);
+	 master7.setProgram(program);
 	 masterList7.add(master7);
 	 }
 	 reportForm.setClass7CwtMasterList(masterList7);
@@ -920,6 +997,14 @@ public class ReportAction extends Action {
 	 index=0;
 	 for (Iterator iterator=list8.iterator();iterator.hasNext();) {
 		 Intake intake = (Intake)iterator.next();
+		 
+		 CwtProgram program = new CwtProgram();
+		 if (intake.getCwtProgramId()!=null) {
+			 program = cwtDao.find(intake.getCwtProgramId());
+			 if (program==null)
+				 program=new CwtProgram();
+		 }
+		 
 		 CwtSupervisor supervisor = new CwtSupervisor();
 		 if (intake.getSupervisorId()!=null) {
 			 supervisor = sDao.find(intake.getSupervisorId());
@@ -948,6 +1033,7 @@ public class ReportAction extends Action {
 	 master8.setIntake(intake);
 	 master8.setCwtJob(job);
 	 master8.setCwtSupervisor(supervisor);
+	 master8.setProgram(program);
 	 masterList8.add(master8);
 	 }
 	 reportForm.setClass8CwtMasterList(masterList8);
@@ -965,6 +1051,14 @@ public class ReportAction extends Action {
 	 index=0;
 	 for (Iterator iterator=list9.iterator();iterator.hasNext();) {
 		 Intake intake = (Intake)iterator.next();
+		 
+		 CwtProgram program = new CwtProgram();
+		 if (intake.getCwtProgramId()!=null) {
+			 program = cwtDao.find(intake.getCwtProgramId());
+			 if (program==null)
+				 program=new CwtProgram();
+		 }
+		 
 		 CwtSupervisor supervisor = new CwtSupervisor();
 		 if (intake.getSupervisorId()!=null) {
 			 supervisor = sDao.find(intake.getSupervisorId());
@@ -993,6 +1087,7 @@ public class ReportAction extends Action {
 	 master9.setIntake(intake);
 	 master9.setCwtJob(job);
 	 master9.setCwtSupervisor(supervisor);
+	 master9.setProgram(program);
 	 masterList9.add(master9);
 	 }
 	 reportForm.setClass9CwtMasterList(masterList9);
@@ -1010,6 +1105,14 @@ public class ReportAction extends Action {
 	 index=0;
 	 for (Iterator iterator=list10.iterator();iterator.hasNext();) {
 		 Intake intake = (Intake)iterator.next();
+		 
+		 CwtProgram program = new CwtProgram();
+		 if (intake.getCwtProgramId()!=null) {
+			 program = cwtDao.find(intake.getCwtProgramId());
+			 if (program==null)
+				 program=new CwtProgram();
+		 }
+		 
 		 CwtSupervisor supervisor = new CwtSupervisor();
 		 if (intake.getSupervisorId()!=null) {
 			 supervisor = sDao.find(intake.getSupervisorId());
@@ -1038,6 +1141,7 @@ public class ReportAction extends Action {
 	 master10.setIntake(intake);
 	 master10.setCwtJob(job);
 	 master10.setCwtSupervisor(supervisor);
+	 master10.setProgram(program);
 	 masterList10.add(master10);
 	 }
 	 reportForm.setClass10CwtMasterList(masterList10);
@@ -1055,6 +1159,14 @@ public class ReportAction extends Action {
 	 index=0;
 	 for (Iterator iterator=list11.iterator();iterator.hasNext();) {
 		 Intake intake = (Intake)iterator.next();
+		 
+		 CwtProgram program = new CwtProgram();
+		 if (intake.getCwtProgramId()!=null) {
+			 program = cwtDao.find(intake.getCwtProgramId());
+			 if (program==null)
+				 program=new CwtProgram();
+		 }
+		 
 		 CwtSupervisor supervisor = new CwtSupervisor();
 		 if (intake.getSupervisorId()!=null) {
 			 supervisor = sDao.find(intake.getSupervisorId());
@@ -1083,6 +1195,7 @@ public class ReportAction extends Action {
 	 master11.setIntake(intake);
 	 master11.setCwtJob(job);
 	 master11.setCwtSupervisor(supervisor);
+	 master11.setProgram(program);
 	 masterList11.add(master11);
 	 }
 	 reportForm.setClass11CwtMasterList(masterList11);

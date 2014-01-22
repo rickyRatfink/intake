@@ -1,12 +1,15 @@
 package com.yada180.sms.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CwtMaster implements Serializable {
   
 	private CwtProgram program = new CwtProgram();
 	private CwtMetrics metric = new CwtMetrics();
 	private CwtModules module = new CwtModules();
+	private List<CwtModules> modules = new ArrayList<CwtModules>();
 	private CwtModuleSection section = new CwtModuleSection();
 	private CwtSupervisor supervisor = new CwtSupervisor();
 	private CwtRoster roster = new CwtRoster();
@@ -17,6 +20,12 @@ public class CwtMaster implements Serializable {
 	
 	
 	
+	public List<CwtModules> getModules() {
+		return modules;
+	}
+	public void setModules(List<CwtModules> modules) {
+		this.modules = modules;
+	}
 	public CwtRoster getRoster() {
 		return roster;
 	}

@@ -217,9 +217,13 @@ function isNumberKey(evt)
                 </td>
             </tr>
             </table>
-      
+      	<table width="100%">
+		<tr>
+	
+	</tr>
+	</table>
                 <table width="100%" border="0">
-                <tr>	
+                <tr>
                 <td>SSN</td>
                 <td><html:text property="intake.ssn" size="30" maxlength="11"  onkeypress="return maskSsn(event,this)" /></td>
                 <td>&nbsp;&nbsp;</td>
@@ -256,12 +260,18 @@ function isNumberKey(evt)
                 </tr>
                 </table>
                 
-                <table width="100%" border="0">
+                <table width="60%" border="0">
                 <tr>
                 <td width="200">Date of Birth&nbsp;<i>(mm/dd/yyyy)</i>&nbsp;
                 	<html:text property="intake.dob" size="15" maxlength="10" styleClass="tcal" />
                 </td>
                 <td>Age&nbsp;<html:text property="intake.age" size="2"  maxlength="2" onkeypress="return isNumberKey(event)"/></td>
+                <td>
+					Gender:
+					<html:radio property="intake.gender" styleClass="select" value="male" onclick="toggle_visibility('block');" />Male&nbsp;&nbsp;&nbsp;
+					<html:radio property="intake.gender" styleClass="select" value="female" onclick="toggle_visibility('none');"/>Female
+					<br/><br/>
+				</td>
                 </tr>                
                 </table>
    

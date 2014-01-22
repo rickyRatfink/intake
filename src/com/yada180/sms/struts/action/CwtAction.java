@@ -93,7 +93,10 @@ public class CwtAction extends Action {
 				 CwtMaster master = new CwtMaster();
 				 master.setSection(obj1);
 				 master.setModule(obj2);
-				 master.setProgram(obj3);
+				 if (obj3!=null)
+					 master.setProgram(obj3);
+				 else
+					 master.setProgram(new CwtProgram());
 				 masters.add(master);
 			 }			 
 			 cwtForm.setInstructorList(masters);

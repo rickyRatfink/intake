@@ -36,7 +36,7 @@ CLASS 0
  -->
 <table width="900" class="report" cellpadding="0" cellspacing="0">
 	<tr>
-		<td height="30" colspan="7" bgcolor="#8ea3b9"><font size="1" color="#FFFFFF"><b>Orientation</b></font></td>
+		<td height="30" colspan="8" bgcolor="#8ea3b9"><font size="1" color="#FFFFFF"><b>Orientation</b></font></td>
 	</tr>
 	<tr>
 		<td bgcolor="#8ea3b9" width="50"><font size="1" color="#FFFFFF">Id</font></td>
@@ -45,8 +45,8 @@ CLASS 0
 		<td bgcolor="#8ea3b9" width="100"><font size="1" color="#FFFFFF">Entry Date</font></td>
 		<td bgcolor="#8ea3b9" width="200"><font size="1" color="#FFFFFF">Supervisor</font></td>
 		<td bgcolor="#8ea3b9" width="200"><font size="1" color="#FFFFFF">Job</font></td>
+		<td bgcolor="#8ea3b9" width="200"><font size="1" color="#FFFFFF">CWT</font></td>
 		<td bgcolor="#8ea3b9" width="150"><font size="1" color="#FFFFFF">Current Program</font></td>
-		
 	</tr>
 	<% int count=1; String color=""; %>
 	<logic:iterate id="loop0" name="reportForm" property="class0CwtMasterList" indexId="i">
@@ -58,6 +58,7 @@ CLASS 0
     	<td bgcolor="<%=color%>"><bean:write name="loop0" property="intake.entryDate"/></td>
     	<td bgcolor="<%=color%>"><bean:write name="loop0" property="cwtSupervisor.firstname"/>&nbsp;<bean:write name="loop0" property="cwtSupervisor.lastname"/></td>
     	<td bgcolor="<%=color%>"><bean:write name="loop0" property="cwtJob.title"/></td>
+    	<td bgcolor="<%=color%>"><bean:write name="loop0" property="program.programName"/></td>
     	<td bgcolor="<%=color%>"><bean:write name="reportForm" property="program0[${i}]"/></td>
     	<td width="30"></td>
 	</tr>
@@ -73,7 +74,7 @@ CLASS 1
  -->
 
 	<tr>
-		<td  height="30" colspan="7" bgcolor="#8ea3b9"><font size="1" color="#FFFFFF"><b>Class 1</b></font></td>
+		<td  height="30" colspan="8" bgcolor="#8ea3b9"><font size="1" color="#FFFFFF"><b>Class 1</b></font></td>
 	</tr>
 
 	<% count=1; %>
@@ -86,6 +87,7 @@ CLASS 1
     	<td bgcolor="<%=color%>"><bean:write name="loop1" property="intake.entryDate"/></td>
     	<td bgcolor="<%=color%>"><bean:write name="loop1" property="cwtSupervisor.firstname"/>&nbsp;<bean:write name="loop1" property="cwtSupervisor.lastname"/></td>
     	<td bgcolor="<%=color%>"><bean:write name="loop1" property="cwtJob.title"/></td>
+    	<td bgcolor="<%=color%>"><bean:write name="loop1" property="program.programName"/></td>
     	<td bgcolor="<%=color%>"><bean:write name="reportForm" property="program1[${i}]"/></td>
     	<td width="30"></td>
 	</tr>
@@ -93,7 +95,7 @@ CLASS 1
     </logic:iterate>
     <logic:empty name="reportForm" property="class1CwtMasterList">
     	<tr>
-    		<td colspan="7">No students</td>
+    		<td colspan="8">No students</td>
     	</tr>
     </logic:empty>
     
@@ -106,7 +108,7 @@ CLASS 2
  -->
 
 	<tr>
-		<td  height="30" colspan="7" bgcolor="#8ea3b9"><font size="1" color="#FFFFFF"><b>Class 2</b></font></td>
+		<td  height="30" colspan="8" bgcolor="#8ea3b9"><font size="1" color="#FFFFFF"><b>Class 2</b></font></td>
 	</tr>
 
 	<% count=1; %>
@@ -119,6 +121,7 @@ CLASS 2
     	<td bgcolor="<%=color%>"><bean:write name="loop2" property="intake.entryDate"/></td>
     	<td bgcolor="<%=color%>"><bean:write name="loop2" property="cwtSupervisor.firstname"/>&nbsp;<bean:write name="loop2" property="cwtSupervisor.lastname"/></td>
     	<td bgcolor="<%=color%>"><bean:write name="loop2" property="cwtJob.title"/></td>
+    	<td bgcolor="<%=color%>"><bean:write name="loop2" property="program.programName"/></td>
     	<td bgcolor="<%=color%>"><bean:write name="reportForm" property="program2[${i}]"/></td>
     	<td width="30"></td>
 	</tr>
@@ -126,7 +129,7 @@ CLASS 2
     </logic:iterate>
      <logic:empty name="reportForm" property="class2CwtMasterList">
     	<tr>
-    		<td colspan="7">No students</td>
+    		<td colspan="8">No students</td>
     	</tr>
     </logic:empty>
     
@@ -140,7 +143,7 @@ CLASS 3
  -->
 
 	<tr>
-		<td  height="30" colspan="7" bgcolor="#8ea3b9"><font size="1" color="#FFFFFF"><b>Class 3</b></font></td>
+		<td  height="30" colspan="8" bgcolor="#8ea3b9"><font size="1" color="#FFFFFF"><b>Class 3</b></font></td>
 	</tr>
 
 	<% count=1; %>
@@ -153,6 +156,7 @@ CLASS 3
     	<td bgcolor="<%=color%>"><bean:write name="loop3" property="intake.entryDate"/></td>
     	<td bgcolor="<%=color%>"><bean:write name="loop3" property="cwtSupervisor.firstname"/>&nbsp;<bean:write name="loop3" property="cwtSupervisor.lastname"/></td>
     	<td bgcolor="<%=color%>"><bean:write name="loop3" property="cwtJob.title"/></td>
+    	<td bgcolor="<%=color%>"><bean:write name="loop3" property="program.programName"/></td>
     	<td bgcolor="<%=color%>"><bean:write name="reportForm" property="program3[${i}]"/></td>
     	<td width="30"></td>
 	</tr>
@@ -160,7 +164,7 @@ CLASS 3
     </logic:iterate>
      <logic:empty name="reportForm" property="class3CwtMasterList">
     	<tr>
-    		<td colspan="7">No students</td>
+    		<td colspan="8">No students</td>
     	</tr>
     </logic:empty>
     
@@ -172,7 +176,7 @@ CLASS 4
  -->
 
 	<tr>
-		<td  height="30" colspan="7" bgcolor="#8ea3b9"><font size="1" color="#FFFFFF"><b>Class 4</b></font></td>
+		<td  height="30" colspan="8" bgcolor="#8ea3b9"><font size="1" color="#FFFFFF"><b>Class 4</b></font></td>
 	</tr>
 
 	<% count=1; %>
@@ -185,6 +189,7 @@ CLASS 4
     	<td bgcolor="<%=color%>"><bean:write name="loop4" property="intake.entryDate"/></td>
     	<td bgcolor="<%=color%>"><bean:write name="loop4" property="cwtSupervisor.firstname"/>&nbsp;<bean:write name="loop4" property="cwtSupervisor.lastname"/></td>
     	<td bgcolor="<%=color%>"><bean:write name="loop4" property="cwtJob.title"/></td>
+    	<td bgcolor="<%=color%>"><bean:write name="loop4" property="program.programName"/></td>
     	<td bgcolor="<%=color%>"><bean:write name="reportForm" property="program4[${i}]"/></td>
     	<td width="30"></td>
 	</tr>
@@ -192,7 +197,7 @@ CLASS 4
     </logic:iterate>
       <logic:empty name="reportForm" property="class4CwtMasterList">
     	<tr>
-    		<td colspan="7">No students</td>
+    		<td colspan="8">No students</td>
     	</tr>
     </logic:empty>
     
@@ -204,7 +209,7 @@ CLASS 5
 
  -->
 <tr>
-		<td  height="30" colspan="7" bgcolor="#8ea3b9"><font size="1" color="#FFFFFF"><b>Class 5</b></font></td>
+		<td  height="30" colspan="8" bgcolor="#8ea3b9"><font size="1" color="#FFFFFF"><b>Class 5</b></font></td>
 	</tr>
 
 	<% count=1; %>
@@ -217,6 +222,7 @@ CLASS 5
     	<td bgcolor="<%=color%>"><bean:write name="loop5" property="intake.entryDate"/></td>
     	<td bgcolor="<%=color%>"><bean:write name="loop5" property="cwtSupervisor.firstname"/>&nbsp;<bean:write name="loop5" property="cwtSupervisor.lastname"/></td>
     	<td bgcolor="<%=color%>"><bean:write name="loop5" property="cwtJob.title"/></td>
+    	<td bgcolor="<%=color%>"><bean:write name="loop5" property="program.programName"/></td>
     	<td bgcolor="<%=color%>"><bean:write name="reportForm" property="program5[${i}]"/></td>
     	<td width="30"></td>
 	</tr>
@@ -224,7 +230,7 @@ CLASS 5
     </logic:iterate>
       <logic:empty name="reportForm" property="class5CwtMasterList">
     	<tr>
-    		<td colspan="7">No students</td>
+    		<td colspan="8">No students</td>
     	</tr>
     </logic:empty>
     
@@ -237,7 +243,7 @@ CLASS 6
  -->
 
 	<tr>
-		<td  height="30" colspan="7" bgcolor="#8ea3b9"><font size="1" color="#FFFFFF"><b>Class 6</b></font></td>
+		<td  height="30" colspan="8" bgcolor="#8ea3b9"><font size="1" color="#FFFFFF"><b>Class 6</b></font></td>
 	</tr>
 
 	<% count=1; %>
@@ -250,6 +256,7 @@ CLASS 6
     	<td bgcolor="<%=color%>"><bean:write name="loop6" property="intake.entryDate"/></td>
     	<td bgcolor="<%=color%>"><bean:write name="loop6" property="cwtSupervisor.firstname"/>&nbsp;<bean:write name="loop6" property="cwtSupervisor.lastname"/></td>
     	<td bgcolor="<%=color%>"><bean:write name="loop6" property="cwtJob.title"/></td>
+    	<td bgcolor="<%=color%>"><bean:write name="loop6" property="program.programName"/></td>
     	<td bgcolor="<%=color%>"><bean:write name="reportForm" property="program6[${i}]"/></td>
     	<td width="30"></td>
 	</tr>
@@ -257,7 +264,7 @@ CLASS 6
     </logic:iterate>
         <logic:empty name="reportForm" property="class6CwtMasterList">
     	<tr>
-    		<td colspan="7">No students</td>
+    		<td colspan="8">No students</td>
     	</tr>
     </logic:empty>
     
@@ -270,7 +277,7 @@ CLASS 7
  -->
 
 	<tr>
-		<td  height="30" colspan="7" bgcolor="#8ea3b9"><font size="1" color="#FFFFFF"><b>Fresh Start</b></font></td>
+		<td  height="30" colspan="8" bgcolor="#8ea3b9"><font size="1" color="#FFFFFF"><b>Fresh Start</b></font></td>
 	</tr>
 
 	<% count=1; %>
@@ -283,6 +290,7 @@ CLASS 7
     	<td bgcolor="<%=color%>"><bean:write name="loop7" property="intake.entryDate"/></td>
     	<td bgcolor="<%=color%>"><bean:write name="loop7" property="cwtSupervisor.firstname"/>&nbsp;<bean:write name="loop7" property="cwtSupervisor.lastname"/></td>
     	<td bgcolor="<%=color%>"><bean:write name="loop7" property="cwtJob.title"/></td>
+    	<td bgcolor="<%=color%>"><bean:write name="loop7" property="program.programName"/></td>
     	<td bgcolor="<%=color%>"><bean:write name="reportForm" property="program7[${i}]"/></td>
     	<td width="30"></td>
 	</tr>
@@ -290,7 +298,7 @@ CLASS 7
     </logic:iterate>
      <logic:empty name="reportForm" property="class7CwtMasterList">
     	<tr>
-    		<td colspan="7">No students</td>
+    		<td colspan="8">No students</td>
     	</tr>
     </logic:empty>
     
@@ -302,7 +310,7 @@ CLASS 8
  -->
 
 	<tr>
-		<td  height="30" colspan="7" bgcolor="#8ea3b9"><font size="1" color="#FFFFFF"><b>Interns</b></font></td>
+		<td  height="30" colspan="8" bgcolor="#8ea3b9"><font size="1" color="#FFFFFF"><b>Interns</b></font></td>
 	</tr>
 
 	<% count=1; %>
@@ -315,6 +323,7 @@ CLASS 8
     	<td bgcolor="<%=color%>"><bean:write name="loop8" property="intake.entryDate"/></td>
     	<td bgcolor="<%=color%>"><bean:write name="loop8" property="cwtSupervisor.firstname"/>&nbsp;<bean:write name="loop8" property="cwtSupervisor.lastname"/></td>
     	<td bgcolor="<%=color%>"><bean:write name="loop8" property="cwtJob.title"/></td>
+    	<td bgcolor="<%=color%>"><bean:write name="loop8" property="program.programName"/></td>
     	<td bgcolor="<%=color%>"><bean:write name="reportForm" property="program8[${i}]"/></td>
     	<td width="30"></td>
 	</tr>
@@ -322,7 +331,7 @@ CLASS 8
     </logic:iterate>
       <logic:empty name="reportForm" property="class8CwtMasterList">
     	<tr>
-    		<td colspan="7">No students</td>
+    		<td colspan="8">No students</td>
     	</tr>
     </logic:empty>
     
@@ -335,7 +344,7 @@ CLASS 9
  -->
 
 	<tr>
-		<td  height="30" colspan="7" bgcolor="#8ea3b9"><font size="1" color="#FFFFFF"><b>SLS</b></font></td>
+		<td  height="30" colspan="8" bgcolor="#8ea3b9"><font size="1" color="#FFFFFF"><b>SLS</b></font></td>
 	</tr>
 
 	<% count=1; %>
@@ -348,6 +357,7 @@ CLASS 9
     	<td bgcolor="<%=color%>"><bean:write name="loop9" property="intake.entryDate"/></td>
     	<td bgcolor="<%=color%>"><bean:write name="loop9" property="cwtSupervisor.firstname"/>&nbsp;<bean:write name="loop9" property="cwtSupervisor.lastname"/></td>
     	<td bgcolor="<%=color%>"><bean:write name="loop9" property="cwtJob.title"/></td>
+    	<td bgcolor="<%=color%>"><bean:write name="loop9" property="program.programName"/></td>
     	<td bgcolor="<%=color%>"><bean:write name="reportForm" property="program9[${i}]"/></td>
     	<td width="30"></td>
 	</tr>
@@ -355,7 +365,7 @@ CLASS 9
     </logic:iterate>
       <logic:empty name="reportForm" property="class9CwtMasterList">
     	<tr>
-    		<td colspan="7">No students</td>
+    		<td colspan="8">No students</td>
     	</tr>
     </logic:empty>
     
@@ -367,7 +377,7 @@ CLASS 10
  -->
 
 	<tr>
-		<td  height="30" colspan="7" bgcolor="#8ea3b9"><font size="1" color="#FFFFFF"><b>Student Teacher</b></font></td>
+		<td  height="30" colspan="8" bgcolor="#8ea3b9"><font size="1" color="#FFFFFF"><b>Student Teacher</b></font></td>
 	</tr>
 
 	<% count=1; %>
@@ -380,6 +390,7 @@ CLASS 10
     	<td bgcolor="<%=color%>"><bean:write name="loop10" property="intake.entryDate"/></td>
     	<td bgcolor="<%=color%>"><bean:write name="loop10" property="cwtSupervisor.firstname"/>&nbsp;<bean:write name="loop10" property="cwtSupervisor.lastname"/></td>
     	<td bgcolor="<%=color%>"><bean:write name="loop10" property="cwtJob.title"/></td>
+    	<td bgcolor="<%=color%>"><bean:write name="loop10" property="program.programName"/></td>
     	<td bgcolor="<%=color%>"><bean:write name="reportForm" property="program10[${i}]"/></td>
     	<td width="30"></td>
 	</tr>
@@ -387,7 +398,7 @@ CLASS 10
     </logic:iterate>
        <logic:empty name="reportForm" property="class10CwtMasterList">
     	<tr>
-    		<td colspan="7">No students</td>
+    		<td colspan="8">No students</td>
     	</tr>
     </logic:empty>
     
@@ -399,7 +410,7 @@ CLASS 11
  -->
 
 	<tr>
-		<td  height="30" colspan="7" bgcolor="#8ea3b9"><font size="1" color="#FFFFFF"><b>Omega</b></font></td>
+		<td  height="30" colspan="8" bgcolor="#8ea3b9"><font size="1" color="#FFFFFF"><b>Omega</b></font></td>
 	</tr>
 
 	<% count=1; %>
@@ -412,6 +423,7 @@ CLASS 11
     	<td bgcolor="<%=color%>"><bean:write name="loop11" property="intake.entryDate"/></td>
     	<td bgcolor="<%=color%>"><bean:write name="loop11" property="cwtSupervisor.firstname"/>&nbsp;<bean:write name="loop11" property="cwtSupervisor.lastname"/></td>
     	<td bgcolor="<%=color%>"><bean:write name="loop11" property="cwtJob.title"/></td>
+    	<td bgcolor="<%=color%>"><bean:write name="loop11" property="program.programName"/></td>
     	<td bgcolor="<%=color%>"><bean:write name="reportForm" property="program11[${i}]"/></td>
     	<td width="30"></td>
 	</tr>
@@ -419,7 +431,7 @@ CLASS 11
     </logic:iterate>
        <logic:empty name="reportForm" property="class11CwtMasterList">
     	<tr>
-    		<td colspan="7">No students</td>
+    		<td colspan="8">No students</td>
     	</tr>
     </logic:empty>
         

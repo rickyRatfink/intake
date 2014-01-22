@@ -210,6 +210,7 @@ public class Intake implements java.io.Serializable {
 	private String applicationSubmissionDate;
 	private String reapplyFlag;
 	private String gender;
+	private Long cwtProgramId;
 	
 	public Intake() {
 	}
@@ -293,7 +294,7 @@ public class Intake implements java.io.Serializable {
 			String employer3Job, String employer4Job, String employer4Name,
 			String ssFlag, String vaFlag, String wcFlag, String needGed, 
 			String spiritualExperience, String caseNotes, String responseStatus,
-			String emailAddress, String applicationSubmissionDate, String reapplyFlag, String gender ) {
+			String emailAddress, String applicationSubmissionDate, String reapplyFlag, String gender, Long cwtProgramId ) {
 		this.lastname = lastname;
 		this.firstname = firstname;
 		this.mi = mi;
@@ -495,6 +496,7 @@ public class Intake implements java.io.Serializable {
 		this.applicationSubmissionDate = applicationSubmissionDate;
 		this.reapplyFlag=reapplyFlag;
 		this.gender=gender;
+		this.cwtProgramId=cwtProgramId;
 	}
 
 	public Long getIntakeId() {
@@ -2120,6 +2122,14 @@ public class Intake implements java.io.Serializable {
 
 	public void setGender(String gender) {
 		this.gender = gender;
+	}
+
+	public Long getCwtProgramId() {
+		return cwtProgramId;
+	}
+
+	public void setCwtProgramId(Long cwtProgramId) {
+		this.cwtProgramId = cwtProgramId;
 	}
 	
 

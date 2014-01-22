@@ -45,6 +45,7 @@ public class LoginAction extends Action {
 				!"67.238.59.138".equals(ip) && //OKE Farm
 				!"76.109.62.180".equals(ip) && //EHW Farm
 				!"75.149.244.9".equals(ip) && //BYN CORP
+				!"76.109.55.65".equals(ip) && //Miles Office
 				!"127.0.0.1".equals(ip)  ) { //Local Development Box
 			LOGGER.log(Level.SEVERE,"INVALID IP ADDRESS TRIED TO ACCESS THE SYSTEM: "+request.getRemoteAddr().toString());
 			return mapping.findForward(Constants.ACCESS_DENIED);
