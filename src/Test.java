@@ -16,7 +16,7 @@ public class Test {
 
 	public static void main(String[] args) {
 		
-		Long[] moduleId = new Long[] {
+		Long[] moduleId = new Long[] { 
 		new Long(799),
 		new Long(720),
 				new Long(788),
@@ -72,7 +72,7 @@ public class Test {
 			 		 
 			 		 if (program!=null) {
 			 			 intake.setCwtProgramId(program.getProgramId());
-			 			 //System.out.println(intake.getFirstname()+" "+intake.getLastname()+"="+program.getProgramName());
+			 			 //System.out.println(intake.getFirstname()+" "+intake.getLastname()+"="+program.getProgramName()+","+intake.getCwtProgramId());
 			 			 intakeDao.update(intake);
 			 		 }		 		
 	 	}

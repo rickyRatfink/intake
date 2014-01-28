@@ -10,6 +10,7 @@ import org.apache.struts.action.ActionForm;
 
 import com.yada180.sms.domain.CwtDepartment;
 import com.yada180.sms.domain.CwtJob;
+import com.yada180.sms.domain.CwtModuleSection;
 import com.yada180.sms.domain.CwtModules;
 import com.yada180.sms.domain.CwtProgram;
 import com.yada180.sms.domain.CwtSupervisor;
@@ -21,6 +22,7 @@ import com.yada180.sms.domain.Question;
 import com.yada180.sms.domain.State;
 import com.yada180.sms.hibernate.data.CwtDepartmentDao;
 import com.yada180.sms.hibernate.data.CwtJobDao;
+import com.yada180.sms.hibernate.data.CwtModuleSectionDao;
 import com.yada180.sms.hibernate.data.CwtModulesDao;
 import com.yada180.sms.hibernate.data.CwtProgramDao;
 import com.yada180.sms.hibernate.data.CwtSupervisorDao;
@@ -113,7 +115,6 @@ public class HtmlDropDownBuilder {
 	       }
         session.setAttribute("ddl_supervisor", temp);
 
-        
         CwtModulesDao moduleDao = new CwtModulesDao();
         List<CwtModules> modules = new ArrayList<CwtModules>();
         modules=moduleDao.list();
@@ -161,6 +162,7 @@ public class HtmlDropDownBuilder {
 		   rosterStatus.add(new DropDownItem("Enrolled","Enrolled"));
 		   rosterStatus.add(new DropDownItem("Completed","Completed"));
 		   rosterStatus.add(new DropDownItem("Failed","Failed"));
+		   rosterStatus.add(new DropDownItem("Did Not Attend","Did Not Attend"));
 		   session.setAttribute("ddl_rosterStatus", rosterStatus);
 
 		   List<DropDownItem> stateIdType = new ArrayList<DropDownItem>();
@@ -268,7 +270,13 @@ public class HtmlDropDownBuilder {
 	        passType.add(new DropDownItem("Special","Special"));
 	        passType.add(new DropDownItem("Sick/Lay-down","Sick/Lay-down"));
 	        session.setAttribute("ddl_passType", passType);
-	        
+	
+	        List<DropDownItem> passHours = new ArrayList<DropDownItem>();
+	        passHours.add(new DropDownItem("4","4"));
+	        passHours.add(new DropDownItem("7.5","7.5"));
+	        passHours.add(new DropDownItem("ASAP","ASAP"));
+	       session.setAttribute("ddl_passHours", passHours);
+	
 	        List<DropDownItem> yesNo = new ArrayList<DropDownItem>();
 	        yesNo.add(new DropDownItem("No","No"));
 	        yesNo.add(new DropDownItem("Yes","Yes"));

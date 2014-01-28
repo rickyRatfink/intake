@@ -90,7 +90,10 @@
                  <forward name="failure" path="/pages/cwt/index.jsp" redirect="true"/>
                  <forward name="error" path="/pages/error.jsp" redirect="true"/> 
                  <forward name="rotate" path="/pages/cwt/rosters/rotate.jsp" redirect="true"/> 
-                 <forward name="login" path="/pages/security/index.jsp" redirect="true"/>                
+                 <forward name="login" path="/pages/security/index.jsp" redirect="true"/>      
+                 <forward name="rostersearch" path="/pages/cwt/rosters/search.jsp" redirect="true"/>   
+                 <forward name="rosterresults" path="/pages/cwt/rosters/results.jsp" redirect="true"/>  
+                 <forward name="createroster" path="/pages/cwt/rosters/create.jsp" redirect="true"/>  
          </action>
        
          <action name="cwtRoster" path="/CwtRoster" type="com.yada180.sms.struts.action.CwtRosterAction" scope="session" >
@@ -101,6 +104,8 @@
                  <forward name="roster" path="/pages/cwt/rosters/index.jsp" redirect="true"/> 
                  <forward name="login" path="/pages/security/index.jsp" redirect="true"/>
                  <forward name="main" path="/pages/cwt/index.jsp" redirect="true"/>
+                 <forward name="viewroster" path="/pages/cwt/rosters/view.jsp" redirect="true"/>
+                 <forward name="rostersearch" path="/pages/cwt/rosters/search.jsp" redirect="true"/>  
          </action>
      
          <action name="intakeForm" path="/Intake" type="com.yada180.sms.struts.action.IntakeAction" scope="session"  

@@ -117,11 +117,11 @@ public class OnlineAppAction extends Action {
 					onlineAppForm.getIntake().setLastname(wd.capitalize(lname));
 
 					//First check SSN in Format xxxxxxxxx ( Intake 1.0)
-					List<Intake> list = intakeDao.search(null, null, null, null, ssn, dob, null, null, null, null,null,null,null,null);
+					List<Intake> list = intakeDao.search(null, null, null, null, ssn, dob, null, null, null, null,null,null,null,null,null);
 					
 					//if list=0 check SSN in Format xxx-xx-xxxx ( Intake 2.0)
 					if (list.size()==0)
-						list = intakeDao.search(null, null, null, null, onlineAppForm.getIntake().getSsn(), dob, null, null, null, null,null,null,null,null);
+						list = intakeDao.search(null, null, null, null, onlineAppForm.getIntake().getSsn(), dob, null, null, null, null,null,null,null,null,null);
 					
 					if (list.size()!=0) {
 						Intake intake = (Intake)list.get(0);

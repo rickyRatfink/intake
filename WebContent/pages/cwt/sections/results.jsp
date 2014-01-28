@@ -19,11 +19,10 @@
             
             <div align="left">
             
-            <html:form method="POST" action="/Cwt.do">
             <table width="90%" cellpadding="0" cellspacing="0" border="0">
             				<tr>
             					<td background="images/local/searchGroupBk.png" class="searchMenuHeader"><b>Farm</b>
-            					<td background="images/local/searchGroupBk.png" class="searchMenuHeader"><b>Module</b></td>
+            					<td background="images/local/searchGroupBk.png" class="searchMenuHeader"><b>CWT</b></td>
             					<td background="images/local/searchGroupBk.png" class="searchMenuHeader"></td>
             				</tr>
                             <tr>
@@ -34,9 +33,9 @@
 								   </html:select>
 								 </td>
                              	 <td width="150" height="23" valign="top" background="images/local/searchGroupBk.png" class="searchMenuHeader">
-                                  <html:select name="cwtForm" property="moduleId" styleClass="ddlSearch" >
+                                  <html:select name="cwtForm" property="programId" styleClass="ddlSearch" >
 										<html:option value="">select</html:option>
-											<html:optionsCollection name="ddl_module" value="value" label="label" />					
+											<html:optionsCollection name="ddl_program" value="value" label="label" />					
 								   </html:select>
 								 </td>
                                 
@@ -45,7 +44,6 @@
                                 </td>
                             </tr>
            </table>
-           </html:form>
            
            <table width="90%" cellpadding="0" cellspacing="0" >
             <tr>
@@ -59,26 +57,24 @@
                     <td class="colHeading2" width="100">Location</td>
                     <td class="colHeading2" width="100">Farm</td>
                     <td class="colHeading2" width="100">Instructor</td>
-                    <td class="colHeading2" width="100">Status</td>
                 </tr>
                
-                <logic:iterate id="loop" name="cwtForm" property="masterList">
+                <logic:iterate id="loop" name="cwtForm" property="cwtSections">
                 <tr>
                     <td class="searchRowOdd2">
-                    	 <a style="text-decoration:none;" href="<%=request.getContextPath()%>/Cwt.do?action=Edit&type=Section&id=<bean:write name="loop" property="section.moduleOfferingId" />&farm=<bean:write name="loop" property="section.farmBase" />" alt="Edit Section" title="Edit Section">
+                    	 <a style="text-decoration:none;" href="<%=request.getContextPath()%>/Cwt.do?action=Edit&type=Section&id=<bean:write name="loop" property="sectionId" />&farm=<bean:write name="loop" property="farmBase" />" alt="Edit Section" title="Edit Section">
                     		 <img src="<%=request.getContextPath()%>/images/local/Edit.gif" width="16" height="14"/>
 						 </a>	
-						 <a style="text-decoration:none;" href="<%=request.getContextPath()%>/CwtRoster.do?action=Roster&type=Section&id=<bean:write name="loop" property="section.moduleOfferingId" />&farm=<bean:write name="loop" property="section.farmBase" />" alt="Section Roster" title="Section Roster">
+						 <a style="text-decoration:none;" href="<%=request.getContextPath()%>/CwtRoster.do?action=Roster&type=Section&id=<bean:write name="loop" property="sectionId" />&farm=<bean:write name="loop" property="farmBase" />" alt="Section Roster" title="Section Roster">
                     		 <img src="<%=request.getContextPath()%>/images/local/roster.png" width="16" height="16"/>
 						 </a>						 
 					</td>
-                   	<td class="searchRowOdd2" ><bean:write name="loop" property="module.moduleName"/></td>
-                    <td class="searchRowOdd2" ><bean:write name="loop" property="section.meetingDays"/></td>
-                    <td class="searchRowOdd2" ><bean:write name="loop" property="section.meetingTimes"/></td>
-                    <td class="searchRowOdd2" ><bean:write name="loop" property="section.location"/></td>
-                    <td class="searchRowOdd2" ><bean:write name="loop" property="section.farmBase"/></td>
-                    <td class="searchRowOdd2" ><bean:write name="loop" property="supervisor.firstname"/>&nbsp;<bean:write name="loop" property="supervisor.lastname"/></td>
-                    <td class="searchRowOdd2"><bean:write name="loop" property="section.status"/></td>
+                   	<td class="searchRowOdd2" ><bean:write name="loop" property="moduleName"/></td>
+                    <td class="searchRowOdd2" ><bean:write name="loop" property="meetingDays"/></td>
+                    <td class="searchRowOdd2" ><bean:write name="loop" property="meetingTimes"/></td>
+                    <td class="searchRowOdd2" ><bean:write name="loop" property="location"/></td>
+                    <td class="searchRowOdd2" ><bean:write name="loop" property="farmBase"/></td>
+                    <td class="searchRowOdd2" ><bean:write name="loop" property="instructor"/></td>
                 </tr> 
                 </logic:iterate>
                
@@ -101,10 +97,10 @@
         <div class="clear">
         </div>
     </div>
-    <div class="footer">
+    <div class="footer"> 
         
     </div>
  <html:hidden name="cwtForm" property="pageSource" value="sections" />
-</html:form>
+ </html:form>
 </body>
 </html>

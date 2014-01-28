@@ -29,8 +29,8 @@ public class IntakeDao extends GenericDao {
     }
     public List search(String entryDate, String exitDate, String lastname,
 			String firstname, String ssn, String dob, String farm, String ged, String archived, String status,
-			String currentClass, Long jobId, Long supervisorId, String driverFlag) throws HibernateException {
-    	return super.search( entryDate,  exitDate,  lastname,firstname,  ssn,  dob,  farm,  ged,  archived,  status, currentClass, jobId, supervisorId, driverFlag);
+			String currentClass, Long jobId, Long supervisorId, String driverFlag, Long cwtProgramId) throws HibernateException {
+    	return super.search( entryDate,  exitDate,  lastname,firstname,  ssn,  dob,  farm,  ged,  archived,  status, currentClass, jobId, supervisorId, driverFlag, cwtProgramId);
     }
     public List searchApplications(String entryDate, String exitDate,
 			String lastname, String firstname, String ssn, String dob,String status, String driverFlag, String gedFlag, String farm ) throws HibernateException {

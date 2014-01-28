@@ -15,6 +15,8 @@ import com.yada180.sms.domain.CwtProgram;
 import com.yada180.sms.domain.CwtProgramMetricModules;
 import com.yada180.sms.domain.CwtSupervisor;
 import com.yada180.sms.domain.ErrorMessage;
+import com.yada180.sms.domain.ViewCwtRoster;
+import com.yada180.sms.domain.ViewCwtSection;
 
 public class CwtForm extends ActionForm {
 	
@@ -26,8 +28,10 @@ public class CwtForm extends ActionForm {
 	private List<CwtProgramMetricModules> programMetricModulesList = new ArrayList<CwtProgramMetricModules>();
 	private List<CwtModules> moduleList = new ArrayList<CwtModules>();
 	private List<CwtModuleSection> moduleSectionList = new ArrayList<CwtModuleSection>();
-	private List<CwtMaster> instructorList = new ArrayList<CwtMaster>();
+	private List<ViewCwtRoster> currentRosterList = new ArrayList<ViewCwtRoster>();
+	private List<ViewCwtRoster> archivedRosterList = new ArrayList<ViewCwtRoster>();
 	private List<CwtMaster> masterList = new ArrayList<CwtMaster>();
+	private List<ViewCwtSection> cwtSections = new ArrayList<ViewCwtSection>();
 	private List<ErrorMessage> messages = new ArrayList<ErrorMessage>();
 	private String messageType;
 	private CwtDepartment cwtDepartment = new CwtDepartment();
@@ -53,9 +57,11 @@ public class CwtForm extends ActionForm {
 	private String friday="";
 	private String saturday="";
 	private String sunday="";
-	
+	private String searchDate="";
 	private String farmBase="";
 	private Long moduleId;
+	private Long programId;
+	private String searchArchivedFlag="";
 	
 	public CwtProgramMetricModules getCwtProgramMetricModule() {
 		return cwtProgramMetricModule;
@@ -245,12 +251,6 @@ public class CwtForm extends ActionForm {
 	public void setMessages(List<ErrorMessage> messages) {
 		this.messages = messages;
 	}
-	public List<CwtMaster> getInstructorList() {
-		return instructorList;
-	}
-	public void setInstructorList(List<CwtMaster> instructorList) {
-		this.instructorList = instructorList;
-	}
 	public String getFarmBase() {
 		return farmBase;
 	}
@@ -263,6 +263,44 @@ public class CwtForm extends ActionForm {
 	public void setModuleId(Long moduleId) {
 		this.moduleId = moduleId;
 	}
+	public String getSearchDate() {
+		return searchDate;
+	}
+	public void setSearchDate(String searchDate) {
+		this.searchDate = searchDate;
+	}
+	public String getSearchArchivedFlag() {
+		return searchArchivedFlag;
+	}
+	public void setSearchArchivedFlag(String searchArchivedFlag) {
+		this.searchArchivedFlag = searchArchivedFlag;
+	}
+	public List<ViewCwtSection> getCwtSections() {
+		return cwtSections;
+	}
+	public void setCwtSections(List<ViewCwtSection> cwtSections) {
+		this.cwtSections = cwtSections;
+	}
+	public Long getProgramId() {
+		return programId;
+	}
+	public void setProgramId(Long programId) {
+		this.programId = programId;
+	}
+	public List<ViewCwtRoster> getCurrentRosterList() {
+		return currentRosterList;
+	}
+	public void setCurrentRosterList(List<ViewCwtRoster> currentRosterList) {
+		this.currentRosterList = currentRosterList;
+	}
+	public List<ViewCwtRoster> getArchivedRosterList() {
+		return archivedRosterList;
+	}
+	public void setArchivedRosterList(List<ViewCwtRoster> archivedRosterList) {
+		this.archivedRosterList = archivedRosterList;
+	}
+	
+	
 	
 	
 

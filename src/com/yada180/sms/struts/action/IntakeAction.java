@@ -201,7 +201,7 @@ public class IntakeAction extends Action {
 				
 				List intakeList = intakeDao.search(entryDate, exitDate,
 						lastname, firstname, ssn, dob, farm, ged, archived,
-						status, currentClass, jobId, supervisorId, driverFlag);
+						status, currentClass, jobId, supervisorId, driverFlag, null);
 				
 				if (jobSkillId!=null && jobSkillId>0) {
 					
@@ -1229,40 +1229,45 @@ public class IntakeAction extends Action {
 		GenericDao  dao = new GenericDao();
 		CwtProgramDao cwtProgramDao = new CwtProgramDao();
 		
-		List programs = dao.findIntakePrograms(new Long(7121));
+		List programs = dao.findIntakePrograms(form.getIntake().getIntakeId());
 		List<CwtModules> modules = new ArrayList<CwtModules>();
 		List<CwtMaster> masters = new ArrayList<CwtMaster>();
-		List<CwtRoster> rosters = dao.findRosterHistoryByIntakeId(new Long(7121));
-	 	
+		List<CwtRoster> rosters = dao.findRosterHistoryByIntakeId(form.getIntake().getIntakeId());
+			 	
 		for (Iterator iterator =
 				 programs.iterator(); iterator.hasNext();){
 			 
-				CwtMaster master = new CwtMaster();
-			 	
+				
 			 	BigInteger id = (BigInteger) iterator.next();
 			 	CwtProgram program = cwtProgramDao.find(id.longValue());
 			 	
 			 	modules = dao.findByObjectId(CwtModules.class, "programId", id.longValue());
+			 	CwtMaster master=null;
 			 	
 			 	for (Iterator iterator1 =
 						 modules.iterator(); iterator1.hasNext();){
 					 	CwtModules module = (CwtModules) iterator1.next();
+					 	
+					 	master = new CwtMaster();
+					 	master.setProgram(program);
+			 		    master.setModule(module);
+			 		    CwtRoster blank = new CwtRoster();
+			 			blank.setAttendDate(""); 
+			 			blank.setStatus("Not Completed");
+			 			
 					 	for (int i=0;i<rosters.size();i++) {
 					 		CwtRoster roster = (CwtRoster)rosters.get(i);
 					 			if (roster.getModuleId().equals(module.getModuleId())) {
 					 				String sdate = Validator.convertEpoch(new Long(roster.getLastUpdatedDate()));
-					 				roster.setAttendDate(sdate);
-					 			 	master.setRoster(roster);
-					 			} else {
-					 		       master.setProgram(program);
-					 		       master.setModule(module);
-					 		       CwtRoster blank = new CwtRoster();
-					 			   blank.setAttendDate("");
-					 			   blank.setStatus("not completed");
-					 			  masters.add(master);
+					 				blank.setAttendDate(sdate);
+					 				blank.setStatus(roster.getStatus());
 					 			}
+					 			master.setRoster(blank);
 						 }
+					 	
+						masters.add(master);
 				 }
+			 
 	   }
 		session.setAttribute("cwtmasters", masters);
 

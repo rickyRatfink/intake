@@ -2,6 +2,7 @@ package com.yada180.sms.struts.action;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -28,8 +29,11 @@ import com.yada180.sms.domain.CwtModules;
 import com.yada180.sms.domain.CwtProgram;
 import com.yada180.sms.domain.CwtProgramMetric;
 import com.yada180.sms.domain.CwtProgramMetricModules;
+import com.yada180.sms.domain.CwtRoster;
 import com.yada180.sms.domain.CwtSupervisor;
 import com.yada180.sms.domain.SystemUser;
+import com.yada180.sms.domain.ViewCwtRoster;
+import com.yada180.sms.domain.ViewCwtSection;
 import com.yada180.sms.hibernate.data.CwtDepartmentDao;
 import com.yada180.sms.hibernate.data.CwtJobDao;
 import com.yada180.sms.hibernate.data.CwtJobMetricDao;
@@ -40,7 +44,9 @@ import com.yada180.sms.hibernate.data.CwtModulesDao;
 import com.yada180.sms.hibernate.data.CwtProgramDao;
 import com.yada180.sms.hibernate.data.CwtProgramMetricDao;
 import com.yada180.sms.hibernate.data.CwtProgramMetricModulesDao;
+import com.yada180.sms.hibernate.data.CwtRosterDao;
 import com.yada180.sms.hibernate.data.CwtSupervisorDao;
+import com.yada180.sms.hibernate.data.GenericDao;
 import com.yada180.sms.struts.form.CwtForm;
 import com.yada180.sms.util.HtmlDropDownBuilder;
 import com.yada180.sms.util.Validator;
@@ -71,6 +77,7 @@ public class CwtAction extends Action {
 		 String action=request.getParameter("action");
 		 
 		 CwtForm cwtForm = (CwtForm)form;
+		 
 		 CwtJobDao cwtJobDao = new CwtJobDao();
 		 CwtSupervisorDao cwtSupervisorDao = new CwtSupervisorDao();
 		 CwtDepartmentDao cwtDepartmentDao = new CwtDepartmentDao();
@@ -82,28 +89,22 @@ public class CwtAction extends Action {
 		 CwtModuleSectionDao cwtModuleSectionDao = new CwtModuleSectionDao();
 		 CwtModuleStudentDao cwtModuleStudentDao = new CwtModuleStudentDao();
 		 CwtJobMetricDao cwtJobMetricDao = new CwtJobMetricDao();
-		 
-		 if ("CwtInstructor".equals(user.getUserRole())) {
-			 List<CwtMaster> masters = new ArrayList<CwtMaster>();
-			 List<CwtModuleSection> list = cwtModuleSectionDao.findByAdministratorId(user.getUserId());
-			 for (Iterator iterator = list.iterator();iterator.hasNext();) {
-				 CwtModuleSection obj1 = (CwtModuleSection)iterator.next();
-				 CwtModules obj2 = (CwtModules)cwtModulesDao.find(obj1.getModuleId());
-				 CwtProgram obj3 = (CwtProgram)cwtProgramDao.find(obj2.getProgramId());
-				 CwtMaster master = new CwtMaster();
-				 master.setSection(obj1);
-				 master.setModule(obj2);
-				 if (obj3!=null)
-					 master.setProgram(obj3);
-				 else
-					 master.setProgram(new CwtProgram());
-				 masters.add(master);
-			 }			 
-			 cwtForm.setInstructorList(masters);
+		 GenericDao dao = new GenericDao();
+		 /*
+		  * First check role, if Instructor then forward to search roster page
+		  * 
+		  */
+		 if ("CwtInstructor".equals(user.getUserRole())&&!"Search".equals(action)&&!"Create Roster".equals(action)) {
+			 	//this.getRosters(cwtForm,user);
+			 session.setAttribute("error","");
+			 cwtForm.setSearchDate("");
+			 cwtForm.setModuleId(new Long(0));
+			 return mapping.findForward(Constants.ROSTER_SEARCH);
 		 }
 		 
 		 if ("Filter".equals(action)) {
-			 this.getSectionDetail(cwtForm);
+			 this.listCwtSections(cwtForm, user);
+			 //this.getSectionDetail(cwtForm,user);
 			 return mapping.findForward(Constants.SECTIONS); 
 		 } else if ("programs".equals(action)) {
 			 cwtForm.setProgramList(cwtProgramDao.findAll()); //listCwtPrograms());
@@ -147,11 +148,21 @@ public class CwtAction extends Action {
 			 return mapping.findForward(Constants.SUPERVISORS);
 		 }
 		 else if ("sections".equals(action)) {
-			 this.getSectionDetail(cwtForm);
+			 //this.getSectionDetail(cwtForm,user);
+			 cwtForm.setFarmBase("");
+			 cwtForm.setProgramId(null);
+			 this.listCwtSections(cwtForm, user);
 			 return mapping.findForward(Constants.SECTIONS);
 		 }
 		 else if ("rotate".equals(action))
 			 return mapping.findForward(Constants.ROTATE);
+		 else if ("archives".equals(action)) {
+			 session.setAttribute("error","");
+			 cwtForm.setSearchArchivedFlag("No");
+			 cwtForm.setSearchDate("");
+			 cwtForm.setModuleId(new Long(0));
+			 return mapping.findForward(Constants.ROSTER_SEARCH);
+		 }
 		 else if ("Edit".equals(action)) {
 			 String id=request.getParameter("id");
 			 String type=request.getParameter("type");
@@ -188,6 +199,9 @@ public class CwtAction extends Action {
 			 }
 			 
 		 }
+		 else if ("Create Roster".equals(action)) {
+			 return mapping.findForward(Constants.CREATE_ROSTER);
+		 }
 		 else if ("Delete".equals(action)) {
 			 String id=request.getParameter("id");
 			 if ("metric".equals(cwtForm.getPageSource())) {
@@ -204,13 +218,12 @@ public class CwtAction extends Action {
 			 }
 			 if ("section".equals(cwtForm.getPageSource())) {
 				 cwtModuleSectionDao.delete(cwtForm.getCwtModuleSection());
-				 this.getSectionDetail(cwtForm);
+				 this.getSectionDetail(cwtForm,user);
 				 return mapping.findForward(Constants.SECTIONS);
 			 }
 			 return mapping.findForward("create_"+cwtForm.getPageSource());
 		 }
 		 else if ("Create".equals(action)) {
-			 
 			 cwtForm.setModuleMetric(new String[200]);
 			 cwtForm.setMetricUbit(new String[200]);
 			 cwtForm.setJobMetric(new String[200]);
@@ -310,10 +323,35 @@ public class CwtAction extends Action {
 				 
 				 this.saveModuleMetrics(cwtForm, request);
 				 cwtForm.setModuleSectionList(cwtModuleSectionDao.findAll());
-				 this.getSectionDetail(cwtForm);
+				 this.getSectionDetail(cwtForm,user);
 				 return mapping.findForward(Constants.SECTIONS);
 			 }
-} 
+			 
+		 } else if ("Search".equals(action)) {
+			 session.setAttribute("error","");
+			 this.listRosters(cwtForm, user);
+			/*
+			 if (cwtForm.getModuleId()==null||cwtForm.getModuleId().equals(new Long(0))) {
+				 session.setAttribute("error", "CWT Module is required");
+				 return mapping.findForward(Constants.ROSTER_SEARCH);
+			 }
+			
+			 //validate search date
+			if (cwtForm.getSearchDate()!=null&&cwtForm.getSearchDate().length()>0&&cwtForm.getSearchDate().length()!=10) {
+						session.setAttribute("error","class date needs to be in MM/DD/YYYY format");
+						return mapping.findForward(Constants.ROSTER_SEARCH);
+			}
+			else if (cwtForm.getSearchDate()==null||cwtForm.getSearchDate().length()==0) {
+					session.setAttribute("error","class date is required");
+					return mapping.findForward(Constants.ROSTER_SEARCH);
+			} 
+			else
+					cwtForm.setSearchDate(cwtForm.getSearchDate().replace("-", "/"));
+			*/
+			 
+			 //this.searchRoster(cwtForm, user);
+			 return mapping.findForward(Constants.ROSTER_RESULTS);
+		 }
 		 
 		 cwtForm.reset(mapping, request);
 		 return mapping.findForward(Constants.SUCCESS);
@@ -418,14 +456,26 @@ private void loadProgramMetrics(CwtForm cwtForm) {
 	
 }
 
-private List getSectionDetail(CwtForm cwtForm) { 
+
+private void listCwtSections(CwtForm cwtForm, SystemUser user){
+	GenericDao dao = new GenericDao();
+	
+	String farm = cwtForm.getFarmBase();
+	if (farm==null||farm.length()==0)
+		farm=user.getFarmBase();
+		
+	List<ViewCwtSection> list = dao.findAll(new ViewCwtSection().getClass(), farm, cwtForm.getProgramId() );
+	cwtForm.setCwtSections(list);
+
+}
+private List getSectionDetail(CwtForm cwtForm, SystemUser user) { 
 	
 	CwtModuleSectionDao dao1 = new CwtModuleSectionDao();
 	CwtSupervisorDao cwtSupervisorDao = new CwtSupervisorDao();
 	CwtProgramDao cwtProgramDao = new CwtProgramDao();
 	CwtMetricsDao cwtMetricsDao = new CwtMetricsDao();
 	CwtModulesDao cwtModulesDao = new CwtModulesDao();
-
+	
 	List<CwtModuleSection> sections = new ArrayList<CwtModuleSection>();
 	List<CwtMaster> masters = new ArrayList<CwtMaster>();
 	
@@ -440,9 +490,11 @@ private List getSectionDetail(CwtForm cwtForm) {
 	else
 		sections = dao1.findAll();
 
+	
 	for (Iterator iterator =
 			 sections.iterator(); iterator.hasNext();){
 		 CwtModuleSection section = (CwtModuleSection)iterator.next();
+		 
 		 CwtModules module = cwtModulesDao.find(section.getModuleId());
 		 if (module==null) module = new CwtModules();
 		 
@@ -455,9 +507,10 @@ private List getSectionDetail(CwtForm cwtForm) {
 		 CwtMaster master = new CwtMaster();
 		 master.setModule(module);
 		 master.setProgram(program);
-		 master.setSupervisor(supervisor);
+		 master.setSupervisor(new CwtSupervisor());
 		 master.setSection(section);
 		 masters.add(master);
+		 
 	}
 	 cwtForm.setMasterList(masters);
 	
@@ -542,6 +595,130 @@ private void getMeetingDays(CwtForm cwtForm) {
 	}
 	
 }
+
+private void listRosters(CwtForm cwtForm, SystemUser user) {
+	
+	 cwtForm.setArchivedRosterList(new ArrayList<ViewCwtRoster>());
+	 cwtForm.setCurrentRosterList(new ArrayList<ViewCwtRoster>());
+	 String farm=cwtForm.getFarmBase();
+	 if (farm==null||farm.length()==0)
+		 farm=user.getFarmBase();
+	 
+	 String archivedFlag=cwtForm.getSearchArchivedFlag();
+	 
+	 Long moduleId=cwtForm.getModuleId();
+	 
+	 GenericDao dao = new GenericDao();
+	 List<ViewCwtRoster>list = dao.findAll(new ViewCwtRoster().getClass(), farm, moduleId, archivedFlag, cwtForm.getSearchDate());
+	 
+	 if ("Yes".equals(archivedFlag))
+		 cwtForm.setArchivedRosterList(list);
+	 if ("No".equals(archivedFlag))
+		 cwtForm.setCurrentRosterList(list);
+	 
+}
+
+/*
+private void searchRoster (CwtForm cwtForm, SystemUser user) {
+	 
+	 cwtForm.setArchivedRosterList(new ArrayList<CwtMaster>());
+	 cwtForm.setCurrentRosterList(new ArrayList<CwtMaster>());
+	 
+	GenericDao dao = new GenericDao();
+	 
+	 String archivedFlag=cwtForm.getSearchArchivedFlag();
+	 if (archivedFlag==null)
+		 archivedFlag="No";
+	 
+	 CwtProgramDao cwtProgramDao = new CwtProgramDao();
+	 CwtModulesDao cwtModulesDao = new CwtModulesDao();
+	 CwtRosterDao cwtRosterDao = new CwtRosterDao();
+	 CwtModuleSectionDao cwtModuleSectionDao = new CwtModuleSectionDao();
+	 
+	 List<CwtMaster> masters = new ArrayList<CwtMaster>();
+	
+	 Long searchUserId = user.getUserId();
+	 if ("Administrator".equals(user.getUserRole()))
+		 searchUserId=new Long(999);
+	 List<BigInteger> list = dao.searchRosters(cwtForm.getModuleId(), cwtForm.getSearchDate(), archivedFlag, user.getFarmBase(),searchUserId);
+	 //for (Iterator iterator = list.iterator();iterator.hasNext();) {
+	 if (list.size()>0) {
+		 Long rosterId =  ((BigInteger)list.get(0)).longValue();
+		 CwtRoster roster = cwtRosterDao.find(rosterId);
+		 CwtModuleSection obj1 = cwtModuleSectionDao.find(roster.getSectionId());
+		 CwtModules obj2 = (CwtModules)cwtModulesDao.find(roster.getModuleId());
+		 CwtProgram obj3 = (CwtProgram)cwtProgramDao.find(obj2.getProgramId());
+		 CwtMaster master = new CwtMaster();
+		 master.setSection(obj1);
+		 master.setModule(obj2);
+		 master.setRoster(roster);
+		 if (obj3!=null)
+			 master.setProgram(obj3);
+		 else
+			 master.setProgram(new CwtProgram());
+		 masters.add(master);
+	 		
+	
+	 if ("Yes".equals(archivedFlag))
+		 cwtForm.setArchivedRosterList(masters);
+	 if ("No".equals(archivedFlag))
+		 cwtForm.setCurrentRosterList(masters);
+	 
+	 }
+
+}
+
+
+private void getRosters(CwtForm cwtForm, SystemUser user) {
+	
+	 CwtJobDao cwtJobDao = new CwtJobDao();
+	 CwtSupervisorDao cwtSupervisorDao = new CwtSupervisorDao();
+	 CwtDepartmentDao cwtDepartmentDao = new CwtDepartmentDao();
+	 CwtProgramDao cwtProgramDao = new CwtProgramDao();
+	 CwtMetricsDao cwtMetricsDao = new CwtMetricsDao();
+	 CwtModulesDao cwtModulesDao = new CwtModulesDao();
+	 CwtProgramMetricDao cwtProgramMetricDao = new CwtProgramMetricDao();
+	 CwtProgramMetricModulesDao cwtProgramMetricModuleDao = new CwtProgramMetricModulesDao();
+	 CwtModuleSectionDao cwtModuleSectionDao = new CwtModuleSectionDao();
+	 CwtModuleStudentDao cwtModuleStudentDao = new CwtModuleStudentDao();
+	 CwtJobMetricDao cwtJobMetricDao = new CwtJobMetricDao();
+	 GenericDao dao = new GenericDao();
+
+	 List<CwtMaster> masters = new ArrayList<CwtMaster>();
+	 List<CwtModuleSection> list = cwtModuleSectionDao.findByAdministratorId(user.getUserId());
+	 for (Iterator iterator = list.iterator();iterator.hasNext();) {
+		 CwtModuleSection obj1 = (CwtModuleSection)iterator.next();
+		 CwtModules obj2 = (CwtModules)cwtModulesDao.find(obj1.getModuleId());
+		 CwtProgram obj3 = (CwtProgram)cwtProgramDao.find(obj2.getProgramId());
+		 CwtMaster master = new CwtMaster();
+		 master.setSection(obj1);
+		 master.setModule(obj2);
+		 if (obj3!=null)
+			 master.setProgram(obj3);
+		 else
+			 master.setProgram(new CwtProgram());
+		 masters.add(master);
+	 }			 
+	 cwtForm.setCurrentRosterList(masters);
+	 
+	 masters = new ArrayList<CwtMaster>();
+	 List<CwtModuleSection> list1 = dao.findArchivedRosters(CwtModuleSection.class,"administratorId",user.getUserId(), "Yes");
+	 for (Iterator iterator = list1.iterator();iterator.hasNext();) {
+		 CwtModuleSection obj1 = (CwtModuleSection)iterator.next();
+		 CwtModules obj2 = (CwtModules)cwtModulesDao.find(obj1.getModuleId());
+		 CwtProgram obj3 = (CwtProgram)cwtProgramDao.find(obj2.getProgramId());
+		 CwtMaster master = new CwtMaster();
+		 master.setSection(obj1);
+		 master.setModule(obj2);
+		 if (obj3!=null)
+			 master.setProgram(obj3);
+		 else
+			 master.setProgram(new CwtProgram());
+		 masters.add(master);
+	 }		
+	 cwtForm.setArchivedRosterList(masters);
+
+}*/
 	
 	
 }

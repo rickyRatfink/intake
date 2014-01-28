@@ -2,7 +2,9 @@
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
 
- 
+
+
+
 <jsp:include page="../../../includes/header.jsp" flush="true"/>
 
 <script language="javascript">
@@ -25,25 +27,36 @@ function checkAll(bx)
 <html:form method="POST" action="/CwtRoster">
 
     <h2>
-        Course Work Therapy - <bean:write name="cwtRoster" property="cwtModule.moduleName" /> Roster
+        Course Work Therapy - <bean:write name="loginForm" property="systemUser.farmBase" /> Roster
     </h2>
+    
     <br/>
      <i>Check the students listed below that are to be enrolled in this module and click generated roster.&nbsp;Once generate you may
     end attendance and exam information.</i>
-            <br />
-            <jsp:include page="../messages.jsp" flush="true"/>
+            <br /><br />
+     		<font style="color:red"><b><%=session.getAttribute("error") %></b></font></br></br>
             <br/>
-            
             <div align="left">
             <table width="90%" cellpadding="0" cellspacing="0" >
+            <tr>
+            	<td>Module&nbsp;
+	             	<html:select property="moduleId"  >
+							<html:option value="">select</html:option>
+							<html:optionsCollection name="ddl_module" value="value" label="label" />					
+				   </html:select>
+				 </td>
+            <tr>
+            	<td>Class Date&nbsp;<html:text property="rosterDate" size="15" maxlength="10" styleClass="tcal" /></td>
+            </tr>
+            <!-- 
             <tr>
             	<td>
                 <table width="100%" cellpadding="0" cellspacing="0" border="0">
                 <tr>
                     <td class="colHeading2" width="100"><input type="checkbox" name="checkall" onclick="checkAll(this);" style="height:10px;" checked>Enroll</td>
                     <td class="colHeading2" width="150">Student</td>
-                    <td class="colHeading2" width="100">Job</td>
-                    <td class="colHeading2" width="100">Supervisor</td>
+                     <td class="colHeading2" width="100">Job</td>
+                    <td class="colHeading2" width="100">Supervisor</td> 
                     <td class="colHeading2" width="100">Class</td>
                     <td class="colHeading2" width="100">Farm</td>
                 </tr>
@@ -52,7 +65,7 @@ function checkAll(bx)
                 <tr>
                    	<td class="searchRowOdd2" width="50" ><html:checkbox name="cwtRoster" property="enrollFlag[${i}]" value="Yes" styleId="chkbx" /></td>
                     <td class="searchRowOdd2" ><bean:write name="loop" property="intake.firstname"/>&nbsp;<bean:write name="loop" property="intake.lastname"/></td>
-                    <td class="searchRowOdd2" ><bean:write name="loop" property="cwtJob.title"/></td>
+                     <td class="searchRowOdd2" ><bean:write name="loop" property="cwtJob.title"/></td>
                     <td class="searchRowOdd2" ><bean:write name="loop" property="cwtSupervisor.firstname"/>&nbsp;<bean:write name="loop" property="cwtSupervisor.lastname"/></td>
                     <td class="searchRowOdd2"><bean:write name="loop" property="intake.class_"/></td>
                     <td class="searchRowOdd2"><bean:write name="loop" property="intake.farmBase"/></td>
@@ -62,6 +75,7 @@ function checkAll(bx)
                 </table>
                 </td>
             </tr>
+             -->
             </table>
             <br/>
             <table width="100%" cellpadding="0" cellspacing="0">

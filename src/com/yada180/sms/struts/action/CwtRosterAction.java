@@ -28,8 +28,8 @@ import com.yada180.sms.domain.CwtProgram;
 import com.yada180.sms.domain.CwtRoster;
 import com.yada180.sms.domain.CwtSupervisor;
 import com.yada180.sms.domain.Intake;
-import com.yada180.sms.domain.StudentHistory;
 import com.yada180.sms.domain.SystemUser;
+import com.yada180.sms.domain.ViewCwtIntake;
 import com.yada180.sms.hibernate.data.CwtDepartmentDao;
 import com.yada180.sms.hibernate.data.CwtJobDao;
 import com.yada180.sms.hibernate.data.CwtMetricsDao;
@@ -40,6 +40,7 @@ import com.yada180.sms.hibernate.data.CwtProgramMetricDao;
 import com.yada180.sms.hibernate.data.CwtProgramMetricModulesDao;
 import com.yada180.sms.hibernate.data.CwtRosterDao;
 import com.yada180.sms.hibernate.data.CwtSupervisorDao;
+import com.yada180.sms.hibernate.data.GenericDao;
 import com.yada180.sms.hibernate.data.IntakeDao;
 import com.yada180.sms.hibernate.data.StudentHistoryDao;
 import com.yada180.sms.struts.form.CwtRosterForm;
@@ -91,16 +92,96 @@ public class CwtRosterAction extends Action {
 			CwtRosterForm cwtRosterForm = (CwtRosterForm) form;
 			PDFBuilder pdf = new PDFBuilder();
 
-			if ("Roster".equals(action)) {
+			if ("View".equals(action)) {
+				session.setAttribute("error","");
+				cwtRosterForm.setRosterDate("");
 				cwtRosterForm.setCwtMaster(new CwtMaster());
 				cwtRosterForm.setCwtMetric(new CwtMetrics());
 				cwtRosterForm.setCwtModule(new CwtModules());
 				cwtRosterForm.setCwtModuleSection(new CwtModuleSection());
 				cwtRosterForm.setCwtProgram(new CwtProgram());
 
-				cwtRosterForm.setExamScore(new String[300]);
-				cwtRosterForm.setAttendFlag(new String[300]);
+				cwtRosterForm.setExamScore(new String[200]);
+				cwtRosterForm.setAttendFlag(new String[200]);
+				cwtRosterForm.setStatus(new String[200]);
+				cwtRosterForm.setEnrollFlag(new String[200]);
 
+				String id = request.getParameter("id");
+				String farm = request.getParameter("farm");
+				String archivedFlag = request.getParameter("archivedFlag");
+
+				if (farm == null)
+					farm = user.getFarmBase();
+
+				cwtRosterForm.setCwtModuleSection(cwtModuleSectionDao
+						.find(new Long(id)));
+				cwtRosterForm.setCwtModule(cwtModulesDao.find(cwtRosterForm
+						.getCwtModuleSection().getModuleId()));
+
+				String rosterDate="";
+				int index=0;
+				List<CwtRoster> rosterList = rosterDao.findArchivedRosters(new CwtRoster().getClass(), "sectionId", new Long(id), archivedFlag);
+				String attend[] = cwtRosterForm.getAttendFlag();
+				String score[] = cwtRosterForm.getExamScore();
+				String status[] = cwtRosterForm.getStatus();
+				List<CwtMaster> masters = new ArrayList<CwtMaster>();
+				for (Iterator iterator = rosterList.iterator(); iterator
+						.hasNext();) {
+					CwtRoster roster = (CwtRoster) iterator.next();
+
+					CwtDepartment department = new CwtDepartment();
+					/*if (roster.getDepartmentId() != null)
+						department = departmentDao.find(roster
+								.getDepartmentId());*/
+
+					CwtSupervisor supervisor = new CwtSupervisor();
+					/*if (roster.getSupervisorId() != null)
+						supervisor = supervisorDao.find(roster
+								.getSupervisorId());*/
+
+					CwtJob job = new CwtJob();
+					/*if (roster.getJobId() != null)
+						job = jobDao.find(roster.getJobId());*/
+
+					Intake intake = new Intake();
+					if (roster.getIntakeId() != null)
+						intake = intakeDao.find(roster.getIntakeId());
+
+					attend[index] = roster.getAttendFlag();
+					score[index] = roster.getExamScore();
+					status[index] = roster.getStatus();
+					CwtMaster master = new CwtMaster();
+					master.setCwtSupervisor(supervisor);
+					master.setCwtDepartment(department);
+					master.setCwtJob(job);
+					master.setIntake(intake);
+					master.setRoster(roster);
+					masters.add(master);
+					index++;
+					
+					rosterDate = roster.getRosterDate();
+				}
+				cwtRosterForm.setMasterList(masters);
+				cwtRosterForm.setAttendFlag(attend);
+				cwtRosterForm.setExamScore(score);
+				cwtRosterForm.setRosterDate(rosterDate);
+
+				return mapping.findForward(Constants.VIEW_ROSTER);
+
+			}
+			else if ("Roster".equals(action)) {
+				session.setAttribute("error","");
+				cwtRosterForm.setRosterDate("");
+				cwtRosterForm.setCwtMaster(new CwtMaster());
+				cwtRosterForm.setCwtMetric(new CwtMetrics());
+				cwtRosterForm.setCwtModule(new CwtModules());
+				cwtRosterForm.setCwtModuleSection(new CwtModuleSection());
+				cwtRosterForm.setCwtProgram(new CwtProgram());
+
+				cwtRosterForm.setExamScore(new String[200]);
+				cwtRosterForm.setAttendFlag(new String[200]);
+				cwtRosterForm.setStatus(new String[200]);
+				
 				String[] flags = new String[] { "Yes", "Yes", "Yes", "Yes",
 						"Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes",
 						"Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes",
@@ -159,162 +240,126 @@ public class CwtRosterAction extends Action {
 				/*
 				 * If roster currently exists then set it up
 				 */
+				GenericDao dao = new GenericDao();
+				
 				int index = 0;
+				String rosterDate="";
 				if (rosterList.size() > 0) {
 					String attend[] = cwtRosterForm.getAttendFlag();
 					String score[] = cwtRosterForm.getExamScore();
-
+					String status[] = cwtRosterForm.getStatus();
 					List<CwtMaster> masters = new ArrayList<CwtMaster>();
 					for (Iterator iterator = rosterList.iterator(); iterator
 							.hasNext();) {
 						CwtRoster roster = (CwtRoster) iterator.next();
 
-						CwtDepartment department = new CwtDepartment();
-						if (roster.getDepartmentId() != null)
-							department = departmentDao.find(roster
-									.getDepartmentId());
-
-						CwtSupervisor supervisor = new CwtSupervisor();
-						if (roster.getSupervisorId() != null)
-							supervisor = supervisorDao.find(roster
-									.getSupervisorId());
-
-						CwtJob job = new CwtJob();
-						if (roster.getJobId() != null)
-							job = jobDao.find(roster.getJobId());
-
-						Intake intake = new Intake();
+						ViewCwtIntake intake = new ViewCwtIntake();
 						if (roster.getIntakeId() != null)
-							intake = intakeDao.find(roster.getIntakeId());
-
+							intake = dao.findCwtIntakeByIntakeId(new ViewCwtIntake().getClass(), roster.getIntakeId() );
+						
+							//intake = intakeDao.find(roster.getIntakeId());
+							
 						attend[index] = roster.getAttendFlag();
 						score[index] = roster.getExamScore();
+						status[index] = roster.getStatus();
 						CwtMaster master = new CwtMaster();
-						master.setCwtSupervisor(supervisor);
-						master.setCwtDepartment(department);
-						master.setCwtJob(job);
-						master.setIntake(intake);
+						master.setCwtIntake(intake);
 						master.setRoster(roster);
 						masters.add(master);
 						index++;
+						
+						rosterDate = roster.getRosterDate();
 					}
 					cwtRosterForm.setMasterList(masters);
 					cwtRosterForm.setAttendFlag(attend);
 					cwtRosterForm.setExamScore(score);
+					cwtRosterForm.setRosterDate(rosterDate);
 
 					return mapping.findForward(Constants.SUCCESS);
 				} else {
-
-					List<CwtMaster> masters = new ArrayList<CwtMaster>();
-					//List<Intake> intakes = intakeDao.search(null, null, null,
-					//		null, null, null, farm, null, "No", "In Program",null,null,null,null);
-					List<Intake> intakes = intakeDao.searchRosterList(farm);					
-					
-					for (Iterator iterator = intakes.iterator(); iterator
-							.hasNext();) {
-						Intake intake = (Intake) iterator.next();
-
-						/* check current Program Status for each intake
-						List<StudentHistory> history = studentHistoryDao
-								.findByIntakeId(
-										new StudentHistory().getClass(),
-										intake.getIntakeId());
-						String status = "";
-						for (Iterator iterator2 = history.iterator(); iterator2
-								.hasNext();) {
-							StudentHistory studentHistory = (StudentHistory) iterator2
-									.next();
-							status = studentHistory.getProgramStatus();
-						}
-
-						if ("In Program".equals(status) ||
-								"Graduated to Fresh Start".equals(status) ||
-								"Graduated to SLS".equals(status) ||
-								"Graduated to Intern".equals(status) ) {*/
-						CwtDepartment department = new CwtDepartment();
-						if (intake.getDepartmentId() != null)
-							department = departmentDao.find(intake
-									.getDepartmentId());
-						if (department == null)
-							department = new CwtDepartment();
-
-						CwtSupervisor supervisor = new CwtSupervisor();
-						if (intake.getSupervisorId() != null)
-							supervisor = supervisorDao.find(intake
-									.getSupervisorId());
-						if (supervisor == null)
-							supervisor = new CwtSupervisor();
-
-						CwtJob job = new CwtJob();
-						if (intake.getJobId() != null)
-							job = jobDao.find(intake.getJobId());
-						if (job == null)
-							job = new CwtJob();
-
-						CwtMaster master = new CwtMaster();
-						master.setCwtSupervisor(supervisor);
-						master.setCwtDepartment(department);
-						master.setCwtJob(job);
-						master.setIntake(intake);
-						masters.add(master);
-
-						//}
-					}
-					cwtRosterForm.setMasterList(masters);
+					this.generateRoster(cwtRosterForm, user.getFarmBase(), new Long(id));
 					return mapping.findForward(Constants.CREATE_ROSTER);
 				}// end of generate roster
 
 			} else if ("Generate Roster".equals(action)) {
 				int index = 0;
-				String status = "";
-				List<CwtMaster> mlist = cwtRosterForm.getMasterList();
-				List<CwtMaster> newMasterList = new ArrayList<CwtMaster>();
-
+				GenericDao dao = new GenericDao();
 				List<CwtRoster> rosterList = new ArrayList<CwtRoster>();
-				String enroll[] = cwtRosterForm.getEnrollFlag();
-				String studentStatus[] = cwtRosterForm.getStatus();
-				for (Iterator iterator = mlist.iterator(); iterator.hasNext();) {
-					CwtMaster obj = (CwtMaster) iterator.next();
-					if ("Yes".equals(request.getParameter("enrollFlag[" + index
-							+ "]"))) {
+				List<CwtMaster> masterList = new ArrayList<CwtMaster>();
+				
+				//validate class date
+				session.setAttribute("error","");
+				if (cwtRosterForm.getRosterDate()!=null&&cwtRosterForm.getRosterDate().length()>0&&cwtRosterForm.getRosterDate().length()!=10) {
+						session.setAttribute("error","class date needs to be in MM/DD/YYYY format");
+						return mapping.findForward(Constants.CREATE_ROSTER);
+					}
+				else if (cwtRosterForm.getRosterDate()==null||cwtRosterForm.getRosterDate().length()==0) {
+					session.setAttribute("error","class date is required");
+					return mapping.findForward(Constants.CREATE_ROSTER);
+				} else
+					cwtRosterForm.setRosterDate(cwtRosterForm.getRosterDate().replace("-", "/"));
+			
+				
+				//1 find sectionId for moduleId and farm
+				Long sectionId = dao.findSectionIdByModuleIdAndFarm(cwtRosterForm.getModuleId(), user.getFarmBase());
+				//2 find programId for moduleId
+				Long programId = dao.findProgramIdBySectionId(sectionId);
+				//3 find intakes assigned to programId
+				//loop through intake and add to roster
+				List<Intake> list = dao.findIntakeByCwtProgram(programId, user.getFarmBase());
+				
+				for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+					Intake intake = (Intake) iterator.next();
 						CwtRoster roster = new CwtRoster();
-						roster.setIntakeId(obj.getIntake().getIntakeId());
-						roster.setDepartmentId(obj.getCwtDepartment()
-								.getDepartmentId());
-						roster.setModuleId(cwtRosterForm.getCwtModule()
-								.getModuleId());
-						roster.setJobId(obj.getCwtJob().getJobId());
-						roster.setSupervisorId(obj.getCwtSupervisor()
-								.getSupervisorId());
-						roster.setSectionId(cwtRosterForm.getCwtModuleSection()
-								.getModuleOfferingId());
+						System.out.println ("intakeId="+intake.getIntakeId());
+						roster.setIntakeId(intake.getIntakeId());
+						roster.setModuleId(cwtRosterForm.getModuleId());
+						roster.setSectionId(sectionId);
 						roster.setLastUpdatedBy(user.getUsername());
 						roster.setLastUpdatedDate(validator.getEpoch() + "");
-						roster.setStatus("Enrolled");
-						roster.setExamDate(obj.getSection().getEffectiveDate());
+						roster.setStatus("Completed");
+						roster.setExamDate("");
 						roster.setArchivedFlag("No");
-						rosterList.add(roster);
-
-						Long rosterId = rosterDao.save(roster);
-						roster.setRosterId(rosterId);
-
-						// add roster entry to existing master list
-						CwtMaster master = new CwtMaster();
-						master.setCwtDepartment(obj.getCwtDepartment());
-						master.setCwtJob(obj.getCwtJob());
-						master.setCwtSupervisor(obj.getCwtSupervisor());
-						master.setIntake(obj.getIntake());
-						master.setRoster(roster);
-						studentStatus[index] = "Enrolled";
-						newMasterList.add(master);
+						roster.setRosterDate(cwtRosterForm.getRosterDate());
+						rosterDao.save(roster);
 					}
+				
+				// Roster setup
+				List<CwtRoster> rList = rosterDao.findByObjectId(
+						new CwtRoster().getClass(), "sectionId", sectionId); // .listRosterBySection(new
 
+				String rosterDate="";
+				String attend[] = cwtRosterForm.getAttendFlag();
+				String score[] = cwtRosterForm.getExamScore();
+				String status[] = cwtRosterForm.getStatus();
+				List<CwtMaster> masters = new ArrayList<CwtMaster>();
+				for (Iterator iterator = rList.iterator(); iterator
+						.hasNext();) {
+					CwtRoster roster = (CwtRoster) iterator.next();
+
+					ViewCwtIntake intake = new ViewCwtIntake();
+					if (roster.getIntakeId() != null)
+						intake = dao.findCwtIntakeByIntakeId(new ViewCwtIntake().getClass(), roster.getIntakeId() );
+							
+					attend[index] = roster.getAttendFlag();
+					score[index] = roster.getExamScore();
+					status[index] = roster.getStatus();
+					CwtMaster master = new CwtMaster();
+					master.setCwtIntake(intake);
+					master.setRoster(roster);
+					masters.add(master);
 					index++;
+					
+					rosterDate = roster.getRosterDate();
 				}
-				cwtRosterForm.setStatus(studentStatus);
-				cwtRosterForm.setMasterList(newMasterList);
+				cwtRosterForm.setMasterList(masters);
+				cwtRosterForm.setAttendFlag(attend);
+				cwtRosterForm.setExamScore(score);
+				cwtRosterForm.setRosterDate(rosterDate);
+
 				return mapping.findForward(Constants.ROSTER);
-			} else if ("Save".equals(action)) {
+			}
+			else if ("Save".equals(action)) {
 				int index = 0;
 				String status = "";
 				List<CwtMaster> mlist = cwtRosterForm.getMasterList();
@@ -351,10 +396,11 @@ public class CwtRosterAction extends Action {
 				// CwtModuleSection section =
 				// cwtModuleSectionDao.find(sectionId);
 				// section.setInstructorNotes(cwtRosterForm.getNotes());
-				cwtModuleSectionDao.update(cwtRosterForm.getCwtModuleSection());
+				// cwtModuleSectionDao.update(cwtRosterForm.getCwtModuleSection());
 				cwtRosterForm.setArchiveFlag("No");
+				cwtRosterForm.setNotes("");
 				// cwtRosterForm.setMasterList(newMasterList);
-				return mapping.findForward(Constants.MAIN);
+				return mapping.findForward(Constants.ROSTER_SEARCH);
 			}
 			return mapping.findForward(Constants.SUCCESS);
 		} catch (Exception e) {
@@ -365,6 +411,56 @@ public class CwtRosterAction extends Action {
 			e.printStackTrace();
 			return mapping.findForward(Constants.ERROR);
 		}
+	}
+	
+	
+	private void generateRoster(CwtRosterForm form, String farm, Long moduleOfferingId) {
+		
+		IntakeDao intakeDao = new IntakeDao();
+		CwtDepartmentDao departmentDao = new CwtDepartmentDao();
+		CwtSupervisorDao supervisorDao = new CwtSupervisorDao();
+		CwtJobDao jobDao = new CwtJobDao();
+		GenericDao dao = new GenericDao();
+		
+		Long cwtProgramId = dao.findProgramIdBySectionId(moduleOfferingId);
+		List<CwtMaster> masters = new ArrayList<CwtMaster>();
+		//List<Intake> intakes = intakeDao.search(null, null, null,
+		//		null, null, null, farm, null, "No", "In Program",null,null,null,null);
+		List<Intake> intakes = intakeDao.search(null, null, null, null, null, null, farm, null, "No", "In Program", null, null, null, null, cwtProgramId);				
+		
+		for (Iterator iterator = intakes.iterator(); iterator
+				.hasNext();) {
+			Intake intake = (Intake) iterator.next();
+
+			CwtDepartment department = new CwtDepartment();
+			/*if (intake.getDepartmentId() != null)
+				department = departmentDao.find(intake
+						.getDepartmentId());
+			if (department == null)
+				department = new CwtDepartment();*/
+
+			CwtSupervisor supervisor = new CwtSupervisor();
+			/*if (intake.getSupervisorId() != null)
+				supervisor = supervisorDao.find(intake
+						.getSupervisorId());
+			if (supervisor == null)
+				supervisor = new CwtSupervisor();*/
+
+			CwtJob job = new CwtJob();
+			/*if (intake.getJobId() != null)
+				job = jobDao.find(intake.getJobId());
+			if (job == null)
+				job = new CwtJob();*/
+
+			CwtMaster master = new CwtMaster();
+			master.setCwtSupervisor(supervisor);
+			master.setCwtDepartment(department);
+			master.setCwtJob(job);
+			master.setIntake(intake);
+			masters.add(master);
+		}
+		form.setMasterList(masters);
+		
 	}
 
 }

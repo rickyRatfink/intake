@@ -17,7 +17,7 @@ public class CwtMaster implements Serializable {
 	private CwtJob cwtJob = new CwtJob();
 	private CwtSupervisor cwtSupervisor = new CwtSupervisor();
 	private Intake intake = new Intake();
-	
+	private ViewCwtIntake cwtIntake = new ViewCwtIntake();
 	
 	
 	public List<CwtModules> getModules() {
@@ -85,6 +85,12 @@ public class CwtMaster implements Serializable {
 	}
 	public void setSupervisor(CwtSupervisor supervisor) {
 		this.supervisor = supervisor;
+	}
+	public ViewCwtIntake getCwtIntake() {
+		return cwtIntake;
+	}
+	public void setCwtIntake(ViewCwtIntake cwtIntake) {
+		this.cwtIntake = cwtIntake;
 	}
 	
 	

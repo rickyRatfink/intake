@@ -26,7 +26,7 @@ function checkAll(bx)
 <html:form method="POST" action="/CwtRoster">
 
     <h2>
-        Course Work Therapy - <bean:write name="cwtRoster" property="cwtModule.moduleName" /> Roster&nbsp;(<bean:write name="cwtRoster" property="cwtModuleSection.farmBase" />)
+        Course Work Therapy - <bean:write name="cwtRoster" property="cwtModule.moduleName" /> Roster&nbsp;(<bean:write name="cwtRoster" property="rosterDate"/>&nbsp;-&nbsp;<bean:write name="cwtRoster" property="cwtModuleSection.farmBase" />)
     </h2>
     
             <br />
@@ -40,8 +40,6 @@ function checkAll(bx)
                 <table width="100%" cellpadding="0" cellspacing="0" border="0">
                 <tr>
                     <td class="colHeading2" width="150">Student</td>
-                    <td class="colHeading2" width="100">Job</td>
-                    <td class="colHeading2" width="100">Supervisor</td>
                     <td class="colHeading2" width="100"><input type="checkbox" name="checkall" onclick="checkAll(this);" style="height:10px;" >Attended</td>
                     <td class="colHeading2" width="100">Exam Score</td>
                     <td class="colHeading2" width="100">Status</td>
@@ -49,9 +47,7 @@ function checkAll(bx)
                
                 <logic:iterate id="loop" name="cwtRoster" property="masterList" indexId="i">
                 <tr>
-                   	<td class="searchRowOdd2" ><bean:write name="loop" property="intake.firstname"/>&nbsp;<bean:write name="loop" property="intake.lastname"/></td>
-                    <td class="searchRowOdd2" ><bean:write name="loop" property="cwtDepartment.title"/></td>
-                    <td class="searchRowOdd2" ><bean:write name="loop" property="cwtSupervisor.firstname"/>&nbsp;<bean:write name="loop" property="cwtSupervisor.lastname"/></td>
+                   	<td class="searchRowOdd2" ><bean:write name="loop" property="cwtIntake.name"/></td>
                     <td class="searchRowOdd2" ><html:checkbox name="cwtRoster" property="attendFlag[${i}]" value="Yes" /></td>
                     <td class="searchRowOdd2" ><html:text name="cwtRoster" property="examScore[${i}]" size="5" maxlength="5" /></td>
                     <td class="searchRowOdd2" >
@@ -64,17 +60,22 @@ function checkAll(bx)
                 </logic:iterate>
                </table>
                </br></br>
-                <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <table width="98%" cellpadding="0" cellspacing="0" border="0">
                <tr>
                 	<td>
                 	   <html:textarea name="cwtRoster" property="cwtModuleSection.instructorNotes" rows="10" cols="120"/>
                 	</td>
                 </tr>
                 <tr>
-                	<td><html:checkbox name="cwtRoster" property="archiveFlag" value="Yes"/>Archive Roster</td>
-                
+                	<td align="left"><html:checkbox name="cwtRoster" property="archiveFlag" value="Yes"/>Archive Roster</td>
                 </tr>
                 </table>
+                <div align="center">
+	            	<a href="javascript:window.open('<%=request.getContextPath()%>/pdfapp.do?action=Print&archivedFlag=No&type=Section&id=<bean:write name="cwtRoster" property="cwtModuleSection.moduleOfferingId" />');">Print</a>
+	            	&nbsp;&nbsp;
+	            	<a href="<%=request.getContextPath()%>/Cwt.do?action=archives">Search</a>
+            	</div>
+ 
                 </td>
             </tr>
             </table>

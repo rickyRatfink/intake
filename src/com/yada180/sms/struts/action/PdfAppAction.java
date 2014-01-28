@@ -2,6 +2,7 @@ package com.yada180.sms.struts.action;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,18 +20,11 @@ import com.yada180.sms.application.Constants;
 import com.yada180.sms.domain.CwtModuleSection;
 import com.yada180.sms.domain.CwtModules;
 import com.yada180.sms.domain.CwtRoster;
-import com.yada180.sms.domain.Intake;
 import com.yada180.sms.domain.SystemUser;
-import com.yada180.sms.hibernate.data.CwtDepartmentDao;
-import com.yada180.sms.hibernate.data.CwtJobDao;
 import com.yada180.sms.hibernate.data.CwtModuleSectionDao;
 import com.yada180.sms.hibernate.data.CwtModulesDao;
-import com.yada180.sms.hibernate.data.CwtProgramMetricDao;
-import com.yada180.sms.hibernate.data.CwtProgramMetricModulesDao;
 import com.yada180.sms.hibernate.data.CwtRosterDao;
-import com.yada180.sms.hibernate.data.CwtSupervisorDao;
 import com.yada180.sms.hibernate.data.IntakeDao;
-import com.yada180.sms.hibernate.data.StudentHistoryDao;
 import com.yada180.sms.struts.form.IntakeForm;
 import com.yada180.sms.util.PDFBuilder;
 import com.yada180.sms.util.Validator;
@@ -63,6 +57,7 @@ public class PdfAppAction extends Action {
 			if ("completion".equals(action)) 
 					pdf.generateCompletionReport(user, response);
 			if ("Print".equals(action)) {
+				String archivedFlag=request.getParameter("archivedFlag");
 				CwtModuleSectionDao cwtModuleSectionDao = new CwtModuleSectionDao();
 				CwtRosterDao rosterDao = new CwtRosterDao();
 				CwtModulesDao cwtModulesDao = new CwtModulesDao();
@@ -71,8 +66,13 @@ public class PdfAppAction extends Action {
 				Long sectionId = new Long(sId);
 				CwtModuleSection section = cwtModuleSectionDao.find(sectionId);
 				CwtModules module = cwtModulesDao.find(section.getModuleId());
-				List<CwtRoster> list = rosterDao.findByObjectId(
-						CwtRoster.class, "sectionId", sectionId);
+				List<CwtRoster> list = new  ArrayList<CwtRoster>();
+				
+				if ("No".equals(archivedFlag))
+					list = rosterDao.findByObjectId(CwtRoster.class, "sectionId", sectionId);
+				if ("Yes".equals(archivedFlag))
+					list = rosterDao.findArchivedRosters(new CwtRoster().getClass(), "sectionId", sectionId, archivedFlag);
+				
 				pdf.generateCwtRoster(user, module, section, list, response);
 			}
 		} catch(Exception e) {

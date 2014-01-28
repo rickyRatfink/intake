@@ -32,7 +32,10 @@
                     		<html:text property="passHistory.passDate" size="12" maxlength="12" styleClass="tcal"/>
                     	</td>
                         <td style="background: silver;height:20px;border: 1px solid #666;color:#000000;font-weight:bold;padding-left:5px;">
-                                <html:text property="passHistory.hours" size="10" maxlength="10"/>
+                                <html:select property="passHistory.hours" >
+                               		<html:option value="">Select</html:option> 
+									<html:optionsCollection name="ddl_passHours" value="value"  label="label" />
+								</html:select> 
                 		</td>
                         <td style="background: silver;height:20px;border: 1px solid #666;color:#000000;font-weight:bold;padding-left:5px;">
                                <html:select property="passHistory.passType" >

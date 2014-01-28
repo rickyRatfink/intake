@@ -10,6 +10,8 @@ import com.yada180.sms.domain.CwtMetrics;
 import com.yada180.sms.domain.CwtModuleSection;
 import com.yada180.sms.domain.CwtModules;
 import com.yada180.sms.domain.CwtProgram;
+import com.yada180.sms.domain.CwtRoster;
+import com.yada180.sms.domain.ErrorMessage;
 import com.yada180.sms.domain.Intake;
 
 public class CwtRosterForm extends ActionForm {
@@ -19,10 +21,11 @@ public class CwtRosterForm extends ActionForm {
 	private CwtMetrics cwtMetric = new CwtMetrics();
 	private CwtMaster cwtMaster = new CwtMaster();
 	private CwtModuleSection cwtModuleSection = new CwtModuleSection();
-	
+	private List<ErrorMessage> messages = new ArrayList<ErrorMessage>();
+    
 	private List<Intake> intakeList = new ArrayList<Intake>();
 	private List<CwtMaster> masterList = new ArrayList<CwtMaster>();
-
+	private List<CwtRoster> rosterList = new ArrayList<CwtRoster>();
 	private String students[] = new String[200];
 	private String enrollFlag[] = new String[200];
 	private String attendFlag[] = new String[200];
@@ -31,7 +34,25 @@ public class CwtRosterForm extends ActionForm {
 	private String pageSource;
 	private String notes;
 	private String archiveFlag;
+	private String rosterDate;
+	private String messageType = "";
+	private String classDate = "";
+	private Long moduleId;
 	
+	
+	
+	public String getClassDate() {
+		return classDate;
+	}
+	public void setClassDate(String classDate) {
+		this.classDate = classDate;
+	}
+	public Long getModuleId() {
+		return moduleId;
+	}
+	public void setModuleId(Long moduleId) {
+		this.moduleId = moduleId;
+	}
 	public String[] getStatus() {
 		return status;
 	}
@@ -121,6 +142,30 @@ public class CwtRosterForm extends ActionForm {
 	}
 	public void setArchiveFlag(String archiveFlag) {
 		this.archiveFlag = archiveFlag;
+	}
+	public String getRosterDate() {
+		return rosterDate;
+	}
+	public void setRosterDate(String rosterDate) {
+		this.rosterDate = rosterDate;
+	}
+	public List<ErrorMessage> getMessages() {
+		return messages;
+	}
+	public void setMessages(List<ErrorMessage> messages) {
+		this.messages = messages;
+	}
+	public String getMessageType() {
+		return messageType;
+	}
+	public void setMessageType(String messageType) {
+		this.messageType = messageType;
+	}
+	public List<CwtRoster> getRosterList() {
+		return rosterList;
+	}
+	public void setRosterList(List<CwtRoster> rosterList) {
+		this.rosterList = rosterList;
 	}
 	
 	

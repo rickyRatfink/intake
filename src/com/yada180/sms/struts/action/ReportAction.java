@@ -172,7 +172,7 @@ public class ReportAction extends Action {
 		
 		IntakeDao dao = new IntakeDao();
 		
-		List<Intake> list = dao.search(null, null, null, null, null, null, farmBase, null, null, "In Program",null,null,null,null);
+		List<Intake> list = dao.search(null, null, null, null, null, null, farmBase, null, null, "In Program",null,null,null,null,null);
 		
 		List<Intake>list0 = new ArrayList<Intake>();
 		List<Intake>list1 = new ArrayList<Intake>();

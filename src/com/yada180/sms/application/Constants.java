@@ -43,12 +43,13 @@ public final class Constants {
 	public static final String MAIN="main";
 	public static final String PROCESS="process";
 	public static final String STUDENT_CWT="studentcwt";
-	
+	public static final String ROSTER_SEARCH="rostersearch";
+	public static final String ROSTER_RESULTS="rosterresults";
 	public static final String MANAGE_USERS="manageusers";
 	public static final String CREATE_USER="createuser";
 	public static final String EDIT_USER="edituser";
 	public static final String DELETE_USER="deleteuser";
-	
+	public static final String VIEW_ROSTER="viewroster";
 	public static final String ROSTER="roster";
 	public static final String CREATE_ROSTER="createroster";
 	public static final String WEBSITE="website";
