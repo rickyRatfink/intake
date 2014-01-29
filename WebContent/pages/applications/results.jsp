@@ -37,7 +37,8 @@
          <td class="colHeading2" width="100">DOB</td>
          <td class="colHeading2" width="100">Valid DL</td>
          <td class="colHeading2" width="200">Farm</td>
-         <td class="colHeading2" width="200">Status</td>
+         <td class="colHeading2" width="140">Status</td>
+         <td class="colHeading2" width="140">Arrival Date</td>
          <td class="colHeading2" width="200">Response</td>
     </tr>
      <logic:notEmpty name="intakeForm" property="applicantList" >
@@ -61,6 +62,7 @@
 	       <td class="<%=rowClass%>"><bean:write name="loop" property="dlFlag"/></td>
 	       <td class="<%=rowClass%>"><bean:write name="loop" property="farmBase"/></td>
 	       <td class="<%=rowClass%>"><bean:write name="loop" property="applicationStatus"/></td>
+	       <td class="<%=rowClass%>"><bean:write name="loop" property="arrivalDate"/></td>
 	       <td class="<%=rowClass%>"><bean:write name="loop" property="responseStatus"/></td>
 	   </tr>
 	

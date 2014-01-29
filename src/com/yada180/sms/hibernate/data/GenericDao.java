@@ -917,7 +917,7 @@ public class GenericDao {
 
 		List list = null;
 		BigInteger retId = null;
-
+		Long lId = null;
 		try {
 			session = HibernateFactory.openSession();
 			session.beginTransaction();
@@ -926,9 +926,10 @@ public class GenericDao {
 			q.setParameter("farmBase", farm);
 			list = q.list();
 
-			if (list.size() > 0)
+			if (list.size() > 0) {
 				retId = (BigInteger) list.get(0);
-
+				lId=retId.longValue(); 
+			}
 			session.flush();
 			session.getTransaction().commit();
 		} catch (HibernateException e) {
@@ -938,7 +939,7 @@ public class GenericDao {
 		} finally {
 			session.close();
 		}
-		return retId.longValue();
+		return lId;
 	}
 
 

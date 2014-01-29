@@ -132,6 +132,7 @@
                  <forward name="discipline" path="/pages/student/discipline.jsp" redirect="true"/>  
                  <forward name="pass" path="/pages/student/pass.jsp" redirect="true"/>  
                  <forward name="login" path="/pages/security/index.jsp" redirect="true"/>
+                 <forward name="cwt" path="/pages/student/cwt.jsp" redirect="true"/>
          </action>
            
          <action name="intakeForm" path="/Image" type="com.yada180.sms.struts.action.ImageAction" scope="session"  

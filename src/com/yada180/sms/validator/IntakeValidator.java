@@ -24,9 +24,11 @@ public class IntakeValidator {
 			messages = this.validateSpiritual(intake, messages);
 		if ("health".equals(form.getPageSource())) 
 			messages = this.validateHealth(intake, messages);
-		if ("status".equals(form.getPageSource())) {
+		if ("status".equals(form.getPageSource()))
 			messages = this.validateStatus(intake, messages);
-		}
+		if ("cwt".equals(form.getPageSource())) 
+			messages = this.validateCwt(form, messages);
+		
 		
 		if (messages.size()>0) 
 			form.setMessageType("error");
@@ -86,6 +88,12 @@ public class IntakeValidator {
 			if (intake.getDob().length()!=10) 		
 				messages.add(new ErrorMessage("date of birth","needs to be in MM/DD/YYYY format"));
 			intake.setDob(intake.getDob().replace("-", "/"));
+		}
+
+		if (intake.getArrivalDate()!=null) {
+			if (intake.getArrivalDate().length()!=10) 		
+				messages.add(new ErrorMessage("arrival date","needs to be in MM/DD/YYYY format"));
+			intake.setArrivalDate(intake.getArrivalDate().replace("-", "/"));
 		}
 		
 		if ("Yes".equals(intake.getDlFlag())) {
@@ -231,6 +239,35 @@ public class IntakeValidator {
 		else if (intake.getEntryDate().length()!=10) 		
 				 messages.add(new ErrorMessage("date of birth","is needs to be in MM/DD/YYYY format"));
 		
+		
+		return messages;
+	}
+	
+private List<ErrorMessage> validateCwt(IntakeForm form, List<ErrorMessage> messages) {		
+		
+		boolean bModule=false;
+		
+		if (form.getCwtModuleId()==null||!form.getCwtModuleId().equals(new Long(0)) )
+			bModule=true;
+		if (form.getClassDate()==null||form.getClassDate().length()>0) 
+			 bModule=true;
+		if (form.getAttended()==null||form.getAttended().length()>0 )
+			 bModule=true;
+		if (form.getCwtStatus()==null||form.getCwtStatus().length()>0 )
+			 bModule=true;
+		
+		if (bModule) {
+			if (form.getCwtModuleId()==null||form.getCwtModuleId().equals(new Long(0)) )
+				 messages.add(new ErrorMessage("module","is required"));
+			if (form.getAttended()==null||form.getAttended().length()==0 )
+				 messages.add(new ErrorMessage("attended","is required"));
+			if (form.getCwtStatus()==null||form.getCwtStatus().length()==0 )
+				 messages.add(new ErrorMessage("status","is required"));
+			if (form.getClassDate()==null ||form.getClassDate().length()==0 )
+				 messages.add(new ErrorMessage("class date","is required"));
+			else if (form.getClassDate().length()!=10) 		
+					 messages.add(new ErrorMessage("class date","need to be in MM/DD/YYYY format"));
+		}
 		
 		return messages;
 	}

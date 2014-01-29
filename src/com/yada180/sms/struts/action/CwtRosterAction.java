@@ -311,7 +311,6 @@ public class CwtRosterAction extends Action {
 				for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 					Intake intake = (Intake) iterator.next();
 						CwtRoster roster = new CwtRoster();
-						System.out.println ("intakeId="+intake.getIntakeId());
 						roster.setIntakeId(intake.getIntakeId());
 						roster.setModuleId(cwtRosterForm.getModuleId());
 						roster.setSectionId(sectionId);

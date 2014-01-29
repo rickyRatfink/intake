@@ -100,6 +100,10 @@ function isNumberKey(evt)
 							<html:option value="">Select</html:option>
 							<html:optionsCollection name="ddl_responseStatus" value="value" label="label" />
 						</html:select>
+						&nbsp;&nbsp;&nbsp;
+						Expected Arrival Date&nbsp;	
+					 	<html:text property="intake.arrivalDate" size="15" maxlength="10" styleClass="tcal" />
+               
 	                 </td>
 	               </tr>
 	             </table>

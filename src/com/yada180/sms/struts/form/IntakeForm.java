@@ -84,6 +84,43 @@ public class IntakeForm extends ActionForm {
 	private String incoherentThinkingFlag;
 	private String organProblemsFlag;	
 	
+	private Long cwtModuleId;
+	private String classDate;
+	private String cwtStatus;
+	private String examScore;
+	private String attended;
+	
+	
+	public Long getCwtModuleId() {
+		return cwtModuleId;
+	}
+	public void setCwtModuleId(Long cwtModuleId) {
+		this.cwtModuleId = cwtModuleId;
+	}
+	public String getClassDate() {
+		return classDate;
+	}
+	public void setClassDate(String classDate) {
+		this.classDate = classDate;
+	}
+	public String getCwtStatus() {
+		return cwtStatus;
+	}
+	public void setCwtStatus(String cwtStatus) {
+		this.cwtStatus = cwtStatus;
+	}
+	public String getExamScore() {
+		return examScore;
+	}
+	public void setExamScore(String examScore) {
+		this.examScore = examScore;
+	}
+	public String getAttended() {
+		return attended;
+	}
+	public void setAttended(String attended) {
+		this.attended = attended;
+	}	
 	public String getMotivationalLossFlag() {
 		return motivationalLossFlag;
 	}

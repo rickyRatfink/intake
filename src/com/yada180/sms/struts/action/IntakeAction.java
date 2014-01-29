@@ -540,6 +540,8 @@ public class IntakeAction extends Action {
 							saveJobSkills(intakeForm,request);
 						if ("status".equals(intakeForm.getPageSource()))
 							saveStatus(intakeForm, user);
+						if ("cwt".equals(intakeForm.getPageSource()))
+							saveCwt(intakeForm, user, session);
 						if ("pass".equals(intakeForm.getPageSource()))
 							savePass(intakeForm, user);
 						if ("discipline".equals(intakeForm.getPageSource()))
@@ -568,6 +570,8 @@ public class IntakeAction extends Action {
 							saveJobSkills(intakeForm,request);
 						if ("status".equals(intakeForm.getPageSource()))
 							saveStatus(intakeForm, user);
+						if ("cwt".equals(intakeForm.getPageSource()))
+							saveCwt(intakeForm, user, session);
 						if ("pass".equals(intakeForm.getPageSource()))
 							savePass(intakeForm, user);
 						if ("discipline".equals(intakeForm.getPageSource()))
@@ -1008,6 +1012,47 @@ public class IntakeAction extends Action {
 		// intakeForm.setStudentPassHistory(dao1.findByIntakeId(intakeForm.getIntake().getIntakeId()));
 
 	}
+	
+	private void saveCwt(IntakeForm intakeForm, SystemUser user, HttpSession session) {
+
+		IntakeDao intakeDao = new IntakeDao();
+		CwtRosterDao rosterDao = new CwtRosterDao();
+		GenericDao dao = new GenericDao();
+		
+		if (intakeForm.getCwtModuleId()!=null&&!intakeForm.getCwtModuleId().equals(new Long(0)) ) {
+			Long sectionId = dao.findSectionIdByModuleIdAndFarm(intakeForm.getCwtModuleId(), user.getFarmBase());
+			
+			if (sectionId!=null) {
+				CwtRoster roster = new CwtRoster();
+				
+				if (intakeForm.getExamScore()==null)
+					intakeForm.setExamScore("");
+				
+				roster.setExamScore(intakeForm.getExamScore());
+				roster.setRosterDate(intakeForm.getClassDate());
+				roster.setAttendFlag(intakeForm.getAttended());
+				roster.setModuleId(intakeForm.getCwtModuleId());
+				roster.setStatus(intakeForm.getCwtStatus());
+				roster.setSectionId(sectionId);
+				roster.setIntakeId(intakeForm.getIntake().getIntakeId());
+				roster.setArchivedFlag("Yes");
+				roster.setLastUpdatedBy(user.getUsername());
+				roster.setLastUpdatedDate(validator.getEpoch()+"");
+				rosterDao.save(roster);
+				//refresh cwt list
+				this.trackCwt(intakeForm, session);
+				
+				intakeForm.setCwtModuleId(new Long(0));
+				intakeForm.setClassDate("");
+				intakeForm.setAttended("");
+				intakeForm.setCwtStatus("");
+				intakeForm.setExamScore("");
+			}
+		}
+		intakeDao.update(intakeForm.getIntake());
+
+		}
+
 
 	private void savePass(IntakeForm intakeForm, SystemUser user) {
 
@@ -1026,7 +1071,7 @@ public class IntakeAction extends Action {
 		intakeForm.setPassHistory(new StudentPassHistory());
 		intakeForm.setStudentPassHistory(dao1.findByIntakeId(new StudentPassHistory().getClass(), intakeForm
 				.getIntake().getIntakeId()));
-	}
+	} 
 
 	private void clearForm(IntakeForm intakeForm) {
 		intakeForm.setCurrentStatus(new StudentHistory());
