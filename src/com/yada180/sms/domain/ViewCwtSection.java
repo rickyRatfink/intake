@@ -1,6 +1,6 @@
 package com.yada180.sms.domain;
 
-public class ViewCwtSection {
+public class ViewCwtSection implements java.io.Serializable {
 	private Long sectionId;
 	private Long programId;
 	private Long moduleId;

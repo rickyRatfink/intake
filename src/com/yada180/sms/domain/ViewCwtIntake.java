@@ -1,6 +1,6 @@
 package com.yada180.sms.domain;
 
-public class ViewCwtIntake {
+public class ViewCwtIntake implements java.io.Serializable {
 	private Long intakeId;
 	private String name;
 	private String program;
