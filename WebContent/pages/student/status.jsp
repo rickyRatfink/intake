@@ -50,6 +50,8 @@
             	<td>
                     <html:select property="intake.cwtProgramId" styleClass="status"> 
                     	<html:option value="0">Select</html:option>
+                    	<html:option value="1">Not Applicable</html:option>
+                    	<html:option value="2">Instructor</html:option>
 						<html:optionsCollection name="ddl_program" value="value" label="label" />
 					</html:select>
             	</td>

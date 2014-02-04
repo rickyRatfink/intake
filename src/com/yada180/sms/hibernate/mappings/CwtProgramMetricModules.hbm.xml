@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated Sep 23, 2013 3:46:21 PM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
-    <class name="com.yada180.sms.domain.CwtProgramMetricModules" table="cwt_program_metric_modules" catalog="ffarm_prod">
+    <class name="com.yada180.sms.domain.CwtProgramMetricModules" table="cwt_program_metric_modules" catalog="ffarm_dev">
         <id name="programMetricModuleId" type="java.lang.Long">
             <column name="program_metric_module_id" />
             <generator class="identity" />

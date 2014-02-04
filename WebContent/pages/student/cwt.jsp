@@ -26,7 +26,9 @@
 	<tr>
             	<td>Current CWT:&nbsp;
             		<html:select property="intake.cwtProgramId" styleClass="status">  
-                    	<html:optionsCollection name="ddl_program" value="value" label="label" />
+                    	<html:option value="1">Not Applicable</html:option>
+                    	<html:option value="2">Instructor</html:option>
+						<html:optionsCollection name="ddl_program" value="value" label="label" />
 					</html:select></td>
             </tr>
 	<tr>

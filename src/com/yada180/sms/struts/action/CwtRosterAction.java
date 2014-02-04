@@ -300,8 +300,20 @@ public class CwtRosterAction extends Action {
 					cwtRosterForm.setRosterDate(cwtRosterForm.getRosterDate().replace("-", "/"));
 			
 				
+				//get Module 
+				CwtModules module = cwtModulesDao.find(cwtRosterForm.getModuleId());
+				cwtRosterForm.setCwtModule(module);
+				
 				//1 find sectionId for moduleId and farm
 				Long sectionId = dao.findSectionIdByModuleIdAndFarm(cwtRosterForm.getModuleId(), user.getFarmBase());
+				if (sectionId==null) {
+					session.setAttribute("error", "Section has not been created for that module at "+user.getFarmBase());
+					return mapping.findForward(Constants.CREATE_ROSTER);
+				}
+				CwtModuleSectionDao sectionDao = new CwtModuleSectionDao();
+				CwtModuleSection cwtSection = sectionDao.find(sectionId);
+				cwtRosterForm.setCwtModuleSection(cwtSection);
+				
 				//2 find programId for moduleId
 				Long programId = dao.findProgramIdBySectionId(sectionId);
 				//3 find intakes assigned to programId
@@ -339,15 +351,16 @@ public class CwtRosterAction extends Action {
 					ViewCwtIntake intake = new ViewCwtIntake();
 					if (roster.getIntakeId() != null)
 						intake = dao.findCwtIntakeByIntakeId(new ViewCwtIntake().getClass(), roster.getIntakeId() );
-							
-					attend[index] = roster.getAttendFlag();
-					score[index] = roster.getExamScore();
-					status[index] = roster.getStatus();
-					CwtMaster master = new CwtMaster();
-					master.setCwtIntake(intake);
-					master.setRoster(roster);
-					masters.add(master);
-					index++;
+					if (intake!=null) {				
+						attend[index] = roster.getAttendFlag();
+						score[index] = roster.getExamScore();
+						status[index] = roster.getStatus();
+						CwtMaster master = new CwtMaster();
+						master.setCwtIntake(intake);
+						master.setRoster(roster);
+						masters.add(master);
+						index++;
+					}
 					
 					rosterDate = roster.getRosterDate();
 				}

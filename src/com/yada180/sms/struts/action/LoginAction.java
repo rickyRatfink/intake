@@ -38,18 +38,19 @@ public class LoginAction extends Action {
 	
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {		
 		LOGGER.setLevel(Level.SEVERE);
-
+		
 		String ip=request.getRemoteAddr().toString();
-		if (!"174.141.99.194".equals(ip) && !"75.147.217.62".equals(ip) && //Boynton Beach Farm
-				!"70.89.102.41".equals(ip) && //FTL Farm
-				!"67.238.59.138".equals(ip) && //OKE Farm
-				!"76.109.62.180".equals(ip) && //EHW Farm
-				!"75.149.244.9".equals(ip) && //BYN CORP
-				!"76.109.55.65".equals(ip) && //Miles Office
-				!"127.0.0.1".equals(ip)  ) { //Local Development Box
-			LOGGER.log(Level.SEVERE,"INVALID IP ADDRESS TRIED TO ACCESS THE SYSTEM: "+request.getRemoteAddr().toString());
-			return mapping.findForward(Constants.ACCESS_DENIED);
-		}
+				if (!"174.141.99.194".equals(ip) && !"75.147.217.62".equals(ip) && //Boynton Beach Farm
+						!"70.89.102.41".equals(ip) && //FTL Farm
+						!"67.238.59.138".equals(ip) && //OKE Farm
+						!"76.109.62.180".equals(ip) && //EHW Farm
+						!"75.149.244.9".equals(ip) && //BYN CORP
+						!"76.109.55.65".equals(ip) && //Miles Office
+						!"75.149.244.10".equals(ip) && //Judy's Office
+						!"127.0.0.1".equals(ip)  ) { //Local Development Box
+					LOGGER.log(Level.SEVERE,"INVALID IP ADDRESS TRIED TO ACCESS THE SYSTEM: "+request.getRemoteAddr().toString());
+					return mapping.findForward(Constants.ACCESS_DENIED);
+				}
 		
 		 HttpSession session = request.getSession(true);
 		 

@@ -34,7 +34,25 @@
                         <td style="background: silver;height:20px;border: 1px solid #666;color:#000000;font-weight:bold;padding-left:5px;">
                                 <html:select property="passHistory.hours" >
                                		<html:option value="">Select</html:option> 
-									<html:optionsCollection name="ddl_passHours" value="value"  label="label" />
+                               		<html:option value="1">1</html:option> 
+                               		<html:option value="1.5">1.5</html:option> 
+                               		<html:option value="2">2</html:option> 
+                               		<html:option value="2.5">2.5</html:option> 
+                               		<html:option value="3">3</html:option> 
+                               		<html:option value="3.5">3.5</html:option> 
+                               		<html:option value="4">4</html:option> 
+                               		<html:option value="4.5">4.5</html:option> 
+                               		<html:option value="5">5</html:option> 
+                               		<html:option value="5.5">5.5</html:option> 
+                               		<html:option value="6">6</html:option> 
+                               		<html:option value="6.5">6.5</html:option> 
+                               		<html:option value="7">7</html:option> 
+                               		<html:option value="7.5">7.5</html:option> 
+                               		<html:option value="8">8</html:option>                                		
+                               		<html:option value="24">24</html:option>
+                               		<html:option value="48">48</html:option>
+                               		<html:option value="72">72</html:option>
+                               		<html:option value="ASAP">ASAP</html:option>
 								</html:select> 
                 		</td>
                         <td style="background: silver;height:20px;border: 1px solid #666;color:#000000;font-weight:bold;padding-left:5px;">

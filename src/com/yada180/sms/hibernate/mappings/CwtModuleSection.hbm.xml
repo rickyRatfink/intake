@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated Sep 28, 2013 1:04:43 PM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
-    <class name="com.yada180.sms.domain.CwtModuleSection" table="cwt_module_section" catalog="ffarm_prod">
+    <class name="com.yada180.sms.domain.CwtModuleSection" table="cwt_module_section" catalog="ffarm_dev">
         <id name="moduleOfferingId" type="java.lang.Long">
             <column name="module_offering_id" />
             <generator class="identity" />

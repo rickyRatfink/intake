@@ -27,22 +27,25 @@ public class AuthenticationFilter implements Filter {
 		
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) res;
+		
 		String url = request.getServletPath();
 		String contextPath = request.getContextPath();
-
 		String ip=request.getRemoteAddr().toString();
+		
 		if (!"174.141.99.194".equals(ip)&&!"75.147.217.62".equals(ip) && //Boynton Beach Farm
-				!"70.89.102.41".equals(ip) && //FTL Farm
-				!"67.238.59.138".equals(ip) && //OKE Farm
-				!"76.109.62.180".equals(ip) && //EHW Farm
-				!"75.149.244.9".equals(ip) && //BYN CORP
-				!"76.109.55.65".equals(ip) && //Miles Office
-				!"127.0.0.1".equals(ip)  ) {
-			LOGGER.log(Level.SEVERE,"INVALID IP ADDRESS TRIED TO ACCESS THE SYSTEM: "+request.getRemoteAddr().toString());
-			response.sendRedirect(contextPath + "/denied.html");
+					!"70.89.102.41".equals(ip) && //FTL Farm
+					!"67.238.59.138".equals(ip) && //OKE Farm
+					!"76.109.62.180".equals(ip) && //EHW Farm
+					!"75.149.244.9".equals(ip) && //BYN CORP
+					!"76.109.55.65".equals(ip) && //Miles Office
+					!"75.149.244.10".equals(ip) && //Judy's Office
+					!"127.0.0.1".equals(ip)  ) {
+				LOGGER.log(Level.SEVERE,"INVALID IP ADDRESS TRIED TO ACCESS THE SYSTEM: "+request.getRemoteAddr().toString());
+				response.sendRedirect(contextPath + "/denied.html");
 		}
 		else {
 			HttpSession session = request.getSession(false);
+
 			if (null == session) {
 				response.sendRedirect(contextPath + "/pages/security/index.jsp");
 			} else {
