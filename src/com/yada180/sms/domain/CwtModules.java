@@ -18,13 +18,14 @@ public class CwtModules implements java.io.Serializable {
 	private String meetingTimes;
 	private Long instructorId;
 	private String meetingLocation;
-
+	private String moduleSeq;
+	
 	public CwtModules() {
 	}
 
 	public CwtModules(Long programId, String moduleName, String description, String status,
 			String creationDate, String createdBy, String meetingDays,
-			String meetingTimes, Long instructorId, String meetingLocation) {
+			String meetingTimes, Long instructorId, String meetingLocation, String moduleSeq) {
 		this.programId = programId;
 		this.moduleName = moduleName;
 		this.description = description;
@@ -35,6 +36,7 @@ public class CwtModules implements java.io.Serializable {
 		this.meetingTimes = meetingTimes;
 		this.instructorId = instructorId;
 		this.meetingLocation = meetingLocation;
+		this.moduleSeq = moduleSeq;
 	}
 
 	public Long getModuleId() {
@@ -124,6 +126,15 @@ public class CwtModules implements java.io.Serializable {
 	public void setProgramId(Long programId) {
 		this.programId = programId;
 	}
+
+	public String getModuleSeq() {
+		return moduleSeq;
+	}
+
+	public void setModuleSeq(String moduleSeq) {
+		this.moduleSeq = moduleSeq;
+	}
+	
 	
 
 }

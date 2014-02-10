@@ -464,7 +464,7 @@ private void listCwtSections(CwtForm cwtForm, SystemUser user){
 	if (farm==null||farm.length()==0)
 		farm=user.getFarmBase();
 		
-	List<ViewCwtSection> list = dao.findAll(new ViewCwtSection().getClass(), farm, cwtForm.getProgramId() );
+	List<ViewCwtSection> list = dao.findAll(new ViewCwtSection().getClass(), farm, cwtForm.getProgramId(), cwtForm.getModuleSequence() );
 	cwtForm.setCwtSections(list);
 
 }
@@ -494,15 +494,18 @@ private List getSectionDetail(CwtForm cwtForm, SystemUser user) {
 	for (Iterator iterator =
 			 sections.iterator(); iterator.hasNext();){
 		 CwtModuleSection section = (CwtModuleSection)iterator.next();
+		 CwtModules module = new CwtModules();
+		 CwtProgram program = new CwtProgram();
+		 CwtSupervisor supervisor = new CwtSupervisor();
 		 
-		 CwtModules module = cwtModulesDao.find(section.getModuleId());
-		 if (module==null) module = new CwtModules();
+		 if (section!=null)
+			 module = cwtModulesDao.find(section.getModuleId());
 		 
-		 CwtProgram program = cwtProgramDao.find(module.getProgramId());
-		 if (program==null) program= new CwtProgram();
+		 if (module!=null)
+			 program = cwtProgramDao.find(module.getProgramId());
 		 
-		 CwtSupervisor supervisor = cwtSupervisorDao.find(section.getInstructorId());
-		 if (supervisor==null) supervisor = new CwtSupervisor();
+		 if (section!=null)
+			 supervisor = cwtSupervisorDao.find(section.getInstructorId());
 		 
 		 CwtMaster master = new CwtMaster();
 		 master.setModule(module);

@@ -1303,7 +1303,7 @@ public class IntakeAction extends Action {
 					 	for (int i=0;i<rosters.size();i++) {
 					 		CwtRoster roster = (CwtRoster)rosters.get(i);
 					 			if (roster.getModuleId().equals(module.getModuleId())) {
-					 				String sdate = Validator.convertEpoch(new Long(roster.getLastUpdatedDate()));
+					 				String sdate =roster.getRosterDate();
 					 				blank.setAttendDate(sdate);
 					 				blank.setStatus(roster.getStatus());
 					 			}

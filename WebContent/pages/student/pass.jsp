@@ -48,7 +48,8 @@
                                		<html:option value="6.5">6.5</html:option> 
                                		<html:option value="7">7</html:option> 
                                		<html:option value="7.5">7.5</html:option> 
-                               		<html:option value="8">8</html:option>                                		
+                               		<html:option value="8">8</html:option> 
+                               		<html:option value="12">12</html:option>                                		
                                		<html:option value="24">24</html:option>
                                		<html:option value="48">48</html:option>
                                		<html:option value="72">72</html:option>

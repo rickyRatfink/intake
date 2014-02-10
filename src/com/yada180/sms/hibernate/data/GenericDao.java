@@ -13,6 +13,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
+import com.yada180.sms.domain.DropDownItem;
 import com.yada180.sms.domain.Intake;
 import com.yada180.sms.domain.SystemUser;
 import com.yada180.sms.domain.ViewCwtIntake;
@@ -385,6 +386,9 @@ public class GenericDao {
 		List<Intake> list = new ArrayList<Intake>();
 		Transaction tx = null;
 		Session session = null;
+		
+		List<String> statuses = new ArrayList<String>();
+	
 		try {
 
 			session = HibernateFactory.openSession();
@@ -394,12 +398,34 @@ public class GenericDao {
 			query.append(" and class_ = :class_ ");
 			query.append(" and farmBase = :farmBase ");
 			query.append(" and archivedFlag = :archivedFlag ");
-			query.append(" and intakeStatus = :intakeStatus ORDER BY STR_TO_DATE(entry_date, '%m/%d/%Y') asc ");
+			//if ("Fresh Start".equals(classNumber)||"Intern".equals(classNumber)||"SLS".equals(classNumber))
+			//	query.append(" and intakeStatus in ( :intakeStatus )");
+			//else
+				query.append(" and intakeStatus = :intakeStatus ");
+			
+			query.append(" ORDER BY STR_TO_DATE(entry_date, '%m/%d/%Y') asc ");
 			Query q = session.createQuery(query.toString());
 			q.setString("class_", classNumber);
 			q.setString("farmBase", farm);
 			q.setString("archivedFlag", "No");
-			q.setString("intakeStatus", "In Program");
+			/*
+			if ("Fresh Start".equals(classNumber)) {
+				statuses.add("In Program");
+				statuses.add("Left Prop./Graduated to Fresh Start");
+				q.setParameterList("intakeStatus", statuses);
+			}
+			else if ("Intern".equals(classNumber)) {
+				statuses.add("In Program");
+				statuses.add("Left Prop./Graduated to Intern");
+				q.setParameterList("intakeStatus", statuses);
+			}
+			else if ("SLS".equals(classNumber)) {
+				statuses.add("In Program");
+				statuses.add("Left Prop./Graduated to SLS");
+				q.setParameterList("intakeStatus", statuses);
+			}
+			else*/
+				q.setString("intakeStatus", "In Program");
 			list = q.list();
 			if (session.isOpen()) {
 				session.flush();
@@ -746,14 +772,17 @@ public class GenericDao {
 		return user;
 	}
 
-	public List searchPass(String passDate) {
+	public List searchPass(String passDate1, String passDate2) {
 
 		StringBuffer query = new StringBuffer(
 				"from StudentPassHistory where 1=1 ");
 		Session session = null;
-		if (passDate != null && passDate.length() > 0)
-			query.append(" and passDate = :passDate ");
+		if ( (passDate1 != null && passDate1.length() > 0) && (passDate2==null||passDate2.length()==0))
+			query.append(" and passDate = :passDate1 ");
+		else if ( (passDate1 != null && passDate1.length() > 0) && (passDate2!=null||passDate2.length()>0))
+			query.append(" and passDate between :passDate1 and :passDate2 ");
 
+		
 		List list = null;
 		try {
 
@@ -761,8 +790,10 @@ public class GenericDao {
 			session.beginTransaction();
 			Query q = session.createQuery(query.toString());
 			q.setMaxResults(200);
-			if (passDate != null && passDate.length() > 0)
-				q.setString("passDate", passDate);
+			if (passDate1 != null && passDate1.length() > 0)
+				q.setParameter("passDate1", passDate1);
+			if (passDate2 != null && passDate2.length() > 0)
+				q.setParameter("passDate2", passDate2);
 
 			list = q.list();
 			if (session.isOpen()) {
@@ -992,7 +1023,7 @@ public class GenericDao {
 	}
 	
 	
-	public List findAll(Class clazz, String farm, Long programId) {
+	public List findAll(Class clazz, String farm, Long programId, String moduleSequence) {
 		List objects = null;
 		Session session = null;
 		try {
@@ -1000,13 +1031,22 @@ public class GenericDao {
 			session.beginTransaction();
 			StringBuffer q = new StringBuffer("");
 			q.append("from " + clazz.getName()+ " where farmBase = :farmBase");
-			if (programId!=null)
+			
+			if (programId!=null&&!programId.equals(new Long("0")))
 				q.append(" and programId = :programId");
+			if (moduleSequence!=null&&moduleSequence.length()>0)
+				q.append(" and moduleSeq = :moduleSeq");
+
+			if ("com.yada180.sms.domain.ViewCwtSection".equals(clazz.getName()))
+				q.append(" order by moduleSeq");
+
 			Query query = session.createQuery(q.toString());
 			query.setString("farmBase", farm);
 
-			if (programId!=null)
+			if (programId!=null&&!programId.equals(new Long("0")))
 				query.setLong("programId", programId);
+			if (moduleSequence!=null&&moduleSequence.length()>0)
+				query.setString("moduleSeq", moduleSequence);
 			
 			objects = query.list();
 			if (session.isOpen()) {

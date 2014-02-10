@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated Sep 16, 2013 10:14:00 AM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
-    <class name="com.yada180.sms.domain.IntakeJobSkill" table="intake_job_skill" catalog="ffarm_dev">
+    <class name="com.yada180.sms.domain.IntakeJobSkill" table="intake_job_skill" catalog="ffarm_prod">
         <id name="intakeJobSkillId" type="java.lang.Long">
             <column name="intake_job_skill_id" />
             <generator class="identity" />

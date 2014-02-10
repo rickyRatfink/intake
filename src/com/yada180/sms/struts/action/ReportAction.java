@@ -72,7 +72,8 @@ public class ReportAction extends Action {
 		 
 		 String report=request.getParameter("rpt");
 		 String farm=request.getParameter("farm");
-		 String passDate = request.getParameter("passDate");
+		 String passDate1 = request.getParameter("beginPassDate");
+		 String passDate2 = request.getParameter("endPassDate");
 		 
 		 PDFBuilder pdf = new PDFBuilder();
 			
@@ -151,7 +152,7 @@ public class ReportAction extends Action {
 				
 		 }
 		 else  if ("passList".equals(action)) {
-				pdf.passlistPdf(user, passDate, response);
+				pdf.passlistPdf(user, passDate1, passDate2, response);
 				return null;
 		 }
 		 else

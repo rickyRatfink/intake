@@ -41,7 +41,7 @@ import com.yada180.sms.struts.form.IntakeForm;
 
 public class PDFBuilder {
 
-	public void passlistPdf(SystemUser user, String passDate, HttpServletResponse response) {
+	public void passlistPdf(SystemUser user, String passDate1, String passDate2, HttpServletResponse response) {
 		List<Intake> passList = new ArrayList<Intake>();
 		String farm=user.getFarmBase();
 		response.setContentType("application/pdf");
@@ -86,7 +86,12 @@ public class PDFBuilder {
 			document.add(spacerTbl);
 			document.add(spacerTbl);
 
-			Chunk titleChunk = new Chunk("Passes for " + passDate + " @ "+ farm);
+			String sTitle="";
+			if (passDate2==null||passDate2.length()==0)
+				sTitle="Passes for " + passDate1 + " @ "+ farm;
+			else
+				sTitle="Passes for " + passDate1 + " to "+passDate2+" @ "+ farm;
+			Chunk titleChunk = new Chunk(sTitle);
 			titleFont.setStyle(Font.BOLD);
 			titleChunk.setFont(titleFont);
 			document.add(titleChunk);
@@ -102,18 +107,19 @@ public class PDFBuilder {
 
 			StudentPassHistoryDao dao = new StudentPassHistoryDao();
 			IntakeDao intakeDao = new IntakeDao();
-			
-			passList = dao.search(passDate);
+			 
+			passList = dao.search(passDate1,passDate2);
 
 			// Table of Applicants
-			PdfPTable table0 = new PdfPTable(4);
+			PdfPTable table0 = new PdfPTable(5);
 			PdfPCell cell0 = new PdfPCell(new Paragraph("column span 3"));
-			cell0.setColspan(4);
+			cell0.setColspan(5);
 			table0.getDefaultCell().setBorder(Rectangle.NO_BORDER);
 			cell0.setBorder(Rectangle.NO_BORDER);
 			table0.setWidthPercentage(100);
 			table0.setHorizontalAlignment(Element.ALIGN_LEFT);
 
+			table0.addCell(new Phrase("DATE", colHeaderFont));
 			table0.addCell(new Phrase("STUDENT NAME", colHeaderFont));
 			table0.addCell(new Phrase("HOURS", colHeaderFont));
 			table0.addCell(new Phrase("TYPE", colHeaderFont));
@@ -123,6 +129,7 @@ public class PDFBuilder {
 				Intake intake = intakeDao.find(pass.getIntakeId());
 				
 				if (intake.getFarmBase().equals(farm)) {
+					table0.addCell(new Phrase(pass.getPassDate(), cellFont));
 					table0.addCell(new Phrase(intake.getFirstname().toUpperCase()
 							+ " " + intake.getLastname().toUpperCase(), cellFont));
 					table0.addCell(new Phrase(pass.getHours(), cellFont));
@@ -855,6 +862,23 @@ public class PDFBuilder {
 			stamper.getAcroFields().setField("txtApplicantName15",
 					applicantName);
 
+			String intakeOfficer="";
+			
+			if ("Fort Lauderdale".equals(intake.getFarmBase())) 
+				intakeOfficer="Sammie Johnson";
+			else if ("Boynton Beach".equals(intake.getFarmBase())) 
+				intakeOfficer="Paul Zielinski";
+			else if ("Okeechobee".equals(intake.getFarmBase())) 
+				intakeOfficer="Marc Murphy";
+			else if ("Victoria Andres".equals(intake.getFarmBase())) 
+				intakeOfficer="Victoria Andres";			
+				
+			stamper.getAcroFields().setField("txtIntakeOfficerName1", intakeOfficer);
+			stamper.getAcroFields().setField("txtIntakeOfficerName2", intakeOfficer);
+			stamper.getAcroFields().setField("txtIntakeOfficerName3", intakeOfficer);
+			stamper.getAcroFields().setField("txtIntakeOfficerName4", intakeOfficer);
+			stamper.getAcroFields().setField("txtIntakeOfficerName5", intakeOfficer);
+			
 			stamper.getAcroFields().setField("txtDate1", currentDate);
 			stamper.getAcroFields().setField("txtDate2", currentDate);
 			stamper.getAcroFields().setField("txtDate3", currentDate);

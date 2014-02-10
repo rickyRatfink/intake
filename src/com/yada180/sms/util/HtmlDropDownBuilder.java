@@ -122,7 +122,12 @@ public class HtmlDropDownBuilder {
         for (Iterator iterator =
         		modules.iterator(); iterator.hasNext();){
 	    	   CwtModules obj = (CwtModules) iterator.next();
-	    	   DropDownItem item = new DropDownItem(obj.getModuleId()+"",obj.getModuleName());
+	    	   DropDownItem item = new DropDownItem("","");
+	    			  if (obj.getModuleSeq()==null)
+	    				  item = new DropDownItem(obj.getModuleId()+"",obj.getModuleName());
+	    			  else
+	    				  item = new DropDownItem(obj.getModuleId()+"",obj.getModuleName()+" (Module "+obj.getModuleSeq()+")");
+	    			    
 	    	   tempModule.add(item);
 	       }
         session.setAttribute("ddl_module", tempModule);
@@ -164,6 +169,11 @@ public class HtmlDropDownBuilder {
 		   rosterStatus.add(new DropDownItem("Failed","Failed"));
 		   rosterStatus.add(new DropDownItem("Did Not Attend","Did Not Attend"));
 		   session.setAttribute("ddl_rosterStatus", rosterStatus);
+
+		   List<DropDownItem> moduleSeq = new ArrayList<DropDownItem>();
+		   for (int i=1;i<20;i++)
+			   moduleSeq.add(new DropDownItem(""+i,i+""));
+		   session.setAttribute("ddl_moduleSeq", moduleSeq);
 
 		   List<DropDownItem> stateIdType = new ArrayList<DropDownItem>();
 		   stateIdType.add(new DropDownItem("State Issued Id","State Issued Id"));
@@ -266,6 +276,7 @@ public class HtmlDropDownBuilder {
 	        passType.add(new DropDownItem("Overnight","Overnight"));
 	        passType.add(new DropDownItem("Probation/Court","Probation/Court"));
 	        passType.add(new DropDownItem("7.5 Hours","7.5 Hours"));
+	        passType.add(new DropDownItem("12 Hour","12 Hour"));
 	        passType.add(new DropDownItem("3 Days","3 Days"));
 	        passType.add(new DropDownItem("Special","Special"));
 	        passType.add(new DropDownItem("Sick/Lay-down","Sick/Lay-down"));

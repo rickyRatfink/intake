@@ -21,21 +21,29 @@
             
             <table width="90%" cellpadding="0" cellspacing="0" border="0">
             				<tr>
-            					<td background="images/local/searchGroupBk.png" class="searchMenuHeader"><b>Farm</b>
+            					<td background="images/local/searchGroupBk.png" class="searchMenuHeader"><b>Farm</b></td>
             					<td background="images/local/searchGroupBk.png" class="searchMenuHeader"><b>CWT</b></td>
+            					<td background="images/local/searchGroupBk.png" class="searchMenuHeader"><b>Sequence</b></td>
             					<td background="images/local/searchGroupBk.png" class="searchMenuHeader"></td>
             				</tr>
                             <tr>
-                            	<td width="150" height="23" valign="top" background="images/local/searchGroupBk.png" class="searchMenuHeader">
+                            	<td width="120" height="23" valign="top" background="images/local/searchGroupBk.png" class="searchMenuHeader">
                                   <html:select name="cwtForm" property="farmBase" styleClass="ddlSearch" >
 										<html:option value="">select</html:option>
 										<html:optionsCollection name="ddl_farm" value="name" label="name" />
 								   </html:select>
 								 </td>
-                             	 <td width="150" height="23" valign="top" background="images/local/searchGroupBk.png" class="searchMenuHeader">
+                             	 <td width="200" height="23" valign="top" background="images/local/searchGroupBk.png" class="searchMenuHeader">
                                   <html:select name="cwtForm" property="programId" styleClass="ddlSearch" >
 										<html:option value="">select</html:option>
 											<html:optionsCollection name="ddl_program" value="value" label="label" />					
+								   </html:select>
+								 </td>
+ 
+                             	 <td width="60" height="23" valign="top" background="images/local/searchGroupBk.png" class="searchMenuHeader">
+                                  <html:select name="cwtForm" property="moduleSequence" styleClass="ddlSearch" >
+										<html:option value="">select</html:option>
+											<html:optionsCollection name="ddl_moduleSeq" value="value" label="label" />					
 								   </html:select>
 								 </td>
                                 
@@ -51,10 +59,11 @@
                 <table width="100%" cellpadding="0" cellspacing="0" border="0">
                 <tr>
                     <td class="colHeading2" width="100">Actions</td>
-                    <td class="colHeading2" width="150">Module Name</td>
-                    <td class="colHeading2" width="100">Meeting Days</td>
-                    <td class="colHeading2" width="100">Meeting Times</td>
-                    <td class="colHeading2" width="100">Location</td>
+                    <td class="colHeading2" width="350">Module Name</td>
+                    <td class="colHeading2" width="100">Sequence</td>
+                    <td class="colHeading2" width="50">Days</td>
+                    <td class="colHeading2" width="50">Times</td>
+                    <td class="colHeading2" width="70">Location</td>
                     <td class="colHeading2" width="100">Farm</td>
                     <td class="colHeading2" width="100">Instructor</td>
                 </tr>
@@ -70,6 +79,7 @@
 						 </a>						 
 					</td>
                    	<td class="searchRowOdd2" ><bean:write name="loop" property="moduleName"/></td>
+                    <td class="searchRowOdd2" ><bean:write name="loop" property="moduleSeq"/></td>
                     <td class="searchRowOdd2" ><bean:write name="loop" property="meetingDays"/></td>
                     <td class="searchRowOdd2" ><bean:write name="loop" property="meetingTimes"/></td>
                     <td class="searchRowOdd2" ><bean:write name="loop" property="location"/></td>

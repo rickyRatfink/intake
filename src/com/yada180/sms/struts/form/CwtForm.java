@@ -48,7 +48,7 @@ public class CwtForm extends ActionForm {
 	private String jobMetric[] = new String[200];
 	private String metricUbit[] = new String[200];
 	private String moduleMetric[] = new String[200];
-	
+	private String moduleSequence = "";
 	
 	private String monday="";
 	private String tuesday="";
@@ -298,6 +298,12 @@ public class CwtForm extends ActionForm {
 	}
 	public void setArchivedRosterList(List<ViewCwtRoster> archivedRosterList) {
 		this.archivedRosterList = archivedRosterList;
+	}
+	public String getModuleSequence() {
+		return moduleSequence;
+	}
+	public void setModuleSequence(String moduleSequence) {
+		this.moduleSequence = moduleSequence;
 	}
 	
 	

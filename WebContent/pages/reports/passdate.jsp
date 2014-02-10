@@ -14,8 +14,9 @@
             
             <table width="100%" border="0">
                 <tr>
-                <td width="200">Pass Date&nbsp;<i>(mm/dd/yyyy)</i>&nbsp;
-                	<html:text property="passDate" size="15" maxlength="10" styleClass="tcal" />
+                <td width="200"><b>Pass Date&nbsp;<i>(mm/dd/yyyy)</i></b></br>
+                	From:<html:text property="beginPassDate" size="15" maxlength="10" styleClass="tcal" />
+                	&nbsp;&nbsp;To:<html:text property="endPassDate" size="15" maxlength="10" styleClass="tcal" />
                 	<input type="submit" name="action" value="Run Report" class="imageButtonSave" title="Run Report" />
                 </td>
               </tr>                

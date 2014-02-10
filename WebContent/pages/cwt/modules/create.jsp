@@ -20,6 +20,11 @@
             <div align="left">
             
             <b>Module Name</b><br /><html:text property="cwtModule.moduleName" size="30" maxlength="50" /><br /><br />
+            <b>Module Sequence</b><br />
+            		<html:select property="cwtModule.moduleSeq" styleClass="status" > 
+						<html:option value="">Select</html:option>
+						<html:optionsCollection name="ddl_moduleSeq" value="value" label="label" />
+					</html:select><br /><br />
             <b>Description</b><br /><html:textarea property="cwtModule.description" cols="93" styleClass="textarea" /><br /><br />
             <b>UBIT/Skill</b><br/>
                <html:select property="cwtModule.programId" styleClass="status" > 

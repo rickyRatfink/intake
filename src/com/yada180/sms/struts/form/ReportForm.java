@@ -42,6 +42,8 @@ public class ReportForm extends ActionForm {
 	private String runDate = "";
 	private String action = "";
 	private String passDate = "";
+	private String beginPassDate = "";
+	private String endPassDate = "";
 	
 	private List<Intake> computerList = new ArrayList<Intake>();
 	private List<Intake> truckDriverList = new ArrayList<Intake>();
@@ -1297,6 +1299,22 @@ public class ReportForm extends ActionForm {
 
 	public void setProgram11(String[] program11) {
 		this.program11 = program11;
+	}
+
+	public String getBeginPassDate() {
+		return beginPassDate;
+	}
+
+	public void setBeginPassDate(String beginPassDate) {
+		this.beginPassDate = beginPassDate;
+	}
+
+	public String getEndPassDate() {
+		return endPassDate;
+	}
+
+	public void setEndPassDate(String endPassDate) {
+		this.endPassDate = endPassDate;
 	}
 
 	

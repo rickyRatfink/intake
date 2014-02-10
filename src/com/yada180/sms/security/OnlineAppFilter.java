@@ -36,7 +36,7 @@ public class OnlineAppFilter implements Filter {
 
 		//Check if drops downs exist, if not load them
 		HttpSession session = request.getSession(true);
-		if (session.getAttribute("ddl_farm")==null)
+		if (session.getAttribute("ddl_farm")==null) 
 			req.getRequestDispatcher("/OnlineApp.do").forward(req, res);
 		else
 			req.getRequestDispatcher(url).forward(req, res);

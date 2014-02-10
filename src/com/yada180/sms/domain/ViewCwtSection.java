@@ -4,6 +4,7 @@ public class ViewCwtSection implements java.io.Serializable {
 	private Long sectionId;
 	private Long programId;
 	private Long moduleId;
+	private String moduleSeq;
 	private String moduleName;
 	private String meetingDays;
 	private String meetingTimes;
@@ -65,6 +66,13 @@ public class ViewCwtSection implements java.io.Serializable {
 	public void setInstructor(String instructor) {
 		this.instructor = instructor;
 	}
+	public String getModuleSeq() {
+		return moduleSeq;
+	}
+	public void setModuleSeq(String moduleSeq) {
+		this.moduleSeq = moduleSeq;
+	}
+	
 	
 	
 }
