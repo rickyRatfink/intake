@@ -254,21 +254,21 @@ public class CwtRosterAction extends Action {
 						CwtRoster roster = (CwtRoster) iterator.next();
 
 						ViewCwtIntake intake = new ViewCwtIntake();
-						if (roster.getIntakeId() != null)
+						if (roster.getIntakeId() != null) {
 							intake = dao.findCwtIntakeByIntakeId(new ViewCwtIntake().getClass(), roster.getIntakeId() );
 						
-							//intake = intakeDao.find(roster.getIntakeId());
-							
-						attend[index] = roster.getAttendFlag();
-						score[index] = roster.getExamScore();
-						status[index] = roster.getStatus();
-						CwtMaster master = new CwtMaster();
-						master.setCwtIntake(intake);
-						master.setRoster(roster);
-						masters.add(master);
-						index++;
-						
-						rosterDate = roster.getRosterDate();
+							if (intake!=null) {
+								attend[index] = roster.getAttendFlag();
+								score[index] = roster.getExamScore();
+								status[index] = roster.getStatus();
+								CwtMaster master = new CwtMaster();
+								master.setCwtIntake(intake);
+								master.setRoster(roster);
+								masters.add(master);
+								index++;								
+								rosterDate = roster.getRosterDate();
+							}						
+						}						
 					}
 					cwtRosterForm.setMasterList(masters);
 					cwtRosterForm.setAttendFlag(attend);
@@ -313,6 +313,16 @@ public class CwtRosterAction extends Action {
 				CwtModuleSectionDao sectionDao = new CwtModuleSectionDao();
 				CwtModuleSection cwtSection = sectionDao.find(sectionId);
 				cwtRosterForm.setCwtModuleSection(cwtSection);
+				
+				//Check for existing Roster, throw validation error if already exists
+				List <CwtRoster> existingRosterList1 = rosterDao.searchRosters(module.getModuleId(), cwtRosterForm.getRosterDate(), "No", user.getFarmBase(), null);
+				List <CwtRoster> existingRosterList2 = rosterDao.searchRosters(module.getModuleId(), cwtRosterForm.getRosterDate(), "Yes", user.getFarmBase(), null);
+				if (existingRosterList1.size()>0||existingRosterList2.size()>0) {
+					session.setAttribute("error", "Roster has already been generated for "+user.getFarmBase());
+					return mapping.findForward(Constants.CREATE_ROSTER);
+				}
+				
+				
 				
 				//2 find programId for moduleId
 				Long programId = dao.findProgramIdBySectionId(sectionId);
