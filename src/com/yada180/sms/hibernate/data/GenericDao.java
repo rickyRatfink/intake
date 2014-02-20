@@ -137,6 +137,9 @@ public class GenericDao {
 			if ("com.yada180.sms.domain.CwtModules".equals(clazz.getName()
 					.toString()))
 				q.append(" order by moduleName");
+			if ("com.yada180.sms.domain.CwtProgram".equals(clazz.getName()
+					.toString()))
+				q.append(" order by programName");
 			Query query = session.createQuery(q.toString());
 			objects = query.list();
 			if (session.isOpen()) {
@@ -990,7 +993,7 @@ public class GenericDao {
 		if (rosterDate!=null&&rosterDate.length()>0)
 			query.append(" and cwt_roster.roster_date= :rosterDate");
 		query.append(" and cwt_module_section.farm_base= :farmBase");
-		if (!userId.equals(new Long(999)))
+		if (userId!=null && !userId.equals(new Long(999)))
 			query.append(" and cwt_module_section.administrator_id= :userId");
 
 		List list = null;
@@ -1006,7 +1009,7 @@ public class GenericDao {
 			if (rosterDate!=null&&rosterDate.length()>0)
 				q.setParameter("rosterDate", rosterDate);
 			q.setParameter("farmBase", farmBase);
-			if (!userId.equals(new Long(999)))
+			if (userId!=null && !userId.equals(new Long(999)))
 				q.setParameter("userId", userId);
 			list = q.list();
 
@@ -1065,7 +1068,7 @@ public class GenericDao {
 		return objects;
 	}
 	
-	public List findAll(Class clazz, String farm, Long moduleId, String archivedFlag, String sDate) {
+	public List findAll(Class clazz, String farm, Long programId, String moduleSeq, Long moduleId, String archivedFlag, String sDate) {
 		List objects = null;
 		Session session = null;
 		try {
@@ -1073,6 +1076,10 @@ public class GenericDao {
 			session.beginTransaction();
 			StringBuffer q = new StringBuffer("");
 			q.append("from " + clazz.getName()+ " where farmBase = :farmBase and archivedFlag = :archivedFlag");
+			if (programId!=null&&!programId.equals(new Long(0)))
+				q.append(" and programId = :programId");
+			if (moduleSeq!=null&&moduleSeq.length()!=0)
+				q.append(" and sequence = :sequence");
 			if (moduleId!=null&&!moduleId.equals(new Long(0)))
 				q.append(" and moduleId = :moduleId");
 			if (sDate!=null&&sDate.length()>0)
@@ -1081,10 +1088,14 @@ public class GenericDao {
 			Query query = session.createQuery(q.toString());
 			query.setString("farmBase", farm);
 			query.setString("archivedFlag", archivedFlag);
+			if (programId!=null&&!programId.equals(new Long(0)))
+				query.setLong("programId", programId);
 			if (moduleId!=null&&!moduleId.equals(new Long(0)))
 				query.setLong("moduleId", moduleId);
 			if (sDate!=null&&sDate.length()>0)
 				query.setString("rosterDate", sDate);
+			if (moduleSeq!=null&&moduleSeq.length()!=0)
+				query.setString("sequence", moduleSeq);
 			
 			objects = query.list();
 			if (session.isOpen()) {
