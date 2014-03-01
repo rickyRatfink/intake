@@ -12,6 +12,16 @@ import javax.servlet.http.HttpSession;
 
 public class Validator {
 
+	
+	public static String encryptSsn(String ssn) {
+		try {
+			ssn = "***-**-" + ssn.substring(7, 11);
+		} catch (Exception e) {
+			ssn = "000-00-0000";
+		}
+		return ssn;
+
+	}
 	public static String validateRequired(String key, String value) {
 		if ((value == null) || (value.length() == 0)
 				|| (value.trim().length() == 0)) {
@@ -214,6 +224,8 @@ public class Validator {
 		
 	return age;
 	}
+	
+
 	/*
 	  public static String decryptSsn(String base64) {
 		       String clearSsn = base64;

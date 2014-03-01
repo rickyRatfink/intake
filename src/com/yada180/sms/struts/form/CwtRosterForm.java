@@ -11,6 +11,7 @@ import com.yada180.sms.domain.CwtModuleSection;
 import com.yada180.sms.domain.CwtModules;
 import com.yada180.sms.domain.CwtProgram;
 import com.yada180.sms.domain.CwtRoster;
+import com.yada180.sms.domain.CwtRosterNotes;
 import com.yada180.sms.domain.ErrorMessage;
 import com.yada180.sms.domain.Intake;
 
@@ -21,6 +22,7 @@ public class CwtRosterForm extends ActionForm {
 	private CwtMetrics cwtMetric = new CwtMetrics();
 	private CwtMaster cwtMaster = new CwtMaster();
 	private CwtModuleSection cwtModuleSection = new CwtModuleSection();
+	private CwtRosterNotes cwtRosterNotes = new CwtRosterNotes();
 	private List<ErrorMessage> messages = new ArrayList<ErrorMessage>();
     
 	private List<Intake> intakeList = new ArrayList<Intake>();
@@ -167,6 +169,13 @@ public class CwtRosterForm extends ActionForm {
 	public void setRosterList(List<CwtRoster> rosterList) {
 		this.rosterList = rosterList;
 	}
+	public CwtRosterNotes getCwtRosterNotes() {
+		return cwtRosterNotes;
+	}
+	public void setCwtRosterNotes(CwtRosterNotes cwtRosterNotes) {
+		this.cwtRosterNotes = cwtRosterNotes;
+	}
+	
 	
 	
 }

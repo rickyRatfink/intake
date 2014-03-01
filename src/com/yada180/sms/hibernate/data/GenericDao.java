@@ -2,6 +2,7 @@ package com.yada180.sms.hibernate.data;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,6 +18,7 @@ import com.yada180.sms.domain.DropDownItem;
 import com.yada180.sms.domain.Intake;
 import com.yada180.sms.domain.SystemUser;
 import com.yada180.sms.domain.ViewCwtIntake;
+import com.yada180.sms.domain.ViewCwtRoster;
 
 public class GenericDao {
 
@@ -390,8 +392,6 @@ public class GenericDao {
 		Transaction tx = null;
 		Session session = null;
 		
-		List<String> statuses = new ArrayList<String>();
-	
 		try {
 
 			session = HibernateFactory.openSession();
@@ -404,31 +404,37 @@ public class GenericDao {
 			//if ("Fresh Start".equals(classNumber)||"Intern".equals(classNumber)||"SLS".equals(classNumber))
 			//	query.append(" and intakeStatus in ( :intakeStatus )");
 			//else
-				query.append(" and intakeStatus = :intakeStatus ");
+				query.append(" and intakeStatus IN (:intakeStatus) ");
 			
 			query.append(" ORDER BY STR_TO_DATE(entry_date, '%m/%d/%Y') asc ");
 			Query q = session.createQuery(query.toString());
 			q.setString("class_", classNumber);
 			q.setString("farmBase", farm);
-			q.setString("archivedFlag", "No");
-			/*
+			q.setString("archivedFlag", "No");			
 			if ("Fresh Start".equals(classNumber)) {
-				statuses.add("In Program");
-				statuses.add("Left Prop./Graduated to Fresh Start");
-				q.setParameterList("intakeStatus", statuses);
+				List<String>status=new ArrayList();
+				status.add("In Program");
+				status.add("Left Prop./Graduated to Fresh Start");
+				q.setParameterList("intakeStatus", status);
 			}
 			else if ("Intern".equals(classNumber)) {
-				statuses.add("In Program");
-				statuses.add("Left Prop./Graduated to Intern");
-				q.setParameterList("intakeStatus", statuses);
+				List<String>status=new ArrayList();
+				status.add("In Program");
+				status.add("Left Prop./Graduated to Intern");
+				q.setParameterList("intakeStatus", status);
 			}
 			else if ("SLS".equals(classNumber)) {
-				statuses.add("In Program");
-				statuses.add("Left Prop./Graduated to SLS");
-				q.setParameterList("intakeStatus", statuses);
+				List<String>status=new ArrayList();
+				status.add("In Program");
+				status.add("Left Prop./Graduated to SLS");
+				q.setParameterList("intakeStatus", status);
 			}
-			else*/
-				q.setString("intakeStatus", "In Program");
+			else {
+				List<String>status=new ArrayList();
+				status.add("In Program");
+				q.setParameterList("intakeStatus", status);
+			}
+			System.out.println (q);
 			list = q.list();
 			if (session.isOpen()) {
 				session.flush();
@@ -533,10 +539,73 @@ public class GenericDao {
 
 			if ("com.yada180.sms.domain.CwtRoster".equals(c.getName()
 					.toString()))
-				query.append(" and archivedFlag='No' ");
+				query.append(" and archivedFlag='Yes' ");
 
 			Query q = session.createQuery(query.toString());
 			q.setLong(objectIdName, id);
+			list = q.list();
+			if (session.isOpen()) {
+				session.flush();
+				session.getTransaction().commit();
+			}
+		} catch (Exception e) {
+			if (session.isOpen())
+				session.getTransaction().rollback();
+			e.printStackTrace();
+			throw new HibernateException(e);
+		} finally {
+			if (session.isOpen())
+				session.close();
+		}
+		return list;
+	}
+	
+	public List findRosterBySectionIdRosterDate(Long id, String date) {
+
+		LOGGER.setLevel(Level.INFO);
+		List<Object> list = new ArrayList<Object>();
+		Session session = null;
+		try {
+			session = HibernateFactory.openSession();
+			session.beginTransaction();
+			StringBuffer query = new StringBuffer("from CwtRoster "
+					+ " where sectionId = :sectionId and rosterDate = :rosterDate");
+			
+			Query q = session.createQuery(query.toString());
+			q.setLong("sectionId", id);
+			q.setString("rosterDate", date);
+			list = q.list();
+			if (session.isOpen()) {
+				session.flush();
+				session.getTransaction().commit();
+			}
+		} catch (Exception e) {
+			if (session.isOpen())
+				session.getTransaction().rollback();
+			e.printStackTrace();
+			throw new HibernateException(e);
+		} finally {
+			if (session.isOpen())
+				session.close();
+		}
+		return list;
+	}
+
+	
+	public List findBySectionIdRosterDate(Class c, Long sectionId, String rosterDate) {
+
+		LOGGER.setLevel(Level.INFO);
+		List<Object> list = new ArrayList<Object>();
+		Session session = null;
+		try {
+			session = HibernateFactory.openSession();
+			session.beginTransaction();
+			StringBuffer query = new StringBuffer("from " + c.getName()
+					+ " where sectionId = :sectionId and rosterDate = :rosterDate");
+		
+			Query q = session.createQuery(query.toString());
+			q.setLong("sectionId", sectionId);
+			q.setString("rosterDate", rosterDate);
 			list = q.list();
 			if (session.isOpen()) {
 				session.flush();
@@ -1096,7 +1165,6 @@ public class GenericDao {
 				query.setString("rosterDate", sDate);
 			if (moduleSeq!=null&&moduleSeq.length()!=0)
 				query.setString("sequence", moduleSeq);
-			
 			objects = query.list();
 			if (session.isOpen()) {
 				session.flush();
@@ -1113,6 +1181,55 @@ public class GenericDao {
 		}
 		return objects;
 	}
+	
+	public List searchViewCwtRoster(String farm, Long programId, String moduleSeq, Long cwtModuleId, String archivedFlag, String rosterDate) {
+		Session session = null;
+		StringBuffer query = new StringBuffer(" select * from v_cwt_rosters ");
+		query.append(" where 1=1 ");
+		if (cwtModuleId!=null&&!cwtModuleId.equals(new Long(0)))
+			query.append(" and v_cwt_rosters.module_id= :cwtModuleId");
+		if (rosterDate!=null&&rosterDate.length()>0)
+			query.append(" and v_cwt_rosters.roster_date= :rosterDate");
+		if (programId!=null&&!programId.equals(new Long(0)))
+			query.append(" and v_cwt_rosters.program_id= :programId");
+		if (moduleSeq!=null&&moduleSeq.length()>0)
+			query.append(" and v_cwt_rosters.module_sequence= :moduleSeq");
+		query.append(" and v_cwt_rosters.farm_base= :farmBase");
+		query.append(" and v_cwt_rosters.archived_flag= :archivedFlag");
+		
+		List list = null;
+		BigInteger retId = null;
+
+		try {
+			session = HibernateFactory.openSession();
+			session.beginTransaction();
+			SQLQuery q = session.createSQLQuery(query.toString());
+			//q.addEntity(ViewCwtRoster.class);
+			if (programId!=null&&!programId.equals(new Long(0)))
+				q.setParameter("programId", programId);
+			if (cwtModuleId!=null&&!cwtModuleId.equals(new Long(0)))
+				q.setParameter("cwtModuleId", cwtModuleId);
+			if (rosterDate!=null&&rosterDate.length()>0)
+				q.setParameter("rosterDate", rosterDate);
+			if (moduleSeq!=null&&moduleSeq.length()!=0)
+				q.setParameter("moduleSeq", moduleSeq);
+			q.setParameter("farmBase", farm);
+			q.setParameter("archivedFlag", "Yes");
+			
+			list = q.list();
+
+			session.flush();
+			session.getTransaction().commit();
+		} catch (HibernateException e) {
+			session.getTransaction().rollback();
+			e.printStackTrace();
+			throw new HibernateException(e);
+		} finally {
+			session.close();
+		}
+		return list;
+	}
+	
 
 
 }

@@ -61,7 +61,7 @@ public class CwtForm extends ActionForm {
 	private String farmBase="";
 	private Long moduleId;
 	private Long programId;
-	private String searchArchivedFlag="";
+	private String searchArchivedFlag="Yes";
 	
 	public CwtProgramMetricModules getCwtProgramMetricModule() {
 		return cwtProgramMetricModule;

@@ -914,7 +914,8 @@ public class PDFBuilder {
 			HttpServletResponse response) {
 
 		List<Intake> class0List = new ArrayList<Intake>();
-
+		int totalEnrolled=0;
+		
 		response.setContentType("application/pdf");
 		Document document = new Document();
 		try {
@@ -970,7 +971,8 @@ public class PDFBuilder {
 				if (cls == 10)
 					sClass = "Student Teacher";
 				class0List = dao.listClass(sClass, farm);
-
+				totalEnrolled+=class0List.size();
+				
 				PdfPTable htable0 = new PdfPTable(1);
 				PdfPCell hcell0 = new PdfPCell(new Paragraph(""));
 				hcell0.setColspan(1);
@@ -1012,6 +1014,15 @@ public class PDFBuilder {
 
 				document.add(table0);
 			} // for loop for class
+			
+			
+			Chunk totalChunk = new Chunk("Total Enrolled " + totalEnrolled);
+			Chunk blank = new Chunk("");
+			dateFont.setStyle(Font.BOLD);
+			dateChunk.setFont(dateFont);
+			document.add(spacerTbl);
+			document.add(totalChunk);
+			
 			document.close();
 
 		} catch (DocumentException e) {

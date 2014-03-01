@@ -18,6 +18,7 @@ public class Intake implements java.io.Serializable {
 	private String zipcode;
 	private String dob;
 	private String ssn;
+	private String encryptedSsn;
 	private String ssnCardFlag;
 	private String age;
 	private String height;
@@ -2140,6 +2141,14 @@ public class Intake implements java.io.Serializable {
 
 	public void setArrivalDate(String arrivalDate) {
 		this.arrivalDate = arrivalDate;
+	}
+
+	public String getEncryptedSsn() {
+		return encryptedSsn;
+	}
+
+	public void setEncryptedSsn(String encryptedSsn) {
+		this.encryptedSsn = encryptedSsn;
 	}
 	
 

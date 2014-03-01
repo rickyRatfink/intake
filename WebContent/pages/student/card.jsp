@@ -1,6 +1,19 @@
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
+<%@ page import="com.yada180.sms.domain.SystemUser" %>
+<%  
+    SystemUser user = null;
+	
+	try {
+	  user = (SystemUser)session.getAttribute("system_user"); 
+	  if (user==null) user = new SystemUser();
+	} catch (Exception e) {
+		user=new SystemUser();
+	}
+%>
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -32,7 +45,12 @@ body {
 	                    	<b><bean:write name="intakeForm" property="intake.lastname" />,&nbsp;<bean:write name="intakeForm" property="intake.firstname" />&nbsp;<bean:write name="intakeForm" property="intake.mi" />&nbsp;<bean:write name="intakeForm" property="intake.suffix" /></b><br />
 	            	</td>
 		            <td valign="top" class="cardheading">
+		            <% if ( "rratliff".equals(user.getUsername())||"sjohnson".equals(user.getUsername())||"mmurphy".equals(user.getUsername())||
+		            		"vandres".equals(user.getUsername())||"agorrin".equals(user.getUsername())||"pzielinski".equals(user.getUsername())||"robbinj".equals(user.getUsername())) { %>
 		               <b><bean:write name="intakeForm" property="intake.ssn" /></b>
+		            <% } else { %>
+		               <b><bean:write name="intakeForm" property="intake.encryptedSsn" /></b>
+		            <% } %>
 		            <td valign="top" class="cardheading">
 		               <b><bean:write name="intakeForm" property="intake.dob" /></b>
 		            </td>

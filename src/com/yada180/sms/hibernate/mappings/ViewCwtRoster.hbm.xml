@@ -8,10 +8,13 @@
         <id name="sectionId" type="java.lang.Long">
             <column name="module_offering_id" />
             <generator class="identity" />
-        </id>        
+        </id>  
         <property name="moduleId" type="java.lang.Long">
             <column name="module_id"  />
-        </property>        
+        </property>
+        <property name="programId" type="java.lang.Long">
+            <column name="program_id"  />
+        </property>         
         <property name="moduleName" type="string">
             <column name="module_name" length="50" />
         </property>
@@ -23,6 +26,12 @@
         </property>
        <property name="farmBase" type="string">
             <column name="farm_base" length="40" />
+        </property>
+        <property name="sequence" type="string">
+            <column name="module_sequence"  />
+        </property>        
+        <property name="programName" type="string">
+            <column name="program_name" length="50" />
         </property>
        
     </class>

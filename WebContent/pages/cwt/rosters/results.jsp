@@ -13,7 +13,7 @@
             <b>Current Rosters</b></br>
             	<logic:iterate id="loop" name="cwtForm" property="currentRosterList" indexId="i">
             	   <a href="<%=request.getContextPath()%>/CwtRoster.do?action=Roster&archivedFlag=No&type=Section&id=<bean:write name="loop" property="sectionId" />">
-            	       <b><bean:write name="loop" property="moduleName" /></b><i>&nbsp;&nbsp;(&nbsp;&nbsp;<bean:write name="loop" property="rosterDate" /> - <bean:write name="loop" property="farmBase" />&nbsp;&nbsp;)</i>
+            	       <b><bean:write name="loop" property="moduleName" /> - Module <bean:write name="loop" property="sequence" /></b><i>&nbsp;&nbsp;(&nbsp;&nbsp;<bean:write name="loop" property="rosterDate" /> - <bean:write name="loop" property="farmBase" />&nbsp;&nbsp;)</i>
             	   </a>
             	    </br>
             	</logic:iterate> 
@@ -24,10 +24,10 @@
             </logic:equal>
             
             <logic:equal  name="cwtForm" property="searchArchivedFlag" value="Yes">
-            <b>Archived Rosters</b></br>
+            <b>Rosters</b></br>
             	<logic:iterate id="loop1" name="cwtForm" property="archivedRosterList" indexId="i">
-            	   <a href="<%=request.getContextPath()%>/CwtRoster.do?action=View&archivedFlag=Yes&type=Section&id=<bean:write name="loop1" property="sectionId" />">
-            	   	  <b><bean:write name="loop1" property="moduleName" /></b><i>&nbsp;&nbsp;(&nbsp;&nbsp;<bean:write name="loop1" property="rosterDate" /> - <bean:write name="loop1" property="farmBase" />&nbsp;&nbsp;)</i></br>
+            	   <a href="<%=request.getContextPath()%>/CwtRoster.do?action=Roster&archivedFlag=Yes&type=Section&id=<bean:write name="loop1" property="sectionId" />&date=<bean:write name="loop1" property="rosterDate" />">
+            	   	  <b><bean:write name="loop1" property="moduleName" /> - Module <bean:write name="loop1" property="sequence" /></b><i>&nbsp;&nbsp;(&nbsp;&nbsp;<bean:write name="loop1" property="rosterDate" /> - <bean:write name="loop1" property="farmBase" />&nbsp;&nbsp;)</i></br>
             	   </a>
             	</logic:iterate> 
             	<logic:empty  name="cwtForm" property="archivedRosterList">

@@ -31,11 +31,9 @@ function checkAll(bx)
     </h2>
     
     <br/>
-     <i>Check the students listed below that are to be enrolled in this module and click generated roster.&nbsp;Once generate you may
-    end attendance and exam information.</i>
-            <br /><br />
-     		<font style="color:red"><b><%=session.getAttribute("error") %></b></font></br></br>
-            <br/>
+     <i>Select a module and class date to generate roster</i></br></br>
+     <font style="color:red"><b>WARNING: Make sure all student's CWT Program is properly assigned.  Otherwise rosters will not be accurate and manual entry will be required for each student record.</b></font>
+            <font style="color:red"><br /><br /><b><%=session.getAttribute("error") %></b></font>
             <div align="left">
             <table width="90%" cellpadding="0" cellspacing="0" >
             <tr>

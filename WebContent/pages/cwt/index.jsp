@@ -36,6 +36,7 @@
                 <li><a href="<%=request.getContextPath()%>/Report.do?action=Rotate&farm=Boynton Beach">Course Rotation for Boynton Beach</a></i>
                 <li><a href="<%=request.getContextPath()%>/Report.do?action=Rotate&farm=Fort Lauderdale">Course Rotation for Fort Lauderdale</a></i>
                 <li><a href="<%=request.getContextPath()%>/Report.do?action=Rotate&farm=Okeechobee">Course Rotation for Okeechobee</a></i>
+                <li><a href="<%=request.getContextPath()%>/Report.do?action=Rotate&farm=Women's Home">Course Rotation for Women's Home</a></i>
             </ul>
             </logic:equal>
             <logic:equal name="loginForm" property="systemUser.userRole" value="CwtInstructor" >

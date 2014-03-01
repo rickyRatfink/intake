@@ -19,7 +19,7 @@
             </p>
             <logic:equal name="loginForm" property="systemUser.userRole" value="CwtInstructor" >
             	<ul style="color: Blue">
-	                <li>Manage your course roster(s).</li>
+	                <li>Manage your CWT roster(s).</li>
 	            </ul>
             </logic:equal>
             <logic:equal name="loginForm" property="systemUser.userRole" value="Administrator" >

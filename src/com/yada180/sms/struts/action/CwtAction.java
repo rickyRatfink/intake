@@ -607,17 +607,42 @@ private void listRosters(CwtForm cwtForm, SystemUser user) {
 	 if (farm==null||farm.length()==0)
 		 farm=user.getFarmBase();
 	 
-	 String archivedFlag=cwtForm.getSearchArchivedFlag();
-	 
+	 String archivedFlag="Yes";//cwtForm.getSearchArchivedFlag();
+	 cwtForm.setSearchArchivedFlag("Yes");
 	 Long moduleId=cwtForm.getModuleId();
 	 
 	 GenericDao dao = new GenericDao();
-	 List<ViewCwtRoster>list = dao.findAll(new ViewCwtRoster().getClass(), farm, moduleId, archivedFlag, cwtForm.getSearchDate());
+	 //List<ViewCwtRoster>list = dao.findAll(new ViewCwtRoster().getClass(), farm, cwtForm.getProgramId(), cwtForm.getModuleSequence(), moduleId, archivedFlag, cwtForm.getSearchDate());
+	 List<Object[]> list = dao.searchViewCwtRoster(farm, cwtForm.getProgramId(), cwtForm.getModuleSequence(), moduleId, archivedFlag, cwtForm.getSearchDate());
+	 List<ViewCwtRoster> rosters = new ArrayList();
 	 
-	 if ("Yes".equals(archivedFlag))
-		 cwtForm.setArchivedRosterList(list);
-	 if ("No".equals(archivedFlag))
-		 cwtForm.setCurrentRosterList(list);
+	 for (Object[] obj : list) {
+		    BigInteger sectionId = (BigInteger)obj[0];	
+		    BigInteger modId = (BigInteger)obj[1];	
+		    String moduleName = (String)obj[2];
+		    String sequence = (String)obj[3];
+		    BigInteger programId = (BigInteger)obj[4];	
+		    String programName = (String)obj[5];
+		    String rosterDate = (String)obj[6];
+		    String farmBase = (String)obj[7];
+		    String archived = (String)obj[8];
+		    
+		    ViewCwtRoster view = new ViewCwtRoster();
+		    view.setSectionId(new Long(sectionId+""));
+		    view.setModuleId(new Long(modId+""));
+		    view.setModuleName(moduleName);
+		    view.setSequence(sequence);
+		    view.setProgramId(new Long(programId+""));
+		    view.setProgramName(programName);
+		    view.setRosterDate(rosterDate);
+		    view.setFarmBase(farmBase);
+		    view.setArchivedFlag(archived);
+		    rosters.add(view);
+		}
+	 //if ("Yes".equals(archivedFlag))
+		 cwtForm.setArchivedRosterList(rosters);
+	 //if ("No".equals(archivedFlag))
+		 cwtForm.setCurrentRosterList(rosters);
 	 
 }
 

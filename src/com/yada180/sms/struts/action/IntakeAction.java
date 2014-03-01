@@ -49,7 +49,6 @@ import com.yada180.sms.domain.StudentDisciplineHistory;
 import com.yada180.sms.domain.StudentHistory;
 import com.yada180.sms.domain.StudentPassHistory;
 import com.yada180.sms.domain.SystemUser;
-import com.yada180.sms.hibernate.data.CwtModulesDao;
 import com.yada180.sms.hibernate.data.CwtProgramDao;
 import com.yada180.sms.hibernate.data.CwtRosterDao;
 import com.yada180.sms.hibernate.data.GenericDao;
@@ -210,12 +209,22 @@ public class IntakeAction extends Action {
 			        for (Iterator iterator =
 			        		intakeList.iterator(); iterator.hasNext();){
 			    			Intake obj = (Intake) iterator.next();
+			    			String encryptSsn = Validator.encryptSsn(obj.getSsn());
+			    			obj.setEncryptedSsn(encryptSsn);
 			    			boolean match = dao.findByIntakeIdAndObjectId(IntakeJobSkill.class, "jobSkillId", obj.getIntakeId(), jobSkillId);
 			    			if (match)
 			    				newList.add(obj);			    	
 			        }
 			        intakeList=newList;		
 				}
+				for (int i=0;i<intakeList.size();i++) {
+						Intake obj = (Intake)intakeList.get(i);
+						if (obj!=null) {
+							String ssn1=obj.getSsn();
+							obj.setEncryptedSsn(Validator.encryptSsn(ssn1));
+						}
+					}
+					
 				
 				intakeForm.setIntakeList(intakeList);
 
@@ -253,6 +262,14 @@ public class IntakeAction extends Action {
 			    				newList.add(obj);			    	
 			        }
 			        intakeList=newList;		
+				}
+			
+				for (int i=0;i<intakeList.size();i++) {
+					Intake obj = (Intake)intakeList.get(i);
+					if (obj!=null) {
+						String ssn=obj.getSsn();
+						obj.setEncryptedSsn(Validator.encryptSsn(ssn));
+					}
 				}
 				intakeForm.setApplicantList(intakeList);
 
@@ -387,6 +404,7 @@ public class IntakeAction extends Action {
 			else if ("Edit".equals(action)) {
 				String key = request.getParameter("key");
 				Intake intake = intakeDao.find(new Long(key));
+				intake.setEncryptedSsn(Validator.encryptSsn(intake.getSsn()));
 				List studentHistory = studentHistoryDao.findByIntakeId(new StudentHistory().getClass(), intake.getIntakeId());
 				List studentPassHistory = studentPassHistoryDao.findByIntakeId(new StudentPassHistory().getClass(), intake
 						.getIntakeId());
@@ -547,6 +565,7 @@ public class IntakeAction extends Action {
 						if ("discipline".equals(intakeForm.getPageSource()))
 							saveDiscipline(intakeForm, user.getUsername());
 						intakeDao.update(intakeForm.getIntake());
+						//intakeForm.getIntake().setEncryptedSsn(Validator.encryptSsn(intakeForm.getIntake().getSsn()));
 						saveIntakeQuestionAnswer(intakeForm);
 
 					} else {
@@ -561,6 +580,7 @@ public class IntakeAction extends Action {
 							intakeForm.getIntake().setApplicationStatus(
 									"In Program");
 							intakeForm.getIntake().setClass_("Orientation");
+							//intakeForm.getIntake().setEncryptedSsn(Validator.encryptSsn(intakeForm.getIntake().getSsn()));
 						}
 						if ("health".equals(intakeForm.getPageSource()))
 							saveMedicalConditions(intakeForm);

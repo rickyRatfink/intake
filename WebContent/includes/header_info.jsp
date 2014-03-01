@@ -258,7 +258,7 @@ function whichKey(e) {
 		     &nbsp;&nbsp;&nbsp;
 		     <b>Student Name:</b>&nbsp;<font style="color:#aeadad"><bean:write name="intakeForm" property="intake.firstname" />&nbsp;<bean:write name="intakeForm" property="intake.lastname" /></font>
 		     &nbsp;&nbsp;&nbsp;
-		     <font style="color:#FFFFFF"><b>SSN:</b>&nbsp;<font style="color:#aeadad"><bean:write name="intakeForm" property="intake.ssn" /></font>
+		     <font style="color:#FFFFFF"><b>SSN:</b>&nbsp;<font style="color:#aeadad"><bean:write name="intakeForm" property="intake.encryptedSsn" /></font>
 		     &nbsp;&nbsp;&nbsp;
 		     <%
 		     /*
@@ -282,7 +282,7 @@ function whichKey(e) {
 		      <td width="33"></td>
 		     <td>
 		     <a href="javascript:window.open('<%=request.getContextPath()%>/pdfapp.do?action=application');" style="color:#19fd01"><b>Print Application</b></a>&nbsp;&nbsp;&nbsp;
-		     <a href="<%=request.getContextPath()%>/pages/student/card.jsp" style="color:#19fd01"><b>Print Card</b></a>
+		     <a href="javascript:window.open('<%=request.getContextPath()%>/pages/student/card.jsp');" style="color:#19fd01"><b>Print Card</b></a>
 		     <!-- <a href="<%=request.getContextPath()%>/pages/student/info.jsp" style="color:#19fd01""><b>Print Student Information</b></a> -->
 		     
 		     <!-- Permission for Boynton Beach -->

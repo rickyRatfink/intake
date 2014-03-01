@@ -57,7 +57,7 @@
 	       
 	       <td class="<%=rowClass%>">
 	       <bean:write name="loop" property="firstname"/>&nbsp;<bean:write name="loop" property="mi"/>&nbsp;<bean:write name="loop" property="lastname"/></td>
-	       <td class="<%=rowClass%>"><bean:write name="loop" property="ssn"/></td>
+	       <td class="<%=rowClass%>"><bean:write name="loop" property="encryptedSsn"/></td>
 	       <td class="<%=rowClass%>"><bean:write name="loop" property="dob"/></td>
 	       <td class="<%=rowClass%>"><bean:write name="loop" property="dlFlag"/></td>
 	       <td class="<%=rowClass%>"><bean:write name="loop" property="farmBase"/></td>

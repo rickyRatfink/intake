@@ -63,12 +63,12 @@ function checkAll(bx)
                 <table width="98%" cellpadding="0" cellspacing="0" border="0">
                <tr>
                 	<td>
-                	   <html:textarea name="cwtRoster" property="cwtModuleSection.instructorNotes" rows="10" cols="120"/>
+                	   <html:textarea name="cwtRoster" property="cwtRosterNotes.notes" rows="10" cols="120"/>
                 	</td>
                 </tr>
-                <tr>
+                <!-- <tr>
                 	<td align="left"><html:checkbox name="cwtRoster" property="archiveFlag" value="Yes"/>Archive Roster</td>
-                </tr>
+                </tr> -->
                 </table>
                 <div align="center">
 	            	<a href="javascript:window.open('<%=request.getContextPath()%>/pdfapp.do?action=Print&archivedFlag=No&type=Section&id=<bean:write name="cwtRoster" property="cwtModuleSection.moduleOfferingId" />');">Print</a>

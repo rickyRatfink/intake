@@ -14,6 +14,8 @@
   <div class="interior-text-mid">
  
 <script language="javascript" type="text/javascript">
+
+
 function ucase(obj) {
   obj.value=obj.value.toUpperCase();
 }
@@ -26,6 +28,22 @@ function isNumberKey(evt)
 
          return true;
       }
+
+function mask(val){  
+	tel='';  
+	for(var i=0;i<val.length;i++){  
+	if(i<3){  
+	    val[i]='*'  
+	}  
+	if(i==2 || i==5){val[i]='*-'}  
+	if(i<5 && i>=3 ){  
+	    val[i]='*'}  
+	    teltel=tel+val[i]  
+	}  
+	f.value=tel;  
+	alert('>'+val);
+	
+	}  
 </script>
 
 <html:form action="/Intake" enctype="multipart/form-data" styleId="intake">
@@ -229,7 +247,13 @@ function isNumberKey(evt)
                 <table width="100%" border="0">
                 <tr>
                 <td>SSN</td>
-                <td><html:text property="intake.ssn" size="30" maxlength="11"  onkeypress="return maskSsn(event,this)" /></td>
+                <td><logic:notEmpty name="intakeForm" property="intake.ssn">
+                		<bean:write name="intakeForm" property="intake.encryptedSsn"  />
+                	</logic:notEmpty>
+                	<logic:empty name="intakeForm" property="intake.ssn">
+                		<html:text styleId="ssn" property="intake.ssn" size="30" maxlength="11" onkeypress="return maskSsn(event,this)" />
+                	</logic:empty>			
+                </td>
                 <td>&nbsp;&nbsp;</td>
                 <td >Referred to Faith Farm By</td>
                 <td>
@@ -624,6 +648,9 @@ function isNumberKey(evt)
     </div>  
 </html:form>
 
- 
+<script language="javascript">
+	mask(document.getElementById('ssn').value);
+</script>
+
 </div>
     

@@ -63,7 +63,7 @@
 	       <td class="searchRowOdd2"><bean:write name="loop" property="lastname"/></td>
 	       <td class="searchRowOdd2"><bean:write name="loop" property="mi"/></td>
 	       <td class="searchRowOdd2"><bean:write name="loop" property="firstname"/></td>
-	       <td class="searchRowOdd2"><bean:write name="loop" property="ssn"/></td>
+	       <td class="searchRowOdd2"><bean:write name="loop" property="encryptedSsn"/></td>
 	       <td class="searchRowOdd2"><bean:write name="loop" property="dob"/></td>
 	       <td class="searchRowOdd2"><bean:write name="loop" property="intakeStatus"/></td>
 	       <td class="searchRowOdd2"><bean:write name="loop" property="class_"/></td>

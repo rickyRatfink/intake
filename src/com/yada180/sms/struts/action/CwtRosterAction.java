@@ -26,6 +26,7 @@ import com.yada180.sms.domain.CwtModuleSection;
 import com.yada180.sms.domain.CwtModules;
 import com.yada180.sms.domain.CwtProgram;
 import com.yada180.sms.domain.CwtRoster;
+import com.yada180.sms.domain.CwtRosterNotes;
 import com.yada180.sms.domain.CwtSupervisor;
 import com.yada180.sms.domain.Intake;
 import com.yada180.sms.domain.SystemUser;
@@ -39,6 +40,7 @@ import com.yada180.sms.hibernate.data.CwtProgramDao;
 import com.yada180.sms.hibernate.data.CwtProgramMetricDao;
 import com.yada180.sms.hibernate.data.CwtProgramMetricModulesDao;
 import com.yada180.sms.hibernate.data.CwtRosterDao;
+import com.yada180.sms.hibernate.data.CwtRosterNotesDao;
 import com.yada180.sms.hibernate.data.CwtSupervisorDao;
 import com.yada180.sms.hibernate.data.GenericDao;
 import com.yada180.sms.hibernate.data.IntakeDao;
@@ -221,9 +223,10 @@ public class CwtRosterAction extends Action {
 						"Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes",
 						"Yes", "Yes", "Yes", "Yes" };
 				cwtRosterForm.setEnrollFlag(flags);
-
+				cwtRosterForm.setCwtRosterNotes(new CwtRosterNotes());
 				String id = request.getParameter("id");
 				String farm = request.getParameter("farm");
+				String date = request.getParameter("date");
 
 				if (farm == null)
 					farm = user.getFarmBase();
@@ -233,10 +236,10 @@ public class CwtRosterAction extends Action {
 				cwtRosterForm.setCwtModule(cwtModulesDao.find(cwtRosterForm
 						.getCwtModuleSection().getModuleId()));
 
-				List<CwtRoster> rosterList = rosterDao.findByObjectId(
-						new CwtRoster().getClass(), "sectionId", new Long(id)); // .listRosterBySection(new
+				//List<CwtRoster> rosterList = rosterDao.findByObjectId(
+				//		new CwtRoster().getClass(), "sectionId", new Long(id)); // .listRosterBySection(new
 																				// Long(id));
-
+				List<CwtRoster> rosterList = rosterDao.findRosterBySectionIdRosterDate(new Long(id),date);
 				/*
 				 * If roster currently exists then set it up
 				 */
@@ -275,6 +278,16 @@ public class CwtRosterAction extends Action {
 					cwtRosterForm.setExamScore(score);
 					cwtRosterForm.setRosterDate(rosterDate);
 
+					CwtRosterNotesDao notesDao = new CwtRosterNotesDao();
+					List<CwtRosterNotes> notesList = new ArrayList();
+					
+					notesList = notesDao.findBySectionIdRosterDate(new CwtRosterNotes().getClass(), new Long(id), rosterDate);
+					if (notesList!=null&&notesList.size()>0) {
+						CwtRosterNotes notes = (CwtRosterNotes)notesList.get(0);
+						cwtRosterForm.setCwtRosterNotes(notes);
+					} else
+						cwtRosterForm.setCwtRosterNotes(new CwtRosterNotes());
+						
 					return mapping.findForward(Constants.SUCCESS);
 				} else {
 					this.generateRoster(cwtRosterForm, user.getFarmBase(), new Long(id));
@@ -286,6 +299,7 @@ public class CwtRosterAction extends Action {
 				GenericDao dao = new GenericDao();
 				List<CwtRoster> rosterList = new ArrayList<CwtRoster>();
 				List<CwtMaster> masterList = new ArrayList<CwtMaster>();
+				cwtRosterForm.setCwtRosterNotes(new CwtRosterNotes());
 				
 				//validate class date
 				session.setAttribute("error","");
@@ -315,9 +329,9 @@ public class CwtRosterAction extends Action {
 				cwtRosterForm.setCwtModuleSection(cwtSection);
 				
 				//Check for existing Roster, throw validation error if already exists
-				List <CwtRoster> existingRosterList1 = rosterDao.searchRosters(module.getModuleId(), cwtRosterForm.getRosterDate(), "No", user.getFarmBase(), null);
-				List <CwtRoster> existingRosterList2 = rosterDao.searchRosters(module.getModuleId(), cwtRosterForm.getRosterDate(), "Yes", user.getFarmBase(), null);
-				if (existingRosterList1.size()>0||existingRosterList2.size()>0) {
+				//List <CwtRoster> existingRosterList1 = rosterDao.searchRosters(module.getModuleId(), cwtRosterForm.getRosterDate(), "No", user.getFarmBase(), null);
+				List <CwtRoster> existingRosterList = rosterDao.searchRosters(module.getModuleId(), cwtRosterForm.getRosterDate(), "Yes", user.getFarmBase(), null);
+				if (existingRosterList.size()>0) {
 					session.setAttribute("error", "Roster has already been generated for "+user.getFarmBase());
 					return mapping.findForward(Constants.CREATE_ROSTER);
 				}
@@ -330,24 +344,26 @@ public class CwtRosterAction extends Action {
 				//loop through intake and add to roster
 				List<Intake> list = dao.findIntakeByCwtProgram(programId, user.getFarmBase());
 				
-				for (Iterator iterator = list.iterator(); iterator.hasNext();) {
-					Intake intake = (Intake) iterator.next();
+				//for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+				for (int i=0;i<list.size();i++) {
+					Intake intake = (Intake)list.get(i); //iterator.next();
 						CwtRoster roster = new CwtRoster();
 						roster.setIntakeId(intake.getIntakeId());
 						roster.setModuleId(cwtRosterForm.getModuleId());
 						roster.setSectionId(sectionId);
 						roster.setLastUpdatedBy(user.getUsername());
 						roster.setLastUpdatedDate(validator.getEpoch() + "");
-						roster.setStatus("Completed");
+						roster.setStatus("Enrolled");
 						roster.setExamDate("");
-						roster.setArchivedFlag("No");
+						roster.setArchivedFlag("Yes");
 						roster.setRosterDate(cwtRosterForm.getRosterDate());
 						rosterDao.save(roster);
 					}
 				
 				// Roster setup
-				List<CwtRoster> rList = rosterDao.findByObjectId(
-						new CwtRoster().getClass(), "sectionId", sectionId); // .listRosterBySection(new
+				//List<CwtRoster> rList = rosterDao.findByObjectId(
+				//		new CwtRoster().getClass(), "sectionId", sectionId); // .listRosterBySection(new
+				List<CwtRoster> rList = rosterDao.findRosterBySectionIdRosterDate(sectionId,cwtRosterForm.getRosterDate()); // .listRosterBySection(new
 
 				String rosterDate="";
 				String attend[] = cwtRosterForm.getAttendFlag();
@@ -388,12 +404,14 @@ public class CwtRosterAction extends Action {
 				List<CwtRoster> rosterList = new ArrayList<CwtRoster>();
 				String enroll[] = cwtRosterForm.getEnrollFlag();
 				String attend[] = cwtRosterForm.getAttendFlag();
-
+				CwtRosterNotes notes = cwtRosterForm.getCwtRosterNotes();
+				
 				Long sectionId = null;
-
+				String rosterDate = null;
 				for (Iterator iterator = mlist.iterator(); iterator.hasNext();) {
 					CwtMaster obj = (CwtMaster) iterator.next();
 					CwtRoster roster = obj.getRoster();
+					rosterDate = roster.getRosterDate();
 					roster.setLastUpdatedBy(user.getUsername());
 					roster.setLastUpdatedDate(validator.getEpoch() + "");
 
@@ -405,10 +423,10 @@ public class CwtRosterAction extends Action {
 					roster.setStatus(request.getParameter("status[" + index
 							+ "]"));
 					
-					if ("Yes".equals(cwtRosterForm.getArchiveFlag()))
+					/*if ("Yes".equals(cwtRosterForm.getArchiveFlag()))
 						roster.setArchivedFlag("Yes");
-					else
-						roster.setArchivedFlag("No");
+					else*/
+						roster.setArchivedFlag("Yes");
 
 					rosterDao.update(roster);
 					sectionId = roster.getSectionId();
@@ -419,7 +437,18 @@ public class CwtRosterAction extends Action {
 				// cwtModuleSectionDao.find(sectionId);
 				// section.setInstructorNotes(cwtRosterForm.getNotes());
 				// cwtModuleSectionDao.update(cwtRosterForm.getCwtModuleSection());
-				cwtRosterForm.setArchiveFlag("No");
+				cwtRosterForm.setArchiveFlag("Yes");
+				
+				if (notes.getNotes()!=null&&notes.getNotes().length()>0) {
+					CwtRosterNotesDao dao = new CwtRosterNotesDao();
+					notes.setSectionId(sectionId);
+					notes.setRosterDate(rosterDate);
+					if (notes.getNotesId()==null)
+						dao.save(notes);
+					else
+						dao.update(notes);
+				}
+				
 				cwtRosterForm.setNotes("");
 				// cwtRosterForm.setMasterList(newMasterList);
 				return mapping.findForward(Constants.ROSTER_SEARCH);

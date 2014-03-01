@@ -21,7 +21,7 @@ public class CwtRoster implements java.io.Serializable {
 	private Long jobId;
 	private Long departmentId;
 	private Long supervisorId;
-    private String archivedFlag;
+    private String archivedFlag="Yes";
     private String rosterDate;
     
 	public CwtRoster() {
