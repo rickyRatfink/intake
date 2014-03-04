@@ -32,6 +32,16 @@
             		 -->
             	</ul>
             	<br/><br/>
+            	
+            	<b>CWT Graduation Certificate List <i>(Current Class 6 Only)</i></b>
+            	<ul>
+            		<li><a href="javascript:window.open('<%=request.getContextPath()%>/pdfapp.do?action=cwtgrad&farm=Boynton Beach');">Boynton Beach</a></li>
+            		<li><a href="javascript:window.open('<%=request.getContextPath()%>/pdfapp.do?action=cwtgrad&farm=Fort Lauderdale');">Fort Lauderdale</a></li>
+            		<li><a href="javascript:window.open('<%=request.getContextPath()%>/pdfapp.do?action=cwtgrad&farm=Okeechobee');">Okeechobee</a></li>
+            		<li><a href="javascript:window.open('<%=request.getContextPath()%>/pdfapp.do?action=cwtgrad&farm=Women\'s Home');">Women's Home</a></li>
+            	</ul>
+            	<br/><br/>
+   
             	<!-- 
             	<b>Bed List <i>(Under Construction)</i></b>
             	<ul>

@@ -17,8 +17,9 @@ public class CwtProgram implements java.io.Serializable {
 	public CwtProgram() {
 	}
 
-	public CwtProgram(String programName, String description, String status,
-			String creationDate, String createdBy) {
+	public CwtProgram(Long id,String programName, String description, String status,
+			String creationDate, String createdBy) { System.out.println("making cwtprogram");
+		this.programId=id;
 		this.programName = programName;
 		this.description = description;
 		this.status = status;

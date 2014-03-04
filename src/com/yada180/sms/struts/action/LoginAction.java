@@ -22,8 +22,10 @@ import org.apache.struts.action.ActionRedirect;
 
 import com.yada180.sms.application.Constants;
 import com.yada180.sms.domain.ErrorMessage;
+import com.yada180.sms.domain.IpPermission;
 import com.yada180.sms.domain.SystemUser;
 import com.yada180.sms.domain.UserAuthorizedSession;
+import com.yada180.sms.hibernate.data.GenericDao;
 import com.yada180.sms.hibernate.data.SystemUserDao;
 import com.yada180.sms.hibernate.dao.UserAuthorizedSessionDao;
 import com.yada180.sms.struts.form.LoginForm;
@@ -40,7 +42,8 @@ public class LoginAction extends Action {
 		LOGGER.setLevel(Level.SEVERE);
 		
 		String ip=request.getRemoteAddr().toString();
-				if (!"174.141.99.194".equals(ip) && !"75.147.217.62".equals(ip) && //Boynton Beach Farm
+		/*
+			if (!"174.141.99.194".equals(ip) && !"75.147.217.62".equals(ip) && //Boynton Beach Farm
 						!"70.89.102.41".equals(ip) && //FTL Farm
 						!"67.238.59.138".equals(ip) && //OKE Farm
 						!"76.109.62.180".equals(ip) && //EHW Farm
@@ -51,7 +54,23 @@ public class LoginAction extends Action {
 					LOGGER.log(Level.SEVERE,"INVALID IP ADDRESS TRIED TO ACCESS THE SYSTEM: "+request.getRemoteAddr().toString());
 					return mapping.findForward(Constants.ACCESS_DENIED);
 				}
+				*/
 		
+				GenericDao dao = new GenericDao();
+				boolean access=false;
+				List<IpPermission> list = dao.listAll(new IpPermission().getClass());
+				for (int i=0;i<list.size();i++) {
+					IpPermission obj = (IpPermission)list.get(i);
+					if (obj.getIpAddress().equals(ip))
+						access=true;
+						
+				}
+				
+				if (!access) {
+					LOGGER.log(Level.SEVERE,"INVALID IP ADDRESS TRIED TO ACCESS THE SYSTEM: "+request.getRemoteAddr().toString());
+					return mapping.findForward(Constants.ACCESS_DENIED);
+				}
+				
 		 HttpSession session = request.getSession(true);
 		 
 		 try {

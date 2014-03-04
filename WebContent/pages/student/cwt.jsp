@@ -41,7 +41,7 @@
 					<td class="colSpacer" width="1"></td>
 					<td class="colHeading">Completion Date</td>
 					<td class="colSpacer" width="1"></td>
-					<td class="colHeading">Status</b></td>
+					<td class="colHeading" colspan="2">Status</b></td>
 				</tr>
 				 <%
 				 List<CwtMaster> list = (List<CwtMaster>)session.getAttribute("cwtmasters");
@@ -62,6 +62,9 @@
 			    		 <td class="searchRowOdd"><%=obj.getRoster().getAttendDate() %></td>
 						 <td class="searchRowSpcrOdd"></td>
 			    		 <td class="searchRowOdd"><%=obj.getRoster().getStatus() %></td>
+			    		 <td class="searchRowOdd"><% if (!"Not Completed".equals(obj.getRoster().getStatus())) { %>
+			    		 <input type="submit" name="action" value="Reset Cwt"  onClick="javascript:document.getElementById('deleteId').value='<%=obj.getRoster().getRosterId() %>'" class="imageButtonCwtReset">
+			    		 <% } %></td>
 			    		 </tr>
 			    <%
 				 }				 
@@ -113,7 +116,7 @@
    </div>
     
  <html:hidden property="pageSource" value="cwt"/> 
- 
+ <html:hidden property="deleteId" styleId="deleteId" />
  </html:form>
 
     <div class="footer">

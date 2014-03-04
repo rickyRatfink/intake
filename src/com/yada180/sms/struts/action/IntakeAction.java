@@ -150,7 +150,12 @@ public class IntakeAction extends Action {
 			} else if ("cwt".equals(action)) {
 				this.trackCwt(intakeForm,session);
 				return mapping.findForward(Constants.STUDENT_CWT);
-			} else if ("PrintFull".equals(action)) {
+			} else if ("Reset Cwt".equals(action)) {
+				String id=request.getParameter("deleteId");
+				this.deleteCwt(new Long(id));
+				this.trackCwt(intakeForm,session);
+				return mapping.findForward(Constants.STUDENT_CWT);
+			}else if ("PrintFull".equals(action)) {
 				session.setAttribute("PRINT_INTAKE", intakeForm.getIntake());
 				session.setAttribute("PRINT_INTAKE_NAME", intakeForm
 						.getIntake().getFirstname()
@@ -1326,6 +1331,7 @@ public class IntakeAction extends Action {
 					 				String sdate =roster.getRosterDate();
 					 				blank.setAttendDate(sdate);
 					 				blank.setStatus(roster.getStatus());
+					 				blank.setRosterId(roster.getRosterId());
 					 			}
 					 			master.setRoster(blank);
 						 }
@@ -1337,6 +1343,17 @@ public class IntakeAction extends Action {
 		session.setAttribute("cwtmasters", masters);
 
 		 
+	}
+	
+	private void deleteCwt(Long id) {
+		CwtRoster obj = null;
+		GenericDao  dao = new GenericDao();
+		List<CwtRoster> list = dao.findByObjectId(new CwtRoster().getClass(),"rosterId", id);
+		if (list!=null&&list.size()>0) {
+			obj = (CwtRoster)list.get(0);
+			dao.delete(obj);
+		}
+		
 	}
 
 }

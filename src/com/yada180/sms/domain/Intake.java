@@ -214,10 +214,10 @@ public class Intake implements java.io.Serializable {
 	private Long cwtProgramId;
 	private String arrivalDate;
 	
-	public Intake() {
+	public Intake() { 
 	}
 
-	public Intake(String lastname, String firstname, String mi, String suffix,
+	public Intake(Long intakeId, String lastname, String firstname, String mi, String suffix,
 			String address, String city, String state, String zipcode,
 			String dob, String ssn, String ssnCardFlag, String age,
 			String height, String weight, String ethnicity, String hairColor,
@@ -297,6 +297,7 @@ public class Intake implements java.io.Serializable {
 			String ssFlag, String vaFlag, String wcFlag, String needGed, 
 			String spiritualExperience, String caseNotes, String responseStatus,
 			String emailAddress, String applicationSubmissionDate, String reapplyFlag, String gender, Long cwtProgramId, String arrivalDate ) {
+		this.intakeId = intakeId;
 		this.lastname = lastname;
 		this.firstname = firstname;
 		this.mi = mi;
@@ -510,7 +511,7 @@ public class Intake implements java.io.Serializable {
 		this.intakeId = intakeId;
 	}
 
-	public String getLastname() {
+	public String getLastname() { 
 		return this.lastname;
 	}
 
@@ -2152,7 +2153,5 @@ public class Intake implements java.io.Serializable {
 	}
 	
 
-
-	
 
 }

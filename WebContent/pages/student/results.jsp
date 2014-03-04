@@ -3,6 +3,17 @@
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
 
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="com.yada180.sms.domain.SystemUser" %>
+<%  
+    SystemUser user = null;
+	
+	try {
+	  user = (SystemUser)session.getAttribute("system_user"); 
+	  if (user==null) user = new SystemUser();
+	} catch (Exception e) {
+		user=new SystemUser();
+	}
+%>
 
 <jsp:include page="../../includes/header.jsp" flush="true"/>
 
@@ -63,7 +74,14 @@
 	       <td class="searchRowOdd2"><bean:write name="loop" property="lastname"/></td>
 	       <td class="searchRowOdd2"><bean:write name="loop" property="mi"/></td>
 	       <td class="searchRowOdd2"><bean:write name="loop" property="firstname"/></td>
-	       <td class="searchRowOdd2"><bean:write name="loop" property="encryptedSsn"/></td>
+	       <td class="searchRowOdd2">
+	       		<% if (  "hlidwell".equals(user.getUsername())||"rratliff".equals(user.getUsername())||"sjohnson".equals(user.getUsername())||"mmurphy".equals(user.getUsername())||
+		            		"vandres".equals(user.getUsername())||"agorrin".equals(user.getUsername())||"pzielinski".equals(user.getUsername())||"robbinj".equals(user.getUsername())) { %>
+			               <bean:write name="loop" property="ssn"/>
+			            <% } else { %>
+			               <bean:write name="loop" property="encryptedSsn"/>
+			            <% } %>
+		   </td>
 	       <td class="searchRowOdd2"><bean:write name="loop" property="dob"/></td>
 	       <td class="searchRowOdd2"><bean:write name="loop" property="intakeStatus"/></td>
 	       <td class="searchRowOdd2"><bean:write name="loop" property="class_"/></td>

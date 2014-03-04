@@ -37,7 +37,7 @@ import org.hibernate.engine.SessionImplementor;
 	        // Open a new Session, if this Thread has none yet
 	        if (s == null) {
 	            s = sessionFactory.openSession();
-	            session.set(s);
+	             session.set(s);
 	        }
 	        return s;
 	    }

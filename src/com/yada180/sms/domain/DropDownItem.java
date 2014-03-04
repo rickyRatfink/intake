@@ -9,7 +9,7 @@ public class DropDownItem implements Serializable {
 	private String value;
 	private String label;
 	
-	public DropDownItem(String value, String label) {
+	public DropDownItem(String value, String label) { 
 		this.value=value;
 		this.label=label;
 	}

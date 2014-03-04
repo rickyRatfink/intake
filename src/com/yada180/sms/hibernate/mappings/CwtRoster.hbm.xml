@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated Sep 30, 2013 1:04:20 PM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
-    <class name="com.yada180.sms.domain.CwtRoster" table="cwt_roster" catalog="ffarm_prod">
+    <class name="com.yada180.sms.domain.CwtRoster" table="cwt_roster" catalog="ffarm_dev">
         <id name="rosterId" type="java.lang.Long">
             <column name="roster_id" />
             <generator class="identity" />

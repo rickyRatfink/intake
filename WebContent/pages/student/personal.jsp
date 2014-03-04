@@ -1,7 +1,17 @@
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
-
+<%@ page import="com.yada180.sms.domain.SystemUser" %>
+<%  
+    SystemUser user = null;
+	
+	try {
+	  user = (SystemUser)session.getAttribute("system_user"); 
+	  if (user==null) user = new SystemUser();
+	} catch (Exception e) {
+		user=new SystemUser();
+	}
+%>
 
 
 
@@ -247,12 +257,14 @@ function mask(val){
                 <table width="100%" border="0">
                 <tr>
                 <td>SSN</td>
-                <td><logic:notEmpty name="intakeForm" property="intake.ssn">
-                		<bean:write name="intakeForm" property="intake.encryptedSsn"  />
-                	</logic:notEmpty>
-                	<logic:empty name="intakeForm" property="intake.ssn">
-                		<html:text styleId="ssn" property="intake.ssn" size="30" maxlength="11" onkeypress="return maskSsn(event,this)" />
-                	</logic:empty>			
+                <td>
+                		<% if (  "hlidwell".equals(user.getUsername())||"rratliff".equals(user.getUsername())||"sjohnson".equals(user.getUsername())||"mmurphy".equals(user.getUsername())||
+		            		"vandres".equals(user.getUsername())||"agorrin".equals(user.getUsername())||"pzielinski".equals(user.getUsername())||"robbinj".equals(user.getUsername())) { %>
+			               <b><html:text styleId="ssn" property="intake.ssn" size="30" maxlength="11" onkeypress="return maskSsn(event,this)" /></b>
+			            <% } else { %>
+			               <b><bean:write name="intakeForm" property="intake.encryptedSsn" /></b>
+			            <% } %>
+               
                 </td>
                 <td>&nbsp;&nbsp;</td>
                 <td >Referred to Faith Farm By</td>

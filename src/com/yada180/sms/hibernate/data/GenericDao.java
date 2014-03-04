@@ -2,7 +2,7 @@ package com.yada180.sms.hibernate.data;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,11 +14,9 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-import com.yada180.sms.domain.DropDownItem;
 import com.yada180.sms.domain.Intake;
 import com.yada180.sms.domain.SystemUser;
 import com.yada180.sms.domain.ViewCwtIntake;
-import com.yada180.sms.domain.ViewCwtRoster;
 
 public class GenericDao {
 
@@ -52,6 +50,34 @@ public class GenericDao {
 		}
 		return obj;
 	}
+	
+	public List listAll(Class c) {
+		Object obj = null;
+		Session session = null;
+		List list = new ArrayList();
+		try {
+			StringBuffer q = new StringBuffer("");
+			q.append("from " + c.getName());
+			session = HibernateFactory.openSession();
+			session.beginTransaction();
+			Query query = session.createQuery(q.toString());
+			list = query.list();
+			if (session.isOpen()) {
+				session.flush();
+				session.getTransaction().commit();
+			}
+		} catch (Exception e) {
+			if (session.isOpen())
+				session.getTransaction().rollback();
+			e.printStackTrace();
+			throw new HibernateException(e);
+		} finally {
+			if (session.isOpen())
+				session.close();
+		}
+		return list;
+	}
+
 
 	public Long save(Object obj) {
 		Long key = null;
@@ -385,7 +411,7 @@ public class GenericDao {
 		}
 		return list;
 	}
-
+	@SuppressWarnings("unchecked")
 	public List listClass(String classNumber, String farm) {
 
 		List<Intake> list = new ArrayList<Intake>();
@@ -396,7 +422,6 @@ public class GenericDao {
 
 			session = HibernateFactory.openSession();
 			session.beginTransaction();
-
 			StringBuffer query = new StringBuffer("from Intake where 1=1 ");
 			query.append(" and class_ = :class_ ");
 			query.append(" and farmBase = :farmBase ");
@@ -434,7 +459,68 @@ public class GenericDao {
 				status.add("In Program");
 				q.setParameterList("intakeStatus", status);
 			}
-			System.out.println (q);
+			list =q.list();
+			if (session.isOpen()) {
+				session.flush();
+				session.getTransaction().commit();
+			}
+		} catch (HibernateException e) {
+			if (session.isOpen())
+				session.getTransaction().rollback();
+			e.printStackTrace();
+			throw new HibernateException(e);
+		} finally {
+			if (session.isOpen())
+				session.close();
+		}
+		return list;
+	}
+	
+	public List listClassSQL(String classNumber, String farm) {
+
+		List<Intake> list = new ArrayList<Intake>();
+		Transaction tx = null;
+		Session session = null;
+		
+		try {
+
+			session = HibernateFactory.openSession();
+			session.beginTransaction();
+
+			StringBuffer query = new StringBuffer(" select * from intake where 1=1 ");
+			query.append(" and class = :class ");
+			query.append(" and farm_base = :farmBase ");
+			query.append(" and archived_flag = :archivedFlag ");
+			query.append(" and intake_status IN (:intakeStatus) ");
+			query.append(" ORDER BY STR_TO_DATE(entry_date, '%m/%d/%Y') asc ");
+			SQLQuery q = session.createSQLQuery(query.toString());
+			q.setParameter("class", classNumber);
+			q.setParameter("farmBase", farm);
+			q.setParameter("archivedFlag", "No");			
+			if ("Fresh Start".equals(classNumber)) {
+				List<String>status=new ArrayList();
+				status.add("In Program");
+				status.add("Left Prop./Graduated to Fresh Start");
+				q.setParameterList("intakeStatus", status);
+			}
+			else if ("Intern".equals(classNumber)) {
+				List<String>status=new ArrayList();
+				status.add("In Program");
+				status.add("Left Prop./Graduated to Intern");
+				q.setParameterList("intakeStatus", status);
+			}
+			else if ("SLS".equals(classNumber)) {
+				List<String>status=new ArrayList();
+				status.add("In Program");
+				status.add("Left Prop./Graduated to SLS");
+				q.setParameterList("intakeStatus", status);
+			}
+			else {
+				List<String>status=new ArrayList();
+				status.add("In Program");
+				q.setParameterList("intakeStatus", status);
+			}
+			q.addEntity(Intake.class);
 			list = q.list();
 			if (session.isOpen()) {
 				session.flush();
@@ -1228,6 +1314,72 @@ public class GenericDao {
 			session.close();
 		}
 		return list;
+	}
+	
+	
+	public Integer countCwtModules(Long programId) {
+		Session session = null;
+		StringBuffer query = new StringBuffer(" select module_id from cwt_modules where program_id= :programId");
+		
+		List list = null;
+		BigInteger retId = null;
+
+		try {
+			session = HibernateFactory.openSession();
+			session.beginTransaction();
+			SQLQuery q = session.createSQLQuery(query.toString());
+			q.setParameter("programId", programId);
+			list = q.list();
+
+			
+			
+			session.flush();
+			session.getTransaction().commit();
+		} catch (HibernateException e) {
+			session.getTransaction().rollback();
+			e.printStackTrace();
+			throw new HibernateException(e);
+		} finally {
+			session.close();
+		}
+		return list.size();
+	}
+	
+	
+	public Integer countCwtModulesForIntake(Long intakeId, Long programId) {
+		Session session = null;
+		StringBuffer query = new StringBuffer(" select distinct cwt_roster.module_id ");
+			query.append("from cwt_roster ");
+			query.append("inner join cwt_modules on cwt_roster.module_id = cwt_modules.module_id ");
+			query.append("where intake_id= :intakeId and cwt_modules.program_id= :programId ");
+		
+		List list = null;
+		BigInteger retId = null;
+
+		try {
+			session = HibernateFactory.openSession();
+			session.beginTransaction();
+			SQLQuery q = session.createSQLQuery(query.toString());
+			q.setParameter("programId", programId);
+			q.setParameter("intakeId", intakeId);
+			list = q.list();
+			session.flush();
+			session.getTransaction().commit();
+		} catch (HibernateException e) {
+			session.getTransaction().rollback();
+			e.printStackTrace();
+			throw new HibernateException(e);
+		} finally {
+			session.close();
+		}
+		return list.size();
+	}
+	
+	public static <T> List<T> castList(Class<? extends T> clazz, Collection<?> c) {
+	    List<T> r = new ArrayList<T>(c.size());
+	    for(Object o: c)
+	      r.add(clazz.cast(o));
+	    return r;
 	}
 	
 

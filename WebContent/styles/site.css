@@ -823,6 +823,15 @@ td {
 	font-size : 0em; 
 	vertical-align:top;
 }
+.imageButtonCwtReset{
+    background: url(../images/local/reset.gif);
+ 	width : 18px;
+	height :18px;
+	border : none;
+	color : transparent;
+	font-size : 0em; 
+	vertical-align:top;
+}
 .imageButtonEdit{
     background: url(../images/local/Edit.gif);
  	width : 16px;

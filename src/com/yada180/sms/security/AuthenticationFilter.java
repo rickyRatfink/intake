@@ -1,6 +1,7 @@
 package com.yada180.sms.security;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -14,7 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.yada180.sms.domain.IpPermission;
 import com.yada180.sms.domain.SystemUser;
+import com.yada180.sms.hibernate.data.GenericDao;
 
 public class AuthenticationFilter implements Filter {
 
@@ -32,6 +35,16 @@ public class AuthenticationFilter implements Filter {
 		String contextPath = request.getContextPath();
 		String ip=request.getRemoteAddr().toString();
 		
+		GenericDao dao = new GenericDao();
+		boolean access=false;
+		List<IpPermission> list = dao.listAll(new IpPermission().getClass());
+		for (int i=0;i<list.size();i++) {
+			IpPermission obj = (IpPermission)list.get(i);
+			if (obj.getIpAddress().equals(ip)) 
+				access=true;
+				
+		}
+		/*
 		if (!"174.141.99.194".equals(ip)&&!"75.147.217.62".equals(ip) && //Boynton Beach Farm
 					!"70.89.102.41".equals(ip) && //FTL Farm
 					!"67.238.59.138".equals(ip) && //OKE Farm
@@ -42,6 +55,10 @@ public class AuthenticationFilter implements Filter {
 					!"127.0.0.1".equals(ip)  ) {
 				LOGGER.log(Level.SEVERE,"INVALID IP ADDRESS TRIED TO ACCESS THE SYSTEM: "+request.getRemoteAddr().toString());
 				response.sendRedirect(contextPath + "/denied.html");
+		}*/
+		if (!access) {
+			LOGGER.log(Level.SEVERE,"INVALID IP ADDRESS TRIED TO ACCESS THE SYSTEM: "+request.getRemoteAddr().toString());
+			response.sendRedirect(contextPath + "/denied.html");
 		}
 		else {
 			HttpSession session = request.getSession(false);

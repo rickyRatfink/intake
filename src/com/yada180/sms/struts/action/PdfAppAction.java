@@ -56,6 +56,8 @@ public class PdfAppAction extends Action {
 				pdf.generateOccupancyReport(user, response);
 			if ("completion".equals(action)) 
 					pdf.generateCompletionReport(user, response);
+			if ("cwtgrad".equals(action)) 
+				pdf.cwtGraduatePdf(farm, response);
 			if ("Print".equals(action)) {
 				String archivedFlag=request.getParameter("archivedFlag");
 				CwtModuleSectionDao cwtModuleSectionDao = new CwtModuleSectionDao();

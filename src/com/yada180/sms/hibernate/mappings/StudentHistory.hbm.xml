@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated Sep 16, 2013 10:14:00 AM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
-    <class name="com.yada180.sms.domain.StudentHistory" table="student_history" catalog="ffarm_prod">
+    <class name="com.yada180.sms.domain.StudentHistory" table="student_history" catalog="ffarm_dev">
         <id name="studentHistoryId" type="java.lang.Long">
             <column name="STUDENT_HISTORY_ID" />
             <generator class="identity" />
