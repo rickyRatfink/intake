@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated Oct 9, 2013 3:14:58 PM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
-    <class name="com.yada180.sms.domain.UserAuthorizedSession" table="user_authorized_session" catalog="ffarm_dev">
+    <class name="com.yada180.sms.domain.UserAuthorizedSession" table="user_authorized_session" catalog="ffarm_prod">
         <id name="sessionId" type="string">
             <column name="SESSION_ID" length="100" />
             <generator class="assigned" />

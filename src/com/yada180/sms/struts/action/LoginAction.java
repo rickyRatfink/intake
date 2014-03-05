@@ -87,9 +87,16 @@ public class LoginAction extends Action {
 		 //first check to see if an existing login session is still valid
 		 SystemUser user=(SystemUser)session.getAttribute("system_user");
 		 if (user!=null) {
-			 if ("Intake".equals(user.getGroup_()))
-				 return mapping.findForward(Constants.SUCCESS);
-			 else{
+			 if ("Intake".equals(user.getGroup_())) {
+				 
+				 //if ("ManageUsers".equals(action)) {
+				 //checks to see if manage users has been selected
+				 String retValue=this.manageUsers(action, loginForm, request, session);
+				 return mapping.findForward(retValue);
+				 //} 
+				 //else
+				//	 return mapping.findForward(Constants.SUCCESS);
+			 } else {
 				 List<ErrorMessage> messages = new ArrayList<ErrorMessage>();
 				 ActionErrors errors = new ActionErrors();
 				 messages.add(new ErrorMessage("Access denied. This user is not authorized to view this application.",""));
@@ -139,54 +146,7 @@ public class LoginAction extends Action {
 			 }
 			 
 		 }
-		 else if ("PasswordReset".equals(action)) {
-			 return mapping.findForward(Constants.PASSWORD_RESET);
-		 }
-		 else if ("Change Password".equals(action)) {
-			 
-			 boolean success=this.validateNewPassword(loginForm);
-			 
-			 if (success) {
-				 SystemUser user1 = (SystemUser)session.getAttribute("system_user");
-				 user1.setPassword(loginForm.getPassword1());
-				 Long count=user1.getLoginCount();
-				 user1.setLoginCount(++count);
-				 userDao.update(user1);
-				 return mapping.findForward(Constants.LOGIN);
-			 }
-			 else
-				 return mapping.findForward(Constants.PASSWORD_RESET);
-		 }
-		 else if ("ManageUsers".equals(action)) {
-			 loginForm.setUserList(userDao.list());
-		 	 return mapping.findForward(Constants.MANAGE_USERS);
-		 } else if ("Create".equals(action)) 
-			 	return mapping.findForward(Constants.CREATE_USER);
-		 else if ("Edit".equals(action)) { 
-			 	String key = request.getParameter("id");
-			 	loginForm.setUser(userDao.find(new Long(key+"")));
-			 	return mapping.findForward(Constants.CREATE_USER);
-		 }
-		 else if ("Delete".equals(action)) {
-			 	userDao.delete(loginForm.getUser().getUserId());
-			 	loginForm.setUserList(userDao.list());
-			 	return mapping.findForward(Constants.MANAGE_USERS);
-		 }
-		 else if ("Save".equals(action)) { 
-			 SystemUser loggedInUser = (SystemUser)session.getAttribute("system_user");
-			 if (loginForm.getUser().getUserId()==null) {
-				loginForm.getUser().setCreatedBy(loggedInUser.getUsername());
-				loginForm.getUser().setCreationDate(Validator.getEpoch()+"");
-			 	userDao.save(loginForm.getUser());
-			 }
-			 else {				
-				loginForm.getUser().setLastUpdatedBy(loggedInUser.getUsername());
-				loginForm.getUser().setLastUpdatedDate(Validator.getEpoch()+"");
-				userDao.update(loginForm.getUser());
-			 }
-			 	loginForm.setUserList(userDao.list());
-			 	return mapping.findForward(Constants.MANAGE_USERS);
-		 }
+
 		 return mapping.findForward(Constants.LOGIN);
 		}
 			catch (Exception e) {
@@ -198,6 +158,19 @@ public class LoginAction extends Action {
 				return mapping.findForward(Constants.ERROR);
 			}
 		 //return mapping.findForward(Constants.GLOBAL_LOGIN);
+		 
+		 /*
+		  * else if ("ManageUsers".equals(action)) { 
+				 List<SystemUser> users = dao.listAll(new SystemUser().getClass());
+				 loginForm.setUserList(users);
+				 return mapping.findForward(Constants.MANAGE_USERS);
+			 } else if ("Edit".equals(action)) {
+				 String id= request.getParameter("id");
+				 SystemUser obj = (SystemUser)dao.findById(new SystemUser().getClass(), new Long(id));
+				 loginForm.setUser(obj);
+				 return mapping.findForward(Constants.CREATE_USER);
+			 }
+		  */
 	}
 	
 	public boolean validate(LoginForm loginForm) {
@@ -218,6 +191,65 @@ public class LoginAction extends Action {
 			  return true;
 		}
 	
+	private String manageUsers(String action, LoginForm loginForm, HttpServletRequest request, HttpSession session) {
+		
+		GenericDao dao = new GenericDao();
+		SystemUserDao userDao = new SystemUserDao();
+		if ("PasswordReset".equals(action)) {
+			 return Constants.PASSWORD_RESET;
+		 }
+		 else if ("Change Password".equals(action)) {
+			 
+			 boolean success=this.validateNewPassword(loginForm);
+			 
+			 if (success) {
+				 SystemUser user1 = (SystemUser)session.getAttribute("system_user");
+				 user1.setPassword(loginForm.getPassword1());
+				 Long count=user1.getLoginCount();
+				 user1.setLoginCount(++count);
+				 userDao.update(user1);
+				 return Constants.LOGIN;
+			 }
+			 else
+				 return Constants.PASSWORD_RESET;
+		 }
+		 else if ("ManageUsers".equals(action)) {
+			 loginForm.setUserList(userDao.list());
+		 	 return Constants.MANAGE_USERS;
+		 } else if ("Create".equals(action)) {
+			 	loginForm.setUser(new SystemUser());
+			 	return Constants.CREATE_USER;
+		 }
+		 else if ("Edit".equals(action)) { 
+			 	String key = request.getParameter("id");
+			 	loginForm.setUser(userDao.find(new Long(key+"")));
+			 	return Constants.CREATE_USER;
+		 }
+		 else if ("Delete".equals(action)) {
+			 	userDao.delete(loginForm.getUser());
+			 	loginForm.setUserList(userDao.list());
+			 	return Constants.MANAGE_USERS;
+		 }
+		 else if ("Save".equals(action)) { 
+			 SystemUser loggedInUser = (SystemUser)loginForm.getUser(); //session.getAttribute("system_user");
+			 if (loggedInUser.getLoginCount()==null)
+				 loggedInUser.setLoginCount(new Long(0));
+			 if (loginForm.getUser().getUserId()==null) {
+				loginForm.getUser().setCreatedBy(loggedInUser.getUsername());
+				loginForm.getUser().setCreationDate(Validator.getEpoch()+"");
+			 	userDao.save(loginForm.getUser());
+			 }
+			 else {				
+				loginForm.getUser().setLastUpdatedBy(loggedInUser.getUsername());
+				loginForm.getUser().setLastUpdatedDate(Validator.getEpoch()+"");
+				userDao.update(loginForm.getUser());
+			 }
+			 	loginForm.setUserList(userDao.list());
+			 	return Constants.MANAGE_USERS;
+		 }
+		 else
+			 return Constants.SUCCESS;
+	}
 	
 	public boolean validateNewPassword(LoginForm loginForm) {
 		

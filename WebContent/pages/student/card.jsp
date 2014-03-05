@@ -45,7 +45,7 @@ body {
 	                    	<b><bean:write name="intakeForm" property="intake.lastname" />,&nbsp;<bean:write name="intakeForm" property="intake.firstname" />&nbsp;<bean:write name="intakeForm" property="intake.mi" />&nbsp;<bean:write name="intakeForm" property="intake.suffix" /></b><br />
 	            	</td>
 		            <td valign="top" class="cardheading">
-		            <% if ( "rratliff".equals(user.getUsername())||"sjohnson".equals(user.getUsername())||"mmurphy".equals(user.getUsername())||
+		            <% if ( "rratliff".equals(user.getUsername())||"sjohnson".equals(user.getUsername())||"mmurphy".equals(user.getUsername())||"hlidwell".equals(user.getUsername())||
 		            		"vandres".equals(user.getUsername())||"agorrin".equals(user.getUsername())||"pzielinski".equals(user.getUsername())||"robbinj".equals(user.getUsername())) { %>
 		               <b><bean:write name="intakeForm" property="intake.ssn" /></b>
 		            <% } else { %>

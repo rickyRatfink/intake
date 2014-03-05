@@ -19,6 +19,12 @@
             Last Name<br /> <html:text property="user.lastName" size="30" maxlength="20" /><br /><br />
             Username<br /> <html:text property="user.username" size="15" maxlength="15" /><br /><br />
             Password<br /> <html:text property="user.password" size="10" maxlength="10" /><br /><br />
+            Group<br/>
+             		<html:select property="user.group_" styleClass="status"> 
+						<html:option value="">Select</html:option>
+						<html:option value="Dispatch">Dispatch</html:option>
+						<html:option value="Intake">Intake</html:option>
+					</html:select><br /><br />
             Role<br/>
              		<html:select property="user.userRole" styleClass="status"> 
 						<html:option value="">Select</html:option>

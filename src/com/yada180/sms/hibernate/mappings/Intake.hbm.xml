@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated Sep 26, 2013 9:21:31 AM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
-    <class name="com.yada180.sms.domain.Intake" table="intake" catalog="ffarm_dev">
+    <class name="com.yada180.sms.domain.Intake" table="intake" catalog="ffarm_prod">
         <id name="intakeId" type="java.lang.Long">
             <column name="INTAKE_ID" />
             <generator class="identity" />
