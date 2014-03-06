@@ -453,8 +453,10 @@ function whichKey(e) {
 		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Accept" style="color:#19fd01"><b>Accept Application</b></a>
 		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Deny" style="color:#19fd01"><b>Deny Application</b></a>
 		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Waitlist" style="color:#19fd01"><b>Waitlist</b></a>
-		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Transfer" style="color:#19fd01"><b>Transfer Application</b></a>
-		        			&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Withdraw" style="color:#19fd01"><b>Withdraw</b></a>
+		        			&nbsp;&nbsp;&nbsp;<font style="color:#FFFFFF">Transfer&nbsp;[&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Transfer&tfarm=FTL" style="color:#19fd01"><b>FTL</b></a>
+		        									<a href="<%=request.getContextPath()%>/Intake.do?action=Transfer&tfarm=BYN" style="color:#19fd01"><b>BYN</b>
+		        									<a href="<%=request.getContextPath()%>/Intake.do?action=Transfer&tfarm=OKE" style="color:#19fd01"><b>OKE</b></a></a>
+		        									]&nbsp;&nbsp;&nbsp;<a href="<%=request.getContextPath()%>/Intake.do?action=Withdraw" style="color:#19fd01"><b>Withdraw</b></a>
 		        		<% } %>
 		     	</logic:equal>
 		     </logic:equal>
